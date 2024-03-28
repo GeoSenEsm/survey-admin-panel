@@ -1,8 +1,21 @@
-<p>
-    <mat-toolbar color="primary">
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>Survey admin panel</span>
-    </mat-toolbar>
-  </p>
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" [opened]="isDrawerOpen">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let navListItem of navListItems" class="vertical-middle">
+                <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
+                <span class="vertical-middle">{{ navListItem.display }}</span>
+            </mat-list-item>
+        </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <p>
+      <mat-toolbar color="primary">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+        (click)="toggleDrawer()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Survey admin panel</span>
+      </mat-toolbar>
+    </p>
+  </mat-drawer-content>
+</mat-drawer-container>

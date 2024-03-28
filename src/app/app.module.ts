@@ -11,6 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -28,7 +30,9 @@ export const routes: Routes = [
     MatButtonModule,
     ReactiveFormsModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule
   ],
   declarations: [AppComponent, LoginComponent, DashboardComponent],
   bootstrap: [AppComponent],
