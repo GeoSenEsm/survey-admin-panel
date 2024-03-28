@@ -1,0 +1,15 @@
+<div class="form-container">
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput [errorStateMatcher]="matcher" [formControl]="usernameFormControl">
+            <mat-error *ngIf="usernameFormControl.invalid">Username is required and cannot be noger than {{ maxLength }} characters</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [errorStateMatcher]="matcher" [formControl]="passwordFormControl">
+            <mat-error *ngIf="passwordFormControl.invalid">Password is required and cannot be noger than {{ maxLength }} characters</mat-error>
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full-width" [disabled]="!form.valid">Login</button>
+    </form>
+</div>
