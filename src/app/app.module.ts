@@ -13,6 +13,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { RespondentsComponent } from './respondents/respondents.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatOptionModule } from '@angular/material/core';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -32,9 +36,12 @@ export const routes: Routes = [
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatOptionModule,
   ],
-  declarations: [AppComponent, LoginComponent, DashboardComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, RespondentsComponent],
   bootstrap: [AppComponent],
   providers: [
     provideAnimationsAsync()
