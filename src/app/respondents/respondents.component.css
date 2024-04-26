@@ -8,3 +8,15 @@
 .container{
     height: 100vh;
 }
+
+.spacer{
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.buttons-panel{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}

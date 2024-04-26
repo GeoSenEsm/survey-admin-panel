@@ -17,6 +17,11 @@ import { RespondentsComponent } from './respondents/respondents.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatOptionModule } from '@angular/material/core';
+import { AddRespondendsComponent } from './add-respondends/add-respondends.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -40,11 +45,21 @@ export const routes: Routes = [
     MatTableModule,
     MatPaginatorModule,
     MatOptionModule,
+    MatDialogModule,
+    HttpClientModule,
+    ClipboardModule
   ],
-  declarations: [AppComponent, LoginComponent, DashboardComponent, RespondentsComponent],
+  declarations: [
+    AppComponent, 
+    LoginComponent, 
+    DashboardComponent,
+    RespondentsComponent, 
+    AddRespondendsComponent
+    ],
   bootstrap: [AppComponent],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {provide: 'dialog', useClass: MatDialog},
   ],
 })
 export class AppModule {}
