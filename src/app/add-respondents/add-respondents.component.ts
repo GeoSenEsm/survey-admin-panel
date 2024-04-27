@@ -10,12 +10,12 @@ interface FormGroupType{
 }
 
 @Component({
-  selector: 'app-add-respondends',
+  selector: 'app-add-respondents',
   standalone: false,
-  templateUrl: './add-respondends.component.html',
-  styleUrl: './add-respondends.component.css'
+  templateUrl: './add-respondents.component.html',
+  styleUrl: './add-respondents.component.css'
 })
-export class AddRespondendsComponent implements OnInit{
+export class AddRespondentsComponent implements OnInit{
   form: FormGroup<FormGroupType> | null = null;
   accounts: LoginDto[] = [];
 
