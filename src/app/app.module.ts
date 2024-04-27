@@ -17,7 +17,7 @@ import { RespondentsComponent } from './respondents/respondents.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatOptionModule } from '@angular/material/core';
-import { AddRespondendsComponent } from './add-respondends/add-respondends.component';
+import { AddRespondentsComponent } from './add-respondents/add-respondents.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -54,7 +54,7 @@ export const routes: Routes = [
     LoginComponent, 
     DashboardComponent,
     RespondentsComponent, 
-    AddRespondendsComponent
+    AddRespondentsComponent
     ],
   bootstrap: [AppComponent],
   providers: [

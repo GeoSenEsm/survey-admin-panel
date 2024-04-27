@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AddRespondendsComponent } from '../add-respondends/add-respondends.component';
+import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 
 interface RespondentData{
   username: string;
@@ -83,7 +83,7 @@ export class RespondentsComponent implements AfterViewInit{
   }
 
   generateRespondentsAccounts(): void{
-    this._dialog.open(AddRespondendsComponent, {
+    this._dialog.open(AddRespondentsComponent, {
       hasBackdrop: true,
       closeOnNavigation: false
     })
