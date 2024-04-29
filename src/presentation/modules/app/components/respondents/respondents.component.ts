@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 
 interface RespondentData{
   username: string;
@@ -41,7 +43,7 @@ export class RespondentsComponent implements AfterViewInit{
   stressLevels: string[] = ['Low', 'Moderate', 'High'];
   qualityOfSleeps: string[] = ['Excellent', 'Good', 'Fair', 'Poor'];
 
-  constructor(){
+  constructor(@Inject('dialog') private readonly _dialog: MatDialog){
     this.generateRespondents();
   }
   ngAfterViewInit(): void {
@@ -78,6 +80,13 @@ export class RespondentsComponent implements AfterViewInit{
     this.dataSource = new MatTableDataSource(this.respondents);
     this.dataSource.sort = this.sort!;
     this.dataSource.paginator = this.paginator!;
+  }
+
+  generateRespondentsAccounts(): void{
+    this._dialog.open(AddRespondentsComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: false
+    })
   }
 
 }
