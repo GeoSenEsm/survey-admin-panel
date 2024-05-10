@@ -8,7 +8,8 @@
 <mat-drawer-container class="container">
   <mat-drawer mode="side" [opened]="isDrawerOpen">
         <mat-nav-list>
-            <mat-list-item *ngFor="let navListItem of navListItems" class="vertical-middle">
+            <mat-list-item *ngFor="let navListItem of navListItems" class="vertical-middle"
+            routerLink="{{ navListItem.link }}">
                 <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
                 <span class="vertical-middle">{{ navListItem.display }}</span>
             </mat-list-item>

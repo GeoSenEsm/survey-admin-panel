@@ -1,0 +1,38 @@
+.container{
+    width: 100%;
+    padding: 20px;
+}
+
+.wrap-panel{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.wrap-panel mat-form-field{
+    margin-right: 10px;
+    min-width: 300px;
+}
+
+.card{
+    padding: 10px;
+}
+
+.card mat-card-footer{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.create-question-button{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.questions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

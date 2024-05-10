@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
+import { ButtonData } from '../buttons.ribbon/button.data';
 
 interface RespondentData{
   username: string;
@@ -42,6 +43,13 @@ export class RespondentsComponent implements AfterViewInit{
   lifeSatisfactions: string[] = ['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied', 'Very Dissatisfied'];
   stressLevels: string[] = ['Low', 'Moderate', 'High'];
   qualityOfSleeps: string[] = ['Excellent', 'Good', 'Fair', 'Poor'];
+
+  ribbonButtons: ButtonData[] = [
+    {
+      content: 'Generate respondents accounts',
+      onClick: this.generateRespondentsAccounts.bind(this)
+    }
+  ]
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog){
     this.generateRespondents();

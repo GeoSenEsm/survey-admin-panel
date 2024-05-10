@@ -1,11 +1,5 @@
 <div class="container">
-  <div class="buttons-panel">
-    <div class="spacer"></div>
-    <button mat-flat-button color="primary"
-    (click)="generateRespondentsAccounts()">
-      Generate respondents accounts
-    </button>
-  </div>
+  <app-buttons-ribbon [buttons]="ribbonButtons"/>
   <div class="table-container">
     <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8">
       <ng-container

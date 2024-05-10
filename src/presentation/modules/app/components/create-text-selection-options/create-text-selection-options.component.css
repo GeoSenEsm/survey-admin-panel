@@ -1,0 +1,15 @@
+mat-form-field{
+    width: 100%;
+}
+
+.option-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}
+
+.option-input {
+   margin-left: 15px;
+   margin-right: 10px;
+}
