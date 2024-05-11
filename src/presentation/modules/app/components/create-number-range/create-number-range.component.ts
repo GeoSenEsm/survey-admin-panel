@@ -10,6 +10,7 @@ export class CreateNumberRangeComponent {
   @Input()
   model: NumberRangeModel = {
     from: 0,
-    to: 5
+    to: 5,
+    step: 1
   };
 }

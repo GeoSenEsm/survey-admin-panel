@@ -1,4 +1,5 @@
 export interface NumberRangeModel {
-    from: number
-    to: number
+    from: number,
+    to: number,
+    step: number
 }
