@@ -4,6 +4,7 @@ import { SectionVisibility } from '../../../../../domain/models/section.visibili
 import { QuestionType } from '../../../../../domain/models/question.type';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
 import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
+import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
 
 
 @Component({
@@ -19,11 +20,26 @@ export class CreateSectionComponent {
   @Output()
   removeSectionEvent = new EventEmitter<CreateSectionModel>();
 
+  respondentsGroups: RespondentsGroupDto[] = [
+    {
+      id: "1",
+      name: "Group 1"
+    },
+    {
+      id: "2",
+      name: "Group 2"
+    },
+  ];
+
   visibilityDisplaySelector = {
-    [SectionVisibility.ALWAYS]: 'Always',
+    [SectionVisibility.ALWAYS]: 'Zawsze',
+    [SectionVisibility.GROUP_SPECIFIC]: 'Grupowy'
   };
 
-  allVisibilities = [SectionVisibility.ALWAYS];
+  allVisibilities = [
+    SectionVisibility.ALWAYS,
+    SectionVisibility.GROUP_SPECIFIC
+  ];
 
   addSectionBelow(): void{
     this.addSectionBelowEvent.emit(this.section!);

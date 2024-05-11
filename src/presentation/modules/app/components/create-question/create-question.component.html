@@ -24,7 +24,8 @@
         <mat-card-content>
             <app-create-text-selection-options [options]="question!.options"
             *ngIf="question!.type == 0"/>
-            <app-create-number-range *ngIf="question!.type == 1"/>
+            <app-create-number-range *ngIf="question!.type == 1"
+            [model]="question!.numberRange"/>
         </mat-card-content>
         <mat-card-footer>
             <button mat-button color="warn" 
