@@ -1,0 +1,13 @@
+.container{
+    height: 100vh;
+    padding: 20px;
+}
+
+.create-section-button{
+    width: 100%;
+    text-align: center;
+}
+
+.full-width{
+    width: 100%;
+}

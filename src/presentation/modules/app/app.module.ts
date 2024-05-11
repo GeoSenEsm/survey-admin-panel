@@ -21,12 +21,23 @@ import { AddRespondentsComponent } from './components/add-respondents/add-respon
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { SurveysComponent } from './components/surveys/surveys.component';
+import { ButtonsRibbonComponent } from './components/buttons.ribbon/buttons.ribbon.component';
+import { CreateSurveyComponent } from './components/create-survey/create-survey.component';
+import { CreateSectionComponent } from './components/create-section/create-section.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { CreateQuestionComponent } from './components/create-question/create-question.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CreateTextSelectionOptionsComponent } from './components/create-text-selection-options/create-text-selection-options.component';
 
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'respondents', component: RespondentsComponent},
     {path: '', component: RespondentsComponent},
+    {path: 'surveys', component: SurveysComponent},
+    {path: 'surveys/new', component: CreateSurveyComponent}
 ];
 
 @NgModule({
@@ -47,6 +58,9 @@ export const routes: Routes = [
     MatPaginatorModule,
     MatOptionModule,
     MatDialogModule,
+    MatCardModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     HttpClientModule,
     ClipboardModule
   ],
@@ -55,7 +69,13 @@ export const routes: Routes = [
     LoginComponent, 
     DashboardComponent,
     RespondentsComponent, 
-    AddRespondentsComponent
+    AddRespondentsComponent,
+    SurveysComponent,
+    ButtonsRibbonComponent,
+    CreateSurveyComponent,
+    CreateSectionComponent,
+    CreateQuestionComponent,
+    CreateTextSelectionOptionsComponent
     ],
   bootstrap: [AppComponent],
   providers: [

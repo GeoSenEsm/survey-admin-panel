@@ -1,0 +1,40 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Content</mat-label>
+                <input matInput maxlength="250" [(ngModel)]="question!.content"/>
+            </mat-form-field>
+            <div class="wrap-panel">
+                <mat-slide-toggle labelPosition="before" [(ngModel)]="question!.isRequired"
+                color="primary">
+                    Is required
+                </mat-slide-toggle>
+                <mat-form-field appearance="outline">
+                    <mat-label>Type</mat-label>
+                    <mat-select [(value)]="question!.type">
+                      <mat-option *ngFor="let type of allQuestionTypes"
+                      [value]="type">
+                        {{ questionTypeDisplaySelector[type] }}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <app-create-text-selection-options [options]="question!.options"/>
+        </mat-card-content>
+        <mat-card-footer>
+            <button mat-button color="warn" 
+            (click)="remove()">
+                 Remove question
+                <mat-icon>close</mat-icon>
+             </button>
+            <button mat-button color="primary"
+            (click)="addQuestionBelow()">
+                Add new question below 
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-card-footer>
+    </mat-card>
+</div>

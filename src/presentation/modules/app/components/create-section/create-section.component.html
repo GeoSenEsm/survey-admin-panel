@@ -1,0 +1,51 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <div class="wrap-panel">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput maxlength="100" [(ngModel)]="section!.name"/>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Visibility</mat-label>
+                    <mat-select [(value)]="section!.visibility">
+                      <mat-option *ngFor="let visibility of allVisibilities"
+                      [value]="visibility">
+                        {{ visibilityDisplaySelector[visibility] }}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <h2>
+                Questions:
+            </h2>
+            <button mat-button
+            color="primary"
+            class="create-question-button"
+            (click)="addQuestion(0)"
+            *ngIf="section!.questions.length === 0">
+                Add first question
+            </button>
+            <div class="questions">
+                <app-create-question *ngFor="let question of section!.questions"
+                (addQuestionBelowEvent)="addQuestionBelow($event)"
+                (removeEvent)="removeQuestion($event)"
+                [question]="question"/>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <button mat-button color="warn" 
+            (click)="remove()">
+                 Remove
+                <mat-icon>close</mat-icon>
+             </button>
+            <button mat-button color="primary"
+            (click)="addSectionBelow()">
+                Add new section below 
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-card-footer>
+    </mat-card>
+</div>

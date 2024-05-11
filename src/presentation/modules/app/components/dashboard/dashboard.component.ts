@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 interface NavListItem {
   display: string;
   matIcon: string;
+  link: string;
 }
 
 @Component({
@@ -17,15 +18,18 @@ export class DashboardComponent {
   navListItems: NavListItem[] = [
     {
       display: 'Respondents',
-      matIcon: 'group'
+      matIcon: 'group',
+      link: 'respondents'
     },
     {
       display: 'Surveys',
-      matIcon: 'content_paste'
+      matIcon: 'content_paste',
+      link: 'surveys'
     },
     {
       display: 'Results',
-      matIcon: 'bar_chart'
+      matIcon: 'bar_chart',
+      link: 'results'
     }
   ]
 

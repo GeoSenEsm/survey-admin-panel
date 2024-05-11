@@ -1,0 +1,20 @@
+.wrap-panel{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.card mat-card-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.card mat-card-footer{
+    display: flex;
+    justify-content: flex-end;
+}
