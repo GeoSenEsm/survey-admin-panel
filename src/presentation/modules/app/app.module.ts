@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CreateQuestionComponent } from './components/create-question/create-question.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CreateTextSelectionOptionsComponent } from './components/create-text-selection-options/create-text-selection-options.component';
+import { CreateNumberRangeComponent } from './components/create-number-range/create-number-range.component';
 
 
 export const routes: Routes = [
@@ -75,7 +76,8 @@ export const routes: Routes = [
     CreateSurveyComponent,
     CreateSectionComponent,
     CreateQuestionComponent,
-    CreateTextSelectionOptionsComponent
+    CreateTextSelectionOptionsComponent,
+    CreateNumberRangeComponent
     ],
   bootstrap: [AppComponent],
   providers: [

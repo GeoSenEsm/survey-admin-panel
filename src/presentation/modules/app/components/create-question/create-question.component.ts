@@ -16,11 +16,13 @@ export class CreateQuestionComponent {
   removeEvent = new EventEmitter<CreateQuestionModel>();
 
   allQuestionTypes = [
-    QuestionType.SINGLE_TEXT_SELECTION
+    QuestionType.SINGLE_TEXT_SELECTION,
+    QuestionType.DISCRETE_NUMBER_RANGE_SELECTION
   ]
 
   questionTypeDisplaySelector = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'Single text selection'
+    [QuestionType.SINGLE_TEXT_SELECTION]: 'Odpowiedź tekstowa (pojedynczy wybór)',
+    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'Odpowiedź liczbowa (zakres dyskretny)'
   }
 
   addQuestionBelow(): void {

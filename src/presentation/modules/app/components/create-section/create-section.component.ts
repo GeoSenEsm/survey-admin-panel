@@ -34,7 +34,8 @@ export class CreateSectionComponent {
     const emptyQuestion = {
       isRequired: true,
       type: QuestionType.SINGLE_TEXT_SELECTION,
-      options: []
+      options: [],
+      numberRange: {from: 0, to: 5}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);
   }
