@@ -10,7 +10,7 @@
                 color="primary">
                     Is required
                 </mat-slide-toggle>
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="question-type-selector">
                     <mat-label>Type</mat-label>
                     <mat-select [(value)]="question!.type">
                       <mat-option *ngFor="let type of allQuestionTypes"
@@ -22,7 +22,10 @@
             </div>
         </mat-card-header>
         <mat-card-content>
-            <app-create-text-selection-options [options]="question!.options"/>
+            <app-create-text-selection-options [options]="question!.options"
+            *ngIf="question!.type == 0"/>
+            <app-create-number-range *ngIf="question!.type == 1"
+            [model]="question!.numberRange"/>
         </mat-card-content>
         <mat-card-footer>
             <button mat-button color="warn" 

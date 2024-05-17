@@ -1,3 +1,4 @@
 export enum QuestionType{
     SINGLE_TEXT_SELECTION = 0,
+    DISCRETE_NUMBER_RANGE_SELECTION = 1
 }

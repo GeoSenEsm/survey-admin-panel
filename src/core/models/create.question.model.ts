@@ -1,4 +1,5 @@
 import { QuestionType } from "../../domain/models/question.type";
+import { NumberRangeModel } from "./number.range.model";
 import { TextSelectionOption } from "./text.selection.option";
 
 export interface CreateQuestionModel{
@@ -6,4 +7,5 @@ export interface CreateQuestionModel{
     type: QuestionType,
     isRequired: boolean
     options: TextSelectionOption[]
+    numberRange: NumberRangeModel
 }

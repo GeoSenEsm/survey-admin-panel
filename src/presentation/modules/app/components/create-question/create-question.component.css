@@ -18,3 +18,7 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.question-type-selector{
+    min-width: 400px;
+}
