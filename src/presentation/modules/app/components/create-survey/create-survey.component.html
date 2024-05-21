@@ -1,19 +1,24 @@
 <div class="container">
     <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Name</mat-label>
+        <mat-label>Nazwa</mat-label>
         <input matInput [(ngModel)]="model.name"/>
     </mat-form-field>
     <h1>
-        Sections:
+        Sekcje:
     </h1>
     <button *ngIf="model.sections.length === 0"
     mat-button color="primary"
     class="create-section-button"
     (click)="addSection(0)">
-        Add section
+        Dodaj sekcję
     </button>
     <app-create-section *ngFor="let section of model.sections" 
     (addSectionBelowEvent)="addSectionBelow($event)"
     (removeSectionEvent)="removeSection($event)"
-    [section]="section"/>
+    [section]="section"
+    [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+    <button mat-flat-button color="primary"
+    class="full-width" appearance="outline">
+        Zapisz
+    </button>
 </div>

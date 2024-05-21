@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
 import { QuestionType } from '../../../../../domain/models/question.type';
+import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 
 @Component({
   selector: 'app-create-question',
@@ -14,6 +15,8 @@ export class CreateQuestionComponent {
   addQuestionBelowEvent = new EventEmitter<CreateQuestionModel>();
   @Output()
   removeEvent = new EventEmitter<CreateQuestionModel>();
+  @Input()
+  sectionsToBeTriggered: CreateSectionModel[] = [];
 
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,

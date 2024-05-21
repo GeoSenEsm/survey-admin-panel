@@ -19,6 +19,28 @@ export class CreateSectionComponent {
   addSectionBelowEvent = new EventEmitter<CreateSectionModel>();
   @Output()
   removeSectionEvent = new EventEmitter<CreateSectionModel>();
+  @Input()
+  sectionsToBeTriggered: CreateSectionModel[] = [];
+
+  get visibility(): SectionVisibility{
+    return this.section?.visibility ?? SectionVisibility.ALWAYS;
+  }
+
+  set visibility(value: SectionVisibility){
+    if (this.section == null){
+      return;
+    }
+
+    if (this.section.visibility !== SectionVisibility.ANSWER_TRIGGERED && value === SectionVisibility.ANSWER_TRIGGERED){
+      this.sectionsToBeTriggered.push(this.section);
+    }
+
+    if (this.section.visibility === SectionVisibility.ANSWER_TRIGGERED && value !== SectionVisibility.ANSWER_TRIGGERED){
+      this.sectionsToBeTriggered.splice(this.sectionsToBeTriggered.indexOf(this.section), 1);
+    }
+
+    this.section.visibility = value
+  }
 
   respondentsGroups: RespondentsGroupDto[] = [
     {
@@ -33,12 +55,14 @@ export class CreateSectionComponent {
 
   visibilityDisplaySelector = {
     [SectionVisibility.ALWAYS]: 'Zawsze',
-    [SectionVisibility.GROUP_SPECIFIC]: 'Grupowy'
+    [SectionVisibility.GROUP_SPECIFIC]: 'Grupowy',
+    [SectionVisibility.ANSWER_TRIGGERED]: 'Po zaznaczeniu właściwej odpowiedzi'
   };
 
   allVisibilities = [
     SectionVisibility.ALWAYS,
-    SectionVisibility.GROUP_SPECIFIC
+    SectionVisibility.GROUP_SPECIFIC,
+    SectionVisibility.ANSWER_TRIGGERED
   ];
 
   addSectionBelow(): void{
@@ -51,7 +75,7 @@ export class CreateSectionComponent {
       isRequired: true,
       type: QuestionType.SINGLE_TEXT_SELECTION,
       options: [],
-      numberRange: {from: 0, to: 5, step: 1}
+      numberRange: {from: 0, to: 5, step: 1, sectionVisibilityTrigger: {}}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);
   }

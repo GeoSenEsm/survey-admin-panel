@@ -13,6 +13,8 @@ export class CreateSurveyComponent {
     sections: []
   };
 
+  readonly sectionsToBeTriggered: CreateSectionModel[] = [];
+
   addSection(index: number) : void{
     const newSection = {
       visibility: SectionVisibility.ALWAYS,

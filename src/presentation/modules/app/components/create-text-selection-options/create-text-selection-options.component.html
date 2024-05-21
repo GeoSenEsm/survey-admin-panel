@@ -1,17 +1,25 @@
 <h3>
-    Options:
+    Opcje:
 </h3>
 <div *ngFor="let option of options; let i = index" class="option-container">
     <h1 class="option-index">{{ i + 1 }}</h1>
     <mat-form-field class="option-input">
         <input matInput [(ngModel)]="option.content">
     </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-left: 15px">
+        <mat-label>Pokaż sekcję</mat-label>
+        <mat-select [(value)]="option.sectionVisibilityTrigger.sectionNumber">
+          <mat-option *ngFor="let section of sectionsToBeTriggered; let i = index" [value]="i + 1">
+            {{ section.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     <button mat-button class="remove-option-button" (click)="removeOption(i)"
     color="warn">
-        Remove
+        Usuń
     </button>
 </div>
 <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Content</mat-label>
+    <mat-label>Zawartość</mat-label>
     <input matInput [(ngModel)]="newOptionContent" (keydown)="confirmNewOption($event)"/>
 </mat-form-field>

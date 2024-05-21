@@ -1,16 +1,27 @@
 <div class="container">
-    <mat-form-field appearance="outline">
-        <mat-label>From</mat-label>
-        <input matInput type="number" [(ngModel)]="model.from"
-        pattern="[0-9]*">
-    </mat-form-field>
-    <mat-form-field appearance="outline" style="margin-left: 15px;">
-        <mat-label>To</mat-label>
-        <input matInput type="number" [(ngModel)]="model.to"
-        pattern="[0-9]*">
-    </mat-form-field>
-    <mat-form-field appearance="outline" style="margin-left: 15px;">
-        <mat-label>Step</mat-label>
-        <input matInput type="number" [(ngModel)]="model.step">
-    </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>From</mat-label>
+    <input matInput type="number" [(ngModel)]="model.from" pattern="[0-9]*" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="margin-left: 15px">
+    <mat-label>To</mat-label>
+    <input matInput type="number" [(ngModel)]="model.to" pattern="[0-9]*" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="margin-left: 15px">
+    <mat-label>Step</mat-label>
+    <input matInput type="number" [(ngModel)]="model.step" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="margin-left: 15px">
+    <mat-label>Show section</mat-label>
+    <mat-select [(value)]="model.sectionVisibilityTrigger.sectionNumber">
+      <mat-option *ngFor="let section of sectionsToBeTriggered; let i = index" [value]="i + 1">
+        {{ section.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="margin-left: 15px"
+    *ngIf="model.sectionVisibilityTrigger.sectionNumber != null">
+    <mat-label>For value</mat-label>
+    <input matInput type="number" [(ngModel)]="model.sectionVisibilityTrigger.responseNumericValue"/>
+  </mat-form-field>
 </div>

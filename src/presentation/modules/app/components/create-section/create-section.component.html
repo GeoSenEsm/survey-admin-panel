@@ -8,14 +8,14 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Visibility</mat-label>
-                    <mat-select [(value)]="section!.visibility">
+                    <mat-select [(value)]="visibility">
                       <mat-option *ngFor="let visibility of allVisibilities"
                       [value]="visibility">
                         {{ visibilityDisplaySelector[visibility] }}
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="outline" *ngIf="section!.visibility === 1">
+                <mat-form-field appearance="outline" *ngIf="visibility === 1">
                     <mat-label>Group</mat-label>
                     <mat-select [(value)]="section!.respondentsGroupId">
                         <mat-option *ngFor="let group of respondentsGroups"
@@ -41,7 +41,8 @@
                 <app-create-question *ngFor="let question of section!.questions"
                 (addQuestionBelowEvent)="addQuestionBelow($event)"
                 (removeEvent)="removeQuestion($event)"
-                [question]="question"/>
+                [question]="question"
+                [sectionsToBeTriggered]="sectionsToBeTriggered"/>
             </div>
         </mat-card-content>
         <mat-card-footer>

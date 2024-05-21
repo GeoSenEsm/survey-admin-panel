@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
+import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 
 @Component({
   selector: 'app-create-text-selection-options',
@@ -10,6 +11,9 @@ export class CreateTextSelectionOptionsComponent {
   newOptionContent = '';
   @Input()
   options: TextSelectionOption[] = []
+  
+  @Input()
+  sectionsToBeTriggered: CreateSectionModel[] = [];
 
   confirmNewOption(event: KeyboardEvent) : void {
     if (this.newOptionContent === '' || event.key !== 'Enter') {
@@ -17,7 +21,8 @@ export class CreateTextSelectionOptionsComponent {
     }
 
     this.options.push({
-      content: this.newOptionContent
+      content: this.newOptionContent,
+      sectionVisibilityTrigger: {}
     });
     this.newOptionContent = '';
   }
