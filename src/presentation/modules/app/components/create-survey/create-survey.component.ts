@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
+import { QuestionType } from '../../../../../domain/models/question.type';
 
 @Component({
   selector: 'app-create-survey',
@@ -10,13 +11,25 @@ import { CreateSurveyModel } from '../../../../../core/models/create.survey.mode
 })
 export class CreateSurveyComponent {
   model: CreateSurveyModel = {
+    name: "Ankieta bez nazwy",
     sections: []
   };
 
+  readonly sectionsToBeTriggered: CreateSectionModel[] = [];
+
   addSection(index: number) : void{
     const newSection = {
+      name: 'Sekcja bez nazwy',
       visibility: SectionVisibility.ALWAYS,
-      questions: []
+      questions: [
+        {
+          content: 'Pytanie',
+          isRequired: true,
+          type: QuestionType.SINGLE_TEXT_SELECTION,
+          options: [],
+          numberRange: {from: 0, to: 5, step: 1, sectionVisibilityTrigger: {}}
+        }
+      ]
     };
     this.model.sections.splice(index, 0, newSection);
   }
