@@ -1,23 +1,31 @@
 <div class="container">
-    <mat-card class="card">
-        <mat-card-header>
-            <div class="wrap-panel">
-                <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
+    <div>
+        <h4 class="header">
+            Sekcja {{sectionNumber}}
+        </h4>
+        <div class="grid-container">
+            <div class="grid-item">
+                <mat-form-field appearance="fill">
                     <input matInput maxlength="100" [(ngModel)]="section!.name"/>
                 </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Visibility</mat-label>
-                    <mat-select [(value)]="section!.visibility">
+            </div>
+            <div class="grid-item">
+                <mat-form-field appearance="fill">
+                    <mat-label>Widoczność</mat-label>
+                    <mat-select [(value)]="visibility">
                       <mat-option *ngFor="let visibility of allVisibilities"
                       [value]="visibility">
                         {{ visibilityDisplaySelector[visibility] }}
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="outline" *ngIf="section!.visibility === 1">
-                    <mat-label>Group</mat-label>
-                    <mat-select [(value)]="section!.respondentsGroupId">
+            </div>
+            <div class="grid-item"></div>
+            <div class="grid-item">
+                <mat-form-field appearance="fill">
+                    <mat-label>Grupa</mat-label>
+                    <mat-select [(value)]="section!.respondentsGroupId"
+                    [disabled]="visibility !== 1">
                         <mat-option *ngFor="let group of respondentsGroups"
                         [value]="group.id">
                         {{ group.name }}
@@ -25,11 +33,8 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-        </mat-card-header>
-        <mat-card-content>
-            <h2>
-                Questions:
-            </h2>
+        </div>
+        <div class="questions">
             <button mat-button
             color="primary"
             class="create-question-button"
@@ -37,24 +42,23 @@
             *ngIf="section!.questions.length === 0">
                 Add first question
             </button>
-            <div class="questions">
-                <app-create-question *ngFor="let question of section!.questions"
-                (addQuestionBelowEvent)="addQuestionBelow($event)"
-                (removeEvent)="removeQuestion($event)"
-                [question]="question"/>
-            </div>
-        </mat-card-content>
-        <mat-card-footer>
-            <button mat-button color="warn" 
-            (click)="remove()">
-                 Remove
-                <mat-icon>close</mat-icon>
+            <app-create-question *ngFor="let question of section!.questions"
+            (addQuestionBelowEvent)="addQuestionBelow($event)"
+            (removeEvent)="removeQuestion($event)"
+            [question]="question"
+            [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+        </div>
+        <div class="wrap-panel">
+            <button mat-flat-button color="primary" 
+            (click)="addQuestion(section!.questions.length)">
+                 Dodaj pytanie
+                <mat-icon>add</mat-icon>
              </button>
-            <button mat-button color="primary"
+            <button mat-stroked-button
             (click)="addSectionBelow()">
-                Add new section below 
+                Dodaj sekcję 
                 <mat-icon>add</mat-icon>
             </button>
-        </mat-card-footer>
-    </mat-card>
+        </div>
+    </div>
 </div>

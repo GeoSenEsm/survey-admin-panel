@@ -1,3 +1,6 @@
+import { SectionVisibilityTrigger } from "./section.visibility.trigger";
+
 export interface TextSelectionOption{
-    content: string
+    content: string,
+    sectionVisibilityTrigger: SectionVisibilityTrigger
 }

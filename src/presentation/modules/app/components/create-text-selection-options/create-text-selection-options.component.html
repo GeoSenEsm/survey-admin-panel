@@ -1,17 +1,25 @@
-<h3>
-    Options:
-</h3>
-<div *ngFor="let option of options; let i = index" class="option-container">
-    <h1 class="option-index">{{ i + 1 }}</h1>
-    <mat-form-field class="option-input">
+<div *ngFor="let option of options; let i = index" class="row">
+  <div class="row-item">
+
+    <div class="option">
+      <mat-icon>radio_button_off</mat-icon>
+      <mat-form-field>
         <input matInput [(ngModel)]="option.content">
+      </mat-form-field>
+      <mat-icon>add_photo_alternate</mat-icon>
+    </div>
+  </div>
+    <mat-form-field appearance="outline" class="row-item">
+        <mat-label>Pokaż sekcję</mat-label>
+        <mat-select [(value)]="option.sectionVisibilityTrigger.sectionNumber">
+          <mat-option *ngFor="let section of sectionsToBeTriggered; let i = index" [value]="i + 1">
+            {{ section.name }}
+          </mat-option>
+        </mat-select>
     </mat-form-field>
-    <button mat-button class="remove-option-button" (click)="removeOption(i)"
-    color="warn">
-        Remove
-    </button>
 </div>
-<mat-form-field appearance="fill" class="full-width">
-    <mat-label>Content</mat-label>
-    <input matInput [(ngModel)]="newOptionContent" (keydown)="confirmNewOption($event)"/>
-</mat-form-field>
+<button mat-button color="primary" (click)="addNewOption()"
+ class="add-option-button">
+  <mat-icon>add</mat-icon>
+  <span>Dodaj opcję</span>
+</button>

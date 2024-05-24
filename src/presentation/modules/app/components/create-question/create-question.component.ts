@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
 import { QuestionType } from '../../../../../domain/models/question.type';
+import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 
 @Component({
   selector: 'app-create-question',
@@ -14,6 +15,8 @@ export class CreateQuestionComponent {
   addQuestionBelowEvent = new EventEmitter<CreateQuestionModel>();
   @Output()
   removeEvent = new EventEmitter<CreateQuestionModel>();
+  @Input()
+  sectionsToBeTriggered: CreateSectionModel[] = [];
 
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,
@@ -21,8 +24,13 @@ export class CreateQuestionComponent {
   ]
 
   questionTypeDisplaySelector = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'Odpowiedź tekstowa (pojedynczy wybór)',
-    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'Odpowiedź liczbowa (zakres dyskretny)'
+    [QuestionType.SINGLE_TEXT_SELECTION]: 'Jednokrotny wybór',
+    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'Skala liniowa'
+  }
+
+  questionTypeIconSelector = {
+    [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
+    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'linear_scale'
   }
 
   addQuestionBelow(): void {

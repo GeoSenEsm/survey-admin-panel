@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NumberRangeModel } from '../../../../../core/models/number.range.model';
+import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 
 @Component({
   selector: 'app-create-number-range',
@@ -11,6 +12,10 @@ export class CreateNumberRangeComponent {
   model: NumberRangeModel = {
     from: 0,
     to: 5,
-    step: 1
+    step: 1,
+    sectionVisibilityTrigger: {}
   };
+
+  @Input()
+  sectionsToBeTriggered: CreateSectionModel[] = [];
 }
