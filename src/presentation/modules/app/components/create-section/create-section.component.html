@@ -6,7 +6,10 @@
         <div class="grid-container">
             <div class="grid-item">
                 <mat-form-field appearance="fill">
-                    <input matInput maxlength="100" [(ngModel)]="section!.name"/>
+                    <input matInput maxlength="100" [(ngModel)]="section!.name"
+                    [errorStateMatcher]="sectionNameErrorStateMatcher"
+                    (blur)="validateName()"/>
+                    <mat-error *ngIf="nameError != null">{{ nameError }}</mat-error>
                 </mat-form-field>
             </div>
             <div class="grid-item">
@@ -42,12 +45,16 @@
             *ngIf="section!.questions.length === 0">
                 Add first question
             </button>
+            <mat-error *ngIf="questionsNumberError != null">
+                {{ questionsNumberError }}
+            </mat-error>
             <app-create-question *ngFor="let question of section!.questions"
             (addQuestionBelowEvent)="addQuestionBelow($event)"
             (removeEvent)="removeQuestion($event)"
             [question]="question"
             [sectionsToBeTriggered]="sectionsToBeTriggered"/>
         </div>
+        <mat-error *ngIf="questionsNumberError != null">{{ questionsNumberError }}></mat-error>
         <div class="wrap-panel">
             <button mat-flat-button color="primary" 
             (click)="addQuestion(section!.questions.length)">

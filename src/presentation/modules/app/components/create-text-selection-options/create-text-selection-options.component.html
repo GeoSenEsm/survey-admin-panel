@@ -1,25 +1,28 @@
+<mat-error *ngIf="commonOptionsError != null">
+  {{ commonOptionsError }}
+</mat-error>
 <div *ngFor="let option of options; let i = index" class="row">
   <div class="row-item">
-
-    <div class="option">
-      <mat-icon>radio_button_off</mat-icon>
-      <mat-form-field>
-        <input matInput [(ngModel)]="option.content">
-      </mat-form-field>
-      <mat-icon>add_photo_alternate</mat-icon>
-    </div>
+    <app-option [option]="option" />
   </div>
-    <mat-form-field appearance="outline" class="row-item">
-        <mat-label>Pokaż sekcję</mat-label>
-        <mat-select [(value)]="option.sectionVisibilityTrigger.sectionNumber">
-          <mat-option *ngFor="let section of sectionsToBeTriggered; let i = index" [value]="i + 1">
-            {{ section.name }}
-          </mat-option>
-        </mat-select>
-    </mat-form-field>
+  <mat-form-field appearance="outline" class="row-item">
+    <mat-label>Pokaż sekcję</mat-label>
+    <mat-select [(value)]="option.sectionVisibilityTrigger.sectionNumber">
+      <mat-option
+        *ngFor="let section of sectionsToBeTriggered; let i = index"
+        [value]="i + 1"
+      >
+        {{ section.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
-<button mat-button color="primary" (click)="addNewOption()"
- class="add-option-button">
+<button
+  mat-button
+  color="primary"
+  (click)="addNewOption()"
+  class="add-option-button"
+>
   <mat-icon>add</mat-icon>
   <span>Dodaj opcję</span>
 </button>

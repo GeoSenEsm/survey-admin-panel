@@ -31,6 +31,9 @@ import { CreateQuestionComponent } from './components/create-question/create-que
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CreateTextSelectionOptionsComponent } from './components/create-text-selection-options/create-text-selection-options.component';
 import { CreateNumberRangeComponent } from './components/create-number-range/create-number-range.component';
+import { CreateSurveyMapper } from '../../../core/mappers/create.survey.mapper';
+import { SurveyServiceImpl } from '../../../core/services/survey.service.impl';
+import { OptionComponent } from './components/option/option.component';
 
 
 export const routes: Routes = [
@@ -77,12 +80,15 @@ export const routes: Routes = [
     CreateSectionComponent,
     CreateQuestionComponent,
     CreateTextSelectionOptionsComponent,
-    CreateNumberRangeComponent
+    CreateNumberRangeComponent,
+    OptionComponent
     ],
   bootstrap: [AppComponent],
   providers: [
     provideAnimationsAsync(),
     {provide: 'dialog', useClass: MatDialog},
+    {provide: 'surveyMapper', useClass: CreateSurveyMapper},
+    {provide: 'surveyService', useClass: SurveyServiceImpl}
   ],
 })
 export class AppModule {}
