@@ -2,7 +2,9 @@
     <mat-card class="card">
         <mat-card-header class="survey-name-input">
             <mat-form-field class="full-width" appearance="fill">
-                <input matInput [(ngModel)]="model.name"/>
+                <input matInput [(ngModel)]="model.name" (blur)="validateName()"
+                [errorStateMatcher]="surveyNameErrorStateMatcher"/>
+                <mat-error *ngIf="nameValidationError != null">{{ nameValidationError }}</mat-error>
             </mat-form-field>
         </mat-card-header>
         <mat-card-content>
@@ -12,6 +14,7 @@
             (click)="addSection(0)">
                 Dodaj sekcję
             </button>
+            <mat-error *ngIf="numberOfSectionsError != null">{{ numberOfSectionsError }}</mat-error>
             <app-create-section *ngFor="let section of model.sections; let i = index" 
             [sectionNumber]="i + 1"
             (addSectionBelowEvent)="addSectionBelow($event)"
@@ -21,7 +24,8 @@
         </mat-card-content>
         <mat-card-footer>
             <button mat-flat-button color="primary"
-                appearance="outline">
+                appearance="outline"
+                (click)="save()">
                 Zapisz
             </button>
         </mat-card-footer>

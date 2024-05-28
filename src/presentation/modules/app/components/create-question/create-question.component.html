@@ -4,7 +4,12 @@
             <div class="two-columns-row">
                 <div class="two-columns-row-item">
                     <mat-form-field appearance="fill" class="full-width">
-                        <input matInput maxlength="250" [(ngModel)]="question!.content"/>
+                        <input matInput maxlength="250" [(ngModel)]="question!.content"
+                        [errorStateMatcher]="contentErrorStateMatcher"
+                        (blur)="validateContent()"/>
+                        <mat-error *ngIf="contentError != null">
+                            {{ contentError }}
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="two-columns-row-item">
@@ -26,7 +31,8 @@
         </mat-card-header>
         <mat-card-content>
             <app-create-text-selection-options [options]="question!.options"
-            *ngIf="question!.type == 0" [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+            [sectionsToBeTriggered]="sectionsToBeTriggered"
+            *ngIf="question!.type == 0"/>
             <app-create-number-range *ngIf="question!.type == 1"
             [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"/>
         </mat-card-content>
