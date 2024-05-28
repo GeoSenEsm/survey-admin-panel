@@ -50,6 +50,7 @@ export class CreateSurveyComponent{
   }
 
   private validateNumberOfSections(): void{
+    this.numberOfSectionsError = null;
     if (this.model.sections.length === 0){
       this.numberOfSectionsError = "Ankieta musi zawierać co najmniej jedną sekcję";
     }
