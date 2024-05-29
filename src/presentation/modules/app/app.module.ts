@@ -34,6 +34,7 @@ import { CreateNumberRangeComponent } from './components/create-number-range/cre
 import { CreateSurveyMapper } from '../../../core/mappers/create.survey.mapper';
 import { SurveyServiceImpl } from '../../../core/services/survey.service.impl';
 import { OptionComponent } from './components/option/option.component';
+import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.groups.service.impl';
 
 
 export const routes: Routes = [
@@ -88,7 +89,8 @@ export const routes: Routes = [
     provideAnimationsAsync(),
     {provide: 'dialog', useClass: MatDialog},
     {provide: 'surveyMapper', useClass: CreateSurveyMapper},
-    {provide: 'surveyService', useClass: SurveyServiceImpl}
+    {provide: 'surveyService', useClass: SurveyServiceImpl},
+    {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl}
   ],
 })
 export class AppModule {}
