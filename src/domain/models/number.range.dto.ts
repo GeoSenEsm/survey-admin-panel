@@ -1,4 +1,4 @@
-export interface NumberRangeModel {
+export interface NumberRangeDto {
     from: number,
     to: number,
     fromLabel?: string,

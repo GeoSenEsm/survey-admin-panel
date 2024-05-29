@@ -8,13 +8,11 @@ import { CreateSectionModel } from '../../../../../core/models/create.section.mo
   styleUrl: './create-number-range.component.css'
 })
 export class CreateNumberRangeComponent {
+  fromOptions = [0, 1];
+  toOptions = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   @Input()
-  model: NumberRangeModel = {
-    from: 0,
-    to: 5,
-    step: 1,
-    sectionVisibilityTrigger: {}
-  };
+  model!: NumberRangeModel;
 
   @Input()
   sectionsToBeTriggered: CreateSectionModel[] = [];

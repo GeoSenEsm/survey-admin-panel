@@ -7,7 +7,7 @@
   </div>
   <mat-form-field appearance="outline" class="row-item">
     <mat-label>Pokaż sekcję</mat-label>
-    <mat-select [(value)]="option.sectionVisibilityTrigger.sectionNumber">
+    <mat-select>
       <mat-option
         *ngFor="let section of sectionsToBeTriggered; let i = index"
         [value]="i + 1"

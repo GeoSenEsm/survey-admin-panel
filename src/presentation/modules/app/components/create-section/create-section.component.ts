@@ -85,7 +85,7 @@ export class CreateSectionComponent {
       isRequired: true,
       type: QuestionType.SINGLE_TEXT_SELECTION,
       options: [],
-      numberRange: {from: 0, to: 5, step: 1, sectionVisibilityTrigger: {}}
+      numberRange: {from: 0, to: 5}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);
   }

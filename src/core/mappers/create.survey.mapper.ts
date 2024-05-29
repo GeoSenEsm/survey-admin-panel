@@ -2,9 +2,12 @@ import { CreateOptionDto } from "../../domain/models/create.option.dto";
 import { CreateQuestionDto } from "../../domain/models/create.question.dto";
 import { CreateSurveyDto } from "../../domain/models/create.survey.dto";
 import { CreateSurveySectionDto } from "../../domain/models/create.survey.section.dto";
+import { NumberRangeDto } from "../../domain/models/number.range.dto";
+import { QuestionType } from "../../domain/models/question.type";
 import { CreateQuestionModel } from "../models/create.question.model";
 import { CreateSectionModel } from "../models/create.section.model";
 import { CreateSurveyModel } from "../models/create.survey.model";
+import { NumberRangeModel } from "../models/number.range.model";
 import { TextSelectionOption } from "../models/text.selection.option";
 import { Mapper } from "./mapper";
 
@@ -44,12 +47,18 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
             content: source.content!,
             questionType: source.type,
             required: source.isRequired,
-            options: []
         };
 
-        source.options.forEach((option, index) => {
-            question.options.push(this.mapOption(option, index));
-        });
+        if (source.type == QuestionType.SINGLE_TEXT_SELECTION){
+            source.options.forEach((option, index) => {
+                question.options = [];
+                question.options.push(this.mapOption(option, index));
+            });
+        }
+
+        if (source.type == QuestionType.DISCRETE_NUMBER_SELECTION){
+            question.numberRange = this.mapNumberRange(source.numberRange);
+        }        
 
         return question;
     }
@@ -58,6 +67,15 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
         return {
             order: index + 1,
             label: source.content
+        }
+    }
+
+    private mapNumberRange(source: NumberRangeModel): NumberRangeDto{
+        return {
+            from: source.from,
+            to: source.to,
+            fromLabel: source.fromLabel,
+            toLabel: source.toLabel
         }
     }
 }

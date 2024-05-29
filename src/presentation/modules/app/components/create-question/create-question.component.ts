@@ -26,17 +26,17 @@ export class CreateQuestionComponent {
 
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,
-    QuestionType.DISCRETE_NUMBER_RANGE_SELECTION
+    QuestionType.DISCRETE_NUMBER_SELECTION
   ]
 
   questionTypeDisplaySelector = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'Jednokrotny wybór',
-    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'Skala liniowa'
+    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'Skala liniowa'
   }
 
   questionTypeIconSelector = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
-    [QuestionType.DISCRETE_NUMBER_RANGE_SELECTION]: 'linear_scale'
+    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale'
   }
 
   addQuestionBelow(): void {
