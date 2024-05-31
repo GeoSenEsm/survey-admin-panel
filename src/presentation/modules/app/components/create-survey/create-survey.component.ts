@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
@@ -13,13 +13,15 @@ import { of } from 'rxjs';
 import { CreateSectionComponent } from '../create-section/create-section.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
+import { RespondentGroupsService } from '../../../../../domain/external_services/respondent.groups.service';
+import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
 
 @Component({
   selector: 'app-create-survey',
   templateUrl: './create-survey.component.html',
   styleUrl: './create-survey.component.css'
 })
-export class CreateSurveyComponent{
+export class CreateSurveyComponent implements OnInit{
   model: CreateSurveyModel = {
     name: "Ankieta bez nazwy",
     sections: []
@@ -30,12 +32,29 @@ export class CreateSurveyComponent{
   nameValidationError: string | null = null;
   numberOfSectionsError: string | null = null;
   surveyNameErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.nameValidationError);
+  groups: RespondentsGroupDto[] = [];
 
 
   constructor(@Inject('surveyMapper') private readonly surveyMapper: Mapper<CreateSurveyModel, CreateSurveyDto>,
   @Inject('surveyService') private readonly service: SurveyService,
   private readonly router: Router,
-  private readonly snackbar: MatSnackBar){}
+  private readonly snackbar: MatSnackBar,
+  @Inject('respondentGroupsService') private readonly respondentGroupsService: RespondentGroupsService){}
+  
+  ngOnInit(): void {
+    this.loadGroups();
+  }
+
+  private loadGroups(): void{
+    this.groups.length = 0;
+    this.respondentGroupsService
+    .getRespondentsGroups()
+    .subscribe(res =>{
+      res.forEach(g =>{
+          this.groups.push(g);
+      })
+    });
+  }
 
   validateName(): void{
     this.nameValidationError = null;

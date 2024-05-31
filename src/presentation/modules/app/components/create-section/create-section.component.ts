@@ -51,16 +51,8 @@ export class CreateSectionComponent {
     this.section.visibility = value
   }
 
-  respondentsGroups: RespondentsGroupDto[] = [
-    {
-      id: "1",
-      name: "Group 1"
-    },
-    {
-      id: "2",
-      name: "Group 2"
-    },
-  ];
+  @Input()
+  respondentsGroups!: RespondentsGroupDto[];
 
   visibilityDisplaySelector = {
     [SectionVisibility.ALWAYS]: 'Zawsze',
