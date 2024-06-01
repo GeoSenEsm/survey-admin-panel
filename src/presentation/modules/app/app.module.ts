@@ -39,6 +39,7 @@ import { SurveyTileComponent } from './components/survey-tile/survey-tile.compon
 import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.groups.service.impl';
 import { SurveyDetailsComponent } from './components/survey-details/survey-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SurveySendingPolicyComponent } from './components/survey-sending-policy/survey-sending-policy.component';
 
 
 export const routes: Routes = [
@@ -91,6 +92,7 @@ export const routes: Routes = [
     CreateNumberRangeComponent,
     OptionComponent,
     SurveyDetailsComponent,
+    SurveySendingPolicyComponent,
     SurveyTileComponent
     ],
   bootstrap: [AppComponent],
