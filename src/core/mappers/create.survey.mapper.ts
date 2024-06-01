@@ -50,9 +50,9 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
         };
 
         if (source.type == QuestionType.SINGLE_TEXT_SELECTION){
+            question.options = [];
             source.options.forEach((option, index) => {
-                question.options = [];
-                question.options.push(this.mapOption(option, index));
+                question.options!.push(this.mapOption(option, index));
             });
         }
 
