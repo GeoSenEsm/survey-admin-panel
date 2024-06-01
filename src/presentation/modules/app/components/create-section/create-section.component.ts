@@ -16,6 +16,7 @@ import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.stat
   styleUrl: './create-section.component.css'
 })
 export class CreateSectionComponent {
+  SectionVisibility = SectionVisibility;
   @ViewChildren(CreateQuestionComponent) questions!: QueryList<CreateQuestionComponent>;
   @Input()
   section: CreateSectionModel | null = null;

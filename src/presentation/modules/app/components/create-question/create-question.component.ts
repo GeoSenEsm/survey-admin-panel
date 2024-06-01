@@ -12,6 +12,7 @@ import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.stat
   styleUrl: './create-question.component.css'
 })
 export class CreateQuestionComponent {
+  QuestionType = QuestionType;
   @ViewChild(CreateTextSelectionOptionsComponent) textSelectionOptions: CreateTextSelectionOptionsComponent | null = null;
   @Input()
   question: CreateQuestionModel | null = null;
