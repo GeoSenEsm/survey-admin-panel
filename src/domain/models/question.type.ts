@@ -1,4 +1,4 @@
 export enum QuestionType{
-    SINGLE_TEXT_SELECTION = 0,
-    DISCRETE_NUMBER_RANGE_SELECTION = 1
+    SINGLE_TEXT_SELECTION = "single_text_selection",
+    DISCRETE_NUMBER_SELECTION = "discrete_number_selection"
 }

@@ -1,4 +1,5 @@
 import { CreateOptionDto } from "./create.option.dto";
+import { NumberRangeDto } from "./number.range.dto";
 import { QuestionType } from "./question.type";
 
 export interface CreateQuestionDto {
@@ -6,5 +7,6 @@ export interface CreateQuestionDto {
     content: string;
     questionType: QuestionType;
     required: boolean;
-    options: CreateOptionDto[];
+    options?: CreateOptionDto[];
+    numberRange?: NumberRangeDto;
   }

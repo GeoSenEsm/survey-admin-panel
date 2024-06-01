@@ -1,5 +1,5 @@
 export enum SectionVisibility{
-    ALWAYS = 0,
-    GROUP_SPECIFIC = 1,
-    ANSWER_TRIGGERED = 2
+    ALWAYS = "always",
+    GROUP_SPECIFIC = "group_specific",
+    ANSWER_TRIGGERED = "answer_triggered"
 }

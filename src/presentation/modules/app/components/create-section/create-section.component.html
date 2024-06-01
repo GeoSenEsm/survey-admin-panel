@@ -28,7 +28,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Grupa</mat-label>
                     <mat-select [(value)]="section!.respondentsGroupId"
-                    [disabled]="visibility !== 1">
+                    [disabled]="visibility !== SectionVisibility.GROUP_SPECIFIC">
                         <mat-option *ngFor="let group of respondentsGroups"
                         [value]="group.id">
                         {{ group.name }}

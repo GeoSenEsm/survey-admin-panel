@@ -128,7 +128,7 @@ export class CreateSurveyComponent implements OnInit{
     }
 
     const dto = this.surveyMapper.map(this.model);
-    
+    console.log(dto);
     this.service.createSurvey(dto)
     .pipe(catchError((error) => {
       this.snackbar.open('Something went wrong', 'OK', {duration: 3000});

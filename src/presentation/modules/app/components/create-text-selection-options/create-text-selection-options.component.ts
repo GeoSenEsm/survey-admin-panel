@@ -18,8 +18,7 @@ export class CreateTextSelectionOptionsComponent {
 
   addNewOption() : void {
     this.options.push({
-      content: '',
-      sectionVisibilityTrigger: {}
+      content: ''
     });
   }
 

@@ -14,7 +14,7 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
       }
 
     createSurvey(dto: CreateSurveyDto): Observable<any> {
-       return this.post('api/surveys', dto);
+       return this.post('/api/surveys', dto);
     }
 
 }
