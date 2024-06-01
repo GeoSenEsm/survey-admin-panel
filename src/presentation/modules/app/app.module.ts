@@ -37,6 +37,8 @@ import { OptionComponent } from './components/option/option.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SurveyTileComponent } from './components/survey-tile/survey-tile.component';
 import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.groups.service.impl';
+import { SurveyDetailsComponent } from './components/survey-details/survey-details.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 export const routes: Routes = [
@@ -44,7 +46,8 @@ export const routes: Routes = [
     {path: 'respondents', component: RespondentsComponent},
     {path: '', component: RespondentsComponent},
     {path: 'surveys', component: SurveysComponent},
-    {path: 'surveys/new', component: CreateSurveyComponent}
+    {path: 'surveys/new', component: CreateSurveyComponent},
+    {path: 'surveys/:surveyId', component: SurveyDetailsComponent}
 ];
 
 @NgModule({
@@ -70,6 +73,7 @@ export const routes: Routes = [
     MatSlideToggleModule,
     HttpClientModule,
     ClipboardModule,
+    MatTabsModule,
     MatGridListModule
   ],
   declarations: [
@@ -86,6 +90,7 @@ export const routes: Routes = [
     CreateTextSelectionOptionsComponent,
     CreateNumberRangeComponent,
     OptionComponent,
+    SurveyDetailsComponent,
     SurveyTileComponent
     ],
   bootstrap: [AppComponent],
