@@ -16,7 +16,10 @@ export class SurveySendingPolicyComponent{
   addSendingPolicy(): void{
     this._dialog.open(CreateSurveySendingPolicyComponent, {
       hasBackdrop: true,
-      closeOnNavigation: false
-    })
+      closeOnNavigation: false,
+      data: {
+        surveyId: this.surveyId
+      }
+    });
   }
 }

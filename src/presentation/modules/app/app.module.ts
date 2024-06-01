@@ -40,7 +40,9 @@ import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.g
 import { SurveyDetailsComponent } from './components/survey-details/survey-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SurveySendingPolicyComponent } from './components/survey-sending-policy/survey-sending-policy.component';
-
+import { CreateSurveySendingPolicyComponent } from './components/create-survey-sending-policy/create-survey-sending-policy.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -50,6 +52,18 @@ export const routes: Routes = [
     {path: 'surveys/new', component: CreateSurveyComponent},
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent}
 ];
+
+export const POLISH_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @NgModule({
   imports: [
@@ -74,6 +88,8 @@ export const routes: Routes = [
     MatSlideToggleModule,
     HttpClientModule,
     ClipboardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatTabsModule,
     MatGridListModule
   ],
@@ -93,6 +109,7 @@ export const routes: Routes = [
     OptionComponent,
     SurveyDetailsComponent,
     SurveySendingPolicyComponent,
+    CreateSurveySendingPolicyComponent,
     SurveyTileComponent
     ],
   bootstrap: [AppComponent],
@@ -101,7 +118,9 @@ export const routes: Routes = [
     {provide: 'dialog', useClass: MatDialog},
     {provide: 'surveyMapper', useClass: CreateSurveyMapper},
     {provide: 'surveyService', useClass: SurveyServiceImpl},
-    {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl}
+    {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
+    { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+    { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS }
   ],
 })
 export class AppModule {}

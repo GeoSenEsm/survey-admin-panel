@@ -1,1 +1,73 @@
-<p>create-survey-sending-policy works!</p>
+<div class="container">
+    <mat-card>
+      <mat-card-title>
+        <h4>
+          Utwórz politykę wysyłania ankiety
+        </h4>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="fill">
+            <mat-label>Data rozpoczęcia</mat-label>
+            <input matInput [matDatepicker]="picker" 
+            formControlName="start" required
+            [(ngModel)]="model.start">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="surveyForm.get('start')?.hasError('required')">
+              Data rozpoczęcia jest wymagana
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Powtarzaj co</mat-label>
+            <input matInput type="number" 
+            formControlName="repeatInterval" required
+            min="1" max="10"
+            [(ngModel)]="model.repeatInterval">
+            <mat-error *ngIf="surveyForm.get('repeatInterval')?.hasError('required')">
+              Wartość jest wymagana
+            </mat-error>
+            <mat-error *ngIf="surveyForm.get('repeatInterval')?.hasError('min')">
+              Wartość musi być większy niż 0
+            </mat-error>
+            <mat-error *ngIf="surveyForm.get('repeatInterval')?.hasError('max')">
+              Wartość musi być mniejsza niż 11
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label>Jednostka czasu</mat-label>
+            <mat-select formControlName="repeatUnit" required>
+              <mat-option *ngFor="let unit of allTimeUnits"
+              [value]="unit">
+                {{ timeUnitsDisplaySelector[unit] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="surveyForm.get('repeatUnit')?.hasError('required')">
+              Jednostka czasu jest wymagana
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nie dłużej niż do</mat-label>
+            <input matInput [matDatepicker]="endPicker"
+             formControlName="end" required
+             [(ngModel)]="model.end">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+            <mat-error *ngIf="surveyForm.get('end')?.hasError('required')">
+              Data zakończenia jest wymagana
+            </mat-error>
+            <mat-error *ngIf="surveyForm.hasError('dateLessThan')">
+              Data zakończenia musi być późniejsza niż data rozpoczęcia
+            </mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">
+            Dodaj
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
