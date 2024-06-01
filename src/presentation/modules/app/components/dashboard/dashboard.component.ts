@@ -17,17 +17,22 @@ export class DashboardComponent {
 
   navListItems: NavListItem[] = [
     {
-      display: 'Respondents',
+      display: 'Respondenci',
       matIcon: 'group',
       link: 'respondents'
     },
     {
-      display: 'Surveys',
+      display: 'Ankiety',
       matIcon: 'content_paste',
       link: 'surveys'
     },
     {
-      display: 'Results',
+      display: 'Tworzenie ankiet',
+      matIcon: 'build',
+      link: 'surveys/new'
+    },
+    {
+      display: 'Wyniki',
       matIcon: 'bar_chart',
       link: 'results'
     }

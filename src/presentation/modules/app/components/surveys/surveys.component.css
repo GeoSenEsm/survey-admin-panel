@@ -1,3 +1,13 @@
 .container{
     height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+.surveys-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1300px;
 }

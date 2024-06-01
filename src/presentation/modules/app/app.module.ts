@@ -34,6 +34,8 @@ import { CreateNumberRangeComponent } from './components/create-number-range/cre
 import { CreateSurveyMapper } from '../../../core/mappers/create.survey.mapper';
 import { SurveyServiceImpl } from '../../../core/services/survey.service.impl';
 import { OptionComponent } from './components/option/option.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { SurveyTileComponent } from './components/survey-tile/survey-tile.component';
 import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.groups.service.impl';
 
 
@@ -67,7 +69,8 @@ export const routes: Routes = [
     MatSelectModule,
     MatSlideToggleModule,
     HttpClientModule,
-    ClipboardModule
+    ClipboardModule,
+    MatGridListModule
   ],
   declarations: [
     AppComponent, 
@@ -82,7 +85,8 @@ export const routes: Routes = [
     CreateQuestionComponent,
     CreateTextSelectionOptionsComponent,
     CreateNumberRangeComponent,
-    OptionComponent
+    OptionComponent,
+    SurveyTileComponent
     ],
   bootstrap: [AppComponent],
   providers: [
