@@ -43,6 +43,8 @@ import { SurveySendingPolicyComponent } from './components/survey-sending-policy
 import { CreateSurveySendingPolicyComponent } from './components/create-survey-sending-policy/create-survey-sending-policy.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.survey.sending.policy.mapper';
+import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -120,7 +122,9 @@ export const POLISH_DATE_FORMATS = {
     {provide: 'surveyService', useClass: SurveyServiceImpl},
     {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
-    { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS },
+    {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
+    {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl}
   ],
 })
 export class AppModule {}

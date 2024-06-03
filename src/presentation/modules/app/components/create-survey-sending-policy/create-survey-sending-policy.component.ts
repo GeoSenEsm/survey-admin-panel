@@ -2,7 +2,12 @@ import { Component, Inject } from '@angular/core';
 import { TimeUnit } from '../../../../../core/models/time.unit';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { CreateSurveySendingPolicyModel } from '../../../../../core/models/create.survey.sending.policy.model';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Mapper } from '../../../../../core/mappers/mapper';
+import { CreateSurveySendingPolicyDto } from '../../../../../domain/models/create.survey.sending.policy.dto';
+import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
+import { catchError, finalize, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-survey-sending-policy',
@@ -12,6 +17,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class CreateSurveySendingPolicyComponent {
   surveyForm!: FormGroup;
   readonly model: CreateSurveySendingPolicyModel;
+  isBusy = false;
 
   get allTimeUnits() : TimeUnit[]{
     return [
@@ -28,7 +34,12 @@ export class CreateSurveySendingPolicyComponent {
   }
 
   constructor(private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject('createSurveySendingPolicyMapper') 
+    private readonly mapper: Mapper<CreateSurveySendingPolicyModel, CreateSurveySendingPolicyDto>,
+    @Inject('surveySendingPolicyService')private readonly service: SurveySendingPolicyService,
+    private readonly dialogRef: MatDialogRef<CreateSurveySendingPolicyComponent>,
+    private readonly snackbar: MatSnackBar){
       this.model = {
         surveyId: data.surveyId
       };
@@ -54,10 +65,33 @@ export class CreateSurveySendingPolicyComponent {
     };
   }
 
-  onSubmit() {
-    console.log(this.model);
-    if (this.surveyForm.valid) {
-      console.log(this.model);
+  onSubmit(): void {
+    if (!this.surveyForm.valid || this.isBusy) {
+      return;
     }
+  
+    this.isBusy = true;
+    const dto = this.mapper.map(this.model);
+    this.service
+      .createPolicy(dto)
+      .pipe(
+        catchError((error) => {
+          this.snackbar.open('Coś poszło nie tak', 'OK', { duration: 3000 });
+          //TO DO: change to custom error
+          return throwError(() => new Error('Error'));
+        }),
+        finalize(() => {
+          this.isBusy = false;
+        })
+      )
+      .subscribe({
+        next: _ => {
+          this.snackbar.open('Dodano politykę wysyłania ankiety', 'OK', { duration: 3000 });
+          this.dialogRef.close();
+        },
+        error: err => {
+          console.error('Error:', err);
+        }
+      });
   }
 }

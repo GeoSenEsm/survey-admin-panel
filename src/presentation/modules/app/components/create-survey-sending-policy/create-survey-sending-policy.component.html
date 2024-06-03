@@ -38,7 +38,8 @@
   
           <mat-form-field appearance="fill">
             <mat-label>Jednostka czasu</mat-label>
-            <mat-select formControlName="repeatUnit" required>
+            <mat-select formControlName="repeatUnit" required
+            [(ngModel)]="model.repeatUnit">
               <mat-option *ngFor="let unit of allTimeUnits"
               [value]="unit">
                 {{ timeUnitsDisplaySelector[unit] }}
@@ -50,7 +51,7 @@
           </mat-form-field>
 
           <mat-form-field appearance="fill">
-            <mat-label>Nie dłużej niż do</mat-label>
+            <mat-label>Data zakończenia</mat-label>
             <input matInput [matDatepicker]="endPicker"
              formControlName="end" required
              [(ngModel)]="model.end">
