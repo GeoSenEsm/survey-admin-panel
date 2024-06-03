@@ -47,6 +47,10 @@ import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.su
 import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SurveySummaryComponent } from './components/survey-summary/survey-summary.component';
+import { HistogramComponent } from './components/histogram/histogram.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -54,7 +58,8 @@ export const routes: Routes = [
     {path: '', component: RespondentsComponent},
     {path: 'surveys', component: SurveysComponent},
     {path: 'surveys/new', component: CreateSurveyComponent},
-    {path: 'surveys/:surveyId', component: SurveyDetailsComponent}
+    {path: 'surveys/:surveyId', component: SurveyDetailsComponent},
+    {path: 'summaries/:surveyId', component: SurveySummaryComponent}
 ];
 
 export const POLISH_DATE_FORMATS = {
@@ -97,7 +102,8 @@ export const POLISH_DATE_FORMATS = {
     NgxMultipleDatesModule,
     MatTabsModule,
     MatGridListModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') })
   ],
   declarations: [
     AppComponent, 
@@ -117,6 +123,8 @@ export const POLISH_DATE_FORMATS = {
     SurveySendingPolicyComponent,
     CreateSurveySendingPolicyComponent,
     SurveyTileComponent
+    SurveySummaryComponent,
+    HistogramComponent
     ],
   bootstrap: [AppComponent],
   providers: [
