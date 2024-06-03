@@ -94,7 +94,15 @@ export class CreateSectionComponent {
     this.removeSectionEvent.emit(this.section!);
   }
 
+  canRemoveQuestion(): boolean{
+    return this.section!.questions.length > 1;
+  }
+
   removeQuestion(question: CreateQuestionModel) : void{
+    if (!this.canRemoveQuestion()){
+      return;
+    }
+
     const idx = this.section?.questions.indexOf(question);
     if (idx !== -1 && idx !== undefined) {
       this.section?.questions.splice(idx, 1);

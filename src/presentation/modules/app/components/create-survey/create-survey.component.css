@@ -2,11 +2,14 @@
     height: 100vh;
     background-color: #ffffff;
     padding: 20px;
+
 }
 
 .card{
     padding: 20px;
     background-color: #f4f4f4;
+    margin: 0 auto;
+    max-width: 1300px;
 }
 
 .create-section-button{

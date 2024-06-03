@@ -1,3 +1,8 @@
 <div class="container">
     <app-buttons-ribbon [buttons]="ribbonButtons"/>
+    <div class="surveys-container">
+      <app-survey-tile
+      *ngFor="let survey of surveys"
+      [survey]="survey"/>
+    </div>
 </div>
