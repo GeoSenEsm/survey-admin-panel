@@ -1,6 +1,7 @@
 .container {
-    max-width: 600px;
     margin: 0 auto;
+    min-width: 800px;
+    max-width: 800px;
   }
   
   mat-card {
@@ -20,4 +21,8 @@ mat-card-title {
 mat-form-field {
   width: 100%;
   margin-bottom: 20px; 
+}
+
+button{
+  width: 100%;
 }

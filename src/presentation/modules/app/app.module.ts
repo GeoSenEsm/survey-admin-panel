@@ -45,6 +45,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.survey.sending.policy.mapper';
 import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
+import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -92,6 +93,7 @@ export const POLISH_DATE_FORMATS = {
     ClipboardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMultipleDatesModule,
     MatTabsModule,
     MatGridListModule
   ],

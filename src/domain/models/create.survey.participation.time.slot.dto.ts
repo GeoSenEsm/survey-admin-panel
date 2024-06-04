@@ -1,4 +1,4 @@
 export interface CreateSurveyParticipationTimeSlotDto{
-    dateFrom: Date,
-    dateTo: Date
+    start: Date,
+    finish: Date
 }
