@@ -2,7 +2,8 @@
     <p>
         {{ survey.name }}
     </p>
-    <button mat-flat-button color="primary">
+    <button mat-flat-button color="primary"
+    (click)="navigateToDetails()">
         Szczegóły ankiety
     </button>
 </div>
