@@ -46,6 +46,7 @@ import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } f
 import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.survey.sending.policy.mapper';
 import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -95,7 +96,8 @@ export const POLISH_DATE_FORMATS = {
     MatNativeDateModule,
     NgxMultipleDatesModule,
     MatTabsModule,
-    MatGridListModule
+    MatGridListModule,
+    FullCalendarModule
   ],
   declarations: [
     AppComponent, 
