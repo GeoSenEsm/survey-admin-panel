@@ -51,6 +51,7 @@ import { SurveySummaryComponent } from './components/survey-summary/survey-summa
 import { HistogramComponent } from './components/histogram/histogram.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SummariesServiceImpl } from '../../../core/services/summaries.service.impl';
+import { SurveysListResultsComponent } from './components/surveys-list-results/surveys-list-results.component';
 
 
 export const routes: Routes = [
@@ -125,7 +126,8 @@ export const POLISH_DATE_FORMATS = {
     CreateSurveySendingPolicyComponent,
     SurveyTileComponent,
     SurveySummaryComponent,
-    HistogramComponent
+    HistogramComponent,
+    SurveysListResultsComponent
     ],
   bootstrap: [AppComponent],
   providers: [
