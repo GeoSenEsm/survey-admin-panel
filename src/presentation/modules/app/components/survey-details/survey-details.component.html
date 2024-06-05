@@ -1,0 +1,18 @@
+<div class="container">
+    <mat-tab-group>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon>send</mat-icon>
+                Polityka wysyłania
+              </ng-template>
+             <app-survey-sending-policy [surveyId]="surveyId"/>
+         </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon>visibility</mat-icon>
+                Podgląd
+              </ng-template> 
+            Content 2
+         </mat-tab>
+    </mat-tab-group>
+</div>

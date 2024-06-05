@@ -1,0 +1,24 @@
+<div class="container">
+    <mat-card>
+      <mat-card-title>
+        <h4>
+          Utwórz politykę wysyłania ankiety
+        </h4>
+      </mat-card-title>
+      <mat-card-content>
+          <mat-form-field>
+            <ngx-multiple-dates [matDatepicker]="picker" placeholder="Daty"
+                                [(ngModel)]="model.dates" [errorStateMatcher]="datesErrorStateMatcher">
+            </ngx-multiple-dates>
+            <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>Wybierz co najmniej jedną datę</mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit"
+          (click)="onSubmit()">
+            Dodaj
+          </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

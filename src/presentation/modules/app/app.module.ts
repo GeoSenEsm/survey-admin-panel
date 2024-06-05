@@ -37,15 +37,37 @@ import { OptionComponent } from './components/option/option.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SurveyTileComponent } from './components/survey-tile/survey-tile.component';
 import { RespondentGroupsServiceImpl } from '../../../core/services/respondent.groups.service.impl';
-
+import { SurveyDetailsComponent } from './components/survey-details/survey-details.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { SurveySendingPolicyComponent } from './components/survey-sending-policy/survey-sending-policy.component';
+import { CreateSurveySendingPolicyComponent } from './components/create-survey-sending-policy/create-survey-sending-policy.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.survey.sending.policy.mapper';
+import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
+import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'respondents', component: RespondentsComponent},
     {path: '', component: RespondentsComponent},
     {path: 'surveys', component: SurveysComponent},
-    {path: 'surveys/new', component: CreateSurveyComponent}
+    {path: 'surveys/new', component: CreateSurveyComponent},
+    {path: 'surveys/:surveyId', component: SurveyDetailsComponent}
 ];
+
+export const POLISH_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @NgModule({
   imports: [
@@ -70,7 +92,12 @@ export const routes: Routes = [
     MatSlideToggleModule,
     HttpClientModule,
     ClipboardModule,
-    MatGridListModule
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMultipleDatesModule,
+    MatTabsModule,
+    MatGridListModule,
+    FullCalendarModule
   ],
   declarations: [
     AppComponent, 
@@ -86,6 +113,9 @@ export const routes: Routes = [
     CreateTextSelectionOptionsComponent,
     CreateNumberRangeComponent,
     OptionComponent,
+    SurveyDetailsComponent,
+    SurveySendingPolicyComponent,
+    CreateSurveySendingPolicyComponent,
     SurveyTileComponent
     ],
   bootstrap: [AppComponent],
@@ -94,7 +124,11 @@ export const routes: Routes = [
     {provide: 'dialog', useClass: MatDialog},
     {provide: 'surveyMapper', useClass: CreateSurveyMapper},
     {provide: 'surveyService', useClass: SurveyServiceImpl},
-    {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl}
+    {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
+    { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+    { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS },
+    {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
+    {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl}
   ],
 })
 export class AppModule {}

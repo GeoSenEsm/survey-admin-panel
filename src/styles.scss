@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'ngx-multiple-dates' as ngxMultipleDates;
 
 @include mat.core();
 
@@ -48,6 +49,7 @@ $my-theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($my-theme);
+@include ngxMultipleDates.multiple-dates-theme($my-theme); 
 
 :root {
     --primary: $primary;
