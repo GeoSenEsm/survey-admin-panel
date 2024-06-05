@@ -52,6 +52,7 @@ import { HistogramComponent } from './components/histogram/histogram.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SummariesServiceImpl } from '../../../core/services/summaries.service.impl';
 import { SurveysListResultsComponent } from './components/surveys-list-results/surveys-list-results.component';
+import { SurveySummaryTileComponent } from './components/survey-summary-tile/survey-summary-tile.component';
 
 
 export const routes: Routes = [
@@ -61,7 +62,8 @@ export const routes: Routes = [
     {path: 'surveys', component: SurveysComponent},
     {path: 'surveys/new', component: CreateSurveyComponent},
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent},
-    {path: 'summaries/:surveyId', component: SurveySummaryComponent}
+    {path: 'summaries/:surveyId', component: SurveySummaryComponent},
+    {path: 'summaries', component: SurveysListResultsComponent}
 ];
 
 export const POLISH_DATE_FORMATS = {
@@ -127,7 +129,8 @@ export const POLISH_DATE_FORMATS = {
     SurveyTileComponent,
     SurveySummaryComponent,
     HistogramComponent,
-    SurveysListResultsComponent
+    SurveysListResultsComponent,
+    SurveySummaryTileComponent
     ],
   bootstrap: [AppComponent],
   providers: [

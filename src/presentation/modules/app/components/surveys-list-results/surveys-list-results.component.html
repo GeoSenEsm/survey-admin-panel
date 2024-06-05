@@ -1,1 +1,8 @@
-<p>surveys-list-results works!</p>
+<div class="container">
+    <div class="surveys-container">
+      <app-survey-summary-tile
+      *ngFor="let survey of surveys"
+      [survey]="survey"/>
+    </div>
+</div>
+
