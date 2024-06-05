@@ -1,0 +1,19 @@
+<div class="container">
+    <p>
+        {{ survey.name }}
+    </p>
+    <div class="horizontal-panel">
+        <mat-form-field appearance="fill">
+            <mat-label>Data wypełnienia ankiety</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let date of dates" [value]="date">
+                {{ formatDate(date) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <button mat-flat-button color="primary"
+        (click)="navigateToSummary()">
+            Zobacz podsumowanie
+        </button>
+    </div>
+</div>

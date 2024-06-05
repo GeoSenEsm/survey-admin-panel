@@ -34,7 +34,7 @@ export class DashboardComponent {
     {
       display: 'Wyniki',
       matIcon: 'bar_chart',
-      link: 'results'
+      link: 'summaries'
     }
   ]
 

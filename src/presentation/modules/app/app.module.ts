@@ -47,6 +47,13 @@ import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.su
 import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SurveySummaryComponent } from './components/survey-summary/survey-summary.component';
+import { HistogramComponent } from './components/histogram/histogram.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { SummariesServiceImpl } from '../../../core/services/summaries.service.impl';
+import { SurveysListResultsComponent } from './components/surveys-list-results/surveys-list-results.component';
+import { SurveySummaryTileComponent } from './components/survey-summary-tile/survey-summary-tile.component';
+
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -54,7 +61,9 @@ export const routes: Routes = [
     {path: '', component: RespondentsComponent},
     {path: 'surveys', component: SurveysComponent},
     {path: 'surveys/new', component: CreateSurveyComponent},
-    {path: 'surveys/:surveyId', component: SurveyDetailsComponent}
+    {path: 'surveys/:surveyId', component: SurveyDetailsComponent},
+    {path: 'summaries/:surveyId', component: SurveySummaryComponent},
+    {path: 'summaries', component: SurveysListResultsComponent}
 ];
 
 export const POLISH_DATE_FORMATS = {
@@ -97,7 +106,8 @@ export const POLISH_DATE_FORMATS = {
     NgxMultipleDatesModule,
     MatTabsModule,
     MatGridListModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') })
   ],
   declarations: [
     AppComponent, 
@@ -116,7 +126,11 @@ export const POLISH_DATE_FORMATS = {
     SurveyDetailsComponent,
     SurveySendingPolicyComponent,
     CreateSurveySendingPolicyComponent,
-    SurveyTileComponent
+    SurveyTileComponent,
+    SurveySummaryComponent,
+    HistogramComponent,
+    SurveysListResultsComponent,
+    SurveySummaryTileComponent
     ],
   bootstrap: [AppComponent],
   providers: [
@@ -128,7 +142,8 @@ export const POLISH_DATE_FORMATS = {
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
-    {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl}
+    {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
+    {provide: 'summariesService', useClass: SummariesServiceImpl}
   ],
 })
 export class AppModule {}

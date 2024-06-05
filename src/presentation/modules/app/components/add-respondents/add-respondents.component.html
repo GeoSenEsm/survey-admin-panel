@@ -1,14 +1,14 @@
 <div class="container">
   <form (ngSubmit)="submit()" class="form-container" [formGroup]="form!">
     <mat-form-field appearance="outline" class="amount-input">
-        <mat-label>Amount</mat-label>
+        <mat-label>Ilość</mat-label>
         <input matInput type="number" formControlName="amount" [(ngModel)]="dto.amount">
-        <mat-error *ngIf="form?.invalid">Value must be between 1 and 400</mat-error>
+        <mat-error *ngIf="form?.invalid">Wartość musi być między 1 a 400</mat-error>
     </mat-form-field>
-    <button mat-flat-button color="primary">Submit</button>
+    <button mat-flat-button color="primary">Utwórz</button>
   </form>
   <button mat-button color="primary" class="copy-to-clipboard"
   [disabled]="accounts.length === 0" (click)="copyToClipboard()">
-    Copy to clipboard <mat-icon>content_copy</mat-icon>
+    Skopiuj do schowka <mat-icon>content_copy</mat-icon>
   </button>
 </div>

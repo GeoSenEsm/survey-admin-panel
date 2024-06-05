@@ -46,7 +46,7 @@ export class RespondentsComponent implements AfterViewInit{
 
   ribbonButtons: ButtonData[] = [
     {
-      content: 'Generate respondents accounts',
+      content: 'Utwórz konta dla respondentów',
       onClick: this.generateRespondentsAccounts.bind(this)
     }
   ]
