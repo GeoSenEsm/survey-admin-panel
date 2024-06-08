@@ -6,7 +6,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Data wypełnienia ankiety</mat-label>
             <mat-select [(ngModel)]="selectedDate">
-              <mat-option *ngFor="let date of dates" [value]="date">
+              <mat-option *ngFor="let date of survey.dates" [value]="date">
                 {{ formatDate(date) }}
               </mat-option>
             </mat-select>

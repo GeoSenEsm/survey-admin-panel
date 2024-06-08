@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SurveyDto } from '../../../../../domain/models/survey.dto';
 import { Router } from '@angular/router';
+import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 
 @Component({
   selector: 'app-survey-summary-tile',
@@ -9,18 +10,8 @@ import { Router } from '@angular/router';
 })
 export class SurveySummaryTileComponent {
   @Input()
-  survey!: SurveyDto; 
-
-  selectedDate: Date | null = null;
-
-  dates = [
-    new Date('2023-01-01'),
-    new Date('2023-02-14'),
-    new Date('2023-03-17'),
-    new Date('2023-04-01'),
-    new Date('2023-05-25'),
-    new Date('2023-12-25')
-  ];
+    survey!: SurveySummaryShortDto;
+    selectedDate: Date | null = null;
 
   constructor(private readonly router: Router) {
   }
