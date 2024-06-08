@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import { CreateSurveySendingPolicyModel } from '../../../../../core/models/create.survey.sending.policy.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Mapper } from '../../../../../core/mappers/mapper';
@@ -69,9 +69,9 @@ export class CreateSurveySendingPolicyComponent {
         })
       )
       .subscribe({
-        next: _ => {
+        next: newPolicy => {
           this.snackbar.open('Dodano politykę wysyłania ankiety', 'OK', { duration: 3000 });
-          this.dialogRef.close();
+          this.dialogRef.close(newPolicy);
         },
         error: err => {
           console.error('Error:', err);
