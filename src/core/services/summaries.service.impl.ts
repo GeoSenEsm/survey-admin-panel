@@ -13,9 +13,10 @@ implements SummariesService {
         super(client);
     }
 
-    getHistogramData(surveyId: string): Observable<HistogramDataDto[]> {
+    getHistogramData(surveyId: string, date: Date): Observable<HistogramDataDto[]> {
         return this.get<HistogramDataDto[]>('/api/summaries/histogram', {
-            'surveyId': surveyId
+            'surveyId': surveyId,
+            'date': date.toISOString()
         });
     }
 }

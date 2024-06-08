@@ -11,6 +11,8 @@ export class SurveySummaryTileComponent {
   @Input()
   survey!: SurveyDto; 
 
+  selectedDate: Date | null = null;
+
   dates = [
     new Date('2023-01-01'),
     new Date('2023-02-14'),
@@ -24,7 +26,15 @@ export class SurveySummaryTileComponent {
   }
 
   navigateToSummary(): void{
-    this.router.navigate([`/summaries/${this.survey.id}`]);
+    if (this.selectedDate == null){
+      return;
+    }
+
+    this.router.navigate([`/summaries/${this.survey.id}`], {
+      queryParams: {
+        date: this.selectedDate.toISOString()
+      }
+    });
   }
 
   formatDate(date: Date): string {
