@@ -14,7 +14,7 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
         super(client);
       }
     getAllShort(): Observable<SurveyDto[]> {
-        return this.get<SurveyDto[]>("api/surveys/short");
+        return this.get<SurveyDto[]>("/api/surveys/short");
     }
 
     createSurvey(dto: CreateSurveyDto): Observable<any> {

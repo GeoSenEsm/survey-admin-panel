@@ -11,16 +11,7 @@ import { SurveyService } from '../../../../../domain/external_services/survey.se
 })
 export class SurveysComponent implements OnInit{
 
-  surveys: SurveyDto[] = [
-    {
-      id: "123",
-      name: 'Testowa ankieta 2'
-    },
-    {
-      id: "123",
-      name: 'Testowa ankieta 2'
-    }
-  ]
+  surveys: SurveyDto[] = [];
 
 
   ribbonButtons: ButtonData[] = [
@@ -35,7 +26,7 @@ export class SurveysComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    //this.loadSurveys();
+    this.loadSurveys();
   }
 
   loadSurveys(): void{
