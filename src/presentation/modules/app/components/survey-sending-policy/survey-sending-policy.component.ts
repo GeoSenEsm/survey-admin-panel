@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateSurveySendingPolicyComponent } from '../create-survey-sending-policy/create-survey-sending-policy.component';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,6 +8,7 @@ import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.send
 import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, throwError } from 'rxjs';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-survey-sending-policy',
@@ -15,6 +16,7 @@ import { catchError, throwError } from 'rxjs';
   styleUrl: './survey-sending-policy.component.css'
 })
 export class SurveySendingPolicyComponent implements OnInit{
+  @ViewChild('fullcalendar') calendar!: FullCalendarComponent;
   @Input() surveyId: string | null = null;
   readonly calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -32,6 +34,7 @@ export class SurveySendingPolicyComponent implements OnInit{
     this.loadExistingSendingPolicies();
   }
   private loadExistingSendingPolicies(): void {
+    this.calendarEvents.length = 0;
     this.service.getAll(this.surveyId!)
     .pipe(
       catchError((error) => {
@@ -55,6 +58,8 @@ export class SurveySendingPolicyComponent implements OnInit{
       const events = this.calendarEventsFromPolicy(policy);
       events.forEach(e => this.calendarEvents.push(e));
     });
+
+    this.refreshEvents();
   }
 
   addSendingPolicy(): void{
@@ -74,7 +79,13 @@ export class SurveySendingPolicyComponent implements OnInit{
 
       const events = this.calendarEventsFromPolicy(policy);
       events.forEach(e => this.calendarEvents.push(e));
+      this.refreshEvents();
     });
+  }
+
+  //TODO: investigate why this is required (otherwise events don't refresh on the view)
+  refreshEvents(): void{
+    this.calendar.events = this.calendarEvents;
   }
   
   private calendarEventsFromPolicy(policy: SurveySendingPolicyDto): EventInput[] {
@@ -82,7 +93,7 @@ export class SurveySendingPolicyComponent implements OnInit{
 
     policy.timeSlots.forEach(slot => {
       output.push({
-        title: 'Dzień wysłania ankiety',
+        title: 'Wypełnianie ankiety',
         start: new Date(slot.start),
         end: new Date(slot.finish)
       });
