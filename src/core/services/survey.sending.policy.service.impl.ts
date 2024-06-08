@@ -14,7 +14,7 @@ implements SurveySendingPolicyService{
         super(client);
     }
     getAll(surveyId: string): Observable<SurveySendingPolicyDto[]> {
-        return this.get(`/api/surveys/surveysendingpolicies`, {
+        return this.get(`/api/surveysendingpolicies`, {
             'surveyId': surveyId
         });
     }
