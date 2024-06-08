@@ -5,6 +5,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions, EventInput} from '@fullcalendar/core';
 import plLocale from '@fullcalendar/core/locales/pl';
 import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.sending.policy.dto';
+import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-survey-sending-policy',
@@ -20,24 +23,38 @@ export class SurveySendingPolicyComponent implements OnInit{
   };
   calendarEvents: EventInput[] = [];
 
-  constructor(@Inject('dialog') private readonly _dialog: MatDialog) {
+  constructor(@Inject('dialog') private readonly _dialog: MatDialog,
+   @Inject('surveySendingPolicyService') private readonly service: SurveySendingPolicyService,
+   private readonly snackbar: MatSnackBar) {  
    }
-  ngOnInit(): void {
+  
+   ngOnInit(): void {
     this.loadExistingSendingPolicies();
   }
   private loadExistingSendingPolicies(): void {
-    this.calendarEvents.push(
-      {
-        title: 'Event 1',
-        start: new Date(2024, 5, 8, 10, 0, 0),
-        end: new Date(2024, 5, 8, 12, 0, 0)
+    this.service.getAll(this.surveyId!)
+    .pipe(
+      catchError((error) => {
+        this.snackbar.open('Nie udało się załadować polityki wysyłania ankiety', 'OK', { duration: 3000 });
+        //TO DO: change to custom error
+        return throwError(() => new Error('Error'));
+      })
+    )
+    .subscribe({
+      next: policies => {
+        this.addPoliciesToEvents(policies);
       },
-      {
-        title: 'Event 2',
-        start: new Date(2024, 5, 9, 14, 0, 0),
-        end: new Date(2024, 5, 9, 16, 0, 0)
+      error: err => {
+        console.error('Error:', err);
       }
-    );
+    });
+  }
+  
+  private addPoliciesToEvents(policies: SurveySendingPolicyDto[]): void {
+    policies.forEach(policy => {
+      const events = this.calendarEventsFromPolicy(policy);
+      events.forEach(e => this.calendarEvents.push(e));
+    });
   }
 
   addSendingPolicy(): void{

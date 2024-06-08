@@ -4,4 +4,5 @@ import { SurveySendingPolicyDto } from "../models/survey.sending.policy.dto";
 
 export interface SurveySendingPolicyService{
     createPolicy(dto: CreateSurveySendingPolicyDto): Observable<SurveySendingPolicyDto>
+    getAll(surveyId: string): Observable<SurveySendingPolicyDto[]>;
 }

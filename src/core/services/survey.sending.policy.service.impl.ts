@@ -13,9 +13,14 @@ implements SurveySendingPolicyService{
     constructor(client: HttpClient){
         super(client);
     }
+    getAll(surveyId: string): Observable<SurveySendingPolicyDto[]> {
+        return this.get(`/api/surveys/surveysendingpolicies`, {
+            'surveyId': surveyId
+        });
+    }
 
     createPolicy(dto: CreateSurveySendingPolicyDto): Observable<SurveySendingPolicyDto> {
         return this.post('/api/surveysendingpolicies', dto);
     }
-
+    
 }
