@@ -5,7 +5,7 @@
     <div class="horizontal-panel">
         <mat-form-field appearance="fill">
             <mat-label>Data wypełnienia ankiety</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="selectedDate">
               <mat-option *ngFor="let date of dates" [value]="date">
                 {{ formatDate(date) }}
               </mat-option>

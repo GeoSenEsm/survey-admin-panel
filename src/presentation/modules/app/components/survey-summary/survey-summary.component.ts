@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HistogramDataDto } from '../../../../../domain/models/histogram.data.dto';
+import { SummariesService } from '../../../../../domain/external_services/summaries.service';
+import { catchError, finalize, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-survey-summary',
@@ -9,62 +12,43 @@ import { HistogramDataDto } from '../../../../../domain/models/histogram.data.dt
 })
 export class SurveySummaryComponent implements OnInit{
   surveyId: string | null = null;
-  histograms: HistogramDataDto[] = [
-    {
-      title: 'Jak oceniasz jakieś zagadnienie?',
-      series: [
-        { label: 'Nie wiem', value: 10 },
-        { label: 'Zdecydowanie nie', value: 30 },
-        { label: 'Raczej nie', value: 50 },
-        { label: 'Raczej tak', value: 80 },
-        { label: 'Zdecydowanie tak', value: 2 }
-      ]
-    },
-    {
-      title: 'Jak oceniasz poziom obsługi klienta?',
-      series: [
-        { label: 'Nie wiem', value: 15 },
-        { label: 'Zdecydowanie nie', value: 25 },
-        { label: 'Raczej nie', value: 40 },
-        { label: 'Raczej tak', value: 70 },
-        { label: 'Zdecydowanie tak', value: 5 }
-      ]
-    },
-    {
-      title: 'Jak oceniasz jakość produktu?',
-      series: [
-        { label: 'Nie wiem', value: 5 },
-        { label: 'Zdecydowanie nie', value: 20 },
-        { label: 'Raczej nie', value: 35 },
-        { label: 'Raczej tak', value: 60 },
-        { label: 'Zdecydowanie tak', value: 10 }
-      ]
-    },
-    {
-      title: 'Jak oceniasz czas dostawy?',
-      series: [
-        { label: 'Nie wiem', value: 8 },
-        { label: 'Zdecydowanie nie', value: 22 },
-        { label: 'Raczej nie', value: 30 },
-        { label: 'Raczej tak', value: 55 },
-        { label: 'Zdecydowanie tak', value: 12 }
-      ]
-    },
-    {
-      title: 'Jak oceniasz wygląd strony internetowej?',
-      series: [
-        { label: 'Nie wiem', value: 12 },
-        { label: 'Zdecydowanie nie', value: 18 },
-        { label: 'Raczej nie', value: 28 },
-        { label: 'Raczej tak', value: 50 },
-        { label: 'Zdecydowanie tak', value: 20 }
-      ]
-    }
-];
+  date: Date | null = null;
+  histograms: HistogramDataDto[] = [];
+  private isBusy: boolean = false;
 
-  constructor(private readonly route: ActivatedRoute){} 
+  constructor(private readonly route: ActivatedRoute,
+    @Inject('summariesService')private readonly service: SummariesService,
+    private readonly snackbar: MatSnackBar){} 
 
   ngOnInit(): void {
     this.surveyId = this.route.snapshot.paramMap.get('surveyId');
+    this.route.queryParams.subscribe(params => {
+      const dateISO = params['date'];
+      if (dateISO) {
+        this.date = new Date(dateISO);
+      }
+      this.tryLoadHistograms();
+    });
+  }
+  tryLoadHistograms(): void {
+    if (this.surveyId == null || this.date == null
+      || this.isBusy) {
+      return;
+    }
+
+    this.isBusy = true;
+    this.service.getHistogramData(this.surveyId, this.date)
+      .pipe(
+        catchError(error =>{
+          this.snackbar.open('Nie udało się załadować danych', 'OK', {duration: 3000});
+          //TODO: Change this error to something more specyfic
+          return throwError(() => Error('Error'));
+        }),
+        finalize(() => this.isBusy = false)
+      ).subscribe({
+        next:histograms => {
+          this.histograms = histograms;
+        }
+      });
   }
 }
