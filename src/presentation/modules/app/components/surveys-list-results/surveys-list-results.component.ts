@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { SurveyDto } from '../../../../../domain/models/survey.dto';
+import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './surveys-list-results.component.css'
 })
 export class SurveysListResultsComponent implements OnInit{
-  surveys: SurveyDto[] = [];
+  surveys: SurveySummaryShortDto[] = [];
   private isBusy: boolean = false;
 
   constructor(@Inject('surveyService')private readonly service: SurveyService,
