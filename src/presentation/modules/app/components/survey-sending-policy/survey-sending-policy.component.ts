@@ -83,9 +83,8 @@ export class SurveySendingPolicyComponent implements OnInit{
     });
   }
 
-  //TODO: investigate why this is required (otherwise events don't refresh on the view)
   refreshEvents(): void{
-    this.calendar.events = this.calendarEvents;
+    this.calendarOptions.events = [...this.calendarEvents];
   }
   
   private calendarEventsFromPolicy(policy: SurveySendingPolicyDto): EventInput[] {
