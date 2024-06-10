@@ -44,7 +44,7 @@ import { CreateSurveySendingPolicyComponent } from './components/create-survey-s
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CreateSurveySendingPolicyMapper } from '../../../core/mappers/create.survey.sending.policy.mapper';
-import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service';
+import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service.impl';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SurveySummaryComponent } from './components/survey-summary/survey-summary.component';

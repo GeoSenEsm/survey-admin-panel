@@ -4,6 +4,7 @@ import { CreateSurveySendingPolicyDto } from "../../domain/models/create.survey.
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { SurveySendingPolicyDto } from "../../domain/models/survey.sending.policy.dto";
 
 @Injectable()
 export class SurveySendingPolicyServiceImpl 
@@ -12,9 +13,14 @@ implements SurveySendingPolicyService{
     constructor(client: HttpClient){
         super(client);
     }
-
-    createPolicy(dto: CreateSurveySendingPolicyDto): Observable<any> {
-        return this.post('/api/surveysendingpolicies', dto);
+    getAll(surveyId: string): Observable<SurveySendingPolicyDto[]> {
+        return this.get(`/api/surveysendingpolicies`, {
+            'surveyId': surveyId
+        });
     }
 
+    createPolicy(dto: CreateSurveySendingPolicyDto): Observable<SurveySendingPolicyDto> {
+        return this.post('/api/surveysendingpolicies', dto);
+    }
+    
 }
