@@ -1,5 +1,5 @@
 export interface SurveyParticipationTimeSlotDto{
     id: string,
-    start: Date,
-    finish: Date
+    start: string,
+    finish: string
 }
