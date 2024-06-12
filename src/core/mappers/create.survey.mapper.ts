@@ -66,7 +66,8 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
     private mapOption(source: TextSelectionOption, index: number): CreateOptionDto {
         return {
             order: index + 1,
-            label: source.content
+            label: source.content,
+            showSection: source.showSection
         }
     }
 

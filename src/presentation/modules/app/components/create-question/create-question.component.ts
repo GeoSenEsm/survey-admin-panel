@@ -5,6 +5,7 @@ import { CreateSectionModel } from '../../../../../core/models/create.section.mo
 import { CreateTextSelectionOptionsComponent } from '../create-text-selection-options/create-text-selection-options.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
+import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 
 @Component({
   selector: 'app-create-question',
@@ -21,7 +22,7 @@ export class CreateQuestionComponent {
   @Output()
   removeEvent = new EventEmitter<CreateQuestionModel>();
   @Input()
-  sectionsToBeTriggered: CreateSectionModel[] = [];
+  sectionsToBeTriggered: SectionToBeTriggered[] = [];
   contentError: string | null = null;
   contentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.contentError);
 

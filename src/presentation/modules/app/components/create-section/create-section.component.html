@@ -6,7 +6,7 @@
         <div class="grid-container">
             <div class="grid-item">
                 <mat-form-field appearance="fill">
-                    <input matInput maxlength="100" [(ngModel)]="section!.name"
+                    <input matInput maxlength="100" [(ngModel)]="name"
                     [errorStateMatcher]="sectionNameErrorStateMatcher"
                     (blur)="validateName()"/>
                     <mat-error *ngIf="nameError != null">{{ nameError }}</mat-error>
