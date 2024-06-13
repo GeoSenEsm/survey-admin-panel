@@ -1,12 +1,11 @@
 .container{
     height: 100vh;
-    background-color: #ffffff;
     padding: 20px;
-
 }
 
 .card{
     padding: 20px;
+    /* TODO change this not to be hardcoded!!!!*/
     background-color: #f4f4f4;
     margin: 0 auto;
     max-width: 1300px;
