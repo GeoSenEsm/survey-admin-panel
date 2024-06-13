@@ -15,6 +15,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { RespondentGroupsService } from '../../../../../domain/external_services/respondent.groups.service';
 import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
+import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 
 @Component({
   selector: 'app-create-survey',
@@ -27,7 +28,7 @@ export class CreateSurveyComponent implements OnInit{
     sections: []
   };
   @ViewChildren(CreateSectionComponent) sectionComponents!: QueryList<CreateSectionComponent>;
-  readonly sectionsToBeTriggered: CreateSectionModel[] = [];
+  readonly sectionsToBeTriggered: SectionToBeTriggered[] = [];
   isLocked: boolean = false;
   nameValidationError: string | null = null;
   numberOfSectionsError: string | null = null;

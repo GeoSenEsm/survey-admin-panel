@@ -2,6 +2,7 @@ import { Component, Input, QueryList, ViewChildren } from '@angular/core';
 import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { OptionComponent } from '../option/option.component';
+import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 
 @Component({
   selector: 'app-create-text-selection-options',
@@ -13,7 +14,7 @@ export class CreateTextSelectionOptionsComponent {
   @Input()
   options: TextSelectionOption[] = []
   @Input()
-  sectionsToBeTriggered: CreateSectionModel[] = [];
+  sectionsToBeTriggered: SectionToBeTriggered[] = [];
   commonOptionsError: string | null = null;
 
   addNewOption() : void {

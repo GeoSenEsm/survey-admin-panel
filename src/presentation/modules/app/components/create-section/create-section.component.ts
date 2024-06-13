@@ -8,6 +8,8 @@ import { RespondentsGroupDto } from '../../../../../domain/models/respondents.gr
 import { CreateQuestionComponent } from '../create-question/create-question.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
+import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
+import { number } from 'echarts';
 
 
 @Component({
@@ -25,7 +27,7 @@ export class CreateSectionComponent {
   @Output()
   removeSectionEvent = new EventEmitter<CreateSectionModel>();
   @Input()
-  sectionsToBeTriggered: CreateSectionModel[] = [];
+  sectionsToBeTriggered: SectionToBeTriggered[] = [];
   @Input()
   sectionNumber = 0;
   nameError: string | null = null;
@@ -42,11 +44,17 @@ export class CreateSectionComponent {
     }
 
     if (this.section.visibility !== SectionVisibility.ANSWER_TRIGGERED && value === SectionVisibility.ANSWER_TRIGGERED){
-      this.sectionsToBeTriggered.push(this.section);
+      this.sectionsToBeTriggered.push({
+        sectionNumber: this.sectionNumber,
+        name: this.section.name
+      });
     }
 
     if (this.section.visibility === SectionVisibility.ANSWER_TRIGGERED && value !== SectionVisibility.ANSWER_TRIGGERED){
-      this.sectionsToBeTriggered.splice(this.sectionsToBeTriggered.indexOf(this.section), 1);
+      const index = this.sectionsToBeTriggered.findIndex(section => section.name === this.section?.name);
+      if (index !== -1) {
+        this.sectionsToBeTriggered.splice(index, 1);
+      }   
     }
 
     this.section.visibility = value
@@ -66,6 +74,27 @@ export class CreateSectionComponent {
     SectionVisibility.GROUP_SPECIFIC,
     SectionVisibility.ANSWER_TRIGGERED
   ];
+
+  get name(): string | undefined{
+    return this.section?.name;
+  }
+
+  set name(value: string | undefined){
+    if (this.section !== null){
+      if (this.section.visibility == SectionVisibility.ANSWER_TRIGGERED){
+        //TO DO: what if we have more than one section with the same name?
+        this.updateSectionToBeTriggered(this.section.name, value);
+      }
+      this.section.name = value;
+    }
+  }
+
+  updateSectionToBeTriggered(oldName: string | undefined, newName: string | undefined): void{
+    const idx = this.sectionsToBeTriggered.findIndex(section => section.name === oldName);
+    if (idx !== -1) {
+      this.sectionsToBeTriggered[idx].name = newName;
+    }
+  }
 
   addSectionBelow(): void{
     this.addSectionBelowEvent.emit(this.section!);
