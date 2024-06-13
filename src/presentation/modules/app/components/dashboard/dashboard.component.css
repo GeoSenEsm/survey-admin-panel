@@ -7,7 +7,7 @@
 }
 
 .container{
-    height: 100vh;
+  height: calc(100% - 64px);
 }
 
 .mat-icon{
@@ -19,4 +19,15 @@
     position: sticky;
     top: 0;
     z-index: 3;
+}
+
+mat-drawer-content{
+    overflow: auto;
+    /* TODO change this not to be hardcoded!!!!*/
+    background-color: #ffffff;
+}
+
+mat-toolbar span{
+    font-weight: 600;
+    font-size: 20px;
 }
