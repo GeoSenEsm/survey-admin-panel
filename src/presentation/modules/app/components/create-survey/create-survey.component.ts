@@ -132,7 +132,7 @@ export class CreateSurveyComponent implements OnInit{
     console.log(dto);
     this.service.createSurvey(dto)
     .pipe(catchError((error) => {
-      this.snackbar.open('Something went wrong', 'OK', {duration: 3000});
+      this.snackbar.open('Coś poszło nie tak', 'OK', {duration: 3000});
       this.isLocked  = false;
       return of('');
     }))
@@ -141,7 +141,7 @@ export class CreateSurveyComponent implements OnInit{
         return;
       }
       this.isLocked = false;
-      this.snackbar.open('Survey has been created', 'OK', {duration: 3000});
+      this.snackbar.open('Pomyślnie utworzono ankietę', 'OK', {duration: 3000});
       this.router.navigate(['/']);
     });
   }
