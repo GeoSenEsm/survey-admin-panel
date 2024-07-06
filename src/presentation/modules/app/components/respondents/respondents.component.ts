@@ -31,18 +31,18 @@ export class RespondentsComponent implements AfterViewInit{
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource?: MatTableDataSource<RespondentData>;
   respondents: RespondentData[] = [];
-  displayedColumns: string[] = ['username', 'gender', 'ageCategory', 'occupationCategory', 'educationCategory', 'healthStatus', 'medicationUse', 'lifeSatisfaction', 'stressLevel', 'qualityOfSleep'];
+  displayedColumns: string[] = ['Nazwa użytkownika', 'Płeć', 'Kategoria wiekowa', 'Zatrudnienie', 'Wykształcenie', 'Stan zdrowia', 'Leki', 'Zadowolenie z życia', 'Poziom stresu', 'Jakość snu'];
   columnFilter: { [key: string]: string[] } = {};
  
-  genders: string[] = ['Male', 'Female', 'Other'];
-  ageCategories: string[] = ['18-25', '26-35', '36-45', '46-55', '56+'];
-  occupationCategories: string[] = ['Student', 'Employed', 'Unemployed', 'Retired'];
-  educationCategories: string[] = ['High School', 'Bachelor\'s Degree', 'Master\'s Degree', 'Ph.D.'];
-  healthStatuses: string[] = ['Excellent', 'Good', 'Fair', 'Poor'];
-  medicationUses: string[] = ['Yes', 'No'];
-  lifeSatisfactions: string[] = ['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied', 'Very Dissatisfied'];
-  stressLevels: string[] = ['Low', 'Moderate', 'High'];
-  qualityOfSleeps: string[] = ['Excellent', 'Good', 'Fair', 'Poor'];
+  genders: string[] = ['Kobieta', 'Mężczyzna'];
+  ageCategories: string[] = ['50-59', '60-69', '70+'];
+  occupationCategories: string[] = ['Zatrudniony', 'Niezatrudniony'];
+  educationCategories: string[] = ['Podstawowe', 'Zawodowe', 'Średnie', 'Wyższe'];
+  healthStatuses: string[] = ['Dobry', 'Zły'];
+  medicationUses: string[] = ['Tak', 'Nie'];
+  lifeSatisfactions: string[] = ['Wysokie', 'Niskie'];
+  stressLevels: string[] = ['Niski', 'Wysoki'];
+  qualityOfSleeps: string[] = ['Niska', 'Wysoka'];
 
   ribbonButtons: ButtonData[] = [
     {
