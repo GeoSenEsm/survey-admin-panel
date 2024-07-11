@@ -6,6 +6,7 @@ import { CreateTextSelectionOptionsComponent } from '../create-text-selection-op
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-question',
@@ -29,17 +30,19 @@ export class CreateQuestionComponent {
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,
     QuestionType.DISCRETE_NUMBER_SELECTION
-  ]
-
-  questionTypeDisplaySelector = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'Jednokrotny wybór',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'Skala liniowa'
-  }
+  ];
 
   questionTypeIconSelector = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
     [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale'
-  }
+  };
+
+  questionTypeDisplay = {
+    [QuestionType.SINGLE_TEXT_SELECTION]: 'createSurvey.createQuestion.singleChoice',
+    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale'
+  };
+
+  constructor(readonly translate: TranslateService){}
 
   addQuestionBelow(): void {
     this.addQuestionBelowEvent.emit(this.question!);
@@ -68,12 +71,12 @@ export class CreateQuestionComponent {
   validateContent(){
     this.contentError = null;
     if (this.question?.content == null || this.question.content.trim().length === 0){
-      this.contentError = "Pole nie może być puste";
+      this.contentError = this.translate.instant('app.addRespondents.contentNotEmptyError');
       return;
     }
 
     if (this.question.content.length > 250){
-      this.contentError = "Pole nie może być dłuższe niż 250 znaków";
+      this.contentError = this.translate.instant('app.addRespondents.contentLenError');
     }
   }
 }

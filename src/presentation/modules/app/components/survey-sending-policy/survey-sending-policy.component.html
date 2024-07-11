@@ -1,7 +1,6 @@
 <div class="container">
-    <button mat-flat-button color="primary"
-    (click)="addSendingPolicy()">
-        Dodaj nową politykę wysyłania
-    </button>
-    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+  <button mat-flat-button color="primary" (click)="addSendingPolicy()">
+    {{ "surveyDetails.surveySendingPolicy.craeteNewSendingPolicy" | translate }}
+  </button>
+  <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
 </div>

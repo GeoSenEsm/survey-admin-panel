@@ -31,3 +31,18 @@ mat-toolbar span{
     font-weight: 600;
     font-size: 20px;
 }
+
+.flag-and-text {
+    display: flex;
+    align-items: center;
+}
+
+.flag {
+    margin-right: 8px; 
+    width: 20px;
+    height: auto;
+}
+
+.spacer{
+    flex-grow: 1;
+}

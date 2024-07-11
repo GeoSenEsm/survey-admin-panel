@@ -9,6 +9,7 @@ import { SurveySendingPolicyService } from '../../../../../domain/external_servi
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, throwError } from 'rxjs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-survey-sending-policy',
@@ -27,8 +28,8 @@ export class SurveySendingPolicyComponent implements OnInit{
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
    @Inject('surveySendingPolicyService') private readonly service: SurveySendingPolicyService,
-   private readonly snackbar: MatSnackBar) {  
-   }
+   private readonly snackbar: MatSnackBar,
+   private readonly translate: TranslateService){}
   
    ngOnInit(): void {
     this.loadExistingSendingPolicies();
@@ -37,8 +38,12 @@ export class SurveySendingPolicyComponent implements OnInit{
     this.calendarEvents.length = 0;
     this.service.getAll(this.surveyId!)
     .pipe(
-      catchError((error) => {
-        this.snackbar.open('Nie udało się załadować polityki wysyłania ankiety', 'OK', { duration: 3000 });
+      catchError((_) => {
+        this.snackbar.open(
+          this.translate.instant("surveyDetails.surveySendingPolicy.couldNotLoadSendingPolicies"), 
+          this.translate.instant("surveyDetails.surveySendingPolicy.ok"), 
+          { duration: 3000 }
+        );
         //TO DO: change to custom error
         return throwError(() => new Error('Error'));
       })
@@ -92,7 +97,7 @@ export class SurveySendingPolicyComponent implements OnInit{
 
     policy.timeSlots.forEach(slot => {
       output.push({
-        title: 'Wypełnianie ankiety',
+        title: this.translate.instant("surveyDetails.surveySendingPolicy.completingSurvey"),
         start: new Date(slot.start),
         end: new Date(slot.finish)
       });

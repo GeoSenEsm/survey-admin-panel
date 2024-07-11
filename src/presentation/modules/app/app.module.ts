@@ -19,7 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatOptionModule } from '@angular/material/core';
 import { AddRespondentsComponent } from './components/add-respondents/add-respondents.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { SurveysComponent } from './components/surveys/surveys.component';
 import { ButtonsRibbonComponent } from './components/buttons.ribbon/buttons.ribbon.component';
@@ -53,6 +53,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SummariesServiceImpl } from '../../../core/services/summaries.service.impl';
 import { SurveysListResultsComponent } from './components/surveys-list-results/surveys-list-results.component';
 import { SurveySummaryTileComponent } from './components/survey-summary-tile/survey-summary-tile.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 
 export const routes: Routes = [
@@ -77,6 +79,10 @@ export const POLISH_DATE_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY'
   },
 };
+
+export function HttpLoaderFactory(http: HttpClient){
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
 
 @NgModule({
   imports: [
@@ -107,7 +113,14 @@ export const POLISH_DATE_FORMATS = {
     MatTabsModule,
     MatGridListModule,
     FullCalendarModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') })
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   declarations: [
     AppComponent, 

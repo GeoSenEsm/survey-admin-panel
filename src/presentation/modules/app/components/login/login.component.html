@@ -1,15 +1,25 @@
 <div class="form-container">
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Username</mat-label>
+            <mat-label>
+                {{ 'app.login.username' | translate }}
+            </mat-label>
             <input matInput [errorStateMatcher]="matcher" [formControl]="usernameFormControl">
-            <mat-error *ngIf="usernameFormControl.invalid">Username is required and cannot be noger than {{ maxLength }} characters</mat-error>
+            <mat-error *ngIf="usernameFormControl.invalid">
+                {{ 'app.login.usernameError' | translate:{maxLen: maxLength} }}
+            </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Password</mat-label>
+            <mat-label>
+                {{ 'app.login.password' | translate }}
+            </mat-label>
             <input matInput type="password" [errorStateMatcher]="matcher" [formControl]="passwordFormControl">
-            <mat-error *ngIf="passwordFormControl.invalid">Password is required and cannot be noger than {{ maxLength }} characters</mat-error>
+            <mat-error *ngIf="passwordFormControl.invalid">
+                {{ 'app.login.passwordError' | translate:{maxLen: maxLength} }}
+            </mat-error>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="full-width" [disabled]="!form.valid">Login</button>
+        <button mat-flat-button color="primary" class="full-width" [disabled]="!form.valid">
+            {{ 'app.login.login' | translate }}
+        </button>
     </form>
 </div>

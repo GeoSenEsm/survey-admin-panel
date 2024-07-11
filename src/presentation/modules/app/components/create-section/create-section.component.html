@@ -1,7 +1,7 @@
 <div class="container">
     <div>
         <h4 class="header">
-            Sekcja {{sectionNumber}}
+            {{ 'createSurvey.createSection.section' | translate }} {{sectionNumber}}
         </h4>
         <div class="grid-container">
             <div class="grid-item">
@@ -14,11 +14,11 @@
             </div>
             <div class="grid-item">
                 <mat-form-field appearance="fill">
-                    <mat-label>Widoczność</mat-label>
+                    <mat-label> {{ 'createSurvey.createSection.visibility' | translate  }} </mat-label>
                     <mat-select [(value)]="visibility">
                       <mat-option *ngFor="let visibility of allVisibilities"
                       [value]="visibility">
-                        {{ visibilityDisplaySelector[visibility] }}
+                        {{ getVisibilityDisplay(visibility) }}
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -26,7 +26,9 @@
             <div class="grid-item"></div>
             <div class="grid-item">
                 <mat-form-field appearance="fill">
-                    <mat-label>Grupa</mat-label>
+                    <mat-label>
+                        {{ 'createSurvey.createSection.group' | translate  }}
+                    </mat-label>
                     <mat-select [(value)]="section!.respondentsGroupId"
                     [disabled]="visibility !== SectionVisibility.GROUP_SPECIFIC">
                         <mat-option *ngFor="let group of respondentsGroups"
@@ -43,7 +45,7 @@
             class="create-question-button"
             (click)="addQuestion(0)"
             *ngIf="section!.questions.length === 0">
-                Add first question
+                {{ 'createSurvey.createSection.addFirstQuestion' | translate  }}
             </button>
             <mat-error *ngIf="questionsNumberError != null">
                 {{ questionsNumberError }}
@@ -58,12 +60,12 @@
         <div class="wrap-panel">
             <button mat-flat-button color="primary" 
             (click)="addQuestion(section!.questions.length)">
-                 Dodaj pytanie
+                 {{ 'createSurvey.createSection.addQuestion' | translate  }}
                 <mat-icon>add</mat-icon>
              </button>
             <button mat-stroked-button
             (click)="addSectionBelow()">
-                Dodaj sekcję 
+                {{ 'createSurvey.createSection.addSection' | translate  }}
                 <mat-icon>add</mat-icon>
             </button>
         </div>

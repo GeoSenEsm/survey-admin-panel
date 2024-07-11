@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,11 @@ export class AppComponent {
     '/login'
   ]
 
-  constructor(private readonly _router: Router){
+  constructor(private readonly _router: Router,
+    private readonly translateService: TranslateService){
+      translateService.addLangs(['en', 'pl']);
+      const browserLang = translateService.getBrowserLang();
+      translateService.use(browserLang?.match(/en|pl/) ? browserLang : 'en');
   }
 
   shouldDisplayDashboard(): boolean{

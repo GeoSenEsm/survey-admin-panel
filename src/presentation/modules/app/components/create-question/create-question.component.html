@@ -17,12 +17,12 @@
                         <mat-select [(value)]="question!.type">
                             <mat-select-trigger>
                                 <mat-icon>{{ questionTypeIconSelector[question!.type] }}</mat-icon>
-                                {{ questionTypeDisplaySelector[question!.type] }}
+                                {{ questionTypeDisplay[question!.type] | translate }}
                             </mat-select-trigger>
                           <mat-option *ngFor="let type of allQuestionTypes"
                           [value]="type">
                             <mat-icon>{{ questionTypeIconSelector[type] }}</mat-icon>
-                            {{ questionTypeDisplaySelector[type] }}
+                            {{ questionTypeDisplay[type] | translate }}
                           </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -46,7 +46,7 @@
              </button>
              <mat-slide-toggle labelPosition="before" [(ngModel)]="question!.isRequired"
                 color="primary">
-                    Wymagane
+                {{ 'createSurvey.createQuestion.required' | translate }}
                 </mat-slide-toggle>
         </mat-card-footer>
     </mat-card>

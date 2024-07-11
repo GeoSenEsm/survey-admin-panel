@@ -6,9 +6,13 @@
     <app-option [option]="option" />
   </div>
   <mat-form-field appearance="outline" class="row-item">
-    <mat-label>Pokaż sekcję</mat-label>
+    <mat-label>
+      {{ 'createSurvey.createTextSelectionOptions.showSection' | translate }}
+    </mat-label>
     <mat-select [(value)]="option.showSection">
-      <mat-option [value]="undefined">Brak</mat-option>
+      <mat-option [value]="undefined">
+        {{ 'createSurvey.createTextSelectionOptions.none' | translate }}
+      </mat-option>
       <mat-option
         *ngFor="let section of sectionsToBeTriggered; let i = index"
         [value]="section.sectionNumber">
@@ -24,5 +28,7 @@
   class="add-option-button"
 >
   <mat-icon>add</mat-icon>
-  <span>Dodaj opcję</span>
+  <span>
+    {{ 'createSurvey.createTextSelectionOptions.addOption' | translate }}
+  </span>
 </button>

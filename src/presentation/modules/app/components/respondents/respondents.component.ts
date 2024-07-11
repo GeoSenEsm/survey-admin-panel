@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -31,7 +30,34 @@ export class RespondentsComponent implements AfterViewInit{
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource?: MatTableDataSource<RespondentData>;
   respondents: RespondentData[] = [];
-  displayedColumns: string[] = ['Nazwa użytkownika', 'Płeć', 'Kategoria wiekowa', 'Zatrudnienie', 'Wykształcenie', 'Stan zdrowia', 'Leki', 'Zadowolenie z życia', 'Poziom stresu', 'Jakość snu'];
+
+  readonly headers = [
+    'username',
+    'sex',
+    'ageCategory',
+    'occupation',
+    'education',
+    'health',
+    'medication',
+    'lifeSatisfaction',
+    'stressLevel',
+    'qualityOfSleep'
+  ];
+
+  headerTranslationMappings: { [key: string]: string } = {
+    'username': 'respondents.respondents.usernameColumnHeader',
+    'sex': 'respondents.respondents.sexColumnHeader',
+    'ageCategory': 'respondents.respondents.ageCategoryColumnHeader',
+    'occupation': 'respondents.respondents.occupationColumnHeader',
+    'education': 'respondents.respondents.educationColumnHeader',
+    'health': 'respondents.respondents.healthStatusColumnHeader',
+    'medication': 'respondents.respondents.medicationUseColumnHeader',
+    'lifeSatisfaction': 'respondents.respondents.lifeSatisfactionColumnHeader',
+    'stressLevel': 'respondents.respondents.stressLevelColumnHeader',
+    'qualityOfSleep': 'respondents.respondents.qualityOfSleepColumnHeader'
+  }
+  
+
   columnFilter: { [key: string]: string[] } = {};
  
   genders: string[] = ['Kobieta', 'Mężczyzna'];
@@ -46,7 +72,7 @@ export class RespondentsComponent implements AfterViewInit{
 
   ribbonButtons: ButtonData[] = [
     {
-      content: 'Utwórz konta dla respondentów',
+      content: 'Create respondents accounts',
       onClick: this.generateRespondentsAccounts.bind(this)
     }
   ]

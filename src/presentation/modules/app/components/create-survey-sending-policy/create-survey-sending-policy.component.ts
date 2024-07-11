@@ -9,6 +9,7 @@ import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-survey-sending-policy',
@@ -29,7 +30,8 @@ export class CreateSurveySendingPolicyComponent {
     private readonly mapper: Mapper<CreateSurveySendingPolicyModel, CreateSurveySendingPolicyDto>,
     @Inject('surveySendingPolicyService')private readonly service: SurveySendingPolicyService,
     private readonly dialogRef: MatDialogRef<CreateSurveySendingPolicyComponent>,
-    private readonly snackbar: MatSnackBar){
+    private readonly snackbar: MatSnackBar,
+    private readonly translate: TranslateService){
       this.model = {
         surveyId: data.surveyId,
         dates: []
@@ -42,7 +44,7 @@ export class CreateSurveySendingPolicyComponent {
     this.datesError = null;
 
     if (this.model.dates.length === 0) {
-      this.datesError = "Wybierz co najmniej jedną datę";
+      this.datesError = this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.atLeastOneDateError');
     }
 
     return this.datesError == null;
@@ -60,7 +62,11 @@ export class CreateSurveySendingPolicyComponent {
       .createPolicy(dto)
       .pipe(
         catchError((error) => {
-          this.snackbar.open('Coś poszło nie tak', 'OK', { duration: 3000 });
+          this.snackbar.open(
+            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.somethingWentWrong'), 
+            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.ok'), 
+            { duration: 3000 }
+          );
           //TO DO: change to custom error
           return throwError(() => new Error('Error'));
         }),
@@ -70,7 +76,11 @@ export class CreateSurveySendingPolicyComponent {
       )
       .subscribe({
         next: newPolicy => {
-          this.snackbar.open('Dodano politykę wysyłania ankiety', 'OK', { duration: 3000 });
+          this.snackbar.open(
+            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.createdSurveySendingPolicy'), 
+            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.ok'),  
+            { duration: 3000 }
+          );
           this.dialogRef.close(newPolicy);
         },
         error: err => {

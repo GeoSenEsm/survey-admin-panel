@@ -16,6 +16,7 @@ import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.stat
 import { RespondentGroupsService } from '../../../../../domain/external_services/respondent.groups.service';
 import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-survey',
@@ -24,7 +25,7 @@ import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.t
 })
 export class CreateSurveyComponent implements OnInit{
   model: CreateSurveyModel = {
-    name: "Ankieta bez nazwy",
+    name: this.translate.instant('createSurvey.createSurvey.defaultSurveyName'),
     sections: []
   };
   @ViewChildren(CreateSectionComponent) sectionComponents!: QueryList<CreateSectionComponent>;
@@ -40,7 +41,8 @@ export class CreateSurveyComponent implements OnInit{
   @Inject('surveyService') private readonly service: SurveyService,
   private readonly router: Router,
   private readonly snackbar: MatSnackBar,
-  @Inject('respondentGroupsService') private readonly respondentGroupsService: RespondentGroupsService){}
+  @Inject('respondentGroupsService') private readonly respondentGroupsService: RespondentGroupsService,
+  private readonly translate: TranslateService){}
   
   ngOnInit(): void {
     this.loadGroups();
@@ -61,18 +63,18 @@ export class CreateSurveyComponent implements OnInit{
     this.nameValidationError = null;
 
     if (this.model.name == null || this.model.name.trim().length === 0){
-      this.nameValidationError = "Pole nie może być puste";
+      this.nameValidationError = this.translate.instant('createSurvey.createSurvey.nameNotEmptyError');
     }
 
     if (this.model.name!.length > 100){
-      this.nameValidationError = "Pole nie może być dłuższe niż 100 znaków";
+      this.nameValidationError = this.translate.instant('createSurvey.createSurvey.nameLenError');
     }
   }
 
   private validateNumberOfSections(): void{
     this.numberOfSectionsError = null;
     if (this.model.sections.length === 0){
-      this.numberOfSectionsError = "Ankieta musi zawierać co najmniej jedną sekcję";
+      this.numberOfSectionsError = this.translate.instant('createSurvey.createSurvey.sectionsNumError');
     }
   }
 
@@ -88,11 +90,11 @@ export class CreateSurveyComponent implements OnInit{
 
   addSection(index: number) : void{
     const newSection = {
-      name: 'Sekcja bez nazwy',
+      name: this.translate.instant('createSurvey.createSurvey.defaultSectionName'),
       visibility: SectionVisibility.ALWAYS,
       questions: [
         {
-          content: 'Pytanie',
+          content: this.translate.instant('createSurvey.createSurvey.defaultQuestionContent'),
           isRequired: true,
           type: QuestionType.SINGLE_TEXT_SELECTION,
           options: [],
@@ -132,7 +134,10 @@ export class CreateSurveyComponent implements OnInit{
     console.log(dto);
     this.service.createSurvey(dto)
     .pipe(catchError((error) => {
-      this.snackbar.open('Coś poszło nie tak', 'OK', {duration: 3000});
+      this.snackbar.open(this.translate.instant('createSurvey.createSurvey.somethingWentWrong'), 
+        this.translate.instant('createSurvey.createSurvey.ok'), 
+        {duration: 3000}
+      );
       this.isLocked  = false;
       return of('');
     }))
@@ -141,7 +146,10 @@ export class CreateSurveyComponent implements OnInit{
         return;
       }
       this.isLocked = false;
-      this.snackbar.open('Pomyślnie utworzono ankietę', 'OK', {duration: 3000});
+      this.snackbar.open(this.translate.instant('createSurvey.createSurvey.successfullyCreatedSurvey'), 
+        this.translate.instant('createSurvey.createSurvey.ok'), 
+        {duration: 3000}
+      );
       this.router.navigate(['/']);
     });
   }

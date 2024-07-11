@@ -3,6 +3,7 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-surveys-list-results',
@@ -14,7 +15,8 @@ export class SurveysListResultsComponent implements OnInit{
   private isBusy: boolean = false;
 
   constructor(@Inject('surveyService')private readonly service: SurveyService,
-    private readonly snackbar: MatSnackBar){}
+    private readonly snackbar: MatSnackBar,
+    private readonly translate: TranslateService){}
   
   ngOnInit(): void {
     this.loadSurveys();
@@ -30,7 +32,11 @@ export class SurveysListResultsComponent implements OnInit{
     .getAllSummaryShort()
     .pipe(
       catchError((error) => {
-        this.snackbar.open('Nie udało się załadować ankiet', 'OK', {duration: 3000});
+        this.snackbar.open(
+           this.translate.instant('surveyDetails.surveysList.couldNotLoadSurveys'),
+           this.translate.instant('surveyDetails.surveysList.ok'),
+            {duration: 3000}
+          );
         return throwError(() => new Error(error));
       }),
       finalize(() => this.isBusy = false)

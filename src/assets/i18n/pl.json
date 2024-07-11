@@ -1,0 +1,128 @@
+{
+    "app": {
+        "login":{
+            "username": "Nazwa użytkownika",
+            "usernameError": "Nazwa użytkownika jest wymagana i nie może być dłuższa niż {{maxLen}} znaków",
+            "password": "Hasło",
+            "passwordError": "Hasło jest wymagane i nie może być dłuższe niż {{maxLen}} znaków",
+            "login": "Zaloguj się"
+        },
+        "dashboard": {
+            "respondents": "Respondenci",
+            "surveys": "Ankiety",
+            "creatingSurveys": "Tworzenie ankiet",
+            "results": "Wyniki"
+        }
+    },
+    "respondents":{
+        "addRespondents":{
+            "quantity": "Ilość",
+            "validationError": "Wartość musi być między 1 a 400",
+            "create": "Utwórz",
+            "copyToClipboard": "Skopiuj do schowka"
+        },
+        "respondents": {
+            "createRespondentsAccounts": "Utwórz konta dla respondentów",
+            "usernameColumnHeader": "Nazwa użytkownika",
+            "sexColumnHeader": "Płeć",
+            "ageCategoryColumnHeader": "Kategoria wiekowa",
+            "occupationColumnHeader": "Zatrudnienie",
+            "educationColumnHeader": "Edukacja",
+            "healthStatusColumnHeader": "Stan zdrowia",
+            "medicationUseColumnHeader": "Przyjmowane leki",
+            "lifeSatisfactionColumnHeader": "Zadowolenie z życia",
+            "stressLevelColumnHeader": "Poziom stresu",
+            "qualityOfSleepColumnHeader": "Jakość snu"
+        }
+    },
+    "createSurvey": {
+        "createNumberRange": {
+            "labelOptional": "Etykieta (opcjonalna)"
+        },
+        "createQuestion": {
+            "required": "Wymagane",
+            "singleChoice": "Jednokrotny wybór",
+            "linearScale": "Skala liniowa",
+            "contentNotEmptyError": "Pole nie może być puste",
+            "contentLenError": "Pole nie może być dłuższe niż 250 znaków"
+        },
+        "createSection":{
+            "section": "Sekcja",
+            "visibility": "Widoczność",
+            "group": "Grupa",
+            "addFirstQuestion": "Dodaj pierwsze pytanie",
+            "addQuestion": "Dodaj pytanie",
+            "addSection": "Dodaj sekcję",
+            "always": "Zawsze",
+            "groupSpecific": "Grupowa",
+            "answerTriggered": "Po zaznaczeniu właściwej odpowiedzi",
+            "defaultQuestion": "Pytanie",
+            "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
+            "questionsNumError": "Sekcja musi zawierać pytanie"
+        },
+        "createSurvey":{
+            "addSection": "Dodaj sekcję",
+            "save": "Zapisz",
+            "defaultSurveyName": "Ankieta bez nazwy",
+            "nameNotEmptyError": "Pole nie może być puste",
+            "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
+            "sectionsNumError": "Ankieta musi zawierać co najmniej jedną sekcję",
+            "defaultSectionName": "Sekcja bez nazwy",
+            "defaultQuestionContent": "Pytanie",
+            "somethingWentWrong": "Cos poszło nie tak",
+            "ok": "OK",
+            "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę"
+        },
+        "createTextSelectionOptions":{
+            "showSection": "Pokaż sekcję",
+            "none": "Brak",
+            "addOption": "Dodaj opcję",
+            "questionMustContainOptions": "Pytanie musi zawierać opcje",
+            "optionsMustBeUnique": "Wszystkie opcje musza być unikalne"
+        },
+        "option":{
+            "notEmptyError": "Opcja nie może być pusta",
+            "lenError": "Opcja nie może być dłuzsza niż {{maxLen}} znaków"
+        }
+    },
+    "surveyDetails":{
+        "createSurveySendingPolicy": {
+            "createSurveySendingPolicy": "Utwórz polityę wysyłania ankiety",
+            "atLeastOneDateError": "Wybierz co najmniej jednaę datę",
+            "create": "Dodaj",
+            "somethingWentWrong": "Cos poszło nie tak",
+            "ok": "OK",
+            "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety"
+        },
+        "surveyDetails": {
+            "sendingPolicy": "Polityka wysyłania",
+            "preview": "Podgląd"
+        },
+        "surveySendingPolicy": {
+            "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
+            "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
+            "ok": "OK",
+            "completingSurvey": "Wypełnianie ankiety"
+        },
+        "surveyTile": {
+            "surveyDetails": "Szczegóły ankiety"
+        },
+        "surveys": {
+            "addSurvey": "Dodaj ankietę"
+        },
+        "surveysList": {
+            "couldNotLoadSurveys": "Nie udało się załadować ankiet",
+            "ok": "OK"
+        }
+    },
+    "summary": {
+        "surveySummary": {
+            "couldNotLoadData": "Nie udało się załadować danych",
+            "ok": "OK"
+        },
+        "surveySummaryTile": {
+            "completitionDate": "Data wypełnienia ankiety",
+            "showSummary": "Zobacz podumowanie"
+        }
+    }
+}

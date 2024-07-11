@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NumberRangeModel } from '../../../../../core/models/number.range.model';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-number-range',
@@ -17,4 +18,6 @@ export class CreateNumberRangeComponent {
 
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
+
+  constructor(readonly translate: TranslateService){}
 }

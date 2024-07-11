@@ -3,11 +3,11 @@
   <div class="table-container">
     <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8">
       <ng-container
-        *ngFor="let column of displayedColumns"
+        *ngFor="let column of headers"
         [matColumnDef]="column"
       >
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ column }}
+          {{ headerTranslationMappings[column] | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
           {{ respondent[column] }}
@@ -15,11 +15,11 @@
       </ng-container>
 
       <mat-header-row
-        *matHeaderRowDef="displayedColumns"
+        *matHeaderRowDef="headers"
         class="table-header"
       ></mat-header-row>
 
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-row *matRowDef="let row; columns: headers"></mat-row>
     </mat-table>
   </div>
 
