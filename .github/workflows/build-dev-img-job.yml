@@ -19,6 +19,7 @@ jobs:
     - name: Login to GHCR
       uses: docker/login-action@v2
       with:
+        registry: ghcr.io
         username: projekt-inzynierski
         password: ${{ secrets.GHCR_ACCESS_TOKEN }}
 
