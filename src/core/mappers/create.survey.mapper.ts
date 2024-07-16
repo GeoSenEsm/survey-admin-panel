@@ -49,7 +49,9 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
             required: source.isRequired,
         };
 
-        if (source.type == QuestionType.SINGLE_TEXT_SELECTION){
+        if (source.type == QuestionType.SINGLE_TEXT_SELECTION
+            || source.type == QuestionType.MULTIPLE_CHOICE
+        ){
             question.options = [];
             source.options.forEach((option, index) => {
                 question.options!.push(this.mapOption(option, index));

@@ -43,6 +43,8 @@
             "required": "Wymagane",
             "singleChoice": "Jednokrotny wybór",
             "linearScale": "Skala liniowa",
+            "yesNo": "Tak/Nie",
+            "multipleChoice": "Wielokrotny wybór",
             "contentNotEmptyError": "Pole nie może być puste",
             "contentLenError": "Pole nie może być dłuższe niż 250 znaków"
         },

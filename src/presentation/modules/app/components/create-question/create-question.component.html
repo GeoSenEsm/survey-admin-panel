@@ -32,7 +32,7 @@
         <mat-card-content>
             <app-create-text-selection-options [options]="question!.options"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
-            *ngIf="question!.type == QuestionType.SINGLE_TEXT_SELECTION"/>
+            *ngIf="question!.type == QuestionType.SINGLE_TEXT_SELECTION || question!.type == QuestionType.MULTIPLE_CHOICE"/>
             <app-create-number-range *ngIf="question!.type == QuestionType.DISCRETE_NUMBER_SELECTION"
             [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"/>
         </mat-card-content>
