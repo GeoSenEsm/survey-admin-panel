@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
+import { TranslateService } from '@ngx-translate/core';
 
 interface RespondentData{
   username: string;
@@ -25,12 +26,12 @@ interface RespondentData{
   templateUrl: './respondents.component.html',
   styleUrl: './respondents.component.css'
 })
-export class RespondentsComponent implements AfterViewInit{
+export class RespondentsComponent 
+implements AfterViewInit{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource?: MatTableDataSource<RespondentData>;
   respondents: RespondentData[] = [];
-
   readonly headers = [
     'username',
     'sex',
@@ -72,7 +73,7 @@ export class RespondentsComponent implements AfterViewInit{
 
   ribbonButtons: ButtonData[] = [
     {
-      content: 'Create respondents accounts',
+      content: 'respondents.respondents.createRespondentsAccounts',
       onClick: this.generateRespondentsAccounts.bind(this)
     }
   ]

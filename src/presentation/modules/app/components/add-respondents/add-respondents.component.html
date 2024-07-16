@@ -5,7 +5,7 @@
         <input matInput type="number" formControlName="amount" [(ngModel)]="dto.amount">
         <mat-error *ngIf="form?.invalid">{{ 'respondents.addRespondents.validationError' | translate }}</mat-error>
     </mat-form-field>
-    <button mat-flat-button color="primary">{{ 'respondents.addRespondents.create' | translate }}z</button>
+    <button mat-flat-button color="primary">{{ 'respondents.addRespondents.create' | translate }}</button>
   </form>
   <button mat-button color="primary" class="copy-to-clipboard"
   [disabled]="accounts.length === 0" (click)="copyToClipboard()">

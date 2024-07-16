@@ -1,6 +1,6 @@
 <div class="buttons-panel">
     <button *ngFor="let button of buttons" (click)="button.onClick()"
     mat-flat-button color="primary">
-        {{ button.content }}
+        {{ button.content | translate }}
     </button>
 </div>
