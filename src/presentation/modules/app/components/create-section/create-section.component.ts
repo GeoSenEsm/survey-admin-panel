@@ -3,13 +3,12 @@ import { CreateSectionModel } from '../../../../../core/models/create.section.mo
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { QuestionType } from '../../../../../domain/models/question.type';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
-import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
 import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
 import { CreateQuestionComponent } from '../create-question/create-question.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
-import { number } from 'echarts';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -63,12 +62,6 @@ export class CreateSectionComponent {
   @Input()
   respondentsGroups!: RespondentsGroupDto[];
 
-  visibilityDisplaySelector = {
-    [SectionVisibility.ALWAYS]: 'Zawsze',
-    [SectionVisibility.GROUP_SPECIFIC]: 'Grupowa',
-    [SectionVisibility.ANSWER_TRIGGERED]: 'Po zaznaczeniu właściwej odpowiedzi'
-  };
-
   allVisibilities = [
     SectionVisibility.ALWAYS,
     SectionVisibility.GROUP_SPECIFIC,
@@ -89,6 +82,19 @@ export class CreateSectionComponent {
     }
   }
 
+  constructor(private readonly translate: TranslateService){}
+
+  getVisibilityDisplay(visibility: SectionVisibility): string{
+    switch (visibility){
+      case SectionVisibility.ALWAYS:
+        return this.translate.instant('createSurvey.createSection.always');
+      case SectionVisibility.GROUP_SPECIFIC:
+        return this.translate.instant('createSurvey.createSection.groupSpecific');
+      case SectionVisibility.ANSWER_TRIGGERED:
+        return this.translate.instant('createSurvey.createSection.answerTriggered');
+    }
+  }
+
   updateSectionToBeTriggered(oldName: string | undefined, newName: string | undefined): void{
     const idx = this.sectionsToBeTriggered.findIndex(section => section.name === oldName);
     if (idx !== -1) {
@@ -103,7 +109,7 @@ export class CreateSectionComponent {
   addQuestion(index: number) : void{
     
     const emptyQuestion = {
-      content: 'Pytanie',
+      content: this.translate.instant('createSurvey.createSection.emptyQuestion'),
       isRequired: true,
       type: QuestionType.SINGLE_TEXT_SELECTION,
       options: [],
@@ -141,14 +147,14 @@ export class CreateSectionComponent {
   validateName() : void{
     this.nameError = null;
     if (this.section !== null && this.section.name!.length > 100){
-      this.nameError = "Pole nie może być dłuższe niż 100 znaków";
+      this.nameError = this.translate.instant("createSurvey.createSection.nameLenError");
     }
   }
 
   validateQuestionsNumber() : void{
     this.questionsNumberError = null;
     if (this.section!.questions.length == 0){
-      this.questionsNumberError = "Sekcja musi zawierać pytania";
+      this.questionsNumberError = this.translate.instant("createSurvey.createSection.questionsNumError");
     }
   }
 

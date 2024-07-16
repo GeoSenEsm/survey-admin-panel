@@ -12,7 +12,7 @@
             mat-button color="primary"
             class="create-section-button"
             (click)="addSection(0)">
-                Dodaj sekcję
+                {{ 'createSurvey.createSurvey.addSection' | translate }}
             </button>
             <mat-error *ngIf="numberOfSectionsError != null">{{ numberOfSectionsError }}</mat-error>
             <app-create-section *ngFor="let section of model.sections; let i = index" 
@@ -27,7 +27,7 @@
             <button mat-flat-button color="primary"
                 appearance="outline"
                 (click)="save()">
-                Zapisz
+                {{ 'createSurvey.createSurvey.save' | translate }}
             </button>
         </mat-card-footer>
     </mat-card>

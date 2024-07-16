@@ -4,6 +4,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { AuthenticationServiceImpl } from '../../../../../core/services/authentication.service';
 import { LoginDto } from '../../../../../domain/models/login.dto';
 import { CreateRespondentsAccountsDto } from '../../../../../domain/models/create.respondents.accounts.dto';
+import { TranslateService } from '@ngx-translate/core';
 
 interface FormGroupType{
   amount: FormControl<number | null>
@@ -25,7 +26,8 @@ export class AddRespondentsComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
     private readonly _service: AuthenticationServiceImpl,
-    private readonly _clipboard: Clipboard){
+    private readonly _clipboard: Clipboard,
+    readonly translate: TranslateService){
   }
 
   ngOnInit(): void {

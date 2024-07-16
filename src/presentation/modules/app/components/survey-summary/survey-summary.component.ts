@@ -4,6 +4,7 @@ import { HistogramDataDto } from '../../../../../domain/models/histogram.data.dt
 import { SummariesService } from '../../../../../domain/external_services/summaries.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-survey-summary',
@@ -18,7 +19,8 @@ export class SurveySummaryComponent implements OnInit{
 
   constructor(private readonly route: ActivatedRoute,
     @Inject('summariesService')private readonly service: SummariesService,
-    private readonly snackbar: MatSnackBar){} 
+    private readonly snackbar: MatSnackBar,
+    private readonly translate: TranslateService){} 
 
   ngOnInit(): void {
     this.surveyId = this.route.snapshot.paramMap.get('surveyId');
@@ -40,7 +42,11 @@ export class SurveySummaryComponent implements OnInit{
     this.service.getHistogramData(this.surveyId, this.date)
       .pipe(
         catchError(error =>{
-          this.snackbar.open('Nie udało się załadować danych', 'OK', {duration: 3000});
+          this.snackbar.open(
+            this.translate.instant('summary.surveySummary.couldNotLoadData'), 
+            this.translate.instant('summary.surveySummary.ok'), 
+            {duration: 3000}
+          );
           //TODO: Change this error to something more specyfic
           return throwError(() => Error('Error'));
         }),

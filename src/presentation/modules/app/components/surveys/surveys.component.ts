@@ -3,6 +3,7 @@ import { ButtonData } from '../buttons.ribbon/button.data';
 import { Router } from '@angular/router';
 import { SurveyDto } from '../../../../../domain/models/survey.dto';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-surveys',
@@ -22,8 +23,14 @@ export class SurveysComponent implements OnInit{
   ]
 
   constructor(private readonly router: Router,
-    @Inject('surveyService')private readonly surveyService: SurveyService
-  ){}
+    @Inject('surveyService')private readonly surveyService: SurveyService,
+    private readonly translate: TranslateService){
+      this.translate
+      .get('surveyDetails.surveys.addSurvey')
+      .subscribe((res: string) =>{
+        this.ribbonButtons[0].content = res;
+      });
+    }
   
   ngOnInit(): void {
     this.loadSurveys();

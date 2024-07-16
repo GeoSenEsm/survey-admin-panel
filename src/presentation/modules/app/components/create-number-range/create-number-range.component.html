@@ -24,7 +24,7 @@
     </span>
     <mat-form-field appearance="fill">
       <input matInput [(ngModel)]="model.fromLabel" maxlength="50"
-      placeholder="Etykieta (opcjonalna)"/>
+      [placeholder]="translate.instant('createSurvey.createNumberRange.labelOptional')"/>
     </mat-form-field>
   </div>
   <div class="hoizontal-container">
@@ -33,7 +33,7 @@
     </span>
     <mat-form-field appearance="fill">
       <input matInput [(ngModel)]="model.toLabel" maxlength="50"
-      placeholder="Etykieta (opcjonalna)"/>
+      [placeholder]="translate.instant('createSurvey.createNumberRange.labelOptional')"/>
     </mat-form-field>
   </div>
 </div>

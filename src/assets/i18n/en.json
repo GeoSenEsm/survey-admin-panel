@@ -1,0 +1,128 @@
+{
+    "app": {
+        "login": {
+            "username": "Username",
+            "usernameError": "Username is required and cannot be longer than {{maxLen}} characters",
+            "password": "Password",
+            "passwordError": "Password is required and cannot be longer than {{maxLen}} characters",
+            "login": "Log in"
+        },
+        "dashboard": {
+            "respondents": "Respondents",
+            "surveys": "Surveys",
+            "creatingSurveys": "Creating surveys",
+            "results": "Results"
+        }
+    },
+    "respondents": {
+        "addRespondents": {
+            "quantity": "Quantity",
+            "validationError": "Value must be between 1 and 400",
+            "create": "Create",
+            "copyToClipboard": "Copy to clipboard"
+        },
+        "respondents": {
+            "createRespondentsAccounts": "Create accounts for respondents",
+            "usernameColumnHeader": "Username",
+            "sexColumnHeader": "Sex",
+            "ageCategoryColumnHeader": "Age category",
+            "occupationColumnHeader": "Occupation",
+            "educationColumnHeader": "Education",
+            "healthStatusColumnHeader": "Health status",
+            "medicationUseColumnHeader": "Medication use",
+            "lifeSatisfactionColumnHeader": "Life satisfaction",
+            "stressLevelColumnHeader": "Stress level",
+            "qualityOfSleepColumnHeader": "Quality of sleep"
+        }
+    },
+    "createSurvey": {
+        "createNumberRange": {
+            "labelOptional": "Label (optional)"
+        },
+        "createQuestion": {
+            "required": "Required",
+            "singleChoice": "Single choice",
+            "linearScale": "Linear scale",
+            "contentNotEmptyError": "Field cannot be empty",
+            "contentLenError": "Field cannot be longer than 250 characters"
+        },
+        "createSection": {
+            "section": "Section",
+            "visibility": "Visibility",
+            "group": "Group",
+            "addFirstQuestion": "Add first question",
+            "addQuestion": "Add question",
+            "addSection": "Add section",
+            "always": "Always",
+            "groupSpecific": "Group",
+            "answerTriggered": "After choosing a specific answer",
+            "defaultQuestion": "Question",
+            "nameLenError": "Field cannot be longer than 100 characters",
+            "questionsNumError": "Section must contain a question"
+        },
+        "createSurvey": {
+            "addSection": "Add section",
+            "save": "Save",
+            "defaultSurveyName": "Untitled survey",
+            "nameNotEmptyError": "Field cannot be empty",
+            "nameLenError": "Field cannot be longer than 100 characters",
+            "sectionsNumError": "Survey must contain at least one section",
+            "defaultSectionName": "Untitled section",
+            "defaultQuestionContent": "Question",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "successfullyCreatedSurvey": "Successfully created survey"
+        },
+        "createTextSelectionOptions": {
+            "showSection": "Show section",
+            "none": "None",
+            "addOption": "Add option",
+            "questionMustContainOptions": "Question must contain options",
+            "optionsMustBeUnique": "All options must be unique"
+        },
+        "option": {
+            "notEmptyError": "Option cannot be empty",
+            "lenError": "Option cannot be longer than {{maxLen}} characters"
+        }
+    },
+    "surveyDetails": {
+        "createSurveySendingPolicy": {
+            "createSurveySendingPolicy": "Create survey sending policy",
+            "atLeastOneDateError": "Select at least one date",
+            "create": "Add",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "createdSurveySendingPolicy": "Added survey sending policy"
+        },
+        "surveyDetails": {
+            "sendingPolicy": "Sending policy",
+            "preview": "Preview"
+        },
+        "surveySendingPolicy": {
+            "craeteNewSendingPolicy": "Add new sending policy",
+            "couldNotLoadSendingPolicies": "Could not load survey sending policies",
+            "ok": "OK",
+            "completingSurvey": "Completing survey"
+        },
+        "surveyTile": {
+            "surveyDetails": "Survey details"
+        },
+        "surveys": {
+            "addSurvey": "Add survey"
+        },
+        "surveysList": {
+            "couldNotLoadSurveys": "Could not load surveys",
+            "ok": "OK"
+        }
+    },
+    "summary": {
+        "surveySummary": {
+            "couldNotLoadData": "Could not load data",
+            "ok": "OK"
+        },
+        "surveySummaryTile": {
+            "completitionDate": "Survey completion date",
+            "showSummary": "Show summary"
+        }
+    }
+}

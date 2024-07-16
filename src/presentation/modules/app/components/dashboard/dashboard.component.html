@@ -1,21 +1,47 @@
 <mat-toolbar color="primary" class="toolbar">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
-  (click)="toggleDrawer()">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    (click)="toggleDrawer()"
+  >
     <mat-icon>menu</mat-icon>
   </button>
   <span>UrbEaT</span>
+  <span class="spacer"></span>
+  <mat-form-field appearance="fill">
+    <mat-select [(value)]="language">
+      <mat-select-trigger>
+        <span class="flag-and-text">
+          <img class="flag" src="assets/imgs/flags/{{ language }}.svg" alt="{{ language }} flag"/>
+          <span>{{ langageDisplayMappings[language] }}</span>
+      </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let lang of availableLanguages" [value]="lang">
+        <span class="flag-and-text">
+            <img class="flag" src="assets/imgs/flags/{{ lang }}.svg" alt="{{ lang }} flag"/>
+            <span>{{ langageDisplayMappings[lang] }}</span>
+        </span>
+    </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-toolbar>
 <mat-drawer-container class="container">
   <mat-drawer mode="side" [opened]="isDrawerOpen">
-        <mat-nav-list>
-            <mat-list-item *ngFor="let navListItem of navListItems" class="vertical-middle"
-            routerLink="{{ navListItem.link }}">
-                <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
-                <span class="vertical-middle">{{ navListItem.display }}</span>
-            </mat-list-item>
-        </mat-nav-list>
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let navListItem of navListItems"
+        class="vertical-middle"
+        routerLink="{{ navListItem.link }}"
+      >
+        <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
+        <span class="vertical-middle">{{
+          navListItem.display | translate
+        }}</span>
+      </mat-list-item>
+    </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
-      <router-outlet/>
+    <router-outlet />
   </mat-drawer-content>
 </mat-drawer-container>

@@ -3,6 +3,7 @@ import { TextSelectionOption } from '../../../../../core/models/text.selection.o
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { OptionComponent } from '../option/option.component';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-text-selection-options',
@@ -16,6 +17,8 @@ export class CreateTextSelectionOptionsComponent {
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   commonOptionsError: string | null = null;
+
+  constructor(private readonly translate: TranslateService){}
 
   addNewOption() : void {
     this.options.push({
@@ -44,13 +47,13 @@ export class CreateTextSelectionOptionsComponent {
 
 
     if (this.options.length == 0){
-      this.commonOptionsError = "Pytanie musi zawierać opcje";
+      this.commonOptionsError = this.translate.instant("createSurvey.createTextSelectionOptions.questionMustContainOptions");
       return;
     }
 
     const optionsContentSet = new Set(this.options.map(option => option.content));
     if (optionsContentSet.size !== this.options.length){
-      this.commonOptionsError = "Wszystkie opcje muszą być uniklane";
+      this.commonOptionsError = this.translate.instant("createSurvey.createTextSelectionOptions.optionsMustBeUnique");
     }
   }
 }
