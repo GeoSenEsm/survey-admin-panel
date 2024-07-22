@@ -58,6 +58,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RespondentDataServiceImpl } from '../../../core/services/respondent.data.service.impl';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ENGLISH_DATE_FORMATS } from './date.formats';
+import { CookieStorageService } from '../../../core/services/local.storage';
 
 
 export const routes: Routes = [
@@ -152,6 +153,7 @@ export function HttpLoaderFactory(http: HttpClient){
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: 'summariesService', useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl}
+    {provide: 'storage', useClass: CookieStorageService}
   ],
 })
 export class AppModule {
