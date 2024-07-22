@@ -1,13 +1,14 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateSurveySendingPolicyComponent } from '../create-survey-sending-policy/create-survey-sending-policy.component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions, EventInput} from '@fullcalendar/core';
 import plLocale from '@fullcalendar/core/locales/pl';
+import enLocale from '@fullcalendar/core/locales/en-gb';
 import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.sending.policy.dto';
 import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Subscription, throwError } from 'rxjs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './survey-sending-policy.component.html',
   styleUrl: './survey-sending-policy.component.css'
 })
-export class SurveySendingPolicyComponent implements OnInit{
+export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
   @ViewChild('fullcalendar') calendar!: FullCalendarComponent;
   @Input() surveyId: string | null = null;
   readonly calendarOptions: CalendarOptions = {
@@ -25,15 +26,25 @@ export class SurveySendingPolicyComponent implements OnInit{
     locale: plLocale
   };
   calendarEvents: EventInput[] = [];
+  private readonly langChangeSubscription: Subscription;
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
    @Inject('surveySendingPolicyService') private readonly service: SurveySendingPolicyService,
    private readonly snackbar: MatSnackBar,
-   private readonly translate: TranslateService){}
+   private readonly translate: TranslateService){
+    this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
+      const lang = event.lang;
+      this.calendarOptions.locale = lang === 'pl' ? plLocale : enLocale;
+    })
+   }
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
+  }
   
    ngOnInit(): void {
     this.loadExistingSendingPolicies();
-  }
+   }
+
   private loadExistingSendingPolicies(): void {
     this.calendarEvents.length = 0;
     this.service.getAll(this.surveyId!)

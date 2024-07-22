@@ -99,7 +99,8 @@
             "create": "Add",
             "somethingWentWrong": "Something went wrong",
             "ok": "OK",
-            "createdSurveySendingPolicy": "Added survey sending policy"
+            "createdSurveySendingPolicy": "Added survey sending policy",
+            "dates": "Dates"
         },
         "surveyDetails": {
             "sendingPolicy": "Sending policy",
