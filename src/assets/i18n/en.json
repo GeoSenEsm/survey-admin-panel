@@ -36,7 +36,8 @@
             "medicationUseColumnHeader": "Medication use",
             "lifeSatisfactionColumnHeader": "Life satisfaction",
             "stressLevelColumnHeader": "Stress level",
-            "qualityOfSleepColumnHeader": "Quality of sleep"
+            "qualityOfSleepColumnHeader": "Quality of sleep",
+            "refresh": "Refresh"
         }
     },
     "createSurvey": {

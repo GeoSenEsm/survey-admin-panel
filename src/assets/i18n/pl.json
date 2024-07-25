@@ -36,7 +36,8 @@
             "medicationUseColumnHeader": "Przyjmowane leki",
             "lifeSatisfactionColumnHeader": "Zadowolenie z życia",
             "stressLevelColumnHeader": "Poziom stresu",
-            "qualityOfSleepColumnHeader": "Jakość snu"
+            "qualityOfSleepColumnHeader": "Jakość snu",
+            "refresh": "Odśwież"
         }
     },
     "createSurvey": {

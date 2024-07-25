@@ -54,18 +54,26 @@ implements AfterViewInit, OnInit{
 
   ribbonButtons: ButtonData[] = [
     {
+      content: 'respondents.respondents.refresh',
+      onClick: this.loadData.bind(this)
+    },
+    {
       content: 'respondents.respondents.createRespondentsAccounts',
       onClick: this.generateRespondentsAccounts.bind(this)
     }
-  ]
+  ];
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
     private readonly translate: TranslateService){
   }
   ngOnInit(): void {
-    this.loadRespondentInfos();
+    this.loadData();
+  }
+
+  loadData(): void{
     this.loadRespondents();
+    this.loadRespondentInfos();
   }
 
   private loadRespondentInfos(): void{

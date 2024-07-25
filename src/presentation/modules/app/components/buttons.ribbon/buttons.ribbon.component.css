@@ -4,3 +4,8 @@
     align-items: center;
     padding: 10px;
 }
+
+.buttons-panel > * + * 
+{
+     margin-left: 10px; 
+}
