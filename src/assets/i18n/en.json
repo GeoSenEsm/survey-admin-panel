@@ -1,4 +1,8 @@
 {
+    "componentless": {
+        "male": "male",
+        "female": "female"
+    },
     "app": {
         "login": {
             "username": "Username",

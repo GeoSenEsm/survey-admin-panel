@@ -1,4 +1,8 @@
 {
+    "componentless": {
+        "male": "mężczyzna",
+        "female": "kobieta"
+    },
     "app": {
         "login":{
             "username": "Nazwa użytkownika",

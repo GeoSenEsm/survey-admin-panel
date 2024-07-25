@@ -10,7 +10,8 @@
           {{ headerTranslationMappings[column] | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
-          {{ respondent[column] }}
+
+          {{ getActualCellDisplay(respondent, column) }}
         </mat-cell>
       </ng-container>
 

@@ -55,6 +55,7 @@ import { SurveysListResultsComponent } from './components/surveys-list-results/s
 import { SurveySummaryTileComponent } from './components/survey-summary-tile/survey-summary-tile.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { RespondentDataServiceImpl } from '../../../core/services/respondent.data.service.impl';
 
 
 export const routes: Routes = [
@@ -156,7 +157,8 @@ export function HttpLoaderFactory(http: HttpClient){
     { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
-    {provide: 'summariesService', useClass: SummariesServiceImpl}
+    {provide: 'summariesService', useClass: SummariesServiceImpl},
+    {provide: 'respondentDataService', useClass: RespondentDataServiceImpl}
   ],
 })
 export class AppModule {}
