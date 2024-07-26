@@ -1,6 +1,7 @@
 <div class="buttons-panel">
     <button *ngFor="let button of buttons" (click)="button.onClick()"
     mat-flat-button color="primary">
+        <mat-icon *ngIf="button.icon">{{ button.icon }} </mat-icon>
         {{ button.content | translate }}
     </button>
 </div>

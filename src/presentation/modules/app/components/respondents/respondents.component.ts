@@ -55,7 +55,8 @@ implements AfterViewInit, OnInit{
   ribbonButtons: ButtonData[] = [
     {
       content: 'respondents.respondents.refresh',
-      onClick: this.loadData.bind(this)
+      onClick: this.loadData.bind(this),
+      icon: 'refresh'
     },
     {
       content: 'respondents.respondents.createRespondentsAccounts',
