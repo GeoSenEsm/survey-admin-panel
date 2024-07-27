@@ -9,6 +9,7 @@ import { RespondentData } from '../../../../../domain/models/respondent.data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent.data.servce';
 import { convertToValueDisplayMappings, getMapForProperty, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent.info';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-respondents',
@@ -20,8 +21,8 @@ export class RespondentsComponent
 implements AfterViewInit, OnInit{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  dataSource?: MatTableDataSource<RespondentData>;
-  respondents: RespondentData[] = [];
+  dataSource: MatTableDataSource<RespondentData>;
+  readonly respondents: RespondentData[] = [];
   readonly headers = [
     'username',
     'gender',
@@ -51,11 +52,11 @@ implements AfterViewInit, OnInit{
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
   valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
-
-  ribbonButtons: ButtonData[] = [
+  isBusy = false;
+  readonly ribbonButtons: ButtonData[] = [
     {
       content: 'respondents.respondents.refresh',
-      onClick: this.loadData.bind(this),
+      onClick: this.reloadRespondents.bind(this),
       icon: 'refresh'
     },
     {
@@ -63,33 +64,60 @@ implements AfterViewInit, OnInit{
       onClick: this.generateRespondentsAccounts.bind(this)
     }
   ];
+  loadingErrorOccured = false;
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
     private readonly translate: TranslateService){
+      this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
   }
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData(): void{
-    this.loadRespondents();
-    this.loadRespondentInfos();
-  }
+    if (this.isBusy){
+      return;
+    }
 
-  private loadRespondentInfos(): void{
-    this.service.getRespondentInfoCollections()
-    .subscribe(res => {
-      this.respondentInfos = res;
-      this.valueDisplayMappings = convertToValueDisplayMappings(res);
+    this.isBusy = true;
+    this.respondents.length = 0;
+    const observables = [
+      this.service.getRespondentInfoCollections(),
+      this.service.getRespondents()
+    ];
+
+    forkJoin(observables).pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+    ).subscribe({
+      next: ([respondentInfos, respondents]) => {
+        this.loadingErrorOccured = false;
+        this.respondentInfos = respondentInfos as RespondentInfoCollections;
+        this.valueDisplayMappings = convertToValueDisplayMappings(this.respondentInfos);
+        (respondents as RespondentData[]).forEach(r => this.respondents.push(r));
+      },
+      error: () => {
+        this.loadingErrorOccured = true;
+      }
     });
   }
 
-  private loadRespondents(): void{
+  reloadRespondents(): void{
+    if (this.isBusy){
+      return;
+    }
+
+    this.isBusy = true;
+    this.respondents.length = 0;
     this.service.getRespondents()
-    .subscribe(res => {
-      this.respondents = res;
-      this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
+    .pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+    ).subscribe(res => {
+      (res as RespondentData[]).forEach(r => this.respondents.push(r));
     });
   }
 

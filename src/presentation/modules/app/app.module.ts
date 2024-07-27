@@ -56,6 +56,7 @@ import { SurveySummaryTileComponent } from './components/survey-summary-tile/sur
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RespondentDataServiceImpl } from '../../../core/services/respondent.data.service.impl';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 export const routes: Routes = [
@@ -121,7 +122,8 @@ export function HttpLoaderFactory(http: HttpClient){
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    MatProgressSpinnerModule
   ],
   declarations: [
     AppComponent, 
