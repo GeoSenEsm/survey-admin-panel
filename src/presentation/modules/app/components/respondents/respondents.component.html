@@ -1,7 +1,7 @@
 <div class="container">
   <app-buttons-ribbon [buttons]="ribbonButtons"/>
   <div class="table-container">
-    <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8" *ngIf="respondents.length > 0">
       <ng-container
         *ngFor="let column of headers"
         [matColumnDef]="column"
@@ -10,7 +10,8 @@
           {{ headerTranslationMappings[column] | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
-          {{ respondent[column] }}
+
+          {{ getActualCellDisplay(respondent, column) }}
         </mat-cell>
       </ng-container>
 
@@ -21,6 +22,14 @@
 
       <mat-row *matRowDef="let row; columns: headers"></mat-row>
     </mat-table>
+    <h3 *ngIf="!isBusy && respondents.length === 0 && !loadingErrorOccured">
+      {{ 'respondents.respondents.nothingToDisplay' | translate }}
+    </h3>
+    <mat-error *ngIf="!isBusy && respondents.length === 0 && loadingErrorOccured">
+      <h3>
+        {{ 'respondents.respondents.errorLoadingRespondents' | translate }}
+      </h3>
+    </mat-error>
   </div>
 
   <div class="paginator-container">

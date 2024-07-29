@@ -1,23 +1,15 @@
-import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
-
-interface RespondentData{
-  username: string;
-  gender: string;
-  ageCategory: string;
-  occupationCategory: string;
-  educationCategory: string;
-  healthStatus: string;
-  medicationUse: string;
-  lifeSatisfaction: string;
-  stressLevel: string;
-  qualityOfSleep: string;
-}
+import { RespondentData } from '../../../../../domain/models/respondent.data';
+import { RespondentDataService } from '../../../../../domain/external_services/respondent.data.servce';
+import { convertToValueDisplayMappings, getMapForProperty, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent.info';
+import { TranslateService } from '@ngx-translate/core';
+import { finalize, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-respondents',
@@ -29,58 +21,58 @@ export class RespondentsComponent
 implements AfterViewInit{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  dataSource?: MatTableDataSource<RespondentData>;
-  respondents: RespondentData[] = [];
+  dataSource: MatTableDataSource<RespondentData> = null!;
+  readonly respondents: RespondentData[] = [];
   readonly headers = [
     'username',
-    'sex',
-    'ageCategory',
-    'occupation',
-    'education',
-    'health',
-    'medication',
-    'lifeSatisfaction',
-    'stressLevel',
-    'qualityOfSleep'
+    'gender',
+    'ageCategoryId',
+    'occupationId',
+    'educationCategoryId',
+    'healthConditionId',
+    'medicationUseId',
+    'lifeSatisfactionId',
+    'stressLevelId',
+    'qualityOfSleepId'
   ];
-
   headerTranslationMappings: { [key: string]: string } = {
     'username': 'respondents.respondents.usernameColumnHeader',
-    'sex': 'respondents.respondents.sexColumnHeader',
-    'ageCategory': 'respondents.respondents.ageCategoryColumnHeader',
-    'occupation': 'respondents.respondents.occupationColumnHeader',
-    'education': 'respondents.respondents.educationColumnHeader',
-    'health': 'respondents.respondents.healthStatusColumnHeader',
-    'medication': 'respondents.respondents.medicationUseColumnHeader',
-    'lifeSatisfaction': 'respondents.respondents.lifeSatisfactionColumnHeader',
-    'stressLevel': 'respondents.respondents.stressLevelColumnHeader',
-    'qualityOfSleep': 'respondents.respondents.qualityOfSleepColumnHeader'
+    'gender': 'respondents.respondents.sexColumnHeader',
+    'ageCategoryId': 'respondents.respondents.ageCategoryColumnHeader',
+    'occupationCategoryId': 'respondents.respondents.occupationColumnHeader',
+    'educationCategoryId': 'respondents.respondents.educationColumnHeader',
+    'healthConditionId': 'respondents.respondents.healthStatusColumnHeader',
+    'medicationUseId': 'respondents.respondents.medicationUseColumnHeader',
+    'lifeSatisfactionId': 'respondents.respondents.lifeSatisfactionColumnHeader',
+    'stressLevelId': 'respondents.respondents.stressLevelColumnHeader',
+    'qualityOfSleepId': 'respondents.respondents.qualityOfSleepColumnHeader'
   }
-  
-
+  translatableColumns = new Set<string>(['gender']);
+  directDisplayColumns = new Set<string>(['username']);
   columnFilter: { [key: string]: string[] } = {};
- 
-  genders: string[] = ['Kobieta', 'Mężczyzna'];
-  ageCategories: string[] = ['50-59', '60-69', '70+'];
-  occupationCategories: string[] = ['Zatrudniony', 'Niezatrudniony'];
-  educationCategories: string[] = ['Podstawowe', 'Zawodowe', 'Średnie', 'Wyższe'];
-  healthStatuses: string[] = ['Dobry', 'Zły'];
-  medicationUses: string[] = ['Tak', 'Nie'];
-  lifeSatisfactions: string[] = ['Wysokie', 'Niskie'];
-  stressLevels: string[] = ['Niski', 'Wysoki'];
-  qualityOfSleeps: string[] = ['Niska', 'Wysoka'];
-
-  ribbonButtons: ButtonData[] = [
+  respondentInfos: RespondentInfoCollections = null!;
+  valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
+  isBusy = false;
+  readonly ribbonButtons: ButtonData[] = [
+    {
+      content: 'respondents.respondents.refresh',
+      onClick: this.reloadRespondents.bind(this),
+      icon: 'refresh'
+    },
     {
       content: 'respondents.respondents.createRespondentsAccounts',
       onClick: this.generateRespondentsAccounts.bind(this)
     }
-  ]
+  ];
+  loadingErrorOccured = false;
 
-  constructor(@Inject('dialog') private readonly _dialog: MatDialog){
-    this.generateRespondents();
+  constructor(@Inject('dialog') private readonly _dialog: MatDialog,
+    @Inject('respondentDataService')private readonly service: RespondentDataService,
+    private readonly translate: TranslateService){
   }
+
   ngAfterViewInit(): void {
+    this.loadData();
     if (this.dataSource) {
       if (this.sort) {
         this.dataSource.sort = this.sort;
@@ -89,31 +81,53 @@ implements AfterViewInit{
         this.dataSource.paginator = this.paginator;
       }
     }
+    this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
   }
 
-  generateRandomRespondent(): RespondentData {
-    return {
-      username: `User${Math.floor(Math.random() * 10000)}`,
-      gender: this.genders[Math.floor(Math.random() * this.genders.length)],
-      ageCategory: this.ageCategories[Math.floor(Math.random() * this.ageCategories.length)],
-      occupationCategory: this.occupationCategories[Math.floor(Math.random() * this.occupationCategories.length)],
-      educationCategory: this.educationCategories[Math.floor(Math.random() * this.educationCategories.length)],
-      healthStatus: this.healthStatuses[Math.floor(Math.random() * this.healthStatuses.length)],
-      medicationUse: this.medicationUses[Math.floor(Math.random() * this.medicationUses.length)],
-      lifeSatisfaction: this.lifeSatisfactions[Math.floor(Math.random() * this.lifeSatisfactions.length)],
-      stressLevel: this.stressLevels[Math.floor(Math.random() * this.stressLevels.length)],
-      qualityOfSleep: this.qualityOfSleeps[Math.floor(Math.random() * this.qualityOfSleeps.length)],
-    };
-  }
-
-  generateRespondents(): void {
-    this.respondents = [];
-    for (let i = 0; i < 100; i++) {
-      this.respondents.push(this.generateRandomRespondent());
+  loadData(): void{
+    if (this.isBusy){
+      return;
     }
-    this.dataSource = new MatTableDataSource(this.respondents);
-    this.dataSource.sort = this.sort!;
-    this.dataSource.paginator = this.paginator!;
+
+    this.isBusy = true;
+    this.respondents.length = 0;
+    const observables = [
+      this.service.getRespondentInfoCollections(),
+      this.service.getRespondents()
+    ];
+
+    forkJoin(observables).pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+    ).subscribe({
+      next: ([respondentInfos, respondents]) => {
+        this.loadingErrorOccured = false;
+        this.respondentInfos = respondentInfos as RespondentInfoCollections;
+        this.valueDisplayMappings = convertToValueDisplayMappings(this.respondentInfos);
+        (respondents as RespondentData[]).forEach(r => this.respondents.push(r));
+      },
+      error: () => {
+        this.loadingErrorOccured = true;
+      }
+    });
+  }
+
+  reloadRespondents(): void{
+    if (this.isBusy){
+      return;
+    }
+
+    this.isBusy = true;
+    this.respondents.length = 0;
+    this.service.getRespondents()
+    .pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+    ).subscribe(res => {
+      (res as RespondentData[]).forEach(r => this.respondents.push(r));
+    });
   }
 
   generateRespondentsAccounts(): void{
@@ -121,6 +135,18 @@ implements AfterViewInit{
       hasBackdrop: true,
       closeOnNavigation: false
     })
+  }
+
+  getActualCellDisplay(respondent: RespondentData, columnName: string): string | undefined{
+    if (this.translatableColumns.has(columnName)){
+      return this.translate.instant(`componentless.${(respondent as any)[columnName]}`);
+    }
+
+    if (this.directDisplayColumns.has(columnName)){
+      return (respondent as any)[columnName];
+    }
+
+    return getMapForProperty(columnName, this.valueDisplayMappings)?.get((respondent as any)[columnName]);
   }
 
 }

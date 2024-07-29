@@ -1,4 +1,8 @@
 {
+    "componentless": {
+        "male": "mężczyzna",
+        "female": "kobieta"
+    },
     "app": {
         "login":{
             "username": "Nazwa użytkownika",
@@ -32,7 +36,10 @@
             "medicationUseColumnHeader": "Przyjmowane leki",
             "lifeSatisfactionColumnHeader": "Zadowolenie z życia",
             "stressLevelColumnHeader": "Poziom stresu",
-            "qualityOfSleepColumnHeader": "Jakość snu"
+            "qualityOfSleepColumnHeader": "Jakość snu",
+            "refresh": "Odśwież",
+            "nothingToDisplay": "Brak respondentów do wyswietlenia",
+            "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później."
         }
     },
     "createSurvey": {

@@ -1,4 +1,8 @@
 {
+    "componentless": {
+        "male": "male",
+        "female": "female"
+    },
     "app": {
         "login": {
             "username": "Username",
@@ -32,7 +36,10 @@
             "medicationUseColumnHeader": "Medication use",
             "lifeSatisfactionColumnHeader": "Life satisfaction",
             "stressLevelColumnHeader": "Stress level",
-            "qualityOfSleepColumnHeader": "Quality of sleep"
+            "qualityOfSleepColumnHeader": "Quality of sleep",
+            "refresh": "Refresh",
+            "nothingToDisplay": "Nothing to display",
+            "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later."
         }
     },
     "createSurvey": {

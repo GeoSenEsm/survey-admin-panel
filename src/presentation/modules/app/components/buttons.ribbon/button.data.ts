@@ -1,4 +1,5 @@
 export interface ButtonData{
     content: string,
-    onClick: () => void
+    onClick: () => void,
+    icon?: string
 }
