@@ -18,10 +18,10 @@ import { finalize, forkJoin } from 'rxjs';
   styleUrl: './respondents.component.css'
 })
 export class RespondentsComponent 
-implements AfterViewInit, OnInit{
+implements AfterViewInit{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  dataSource: MatTableDataSource<RespondentData>;
+  dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
   readonly headers = [
     'username',
@@ -69,10 +69,19 @@ implements AfterViewInit, OnInit{
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
     private readonly translate: TranslateService){
-      this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
   }
-  ngOnInit(): void {
+
+  ngAfterViewInit(): void {
     this.loadData();
+    if (this.dataSource) {
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+    }
+    this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
   }
 
   loadData(): void{
@@ -119,17 +128,6 @@ implements AfterViewInit, OnInit{
     ).subscribe(res => {
       (res as RespondentData[]).forEach(r => this.respondents.push(r));
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.dataSource) {
-      if (this.sort) {
-        this.dataSource.sort = this.sort;
-      }
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-      }
-    }
   }
 
   generateRespondentsAccounts(): void{
