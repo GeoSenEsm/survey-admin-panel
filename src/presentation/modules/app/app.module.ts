@@ -152,7 +152,7 @@ export function HttpLoaderFactory(http: HttpClient){
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: 'summariesService', useClass: SummariesServiceImpl},
-    {provide: 'respondentDataService', useClass: RespondentDataServiceImpl}
+    {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
     {provide: 'storage', useClass: CookieStorageService}
   ],
 })

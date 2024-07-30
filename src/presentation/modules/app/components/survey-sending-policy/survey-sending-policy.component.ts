@@ -42,6 +42,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
   }
   
    ngOnInit(): void {
+    this.calendarOptions.locale = this.translate.currentLang === 'pl' ? plLocale : enLocale;
     this.loadExistingSendingPolicies();
    }
 
