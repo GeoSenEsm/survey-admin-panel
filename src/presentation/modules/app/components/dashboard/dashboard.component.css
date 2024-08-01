@@ -46,3 +46,10 @@ mat-toolbar span{
 .spacer{
     flex-grow: 1;
 }
+
+/* This is a workaround, because mat-icon-button does not  center the icon vertically.
+After changing mat-icon-button to mat-button it is properly centered, but the button is too wide.
+This was the only solution I found*/
+.hamburger mat-icon{
+    margin-top: -7px;
+}
