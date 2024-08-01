@@ -32,14 +32,21 @@ mat-toolbar span{
     font-size: 20px;
 }
 
+mat-toolbar mat-form-field{
+    /* I really cannot center this in a better way, it just does not react on any 'center' css property*/
+    margin-top: 20px;
+    width: 150px;
+}
+
 .flag-and-text {
     display: flex;
     align-items: center;
+    font-size: 15px;
 }
 
 .flag {
     margin-right: 8px; 
-    width: 20px;
+    width: 15px;
     height: auto;
 }
 
