@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit{
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
-    ['pl']: 'polski'
+    ['pl']: 'Polski'
   };
 
   constructor(private translateService: TranslateService,
