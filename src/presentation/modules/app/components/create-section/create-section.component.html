@@ -54,7 +54,7 @@
             (addQuestionBelowEvent)="addQuestionBelow($event)"
             (removeEvent)="removeQuestion($event)"
             [question]="question"
-            [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+            [sectionsToBeTriggered]="selectableSectionsToBeTriggered"/>
         </div>
         <mat-error *ngIf="questionsNumberError != null">{{ questionsNumberError }}></mat-error>
         <div class="wrap-panel">

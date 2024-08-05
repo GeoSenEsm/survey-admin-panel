@@ -1,4 +1,5 @@
 export interface SectionToBeTriggered{
     sectionNumber: number,
-    name?: string
+    name?: string,
+    guid: string
 }
