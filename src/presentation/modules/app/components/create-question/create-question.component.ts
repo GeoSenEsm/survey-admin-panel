@@ -29,17 +29,23 @@ export class CreateQuestionComponent {
 
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,
-    QuestionType.DISCRETE_NUMBER_SELECTION
+    QuestionType.DISCRETE_NUMBER_SELECTION,
+    QuestionType.YES_NO_SELECTION,
+    QuestionType.MULTIPLE_CHOICE
   ];
 
   questionTypeIconSelector = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale'
+    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale',
+    [QuestionType.YES_NO_SELECTION]: 'check',
+    [QuestionType.MULTIPLE_CHOICE]: 'check_box'
   };
 
   questionTypeDisplay = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'createSurvey.createQuestion.singleChoice',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale'
+    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale',
+    [QuestionType.YES_NO_SELECTION]: 'createSurvey.createQuestion.yesNo',
+    [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice'
   };
 
   constructor(readonly translate: TranslateService){}

@@ -50,6 +50,8 @@
             "required": "Required",
             "singleChoice": "Single choice",
             "linearScale": "Linear scale",
+            "yesNo": "Yes/No",
+            "multipleChoice": "Multiple choice",
             "contentNotEmptyError": "Field cannot be empty",
             "contentLenError": "Field cannot be longer than 250 characters"
         },
