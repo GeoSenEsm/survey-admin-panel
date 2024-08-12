@@ -13,7 +13,7 @@
               src="assets/imgs/flags/{{ language }}.svg"
               alt="{{ language }} flag"
             />
-            <span>{{ langageDisplayMappings[language] }}</span>
+            <span class="lang-span">{{ langageDisplayMappings[language] }}</span>
           </span>
         </mat-select-trigger>
         <mat-option *ngFor="let lang of availableLanguages" [value]="lang">

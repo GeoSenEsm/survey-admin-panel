@@ -1,3 +1,5 @@
+@import "../../../../../styles/styles.scss";
+
 .vertical-middle{
     vertical-align: middle;
 }
@@ -59,4 +61,8 @@ After changing mat-icon-button to mat-button it is properly centered, but the bu
 This was the only solution I found*/
 .hamburger mat-icon{
     margin-top: -7px;
+}
+
+.lang-span{
+    color: $primary-color;
 }
