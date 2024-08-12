@@ -40,6 +40,7 @@ $my-palette: (
 
 $primary: mat.define-palette($my-palette, 500);
 $accent: mat.define-palette($my-palette, 100);
+$primary-color: #3E434F;
 
 $my-theme: mat.define-light-theme((
  color: (
