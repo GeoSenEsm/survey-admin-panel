@@ -77,7 +77,7 @@ export class CreateSectionComponent {
   ];
 
   get selectableSectionVisibilities(): SectionVisibility[]{
-    return this.sectionNumber === 0 ? [SectionVisibility.ALWAYS, SectionVisibility.GROUP_SPECIFIC]
+    return this.sectionNumber === 1 ? [SectionVisibility.ALWAYS, SectionVisibility.GROUP_SPECIFIC]
     : this.allVisibilities;
   }
 
