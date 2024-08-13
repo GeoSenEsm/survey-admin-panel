@@ -83,7 +83,6 @@ export class CreateSectionComponent {
   set name(value: string | undefined){
     if (this.section !== null){
       if (this.section.visibility == SectionVisibility.ANSWER_TRIGGERED){
-        //TO DO: what if we have more than one section with the same name?
         this.updateSectionToBeTriggered(value);
       }
       this.section.name = value;
