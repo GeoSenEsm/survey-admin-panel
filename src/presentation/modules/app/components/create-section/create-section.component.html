@@ -16,7 +16,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label> {{ 'createSurvey.createSection.visibility' | translate  }} </mat-label>
                     <mat-select [(value)]="visibility">
-                      <mat-option *ngFor="let visibility of allVisibilities"
+                      <mat-option *ngFor="let visibility of selectableSectionVisibilities"
                       [value]="visibility">
                         {{ getVisibilityDisplay(visibility) }}
                       </mat-option>
@@ -54,7 +54,7 @@
             (addQuestionBelowEvent)="addQuestionBelow($event)"
             (removeEvent)="removeQuestion($event)"
             [question]="question"
-            [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+            [sectionsToBeTriggered]="selectableSectionsToBeTriggered"/>
         </div>
         <mat-error *ngIf="questionsNumberError != null">{{ questionsNumberError }}></mat-error>
         <div class="wrap-panel">

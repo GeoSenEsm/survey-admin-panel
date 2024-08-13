@@ -9,6 +9,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 import { TranslateService } from '@ngx-translate/core';
+import { generateGuid } from '../../../../../core/utils/guid';
 
 
 @Component({
@@ -32,6 +33,12 @@ export class CreateSectionComponent {
   nameError: string | null = null;
   questionsNumberError: string | null = null;
   sectionNameErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.nameError);
+  //this guid is to identity the section in the editor, as possibly the user can create two with the same name before it is validated
+  guid = generateGuid();
+  
+  get selectableSectionsToBeTriggered(): SectionToBeTriggered[]{
+    return this.sectionsToBeTriggered.filter(section => section.sectionNumber > this.sectionNumber);
+  }
 
   get visibility(): SectionVisibility{
     return this.section?.visibility ?? SectionVisibility.ALWAYS;
@@ -45,12 +52,13 @@ export class CreateSectionComponent {
     if (this.section.visibility !== SectionVisibility.ANSWER_TRIGGERED && value === SectionVisibility.ANSWER_TRIGGERED){
       this.sectionsToBeTriggered.push({
         sectionNumber: this.sectionNumber,
-        name: this.section.name
+        name: this.section.name,
+        guid: this.guid
       });
     }
 
     if (this.section.visibility === SectionVisibility.ANSWER_TRIGGERED && value !== SectionVisibility.ANSWER_TRIGGERED){
-      const index = this.sectionsToBeTriggered.findIndex(section => section.name === this.section?.name);
+      const index = this.sectionsToBeTriggered.findIndex(section => section.guid === this.guid);
       if (index !== -1) {
         this.sectionsToBeTriggered.splice(index, 1);
       }   
@@ -68,6 +76,11 @@ export class CreateSectionComponent {
     SectionVisibility.ANSWER_TRIGGERED
   ];
 
+  get selectableSectionVisibilities(): SectionVisibility[]{
+    return this.sectionNumber === 1 ? [SectionVisibility.ALWAYS, SectionVisibility.GROUP_SPECIFIC]
+    : this.allVisibilities;
+  }
+
   get name(): string | undefined{
     return this.section?.name;
   }
@@ -75,8 +88,7 @@ export class CreateSectionComponent {
   set name(value: string | undefined){
     if (this.section !== null){
       if (this.section.visibility == SectionVisibility.ANSWER_TRIGGERED){
-        //TO DO: what if we have more than one section with the same name?
-        this.updateSectionToBeTriggered(this.section.name, value);
+        this.updateSectionToBeTriggered(value);
       }
       this.section.name = value;
     }
@@ -95,8 +107,8 @@ export class CreateSectionComponent {
     }
   }
 
-  updateSectionToBeTriggered(oldName: string | undefined, newName: string | undefined): void{
-    const idx = this.sectionsToBeTriggered.findIndex(section => section.name === oldName);
+  updateSectionToBeTriggered(newName: string | undefined): void{
+    const idx = this.sectionsToBeTriggered.findIndex(section => section.guid === this.guid);
     if (idx !== -1) {
       this.sectionsToBeTriggered[idx].name = newName;
     }
