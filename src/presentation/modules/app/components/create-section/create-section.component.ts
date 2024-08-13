@@ -76,6 +76,11 @@ export class CreateSectionComponent {
     SectionVisibility.ANSWER_TRIGGERED
   ];
 
+  get selectableSectionVisibilities(): SectionVisibility[]{
+    return this.sectionNumber === 0 ? [SectionVisibility.ALWAYS, SectionVisibility.GROUP_SPECIFIC]
+    : this.allVisibilities;
+  }
+
   get name(): string | undefined{
     return this.section?.name;
   }
