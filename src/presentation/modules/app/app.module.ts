@@ -57,6 +57,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RespondentDataServiceImpl } from '../../../core/services/respondent.data.service.impl';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ENGLISH_DATE_FORMATS } from './date.formats';
+import { CookieStorageService } from '../../../core/services/local.storage';
 
 
 export const routes: Routes = [
@@ -70,17 +72,7 @@ export const routes: Routes = [
     {path: 'summaries', component: SurveysListResultsComponent}
 ];
 
-export const POLISH_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD.MM.YYYY',
-  },
-  display: {
-    dateInput: 'DD.MM.YYYY',
-    monthYearLabel: 'MMMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
-  },
-};
+
 
 export function HttpLoaderFactory(http: HttpClient){
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -155,12 +147,15 @@ export function HttpLoaderFactory(http: HttpClient){
     {provide: 'surveyMapper', useClass: CreateSurveyMapper},
     {provide: 'surveyService', useClass: SurveyServiceImpl},
     {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
-    { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
-    { provide: MAT_DATE_FORMATS, useValue: POLISH_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
+    { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: 'summariesService', useClass: SummariesServiceImpl},
-    {provide: 'respondentDataService', useClass: RespondentDataServiceImpl}
+    {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
+    {provide: 'storage', useClass: CookieStorageService}
   ],
 })
-export class AppModule {}
+export class AppModule {
+
+}

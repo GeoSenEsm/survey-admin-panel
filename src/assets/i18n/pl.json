@@ -101,7 +101,8 @@
             "create": "Dodaj",
             "somethingWentWrong": "Cos poszło nie tak",
             "ok": "OK",
-            "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety"
+            "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety",
+            "dates": "Daty"
         },
         "surveyDetails": {
             "sendingPolicy": "Polityka wysyłania",

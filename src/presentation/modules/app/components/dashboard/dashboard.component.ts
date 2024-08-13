@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../../../../../core/services/local.storage';
 
 interface NavListItem {
   display: string;
@@ -11,7 +12,7 @@ interface NavListItem {
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit{
   isDrawerOpen = true;
@@ -41,10 +42,11 @@ export class DashboardComponent implements OnInit{
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
-    ['pl']: 'polski'
+    ['pl']: 'Polski'
   };
 
-  constructor(private translateService: TranslateService) {}
+  constructor(private translateService: TranslateService,
+    @Inject('storage')private readonly storage: LocalStorageService) {}
   ngOnInit(): void {
     this._language = this.translateService.currentLang;
   }
@@ -62,6 +64,7 @@ export class DashboardComponent implements OnInit{
   set language(value: string) {
     this._language = value;
     this.translateService.use(value);
+    this.storage.save('lang', value);
   }
 
   toggleDrawer(): void {

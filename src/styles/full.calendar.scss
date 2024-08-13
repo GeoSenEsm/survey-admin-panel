@@ -1,0 +1,14 @@
+@import "./styles.scss";
+
+
+.fc .fc-button-primary {
+    background-color: $primary-color !important;
+}
+  
+.fc-toolbar-title {
+    color: $primary-color;
+}
+  
+.fc-col-header-cell {
+    color: $primary-color;
+}

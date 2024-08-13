@@ -1,3 +1,5 @@
+@import "../../../../../styles/styles.scss";
+
 .vertical-middle{
     vertical-align: middle;
 }
@@ -32,17 +34,35 @@ mat-toolbar span{
     font-size: 20px;
 }
 
+mat-toolbar mat-form-field{
+    /* I really cannot center this in a better way, it just does not react on any 'center' css property*/
+    margin-top: 20px;
+    width: 150px;
+}
+
 .flag-and-text {
     display: flex;
     align-items: center;
+    font-size: 15px;
 }
 
 .flag {
     margin-right: 8px; 
-    width: 20px;
+    width: 15px;
     height: auto;
 }
 
 .spacer{
     flex-grow: 1;
+}
+
+/* This is a workaround, because mat-icon-button does not  center the icon vertically.
+After changing mat-icon-button to mat-button it is properly centered, but the button is too wide.
+This was the only solution I found*/
+.hamburger mat-icon{
+    margin-top: -7px;
+}
+
+.lang-span{
+    color: $primary-color;
 }

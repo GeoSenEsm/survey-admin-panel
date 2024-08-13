@@ -7,7 +7,7 @@
       </mat-card-title>
       <mat-card-content>
           <mat-form-field>
-            <ngx-multiple-dates [matDatepicker]="picker" placeholder="Daty"
+            <ngx-multiple-dates [matDatepicker]="picker" [placeholder]="'surveyDetails.createSurveySendingPolicy.dates' | translate"
                                 [(ngModel)]="model.dates" [errorStateMatcher]="datesErrorStateMatcher">
             </ngx-multiple-dates>
             <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
