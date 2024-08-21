@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use 'ngx-multiple-dates' as ngxMultipleDates;
+@import './variables.scss';
 
 @include mat.core();
 
@@ -10,7 +11,7 @@ $my-palette: (
   200: #f4f4f4,
   300: #39424F,
   400: #333A4B,
-  500: #3E434F,
+  500: $primary-color,
   600: #39424F,
   700: #333A4B,
   800: #2D3146,
@@ -40,7 +41,6 @@ $my-palette: (
 
 $primary: mat.define-palette($my-palette, 500);
 $accent: mat.define-palette($my-palette, 100);
-$primary-color: #3E434F;
 
 $my-theme: mat.define-light-theme((
  color: (
