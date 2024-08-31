@@ -4,13 +4,14 @@ import { HistogramDataDto } from "../../domain/models/histogram.data.dto";
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
 import { HttpClient } from "@angular/common/http";
+import { ConfigService } from "./config.service";
 
 @Injectable()
 export class SummariesServiceImpl
 extends ApiService
 implements SummariesService {
-    constructor(client: HttpClient) {
-        super(client);
+    constructor(client: HttpClient, configService: ConfigService) {
+        super(client, configService);
     }
 
     getHistogramData(surveyId: string, date: Date): Observable<HistogramDataDto[]> {

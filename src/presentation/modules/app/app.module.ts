@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './components/app/app.component';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
@@ -59,6 +59,7 @@ import { RespondentDataServiceImpl } from '../../../core/services/respondent.dat
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ENGLISH_DATE_FORMATS } from './date.formats';
 import { CookieStorageService } from '../../../core/services/local.storage';
+import { ConfigService } from '../../../core/services/config.service';
 
 
 export const routes: Routes = [
@@ -76,6 +77,10 @@ export const routes: Routes = [
 
 export function HttpLoaderFactory(http: HttpClient){
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
+ 
+export function initializeApp(configService: ConfigService): () => Promise<any> {
+  return () => configService.loadConfig();
 }
 
 @NgModule({
@@ -153,7 +158,13 @@ export function HttpLoaderFactory(http: HttpClient){
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: 'summariesService', useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
-    {provide: 'storage', useClass: CookieStorageService}
+    {provide: 'storage', useClass: CookieStorageService},
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [ConfigService],
+      multi: true
+    }
   ],
 })
 export class AppModule {

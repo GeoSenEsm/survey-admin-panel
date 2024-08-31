@@ -5,14 +5,15 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../domain/external_services/authentication.service';
 import { CreateRespondentsAccountsDto } from '../../domain/models/create.respondents.accounts.dto';
 import { LoginDto } from '../../domain/models/login.dto';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationServiceImpl  extends ApiService implements AuthenticationService {
 
-  constructor(client: HttpClient) {
-    super(client);
+  constructor(client: HttpClient, configService: ConfigService) {
+    super(client, configService);
   }
 
   public generateRespondents(dto: CreateRespondentsAccountsDto): Observable<LoginDto[]>{

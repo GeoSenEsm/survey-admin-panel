@@ -5,13 +5,14 @@ import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { SurveySendingPolicyDto } from "../../domain/models/survey.sending.policy.dto";
+import { ConfigService } from "./config.service";
 
 @Injectable()
 export class SurveySendingPolicyServiceImpl 
 extends ApiService 
 implements SurveySendingPolicyService{
-    constructor(client: HttpClient){
-        super(client);
+    constructor(client: HttpClient, confgiService: ConfigService) {
+        super(client, confgiService);
     }
     getAll(surveyId: string): Observable<SurveySendingPolicyDto[]> {
         return this.get(`/api/surveysendingpolicies`, {

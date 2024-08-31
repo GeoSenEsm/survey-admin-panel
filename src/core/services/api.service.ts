@@ -1,10 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ConfigService } from './config.service';
 
 export class ApiService {
-  private readonly baseUrl = 'http://localhost:8080';
+  private readonly baseUrl: string;
 
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient,
+    configService: ConfigService) { 
+      this.baseUrl = configService.apiUrl;
+    }
 
   protected post<T>(url: string, data: any): Observable<T> {
     return this.httpClient.post<T>(this.baseUrl + url, data);

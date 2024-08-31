@@ -5,6 +5,7 @@ import { RespondentInfoCollections } from "../../domain/models/respondent.info";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ApiService } from "./api.service";
+import { ConfigService } from "./config.service";
 
 @Injectable()
 export class RespondentDataServiceImpl 
@@ -22,8 +23,8 @@ implements RespondentDataService{
         'qualityofsleep'
     ]
 
-    constructor(client: HttpClient){
-        super(client);
+    constructor(client: HttpClient, configService: ConfigService){
+        super(client, configService);
     }
 
     getRespondentInfoCollections(): Observable<RespondentInfoCollections> {
