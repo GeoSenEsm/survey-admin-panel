@@ -63,8 +63,8 @@ export class CreateSurveySendingPolicyComponent {
       .pipe(
         catchError((error) => {
           this.snackbar.open(
-            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.somethingWentWrong'), 
-            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.ok'), 
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.somethingWentWrong'), 
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'), 
             { duration: 3000 }
           );
           //TO DO: change to custom error
@@ -77,8 +77,8 @@ export class CreateSurveySendingPolicyComponent {
       .subscribe({
         next: newPolicy => {
           this.snackbar.open(
-            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.createdSurveySendingPolicy'), 
-            this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.ok'),  
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.createdSurveySendingPolicy'), 
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'),  
             { duration: 3000 }
           );
           this.dialogRef.close(newPolicy);

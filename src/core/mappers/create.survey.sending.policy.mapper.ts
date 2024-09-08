@@ -15,10 +15,10 @@ CreateSurveySendingPolicyDto> {
 
         source.dates.forEach(date => {
             let startDate = new Date(date);
-            startDate.setHours(6, 0, 0, 0);
+            startDate.setUTCHours(0, 0, 0, 0);
         
             let finishDate = new Date(date);
-            finishDate.setHours(23, 59, 0, 0);
+            finishDate.setUTCHours(23, 59, 0, 0);
         
             destination.surveyParticipationTimeSlots.push({
                 start: startDate,

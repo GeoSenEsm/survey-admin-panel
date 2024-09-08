@@ -19,7 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatOptionModule } from '@angular/material/core';
 import { AddRespondentsComponent } from './components/add-respondents/add-respondents.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { SurveysComponent } from './components/surveys/surveys.component';
 import { ButtonsRibbonComponent } from './components/buttons.ribbon/buttons.ribbon.component';
@@ -60,6 +60,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ENGLISH_DATE_FORMATS } from './date.formats';
 import { CookieStorageService } from '../../../core/services/local.storage';
 import { ConfigService } from '../../../core/services/config.service';
+import { LanguageInterceptor } from '../../../core/services/language.interceptor';
 
 
 export const routes: Routes = [
@@ -163,6 +164,11 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [ConfigService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LanguageInterceptor,
       multi: true
     }
   ],
