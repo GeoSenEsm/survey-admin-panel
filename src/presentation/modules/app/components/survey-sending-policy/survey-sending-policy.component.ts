@@ -23,7 +23,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
   readonly calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
-    locale: plLocale
+    locale: plLocale,
+    timeZone: 'UTC'
   };
   calendarEvents: EventInput[] = [];
   private readonly langChangeSubscription: Subscription;
