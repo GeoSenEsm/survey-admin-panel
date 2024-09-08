@@ -19,7 +19,7 @@ CreateSurveySendingPolicyDto> {
             startDate.setUTCHours(0, 0, 0, 0);
         
             let finishDate = new Date();
-            startDate.setUTCFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+            finishDate.setUTCFullYear(date.getFullYear(), date.getMonth(), date.getDate());
             finishDate.setUTCHours(23, 59, 0, 0);
         
             destination.surveyParticipationTimeSlots.push({
