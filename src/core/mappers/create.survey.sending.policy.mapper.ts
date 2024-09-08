@@ -14,10 +14,12 @@ CreateSurveySendingPolicyDto> {
         }
 
         source.dates.forEach(date => {
-            let startDate = new Date(date);
+            let startDate = new Date();
+            startDate.setUTCFullYear(date.getFullYear(), date.getMonth(), date.getDate());
             startDate.setUTCHours(0, 0, 0, 0);
         
-            let finishDate = new Date(date);
+            let finishDate = new Date();
+            startDate.setUTCFullYear(date.getFullYear(), date.getMonth(), date.getDate());
             finishDate.setUTCHours(23, 59, 0, 0);
         
             destination.surveyParticipationTimeSlots.push({
