@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
@@ -9,7 +9,7 @@ import { SurveyService } from '../../../../../domain/external_services/survey.se
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {catchError} from 'rxjs/operators'; 
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { CreateSectionComponent } from '../create-section/create-section.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -23,7 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './create-survey.component.html',
   styleUrl: './create-survey.component.css'
 })
-export class CreateSurveyComponent implements OnInit{
+export class CreateSurveyComponent implements OnInit, OnDestroy{
   model: CreateSurveyModel = {
     name: this.translate.instant('createSurvey.createSurvey.defaultSurveyName'),
     sections: []
@@ -35,6 +35,7 @@ export class CreateSurveyComponent implements OnInit{
   numberOfSectionsError: string | null = null;
   surveyNameErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.nameValidationError);
   groups: RespondentsGroupDto[] = [];
+  private readonly langChangeSubscription: Subscription;
 
 
   constructor(@Inject('surveyMapper') private readonly surveyMapper: Mapper<CreateSurveyModel, CreateSurveyDto>,
@@ -42,10 +43,18 @@ export class CreateSurveyComponent implements OnInit{
   private readonly router: Router,
   private readonly snackbar: MatSnackBar,
   @Inject('respondentGroupsService') private readonly respondentGroupsService: RespondentGroupsService,
-  private readonly translate: TranslateService){}
+  private readonly translate: TranslateService){
+    this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
+      this.loadGroups();
+    })
+  }
   
   ngOnInit(): void {
     this.loadGroups();
+  }
+
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
   }
 
   private loadGroups(): void{

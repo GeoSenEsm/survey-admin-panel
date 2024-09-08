@@ -9,7 +9,7 @@ import { RespondentData } from '../../../../../domain/models/respondent.data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent.data.servce';
 import { convertToValueDisplayMappings, getMapForProperty, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent.info';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, forkJoin } from 'rxjs';
+import { finalize, forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-respondents',
@@ -18,7 +18,7 @@ import { finalize, forkJoin } from 'rxjs';
   styleUrl: './respondents.component.css'
 })
 export class RespondentsComponent 
-implements AfterViewInit{
+implements AfterViewInit, OnDestroy{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource: MatTableDataSource<RespondentData> = null!;
@@ -65,10 +65,18 @@ implements AfterViewInit{
     }
   ];
   loadingErrorOccured = false;
+  private readonly langChangeSubscription: Subscription;
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
     private readonly translate: TranslateService){
+      this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
+        //TODO: maybe it's enough to just reload groups, not all data
+        this.loadData();
+      });
+  }
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {

@@ -121,7 +121,7 @@ export class CreateSectionComponent {
   addQuestion(index: number) : void{
     
     const emptyQuestion = {
-      content: this.translate.instant('createSurvey.createSection.emptyQuestion'),
+      content: this.translate.instant('createSurvey.createSurvey.defaultQuestionContent'),
       isRequired: true,
       type: QuestionType.SINGLE_TEXT_SELECTION,
       options: [],
