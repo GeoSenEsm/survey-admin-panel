@@ -17,6 +17,8 @@ export class CreateTextSelectionOptionsComponent {
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   commonOptionsError: string | null = null;
+  @Input()
+  isReadOnly: boolean = false;
 
   constructor(private readonly translate: TranslateService){}
 

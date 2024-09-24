@@ -116,3 +116,7 @@ mat-error{
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+.readonly-block {
+  pointer-events: none;
+}

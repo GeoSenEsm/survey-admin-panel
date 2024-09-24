@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
@@ -36,6 +36,8 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
   surveyNameErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.nameValidationError);
   groups: RespondentsGroupDto[] = [];
   private readonly langChangeSubscription: Subscription;
+  @Input()
+  isReadOnly: boolean = false;
 
 
   constructor(@Inject('surveyMapper') private readonly surveyMapper: Mapper<CreateSurveyModel, CreateSurveyDto>,

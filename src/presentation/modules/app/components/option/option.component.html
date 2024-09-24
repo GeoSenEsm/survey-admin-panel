@@ -7,6 +7,7 @@
       maxlength="50"
       [errorStateMatcher]="optionErrorStateMatcher"
       (blur)="validate()"
+      [readonly]="isReadOnly"
     />
     <mat-error *ngIf="!isValid()">
       {{ optionError }}

@@ -33,6 +33,8 @@ export class CreateSectionComponent {
   nameError: string | null = null;
   questionsNumberError: string | null = null;
   sectionNameErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.nameError);
+  @Input()
+  isReadOnly: boolean = false;
   //this guid is to identity the section in the editor, as possibly the user can create two with the same name before it is validated
   guid = generateGuid();
   
