@@ -24,6 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './create-survey.component.css'
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy{
+  @Input()
   model: CreateSurveyModel = {
     name: this.translate.instant('createSurvey.createSurvey.defaultSurveyName'),
     sections: []

@@ -9,7 +9,7 @@
     <mat-label>
       {{ 'createSurvey.createTextSelectionOptions.showSection' | translate }}
     </mat-label>
-    <mat-select [(value)]="option.showSection" [ngClass]="isReadOnly ? 'readonly-block' : null">
+    <mat-select [(value)]="option.showSection" [disabled]="isReadOnly">
       <mat-option [value]="undefined">
         {{ 'createSurvey.createTextSelectionOptions.none' | translate }}
       </mat-option>

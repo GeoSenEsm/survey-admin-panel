@@ -61,6 +61,9 @@ import { ENGLISH_DATE_FORMATS } from './date.formats';
 import { CookieStorageService } from '../../../core/services/local.storage';
 import { ConfigService } from '../../../core/services/config.service';
 import { LanguageInterceptor } from '../../../core/services/language.interceptor';
+import { SurveyPreviewComponent } from './components/survey-preview/survey-preview.component';
+import { SURVEY_DETAILS_MAPPER } from '../../../core/services/registration.names';
+import { SurveyDetailsMapper } from '../../../core/mappers/survey-details-mapper';
 
 
 export const routes: Routes = [
@@ -144,7 +147,8 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
     SurveySummaryComponent,
     HistogramComponent,
     SurveysListResultsComponent,
-    SurveySummaryTileComponent
+    SurveySummaryTileComponent,
+    SurveyPreviewComponent
     ],
   bootstrap: [AppComponent],
   providers: [
@@ -170,6 +174,10 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
       provide: HTTP_INTERCEPTORS,
       useClass: LanguageInterceptor,
       multi: true
+    },
+    {
+      provide: SURVEY_DETAILS_MAPPER,
+      useClass: SurveyDetailsMapper
     }
   ],
 })

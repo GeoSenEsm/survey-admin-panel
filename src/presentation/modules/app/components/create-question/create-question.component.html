@@ -15,7 +15,7 @@
                 </div>
                 <div class="two-columns-row-item">
                     <mat-form-field appearance="outline" class="question-type-selector">
-                        <mat-select [(value)]="question!.type" [ngClass]="isReadOnly ? 'readonly-block' : null">
+                        <mat-select [(value)]="question!.type" [disabled]="isReadOnly">
                             <mat-select-trigger>
                                 <mat-icon>{{ questionTypeIconSelector[question!.type] }}</mat-icon>
                                 {{ questionTypeDisplay[question!.type] | translate }}
@@ -48,7 +48,8 @@
             (click)="remove()">
                 <mat-icon>delete_outline</mat-icon>
              </button>
-             <mat-slide-toggle [ngClass]="isReadOnly ? 'readonly-block' : null" 
+             <mat-slide-toggle
+                [disabled]="isReadOnly"
                 labelPosition="before" [(ngModel)]="question!.isRequired"
                 color="primary">
                 {{ 'createSurvey.createQuestion.required' | translate }}

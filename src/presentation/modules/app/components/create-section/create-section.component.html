@@ -16,7 +16,7 @@
             <div class="grid-item">
                 <mat-form-field appearance="fill">
                     <mat-label> {{ 'createSurvey.createSection.visibility' | translate  }} </mat-label>
-                    <mat-select [(value)]="visibility" [ngClass]="isReadOnly ? 'readonly-block' : null">
+                    <mat-select [(value)]="visibility" [disabled]="isReadOnly">
                       <mat-option *ngFor="let visibility of selectableSectionVisibilities"
                       [value]="visibility">
                         {{ getVisibilityDisplay(visibility) }}
@@ -31,8 +31,7 @@
                         {{ 'createSurvey.createSection.group' | translate  }}
                     </mat-label>
                     <mat-select [(value)]="section!.respondentsGroupId"
-                    [ngClass]="isReadOnly ? 'readonly-block' : null"
-                    [disabled]="visibility !== SectionVisibility.GROUP_SPECIFIC">
+                    [disabled]="visibility !== SectionVisibility.GROUP_SPECIFIC || isReadOnly">
                         <mat-option *ngFor="let group of respondentsGroups"
                         [value]="group.id">
                         {{ group.name }}
