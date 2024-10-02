@@ -1,7 +1,7 @@
 <div class="container">
   <div class="hoizontal-container">
     <mat-form-field appearance="fill">
-      <mat-select [(value)]="model.from" [ngClass]="isReadOnly ? 'readonly-block' : null">
+      <mat-select [(value)]="model.from" [disabled]="isReadOnly">
         <mat-option *ngFor="let from of fromOptions;" [value]="from">
           {{ from }}
         </mat-option>
@@ -11,7 +11,7 @@
       -
     </span>
     <mat-form-field appearance="fill">
-      <mat-select [(value)]="model.to" [ngClass]="isReadOnly ? 'readonly-block' : null">
+      <mat-select [(value)]="model.to" [disabled]="isReadOnly">
         <mat-option *ngFor="let to of toOptions;" [value]="to">
           {{ to }}
         </mat-option>
