@@ -3,13 +3,13 @@
 </mat-error>
 <div *ngFor="let option of options; let i = index" class="row">
   <div class="row-item">
-    <app-option [option]="option" />
+    <app-option [option]="option" [isReadOnly]="isReadOnly"/>
   </div>
   <mat-form-field appearance="outline" class="row-item">
     <mat-label>
       {{ 'createSurvey.createTextSelectionOptions.showSection' | translate }}
     </mat-label>
-    <mat-select [(value)]="option.showSection">
+    <mat-select [(value)]="option.showSection" [disabled]="isReadOnly">
       <mat-option [value]="undefined">
         {{ 'createSurvey.createTextSelectionOptions.none' | translate }}
       </mat-option>
@@ -21,7 +21,7 @@
     </mat-select>
   </mat-form-field>
 </div>
-<button
+<button *ngIf="!isReadOnly"
   mat-button
   color="primary"
   (click)="addNewOption()"

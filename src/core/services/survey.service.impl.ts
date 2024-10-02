@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { SurveyDto } from "../../domain/models/survey.dto";
 import { SurveySummaryShortDto } from "../../domain/models/survey.summary.short.dto";
 import { ConfigService } from "./config.service";
+import { SurveyDetailsDto } from "../../domain/models/survey.details.dtos";
 
 @Injectable({
     providedIn: 'root'
@@ -24,5 +25,9 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
 
     createSurvey(dto: CreateSurveyDto): Observable<any> {
        return this.post('/api/surveys', dto);
+    }
+
+    getSurveyById(id: string): Observable<SurveyDetailsDto> {
+        return this.get('/api/surveys', { surveyId: id });
     }
 }

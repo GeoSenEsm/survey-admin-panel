@@ -16,6 +16,8 @@ export class OptionComponent {
   optionError: string | null = null;
   optionErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.optionError);
   readonly maxLen: number = 50;
+  @Input()
+  isReadOnly: boolean = false;
 
   constructor(private readonly translate: TranslateService){}
 

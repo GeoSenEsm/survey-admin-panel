@@ -3,12 +3,13 @@
         <mat-card-header class="survey-name-input">
             <mat-form-field class="full-width" appearance="fill">
                 <input matInput [(ngModel)]="model.name" (blur)="validateName()"
+                [readonly]="isReadOnly"
                 [errorStateMatcher]="surveyNameErrorStateMatcher"/>
                 <mat-error *ngIf="nameValidationError != null">{{ nameValidationError }}</mat-error>
             </mat-form-field>
         </mat-card-header>
         <mat-card-content>
-            <button *ngIf="model.sections.length === 0"
+            <button *ngIf="model.sections.length === 0 && !isReadOnly"
             mat-button color="primary"
             class="create-section-button"
             (click)="addSection(0)">
@@ -21,10 +22,12 @@
             (removeSectionEvent)="removeSection($event)"
             [section]="section"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
-            [respondentsGroups]="groups"/>
+            [respondentsGroups]="groups"
+            [isReadOnly]="isReadOnly"/>
         </mat-card-content>
         <mat-card-footer>
-            <button mat-flat-button color="primary"
+            <button *ngIf="!isReadOnly"
+                mat-flat-button color="primary"
                 appearance="outline"
                 (click)="save()">
                 {{ 'createSurvey.createSurvey.save' | translate }}

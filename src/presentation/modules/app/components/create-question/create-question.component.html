@@ -6,6 +6,7 @@
                     <mat-form-field appearance="fill" class="full-width">
                         <input matInput maxlength="250" [(ngModel)]="question!.content"
                         [errorStateMatcher]="contentErrorStateMatcher"
+                        [readonly]="isReadOnly"
                         (blur)="validateContent()"/>
                         <mat-error *ngIf="contentError != null">
                             {{ contentError }}
@@ -14,7 +15,7 @@
                 </div>
                 <div class="two-columns-row-item">
                     <mat-form-field appearance="outline" class="question-type-selector">
-                        <mat-select [(value)]="question!.type">
+                        <mat-select [(value)]="question!.type" [disabled]="isReadOnly">
                             <mat-select-trigger>
                                 <mat-icon>{{ questionTypeIconSelector[question!.type] }}</mat-icon>
                                 {{ questionTypeDisplay[question!.type] | translate }}
@@ -32,22 +33,27 @@
         <mat-card-content>
             <app-create-text-selection-options [options]="question!.options"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
-            *ngIf="question!.type == QuestionType.SINGLE_TEXT_SELECTION || question!.type == QuestionType.MULTIPLE_CHOICE"/>
+            *ngIf="question!.type == QuestionType.SINGLE_TEXT_SELECTION || question!.type == QuestionType.MULTIPLE_CHOICE"
+            [isReadOnly]="isReadOnly"/>
             <app-create-number-range *ngIf="question!.type == QuestionType.DISCRETE_NUMBER_SELECTION"
-            [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"/>
+            [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"
+            [isReadOnly]="isReadOnly"/>
         </mat-card-content>
         <mat-card-footer>
             <button mat-button color="primary">
                 <mat-icon>content_copy</mat-icon>
             </button>
-            <button mat-button color="primary" 
+            <button *ngIf="!isReadOnly"
+            mat-button color="primary" 
             (click)="remove()">
                 <mat-icon>delete_outline</mat-icon>
              </button>
-             <mat-slide-toggle labelPosition="before" [(ngModel)]="question!.isRequired"
+             <mat-slide-toggle
+                [disabled]="isReadOnly"
+                labelPosition="before" [(ngModel)]="question!.isRequired"
                 color="primary">
                 {{ 'createSurvey.createQuestion.required' | translate }}
-                </mat-slide-toggle>
+            </mat-slide-toggle>
         </mat-card-footer>
     </mat-card>
 </div>

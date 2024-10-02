@@ -14,6 +14,8 @@ export class CreateNumberRangeComponent {
 
   @Input()
   model!: NumberRangeModel;
+  @Input()
+  isReadOnly: boolean = false;
 
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
 import { QuestionType } from '../../../../../domain/models/question.type';
-import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { CreateTextSelectionOptionsComponent } from '../create-text-selection-options/create-text-selection-options.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -26,6 +25,8 @@ export class CreateQuestionComponent {
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   contentError: string | null = null;
   contentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.contentError);
+  @Input()
+  isReadOnly: boolean = false;
 
   allQuestionTypes = [
     QuestionType.SINGLE_TEXT_SELECTION,
