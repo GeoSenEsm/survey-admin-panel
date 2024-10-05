@@ -2,6 +2,7 @@ import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "../services/local-storage";
 import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../services/injection-tokens";
+import { isTokenExpired } from "../services/token-handler";
 
 export const tokenAvailableGuard: () => Promise<boolean> = () =>{
     if (!isTokenAvailable()) {
@@ -13,7 +14,14 @@ export const tokenAvailableGuard: () => Promise<boolean> = () =>{
 
 function isTokenAvailable(): boolean{
     const storageService = inject<LocalStorageService>(STORAGE_SERVICE_TOKEN);
-    return storageService.get<string>('token') !== null;
+    const token = storageService.get<string>('token');
+
+    if (!token){
+        return false;
+    }
+
+    const tokenHandler = inject(TOKEN_HANDLER_TOKEN);
+    return !isTokenExpired(token, tokenHandler);
 }
 
 function navigateTo(route: string): Promise<boolean> {
