@@ -10,8 +10,10 @@ export class ApiService {
       this.baseUrl = configService.apiUrl;
     }
 
-  protected post<T>(url: string, data: any): Observable<T> {
-    return this.httpClient.post<T>(this.baseUrl + url, data);
+  protected post<T>(url: string, data: any, responseType: string | undefined = 'json'): Observable<T> {
+    return this.httpClient.post<T>(this.baseUrl + url, data, {
+      responseType: responseType as 'json'
+    });
   }
 
   protected get<T>(url: string, params?: { [param: string]: string | number }): Observable<T> {

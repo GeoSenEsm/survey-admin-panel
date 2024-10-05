@@ -62,11 +62,12 @@ import { CookieStorageService } from '../../../core/services/local-storage';
 import { ConfigService } from '../../../core/services/config.service';
 import { LanguageInterceptor } from '../../../core/services/language.interceptor';
 import { SurveyPreviewComponent } from './components/survey-preview/survey-preview.component';
-import { STORAGE_SERVICE, SURVEY_DETAILS_MAPPER } from '../../../core/services/registration-names';
+import { AUTHENTICATION_SERVICE, STORAGE_SERVICE, SURVEY_DETAILS_MAPPER } from '../../../core/services/registration-names';
 import { SurveyDetailsMapper } from '../../../core/mappers/survey-details-mapper';
 import { LoadingComponent } from './components/loading/loading.component';
 import { laodingComponentGuard, tokenAvailableGuard } from '../../../core/guards/auth-guard';
 import { STORAGE_SERVICE_TOKEN } from '../../../core/services/injection-tokens';
+import { AuthenticationServiceImpl } from '../../../core/services/authentication.service';
 
 
 export const routes: Routes = [
@@ -182,6 +183,10 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
     {
       provide: SURVEY_DETAILS_MAPPER,
       useClass: SurveyDetailsMapper
+    },
+    {
+      provide: AUTHENTICATION_SERVICE,
+      useClass: AuthenticationServiceImpl
     }
   ],
 })

@@ -6,10 +6,17 @@
     "app": {
         "login":{
             "username": "Nazwa użytkownika",
-            "usernameError": "Nazwa użytkownika jest wymagana i nie może być dłuższa niż {{maxLen}} znaków",
+            "usernameRequiredError": "Nazwa użytkownika jest wymagana.",
+            "usernameMaxLenError": "Nazwa użytkownika nie może być dłuższa niż {{maxLen}} znaków.",
             "password": "Hasło",
             "passwordError": "Hasło jest wymagane i nie może być dłuższe niż {{maxLen}} znaków",
-            "login": "Zaloguj się"
+            "login": "Zaloguj się",
+            "somethingWentWrong": "Cos poszło nie tak",
+            "ok": "OK",
+            "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
+            "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
+            "passwordRequiredError": "Hasło jest wymagane.",
+            "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków."
         },
         "dashboard": {
             "respondents": "Respondenci",

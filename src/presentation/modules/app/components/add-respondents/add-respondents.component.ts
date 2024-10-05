@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { AuthenticationServiceImpl } from '../../../../../core/services/authentication.service';
 import { LoginDto } from '../../../../../domain/models/login.dto';
 import { CreateRespondentsAccountsDto } from '../../../../../domain/models/create.respondents.accounts.dto';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../../../domain/external_services/authentication.service';
+import { AUTHENTICATION_SERVICE } from '../../../../../core/services/registration-names';
 
 interface FormGroupType{
   amount: FormControl<number | null>
@@ -25,7 +26,7 @@ export class AddRespondentsComponent implements OnInit{
   };
 
   constructor(private formBuilder: FormBuilder,
-    private readonly _service: AuthenticationServiceImpl,
+    @Inject(AUTHENTICATION_SERVICE)private readonly _service: AuthenticationService,
     private readonly _clipboard: Clipboard,
     readonly translate: TranslateService){
   }

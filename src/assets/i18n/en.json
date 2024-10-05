@@ -6,10 +6,17 @@
     "app": {
         "login": {
             "username": "Username",
-            "usernameError": "Username is required and cannot be longer than {{maxLen}} characters",
+            "usernameRequiredError": "Username is required.",
+            "usernameMaxLenError": "Username cannot be longer than {{maxLen}} characters.",
             "password": "Password",
             "passwordError": "Password is required and cannot be longer than {{maxLen}} characters",
-            "login": "Log in"
+            "login": "Log in",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "invalidUsername": "Username or password is invalid",
+            "invalidPassword": "Username or password is invalid",
+            "passwordRequiredError": "Password is required.",
+            "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters."
         },
         "dashboard": {
             "respondents": "Respondents",

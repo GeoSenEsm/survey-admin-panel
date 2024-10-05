@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../../../../core/services/local-storage';
+import { STORAGE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 
 interface NavListItem {
   display: string;
@@ -46,7 +47,7 @@ export class DashboardComponent implements OnInit{
   };
 
   constructor(private translateService: TranslateService,
-    @Inject('storage')private readonly storage: LocalStorageService) {}
+    @Inject(STORAGE_SERVICE_TOKEN)private readonly storage: LocalStorageService) {}
   ngOnInit(): void {
     this._language = this.translateService.currentLang;
   }
