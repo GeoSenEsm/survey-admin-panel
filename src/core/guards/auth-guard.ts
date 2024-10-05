@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "../services/local-storage";
-import { STORAGE_SERVICE_TOKEN } from "../services/injection-tokens";
+import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../services/injection-tokens";
 
 export const tokenAvailableGuard: () => Promise<boolean> = () =>{
     if (!isTokenAvailable()) {

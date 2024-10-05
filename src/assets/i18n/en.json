@@ -22,7 +22,8 @@
             "respondents": "Respondents",
             "surveys": "Surveys",
             "creatingSurveys": "Creating surveys",
-            "results": "Results"
+            "results": "Results",
+            "logout": "Logout"
         }
     },
     "respondents": {

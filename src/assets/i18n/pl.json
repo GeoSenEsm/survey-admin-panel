@@ -22,7 +22,8 @@
             "respondents": "Respondenci",
             "surveys": "Ankiety",
             "creatingSurveys": "Tworzenie ankiet",
-            "results": "Wyniki"
+            "results": "Wyniki",
+            "logout": "Wyloguj się"
         }
     },
     "respondents":{
