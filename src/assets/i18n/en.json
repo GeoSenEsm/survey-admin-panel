@@ -16,7 +16,9 @@
             "invalidUsername": "Username or password is invalid",
             "invalidPassword": "Username or password is invalid",
             "passwordRequiredError": "Password is required.",
-            "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters."
+            "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters.",
+            "welcome": "Welcome to the UrbEat admin panel!",
+            "loginToContinue": "Log in to continue"
         },
         "dashboard": {
             "respondents": "Respondents",

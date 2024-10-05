@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   readonly maxLength = 250;

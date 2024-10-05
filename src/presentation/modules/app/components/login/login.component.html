@@ -1,4 +1,9 @@
 <div class="form-container">
+    <div class="welcome-content">
+        <img class="logo" src="assets/imgs/logo.png"/>
+        <h1>{{ 'app.login.welcome' | translate }}</h1>
+        <h2>{{ 'app.login.loginToContinue' | translate }}</h2>
+    </div>
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
         <mat-form-field class="full-width" appearance="outline">
             <mat-label>

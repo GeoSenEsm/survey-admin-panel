@@ -16,7 +16,9 @@
             "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
             "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
             "passwordRequiredError": "Hasło jest wymagane.",
-            "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków."
+            "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
+            "welcome": "Witamy w panelu administracyjnym UrbEat!",
+            "loginToContinue": "Zaloguj się, aby kontynuować"
         },
         "dashboard": {
             "respondents": "Respondenci",
