@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '../../../../../core/services/local.storage';
+import { LocalStorageService } from '../../../../../core/services/local-storage';
 
 interface NavListItem {
   display: string;

@@ -1,0 +1,2 @@
+export const SURVEY_DETAILS_MAPPER = 'SURVEY_DETAILS_MAPPER';
+export const STORAGE_SERVICE = 'storage';

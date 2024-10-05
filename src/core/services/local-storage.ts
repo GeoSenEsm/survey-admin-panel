@@ -5,7 +5,9 @@ export interface LocalStorageService{
     save<T>(key: string, value: T): void;
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CookieStorageService implements LocalStorageService{
 
 

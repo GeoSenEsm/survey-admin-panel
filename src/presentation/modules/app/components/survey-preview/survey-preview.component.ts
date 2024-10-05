@@ -3,7 +3,7 @@ import { SurveyService } from '../../../../../domain/external_services/survey.se
 import { SurveyDetailsDto } from '../../../../../domain/models/survey.details.dtos';
 import { finalize, map } from 'rxjs';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
-import { SURVEY_DETAILS_MAPPER } from '../../../../../core/services/registration.names';
+import { SURVEY_DETAILS_MAPPER } from '../../../../../core/services/registration-names';
 import { Mapper } from '../../../../../core/mappers/mapper';
 
 @Component({

@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { ENGLISH_DATE_FORMATS, POLISH_DATE_FORMATS } from '../../date.formats';
-import { LocalStorageService } from '../../../../../core/services/local.storage';
+import { LocalStorageService } from '../../../../../core/services/local-storage';
+import { STORAGE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnDestroy {
   title = 'survey-admin-panel';
 
   private readonly _pagesWithoutDashboard: string[] = [
-    '/login'
+    '/login', '/', ''
   ]
   private readonly langChangeSubscription: Subscription;
 
@@ -25,7 +26,7 @@ export class AppComponent implements OnDestroy {
     private readonly translateService: TranslateService,
     @Inject(MAT_DATE_LOCALE) dateLocale: string,
     @Inject(MAT_DATE_FORMATS) matDateFormats: any,
-    @Inject('storage') storage: LocalStorageService) {
+    @Inject(STORAGE_SERVICE_TOKEN) storage: LocalStorageService) {
       translateService.addLangs(['en', 'pl']);
       const lang = storage.get<string>('lang') ?? translateService.getBrowserLang();
       translateService.use(lang?.match(/en|pl/) ? lang : 'en');
@@ -41,6 +42,7 @@ export class AppComponent implements OnDestroy {
         }
       });
   }
+  
   ngOnDestroy(): void {
     this.langChangeSubscription.unsubscribe();
   }

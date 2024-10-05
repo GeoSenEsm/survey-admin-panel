@@ -58,23 +58,26 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RespondentDataServiceImpl } from '../../../core/services/respondent.data.service.impl';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ENGLISH_DATE_FORMATS } from './date.formats';
-import { CookieStorageService } from '../../../core/services/local.storage';
+import { CookieStorageService } from '../../../core/services/local-storage';
 import { ConfigService } from '../../../core/services/config.service';
 import { LanguageInterceptor } from '../../../core/services/language.interceptor';
 import { SurveyPreviewComponent } from './components/survey-preview/survey-preview.component';
-import { SURVEY_DETAILS_MAPPER } from '../../../core/services/registration.names';
+import { STORAGE_SERVICE, SURVEY_DETAILS_MAPPER } from '../../../core/services/registration-names';
 import { SurveyDetailsMapper } from '../../../core/mappers/survey-details-mapper';
+import { LoadingComponent } from './components/loading/loading.component';
+import { laodingComponentGuard, tokenAvailableGuard } from '../../../core/guards/auth-guard';
+import { STORAGE_SERVICE_TOKEN } from '../../../core/services/injection-tokens';
 
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
-    {path: 'respondents', component: RespondentsComponent},
-    {path: '', component: RespondentsComponent},
-    {path: 'surveys', component: SurveysComponent},
-    {path: 'surveys/new', component: CreateSurveyComponent},
-    {path: 'surveys/:surveyId', component: SurveyDetailsComponent},
-    {path: 'summaries/:surveyId', component: SurveySummaryComponent},
-    {path: 'summaries', component: SurveysListResultsComponent}
+    {path: 'respondents', component: RespondentsComponent, canActivate: [tokenAvailableGuard]},
+    {path: '', component: LoadingComponent, canActivate: [laodingComponentGuard]},
+    {path: 'surveys', component: SurveysComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'summaries/:surveyId', component: SurveySummaryComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 
@@ -148,7 +151,8 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
     HistogramComponent,
     SurveysListResultsComponent,
     SurveySummaryTileComponent,
-    SurveyPreviewComponent
+    SurveyPreviewComponent,
+    LoadingComponent
     ],
   bootstrap: [AppComponent],
   providers: [
@@ -163,7 +167,7 @@ export function initializeApp(configService: ConfigService): () => Promise<any> 
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: 'summariesService', useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
-    {provide: 'storage', useClass: CookieStorageService},
+    {provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService},
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
