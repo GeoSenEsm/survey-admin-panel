@@ -14,11 +14,12 @@ import { CookieStorageService } from "../../../core/services/local-storage";
 import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/services/injection-tokens";
 import { ConfigService } from "../../../core/services/config.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LanguageInterceptor } from "../../../core/services/language.interceptor";
+import { LanguageInterceptor } from "../../../core/services/language-interceptor";
 import { AUTHENTICATION_SERVICE, SURVEY_DETAILS_MAPPER } from "../../../core/services/registration-names";
 import { SurveyDetailsMapper } from "../../../core/mappers/survey-details-mapper";
 import { AuthenticationServiceImpl } from "../../../core/services/authentication.service";
 import { JwtTokenHandler } from "../../../core/services/token-handler";
+import { AuthInterceptor } from "../../../core/services/auth-interceptor";
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
     return () => configService.loadConfig();
@@ -46,6 +47,11 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LanguageInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     },
     {
