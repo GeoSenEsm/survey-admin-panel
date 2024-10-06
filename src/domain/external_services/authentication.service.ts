@@ -4,4 +4,5 @@ import { LoginDto } from "../models/login.dto";
 
 export interface AuthenticationService{
     generateRespondents(dto: CreateRespondentsAccountsDto): Observable<LoginDto[]>;
+    login(dto: LoginDto): Observable<string>;
 }

@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '../../../../../core/services/local.storage';
+import { LocalStorageService } from '../../../../../core/services/local-storage';
+import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from '../../../../../core/services/injection-tokens';
+import { TokenHandler } from '../../../../../core/services/token-handler';
+import { R } from '@fullcalendar/core/internal-common';
+import { Router } from '@angular/router';
 
 interface NavListItem {
   display: string;
@@ -44,11 +48,16 @@ export class DashboardComponent implements OnInit{
     ['en']: 'English',
     ['pl']: 'Polski'
   };
+  avatarInitials: string = 'A';
 
   constructor(private translateService: TranslateService,
-    @Inject('storage')private readonly storage: LocalStorageService) {}
-  ngOnInit(): void {
+    @Inject(STORAGE_SERVICE_TOKEN) private readonly storage: LocalStorageService,
+    @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
+    private readonly router: Router) {}
+  
+    ngOnInit(): void {
     this._language = this.translateService.currentLang;
+    this.loadInitials();
   }
 
   get availableLanguages(): string[] {
@@ -69,5 +78,23 @@ export class DashboardComponent implements OnInit{
 
   toggleDrawer(): void {
     this.isDrawerOpen = !this.isDrawerOpen;
+  }
+
+  private loadInitials(): void{
+    const token = this.storage.get<string>('token');
+
+    if (!token) {
+      return;
+    }
+
+    const username = this.tokenHandler.getClaim(token, 'sub');
+    if (typeof username === 'string') {
+      this.avatarInitials = username.charAt(0).toUpperCase();
+    }
+  }
+
+  logout(): void{
+    this.storage.remove('token');
+    this.router.navigate(['login']);
   }
 }

@@ -19,4 +19,8 @@ export class AuthenticationServiceImpl  extends ApiService implements Authentica
   public generateRespondents(dto: CreateRespondentsAccountsDto): Observable<LoginDto[]>{
     return this.post('/api/authentication/respondents', dto);
   }
+
+  login(dto: LoginDto): Observable<string> {
+    return this.post('/api/authentication/login', dto, 'text');
+  }
 }

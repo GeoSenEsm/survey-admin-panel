@@ -28,6 +28,20 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <div class="avatar-chip">
+      <span class="avatar-initials">{{ avatarInitials }}</span>
+    </div>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+      <mat-icon>
+        arrow_drop_down
+      </mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        {{ 'app.dashboard.logout' | translate }}
+      </button>
+    </mat-menu>
 </mat-toolbar>
 <mat-drawer-container class="container">
   <mat-drawer mode="side" [opened]="isDrawerOpen">

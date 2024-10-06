@@ -3,9 +3,12 @@ import { Injectable } from "@angular/core";
 export interface LocalStorageService{
     get<T>(key: string): T | null;
     save<T>(key: string, value: T): void;
+    remove(key: string): void;
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CookieStorageService implements LocalStorageService{
 
 
@@ -24,5 +27,10 @@ export class CookieStorageService implements LocalStorageService{
     save<T>(key: string, value: T): void {
         const serializedValue = encodeURIComponent(JSON.stringify(value));
         document.cookie = `${key}=${serializedValue}; path=/;`;
-    }   
+    }
+
+
+    remove(key: string): void {
+        document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+    }
 }

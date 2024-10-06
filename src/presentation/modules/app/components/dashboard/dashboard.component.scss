@@ -66,3 +66,20 @@ This was the only solution I found*/
 .lang-span{
     color: $primary-color;
 }
+
+.avatar-chip {
+    margin-left: 10px;
+    background-color: $backgrouod-primary;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.avatar-initials {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 25px;
+} 
