@@ -143,6 +143,15 @@
         "surveySummaryTile": {
             "completitionDate": "Survey completion date",
             "showSummary": "Show summary"
+        },
+        "resultsFilters": {
+            "survey": "Survey",
+            "dateFrom": "Date from",
+            "timeFrom": "Time from",
+            "dateTo": "Date to",
+            "timeTo": "Time to",
+            "load": "Load",
+            "export": "Export"
         }
     }
 }

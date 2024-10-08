@@ -54,6 +54,8 @@ import { laodingComponentGuard, tokenAvailableGuard } from '../../../core/guards
 import { MatMenuModule } from '@angular/material/menu';
 import { APP_MODULE_PROVIDERS } from './prodivers';
 import { SurveyPreviewComponent } from './components/survey-preview/survey-preview.component';
+import { ResultsFiltersComponent } from './components/results-filters/results-filters.component';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 
 export const routes: Routes = [
@@ -109,7 +111,8 @@ export function HttpLoaderFactory(http: HttpClient){
       }
     }),
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxMatTimepickerModule
   ],
   declarations: [
     AppComponent, 
@@ -134,7 +137,8 @@ export function HttpLoaderFactory(http: HttpClient){
     SurveysListResultsComponent,
     SurveySummaryTileComponent,
     SurveyPreviewComponent,
-    LoadingComponent
+    LoadingComponent,
+    ResultsFiltersComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

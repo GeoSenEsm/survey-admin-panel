@@ -143,6 +143,15 @@
         "surveySummaryTile": {
             "completitionDate": "Data wypełnienia ankiety",
             "showSummary": "Zobacz podumowanie"
+        },
+        "resultsFilters": {
+            "survey": "Ankieta",
+            "dateFrom": "Data od",
+            "timeFrom": "Godzina od",
+            "dateTo": "Data do",
+            "timeTo": "Godzina do",
+            "load": "Załaduj",
+            "export": "Exportuj"
         }
     }
 }
