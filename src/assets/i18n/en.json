@@ -138,7 +138,8 @@
     "summary": {
         "surveySummary": {
             "couldNotLoadData": "Could not load data",
-            "ok": "OK"
+            "ok": "OK",
+            "gridExportFilename": "data.csv" 
         },
         "surveySummaryTile": {
             "completitionDate": "Survey completion date",

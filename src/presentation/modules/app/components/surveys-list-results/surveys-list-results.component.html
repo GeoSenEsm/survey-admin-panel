@@ -1,5 +1,6 @@
 <div class="container">
-  <app-results-filters (loadDataCallback)="loadTableData($event)"/>
+  <app-results-filters (loadDataCallback)="loadTableData($event)" [canExport]="canExport"
+  (exportDataCallback)="exportToCsv()"/>
   <mat-table [dataSource]="dataSource">
     <ng-container *ngFor="let column of headers" [matColumnDef]="column">
       <mat-header-cell *matHeaderCellDef mat-sort-header>

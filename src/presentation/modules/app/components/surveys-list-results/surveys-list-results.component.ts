@@ -5,6 +5,8 @@ import { SummariesService } from '../../../../../domain/external_services/summar
 import { SurveyResultsFilter } from '../../../../../domain/models/survey-results-filter';
 import { SurveyResultEntry } from '../../../../../domain/models/survey-result-entry';
 import { MatTableDataSource } from '@angular/material/table';
+import { CsvExportService } from '../../../../../core/services/csv-export.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-surveys-list-results',
@@ -20,7 +22,13 @@ export class SurveysListResultsComponent implements AfterViewInit{
   dataSource: MatTableDataSource<SurveyResultEntry> = undefined!;
   resultEntries: SurveyResultEntry[] = [];
 
-  constructor(@Inject(SUMMARIES_SERVICE) private readonly summariesService: SummariesService){}
+  get canExport(): boolean{
+    return this.resultEntries.length > 0;
+  }
+
+  constructor(@Inject(SUMMARIES_SERVICE) private readonly summariesService: SummariesService,
+             private readonly exportService: CsvExportService,
+             private readonly translate: TranslateService){}
   
   ngAfterViewInit(): void {
     this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
@@ -47,5 +55,9 @@ export class SurveysListResultsComponent implements AfterViewInit{
       })
     });
   }
-  
+
+  exportToCsv(): void{
+    const filename = this.translate.instant("summary.surveySummary.gridExportFilename");
+    this.exportService.exportTableToCSV(this.dataSource.data, this.headers, filename);
+  }
 }

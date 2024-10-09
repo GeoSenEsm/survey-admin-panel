@@ -47,7 +47,8 @@
       <mat-icon> refresh </mat-icon>
       {{ "summary.resultsFilters.load" | translate }}
     </button>
-    <button type="button" mat-flat-button color="primary" (click)="exportData()">
+    <button type="button" mat-flat-button color="primary" (click)="exportData()"
+    [disabled]="!canExport">
       <mat-icon> file_download </mat-icon>
       {{ "summary.resultsFilters.export" | translate }}
     </button>

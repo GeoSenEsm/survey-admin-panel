@@ -20,6 +20,8 @@ export class ResultsFiltersComponent implements OnInit{
   exportDataCallback = new EventEmitter();
   @Input()
   surveys: SurveySummaryShortDto[] | undefined = undefined;
+  @Input()
+  canExport: boolean = false;
   filtersForm = new FormGroup({
     selectedSurveyId: new FormControl<string | undefined>(undefined), 
     selectedDateFrom: new FormControl<Date | undefined>(undefined),
