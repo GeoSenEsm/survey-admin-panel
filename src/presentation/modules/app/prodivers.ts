@@ -15,7 +15,7 @@ import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/servic
 import { ConfigService } from "../../../core/services/config.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LanguageInterceptor } from "../../../core/services/language-interceptor";
-import { AUTHENTICATION_SERVICE, SURVEY_DETAILS_MAPPER } from "../../../core/services/registration-names";
+import { AUTHENTICATION_SERVICE, SUMMARIES_SERVICE, SURVEY_DETAILS_MAPPER } from "../../../core/services/registration-names";
 import { SurveyDetailsMapper } from "../../../core/mappers/survey-details-mapper";
 import { AuthenticationServiceImpl } from "../../../core/services/authentication.service";
 import { JwtTokenHandler } from "../../../core/services/token-handler";
@@ -35,7 +35,7 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
-    {provide: 'summariesService', useClass: SummariesServiceImpl},
+    {provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
     {provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService},
     {

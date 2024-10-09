@@ -152,6 +152,13 @@
             "timeTo": "Time to",
             "load": "Load",
             "export": "Export"
+        },
+        "resultsGrid": {
+            "surveyName": "Survey name",
+            "question": "Question",
+            "responseDate": "Answer date",
+            "answers": "Answers",
+            "respondentId": "Respondent ID"
         }
     }
 }

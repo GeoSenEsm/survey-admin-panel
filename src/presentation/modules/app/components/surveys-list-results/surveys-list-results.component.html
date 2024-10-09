@@ -1,4 +1,18 @@
 <div class="container">
-    <app-results-filters/>
+  <app-results-filters (loadDataCallback)="loadTableData($event)"/>
+  <mat-table [dataSource]="dataSource">
+    <ng-container *ngFor="let column of headers" [matColumnDef]="column">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "summary.resultsGrid." + column | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let answer"> 
+        {{ answer[column] }}
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="headers"
+      class="table-header"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: headers"></mat-row>
+  </mat-table>
 </div>
-

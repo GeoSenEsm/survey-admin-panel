@@ -152,6 +152,13 @@
             "timeTo": "Godzina do",
             "load": "Załaduj",
             "export": "Exportuj"
+        },
+        "resultsGrid": {
+            "surveyName": "Nazwa ankiety",
+            "question": "Pytanie",
+            "responseDate": "Data udzielenia odpowiedzi",
+            "answers": "Udzielone odpowiedzi",
+            "respondentId": "ID respondenta"
         }
     }
 }

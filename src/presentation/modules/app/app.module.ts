@@ -41,7 +41,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { SurveySummaryComponent } from './components/survey-summary/survey-summary.component';
 import { HistogramComponent } from './components/histogram/histogram.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SurveysListResultsComponent } from './components/surveys-list-results/surveys-list-results.component';
@@ -65,7 +64,6 @@ export const routes: Routes = [
     {path: 'surveys', component: SurveysComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'summaries/:surveyId', component: SurveySummaryComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]}
 ];
 
@@ -132,7 +130,6 @@ export function HttpLoaderFactory(http: HttpClient){
     SurveySendingPolicyComponent,
     CreateSurveySendingPolicyComponent,
     SurveyTileComponent,
-    SurveySummaryComponent,
     HistogramComponent,
     SurveysListResultsComponent,
     SurveySummaryTileComponent,

@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
-import { HistogramDataDto } from "../models/histogram.data.dto";
+import { SurveyResultsFilter } from "../models/survey-results-filter";
+import { SurveyResultEntry } from "../models/survey-result-entry";
 
 export interface SummariesService{
-    getHistogramData(surveyId: string, date: Date): Observable<HistogramDataDto[]>;
+    getTableResults(filter: SurveyResultsFilter): Observable<SurveyResultEntry[]>;
 }
