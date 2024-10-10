@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, Provider } from "@angular/core";
+import { APP_INITIALIZER, EnvironmentProviders, LOCALE_ID, Provider } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateSurveyMapper } from "../../../core/mappers/create.survey.mapper";
 import { SurveyServiceImpl } from "../../../core/services/survey.service.impl";
@@ -33,6 +33,7 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
+    { provide: LOCALE_ID, useValue: 'en' },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl},
