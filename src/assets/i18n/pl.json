@@ -138,11 +138,30 @@
     "summary": {
         "surveySummary": {
             "couldNotLoadData": "Nie udało się załadować danych",
-            "ok": "OK"
+            "ok": "OK",
+            "gridExportFilename": "dane.csv" 
         },
         "surveySummaryTile": {
             "completitionDate": "Data wypełnienia ankiety",
             "showSummary": "Zobacz podumowanie"
+        },
+        "resultsFilters": {
+            "survey": "Ankieta",
+            "dateFrom": "Data od",
+            "timeFrom": "Godzina od",
+            "dateTo": "Data do",
+            "timeTo": "Godzina do",
+            "load": "Załaduj",
+            "export": "Exportuj"
+        },
+        "resultsGrid": {
+            "surveyName": "Nazwa ankiety",
+            "question": "Pytanie",
+            "responseDate": "Data udzielenia odpowiedzi",
+            "answers": "Udzielone odpowiedzi",
+            "respondentId": "ID respondenta",
+            "nothingToDisplay":"Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
+            "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
         }
     }
 }

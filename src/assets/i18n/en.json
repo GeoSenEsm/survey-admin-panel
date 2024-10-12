@@ -138,11 +138,30 @@
     "summary": {
         "surveySummary": {
             "couldNotLoadData": "Could not load data",
-            "ok": "OK"
+            "ok": "OK",
+            "gridExportFilename": "data.csv" 
         },
         "surveySummaryTile": {
             "completitionDate": "Survey completion date",
             "showSummary": "Show summary"
+        },
+        "resultsFilters": {
+            "survey": "Survey",
+            "dateFrom": "Date from",
+            "timeFrom": "Time from",
+            "dateTo": "Date to",
+            "timeTo": "Time to",
+            "load": "Load",
+            "export": "Export"
+        },
+        "resultsGrid": {
+            "surveyName": "Survey name",
+            "question": "Question",
+            "responseDate": "Answer date",
+            "answers": "Answers",
+            "respondentId": "Respondent ID",
+            "nothingToDisplay":"No results to display. Try changing filters.",
+            "loadingError": "An error occured when loading the results. Please try again later."
         }
     }
 }

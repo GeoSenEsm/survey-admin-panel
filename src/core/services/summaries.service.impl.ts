@@ -1,10 +1,11 @@
-import { Observable } from "rxjs";
+import { delay, Observable, of, throwError } from "rxjs";
 import { SummariesService } from "../../domain/external_services/summaries.service";
-import { HistogramDataDto } from "../../domain/models/histogram.data.dto";
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
 import { HttpClient } from "@angular/common/http";
 import { ConfigService } from "./config.service";
+import { SurveyResultEntry } from "../../domain/models/survey-result-entry";
+import { SurveyResultsFilter } from "../../domain/models/survey-results-filter";
 
 @Injectable()
 export class SummariesServiceImpl
@@ -14,10 +15,11 @@ implements SummariesService {
         super(client, configService);
     }
 
-    getHistogramData(surveyId: string, date: Date): Observable<HistogramDataDto[]> {
-        return this.get<HistogramDataDto[]>('/api/summaries/histogram', {
-            'surveyId': surveyId,
-            'date': date.toISOString()
-        });
+    getTableResults(filter: SurveyResultsFilter): Observable<SurveyResultEntry[]> {
+        return this.get(`api/surveyresponses/results`, {
+            'surveyId': filter.surveyId,
+            'dateFrom': filter.fromDate.toISOString(),
+            'dateTo': filter.toDate.toISOString()
+        })
     }
 }

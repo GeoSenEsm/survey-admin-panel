@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnDestroy } from '@angular/core';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +26,8 @@ export class AppComponent implements OnDestroy {
     private readonly translateService: TranslateService,
     @Inject(MAT_DATE_LOCALE) dateLocale: string,
     @Inject(MAT_DATE_FORMATS) matDateFormats: any,
-    @Inject(STORAGE_SERVICE_TOKEN) storage: LocalStorageService) {
+    @Inject(STORAGE_SERVICE_TOKEN) storage: LocalStorageService,
+    @Inject(LOCALE_ID) locale: string) {
       translateService.addLangs(['en', 'pl']);
       const lang = storage.get<string>('lang') ?? translateService.getBrowserLang();
       translateService.use(lang?.match(/en|pl/) ? lang : 'en');

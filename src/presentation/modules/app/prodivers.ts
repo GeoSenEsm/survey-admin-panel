@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, Provider } from "@angular/core";
+import { APP_INITIALIZER, EnvironmentProviders, LOCALE_ID, Provider } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateSurveyMapper } from "../../../core/mappers/create.survey.mapper";
 import { SurveyServiceImpl } from "../../../core/services/survey.service.impl";
@@ -15,11 +15,12 @@ import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/servic
 import { ConfigService } from "../../../core/services/config.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LanguageInterceptor } from "../../../core/services/language-interceptor";
-import { AUTHENTICATION_SERVICE, SURVEY_DETAILS_MAPPER } from "../../../core/services/registration-names";
+import { AUTHENTICATION_SERVICE, SUMMARIES_SERVICE, SURVEY_DETAILS_MAPPER } from "../../../core/services/registration-names";
 import { SurveyDetailsMapper } from "../../../core/mappers/survey-details-mapper";
 import { AuthenticationServiceImpl } from "../../../core/services/authentication.service";
 import { JwtTokenHandler } from "../../../core/services/token-handler";
 import { AuthInterceptor } from "../../../core/services/auth-interceptor";
+import { DatePipe } from "@angular/common";
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
     return () => configService.loadConfig();
@@ -33,9 +34,10 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl},
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
+    { provide: LOCALE_ID, useValue: 'en' },
     {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
-    {provide: 'summariesService', useClass: SummariesServiceImpl},
+    {provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},
     {provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService},
     {
@@ -65,5 +67,6 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {
       provide: TOKEN_HANDLER_TOKEN,
       useClass: JwtTokenHandler
-    }
+    },
+    DatePipe
 ]
