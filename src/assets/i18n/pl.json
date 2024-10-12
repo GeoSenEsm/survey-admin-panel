@@ -25,7 +25,8 @@
             "surveys": "Ankiety",
             "creatingSurveys": "Tworzenie ankiet",
             "results": "Wyniki",
-            "logout": "Wyloguj się"
+            "logout": "Wyloguj się",
+            "startSurvey": "Ankieta początkowa"
         }
     },
     "respondents":{
@@ -163,5 +164,16 @@
             "nothingToDisplay":"Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
             "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
         }
+    },
+    "startSurvey":{
+        "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz zadawać im pytania tylko dla kokretnej grupy respondentów. Np., możesz zapytać o płeć, a później w innych ankietach dodawać pytania tylko dla kobiet/mężczyzn.",
+        "question": "Pytanie",
+        "options": "Opcje:",
+        "optionContent": "Treść opcji",
+        "questions": "Pytania",
+        "addOption": "Dodaj opcję",
+        "addQuestion": "Dodaj pytanie",
+        "saveNewQuestions": "Zapisz nowe pytania",
+        "deleteQuestion": "Usuń pytanie"
     }
 }

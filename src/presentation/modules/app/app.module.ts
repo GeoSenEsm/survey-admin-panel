@@ -56,6 +56,9 @@ import { SurveyPreviewComponent } from './components/survey-preview/survey-previ
 import { ResultsFiltersComponent } from './components/results-filters/results-filters.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { CommonModule } from '@angular/common';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { StartSurveyComponent } from './components/start-survey/start-survey.component';
+import { StartSurveyQuestionComponent } from './components/start-survey-question/start-survey-question.component';
 
 
 export const routes: Routes = [
@@ -65,7 +68,8 @@ export const routes: Routes = [
     {path: 'surveys', component: SurveysComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -112,7 +116,8 @@ export function HttpLoaderFactory(http: HttpClient){
     MatProgressSpinnerModule,
     MatMenuModule,
     NgxMatTimepickerModule,
-    CommonModule
+    CommonModule,
+    MatExpansionModule
   ],
   declarations: [
     AppComponent, 
@@ -137,7 +142,9 @@ export function HttpLoaderFactory(http: HttpClient){
     SurveySummaryTileComponent,
     SurveyPreviewComponent,
     LoadingComponent,
-    ResultsFiltersComponent
+    ResultsFiltersComponent,
+    StartSurveyComponent,
+    StartSurveyQuestionComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

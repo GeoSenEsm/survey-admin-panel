@@ -1,0 +1,27 @@
+<div class="container">
+    <h3>
+        {{ 'startSurvey.description' | translate }}
+    </h3>
+    <mat-card>
+        <mat-card-header>
+            <h3>{{ 'startSurvey.questions' | translate }}</h3>        
+        </mat-card-header>
+        <mat-card-content>
+            <div class="questions-container">
+                <app-start-survey-question *ngFor="let question of oldQuestions" [question]="question" [isReadOnly]="true"/>
+                <app-start-survey-question *ngFor="let question of newQuestions" [question]="question"
+                (removeQuestionCallback)="removeQuestion($event)"/>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <button mat-flat-button color="primary" (click)="addQuestion()">
+                <mat-icon>add</mat-icon>
+                {{ 'startSurvey.addQuestion' | translate }}
+            </button>
+            <button mat-stroked-button>
+                <mat-icon>save</mat-icon>
+                {{ 'startSurvey.saveNewQuestions' | translate }}
+            </button>
+        </mat-card-footer>
+    </mat-card>
+</div>

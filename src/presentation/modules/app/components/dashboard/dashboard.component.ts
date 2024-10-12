@@ -23,6 +23,11 @@ export class DashboardComponent implements OnInit{
 
   navListItems: NavListItem[] = [
     {
+      display: 'app.dashboard.startSurvey',
+      "matIcon": "list",
+      link: 'startSurvey'
+    },
+    {
       display: 'app.dashboard.respondents',
       matIcon: 'group',
       link: 'respondents'

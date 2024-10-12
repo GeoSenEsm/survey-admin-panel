@@ -25,7 +25,8 @@
             "surveys": "Surveys",
             "creatingSurveys": "Creating surveys",
             "results": "Results",
-            "logout": "Logout"
+            "logout": "Logout",
+            "startSurvey": "Start survey"
         }
     },
     "respondents": {
@@ -163,5 +164,16 @@
             "nothingToDisplay":"No results to display. Try changing filters.",
             "loadingError": "An error occured when loading the results. Please try again later."
         }
+    },
+    "startSurvey":{
+        "description": "The initial survey is a special type of survey. It is displayed to respondents once, immediately after logging into the application. It contains only multiple-choice questions, allowing you to ask questions specifically for a particular group of respondents. For example, you can ask about gender, and later in other surveys, you can include questions only for women/men.",
+        "question": "Question",
+        "options": "Options:",
+        "optionContent": "Option content",
+        "questions": "Questions",
+        "addOption": "Add option",
+        "addQuestion": "Add question",
+        "saveNewQuestions": "Save new questions",
+        "deleteQuestion": "Delete question"
     }
 }
