@@ -16,9 +16,6 @@ implements SummariesService {
     }
 
     getTableResults(filter: SurveyResultsFilter): Observable<SurveyResultEntry[]> {
-        return of([
-            { surveyName: 'test', question: 'test', responseDate: '2024-01-01T12:00Z', answers: [1, 2, 3], respondentId: 'test' }
-        ])
         return this.get(`api/surveyresponses/results`, {
             'surveyId': filter.surveyId,
             'dateFrom': filter.fromDate.toISOString(),
