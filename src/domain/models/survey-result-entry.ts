@@ -1,7 +1,7 @@
 export interface SurveyResultEntry {
     surveyName: string;
     question: string;
-    responseDate: Date;
+    responseDate: string;
     answers: any[];
     respondentId: string;
 }

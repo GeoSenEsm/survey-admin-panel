@@ -115,11 +115,21 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy{
 
   loadData(): void{
     if (this.canLoad()){
-      const timeFrom = 
+      const timeFrom =  parseToTime(this.filtersForm.get('selectedTimeFrom')?.value);
+      const timeTo =  parseToTime(this.filtersForm.get('selectedTimeTo')?.value);
+      const dateFrom =  this.filtersForm.get('selectedDateFrom')?.value;
+      const dateTo =  this.filtersForm.get('selectedDateTo')?.value;
+
+      if (!timeFrom || !timeTo || !dateFrom || !dateTo){
+        return;
+      }
+
+      dateFrom.setHours(timeFrom.hours, timeFrom.minutes);
+      dateTo.setHours(timeTo.hours, timeTo.minutes);
       this.loadDataCallback.emit({
         surveyId: this.filtersForm.value.selectedSurveyId!,
-        fromDate: this.filtersForm.value.selectedDateFrom!,
-        toDate: this.filtersForm.value.selectedDateTo!
+        fromDate: dateFrom,
+        toDate: dateTo
       });
     }
   }

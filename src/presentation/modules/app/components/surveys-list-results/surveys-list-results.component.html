@@ -7,7 +7,7 @@
         {{ "summary.resultsGrid." + column | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let answer"> 
-        {{ answer[column] }}
+        {{ getActualColumnDisplay(answer[column], column) }}
       </mat-cell>
     </ng-container>
     <mat-header-row
@@ -16,4 +16,15 @@
     ></mat-header-row>
     <mat-row *matRowDef="let row; columns: headers"></mat-row>
   </mat-table>
+  <h3 *ngIf="!isBusy && resultEntries.length === 0 && !loadDataError && loadedAtLeastOnce">
+    {{ 'summary.resultsGrid.nothingToDisplay' | translate }}
+  </h3>
+  <h3 *ngIf="!isBusy && loadDataError">
+    <mat-error>
+      {{ 'summary.resultsGrid.loadingError' | translate }}
+    </mat-error>
+  </h3>
+  <div class="spinner-container" *ngIf="isBusy">
+    <mat-spinner/>
+  </div>
 </div>

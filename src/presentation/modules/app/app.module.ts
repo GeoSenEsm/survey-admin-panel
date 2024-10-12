@@ -55,6 +55,7 @@ import { APP_MODULE_PROVIDERS } from './prodivers';
 import { SurveyPreviewComponent } from './components/survey-preview/survey-preview.component';
 import { ResultsFiltersComponent } from './components/results-filters/results-filters.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { CommonModule } from '@angular/common';
 
 
 export const routes: Routes = [
@@ -110,7 +111,8 @@ export function HttpLoaderFactory(http: HttpClient){
     }),
     MatProgressSpinnerModule,
     MatMenuModule,
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    CommonModule
   ],
   declarations: [
     AppComponent, 

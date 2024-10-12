@@ -20,6 +20,7 @@ import { SurveyDetailsMapper } from "../../../core/mappers/survey-details-mapper
 import { AuthenticationServiceImpl } from "../../../core/services/authentication.service";
 import { JwtTokenHandler } from "../../../core/services/token-handler";
 import { AuthInterceptor } from "../../../core/services/auth-interceptor";
+import { DatePipe } from "@angular/common";
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
     return () => configService.loadConfig();
@@ -66,5 +67,6 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {
       provide: TOKEN_HANDLER_TOKEN,
       useClass: JwtTokenHandler
-    }
+    },
+    DatePipe
 ]

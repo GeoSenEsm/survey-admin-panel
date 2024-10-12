@@ -159,7 +159,9 @@
             "question": "Pytanie",
             "responseDate": "Data udzielenia odpowiedzi",
             "answers": "Udzielone odpowiedzi",
-            "respondentId": "ID respondenta"
+            "respondentId": "ID respondenta",
+            "nothingToDisplay":"Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
+            "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
         }
     }
 }

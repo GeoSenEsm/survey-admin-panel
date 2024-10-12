@@ -159,7 +159,9 @@
             "question": "Question",
             "responseDate": "Answer date",
             "answers": "Answers",
-            "respondentId": "Respondent ID"
+            "respondentId": "Respondent ID",
+            "nothingToDisplay":"No results to display. Try changing filters.",
+            "loadingError": "An error occured when loading the results. Please try again later."
         }
     }
 }
