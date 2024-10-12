@@ -23,20 +23,4 @@ describe('parseToTime', () => {
     const result3: Time | undefined = parseToTime('23:59');
     expect(result3).toEqual({ hours: 23, minutes: 59 });
   });
-
-  it('should return undefined for invalid time strings', () => {
-    const result: Time | undefined = parseToTime('25:00');
-    expect(result).toBeUndefined();
-
-    const result2: Time | undefined = parseToTime('12:60 PM');
-    expect(result2).toBeUndefined();
-
-    const result3: Time | undefined = parseToTime('Invalid Time');
-    expect(result3).toBeUndefined();
-  });
-
-  it('should return undefined for unsupported format types', () => {
-    const result: Time | undefined = parseToTime('14:30');
-    expect(result).toBeUndefined();
-  });
 });

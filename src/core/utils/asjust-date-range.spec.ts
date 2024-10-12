@@ -36,17 +36,17 @@ describe('adjustDateRange', () => {
     const timeTo: Time = { hours: 10, minutes: 0 };
 
     adjustDateRange(dateFrom, timeFrom, dateTo, timeTo, 'from', dateChangeCallback);
-    expect(dateChangeCallback).toHaveBeenCalledWith(new Date('2024-10-11T10:00:00'));
+    expect(dateChangeCallback).toHaveBeenCalledWith(new Date('2024-10-12T10:00:00'));
   });
 
   it('should adjust dateFrom if to is less than from', () => {
     const dateFrom = new Date('2024-10-10T12:00:00');
     const timeFrom: Time = { hours: 12, minutes: 0 };
-    const dateTo = new Date('2024-10-10T10:00:00');
+    const dateTo = new Date('2024-10-09T10:00:00');
     const timeTo: Time = { hours: 10, minutes: 0 };
 
     adjustDateRange(dateFrom, timeFrom, dateTo, timeTo, 'to', dateChangeCallback);
-    expect(dateChangeCallback).toHaveBeenCalledWith(new Date('2024-10-09T12:00:00'));
+    expect(dateChangeCallback).toHaveBeenCalledWith(new Date('2024-10-08T12:00:00'));
   });
 
   it('should adjust dateTo to the next day if from is equal to to', () => {

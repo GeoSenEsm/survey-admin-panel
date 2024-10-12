@@ -20,7 +20,7 @@ export function adjustDateRange(dateFrom: Date | undefined, timeFrom: Time | und
 
       let daysToChange = 0;
 
-      if (timeFrom.hours > timeTo.hours || (timeFrom.hours === timeTo.hours && timeFrom.minutes > timeTo.minutes)){
+      if (timeFrom.hours >= timeTo.hours || (timeFrom.hours === timeTo.hours && timeFrom.minutes >= timeTo.minutes)){
         daysToChange = 1;
       }
 
