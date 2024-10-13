@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationData, TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-start-survey',
@@ -9,6 +12,9 @@ import { StartSurveyQuestion } from '../../../../../core/models/start-survey-que
 export class StartSurveyComponent implements OnInit {
   oldQuestions: StartSurveyQuestion[] = [];
   newQuestions: StartSurveyQuestion[] = [];
+
+  constructor(private readonly dialog: MatDialog,
+    private readonly translate: TranslateService){}
 
   ngOnInit(): void {
     //here I'll load the old questions
@@ -67,5 +73,29 @@ export class StartSurveyComponent implements OnInit {
 
   removeQuestion(question: StartSurveyQuestion): void {
     this.newQuestions.splice(this.newQuestions.indexOf(question), 1);
+  }
+
+  save(): void{
+    this.dialog.open(TypeToConfirmDialogComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data:{
+        informationText: this.translate.instant('startSurvey.saveInformationText'),
+        textToType: this.translate.instant('startSurvey.saveConfirmationInput')
+      }
+    })
+    .afterClosed()
+    .subscribe(res =>{
+      if (res === true){
+        this.saveCore();
+      }
+    });
+  }
+
+  private saveCore(): void{
+    this.newQuestions.forEach(question =>{
+      this.oldQuestions.push(question);
+    });
+    this.newQuestions.length = 0;
   }
 }

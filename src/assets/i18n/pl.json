@@ -174,6 +174,16 @@
         "addOption": "Dodaj opcję",
         "addQuestion": "Dodaj pytanie",
         "saveNewQuestions": "Zapisz nowe pytania",
-        "deleteQuestion": "Usuń pytanie"
+        "deleteQuestion": "Usuń pytanie",
+        "saveInformationText": "Jeśli w systemie są już dodani respondenci, nie zostaną automatycznie przypisani do odpowiednich grup. Będzie trzeba zrobić to ręcznie.",
+        "saveConfirmationInput": "zapisz"
+    },
+    "shared": {
+        "typeToConfirmDialog": {
+            "warningHeader": "Uwaga!",
+            "typeToConfirm": "Wpisz \"{{input}}\", aby potwierdzić",
+            "confirm": "Potwierdź",
+            "cancel": "Anuluj"
+        }
     }
 }

@@ -1,0 +1,22 @@
+<div class="container">
+    <mat-error>
+        {{'shared.typeToConfirmDialog.warningHeader' | translate}}
+    </mat-error>
+    <h4>
+        {{ confirmationData.informationText | translate}}
+    </h4>
+    <h4>
+        {{ 'shared.typeToConfirmDialog.typeToConfirm' | translate:{input: confirmationData.textToType} }}
+    </h4>    
+    <mat-form-field>
+        <input matInput [(ngModel)]="input" (keydown)="onInputKeydown($event)"/>
+    </mat-form-field>
+    <div class="buttons">
+        <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="!canConfirm">
+            {{ 'shared.typeToConfirmDialog.confirm' | translate }}
+        </button>
+        <button mat-stroked-button color="warn" (click)="onCancel()">
+            {{ 'shared.typeToConfirmDialog.cancel' | translate }}
+        </button>
+    </div>
+</div>

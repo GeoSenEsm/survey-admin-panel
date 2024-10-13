@@ -59,6 +59,7 @@ import { CommonModule } from '@angular/common';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { StartSurveyComponent } from './components/start-survey/start-survey.component';
 import { StartSurveyQuestionComponent } from './components/start-survey-question/start-survey-question.component';
+import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialog/type-to-confirm-dialog.component';
 
 
 export const routes: Routes = [
@@ -144,7 +145,8 @@ export function HttpLoaderFactory(http: HttpClient){
     LoadingComponent,
     ResultsFiltersComponent,
     StartSurveyComponent,
-    StartSurveyQuestionComponent
+    StartSurveyQuestionComponent,
+    TypeToConfirmDialogComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,
