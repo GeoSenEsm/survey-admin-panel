@@ -21,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-create-survey',
   templateUrl: './create-survey.component.html',
-  styleUrl: './create-survey.component.css'
+  styleUrl: './create-survey.component.scss'
 })
 export class CreateSurveyComponent implements OnInit, OnDestroy{
   @Input()

@@ -25,7 +25,8 @@
             "surveys": "Ankiety",
             "creatingSurveys": "Tworzenie ankiet",
             "results": "Wyniki",
-            "logout": "Wyloguj się"
+            "logout": "Wyloguj się",
+            "startSurvey": "Ankieta początkowa"
         }
     },
     "respondents":{
@@ -162,6 +163,37 @@
             "respondentId": "ID respondenta",
             "nothingToDisplay":"Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
             "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
+        }
+    },
+    "startSurvey":{
+        "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po pierwszym zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz pogrupować respondentów. Dzięki temu, w późniejszych ankietach, możesz zadawać pytania tylko dla konkretnych grup respondentów. Np., możesz zebrać informacje o płci, a później tworzyć pytania tylko dla kobiet/mężczyzn. ",
+        "question": "Pytanie",
+        "options": "Opcje:",
+        "optionContent": "Treść opcji",
+        "questions": "Pytania",
+        "addOption": "Dodaj opcję",
+        "addQuestion": "Dodaj pytanie",
+        "saveNewQuestions": "Zapisz nowe pytania",
+        "deleteQuestion": "Usuń pytanie",
+        "saveInformationText": "Jeśli w systemie są już dodani respondenci, nie zostaną automatycznie przypisani do odpowiednich grup. Będzie trzeba zrobić to ręcznie.",
+        "saveConfirmationInput": "zapisz",
+        "questionCannotBeEmpty": "Pytanie nie może być puste",
+        "questionAlreadyExists": "Pytania nie mogą sie powtarzać",
+        "optionCannotBeEmpty": "Opcja nie może być pusta",
+        "optionAlreadyExists": "Opcje nie mogą sie powtarzać",
+        "thereAreValidationErrors": "Wystąpiły błędy walidacji.",
+        "ok": "Ok",
+        "couldNotLoadStartSurvey": "Nie udało się załadować ankiety początkowej. Sproboj ponownie później.",
+        "thereAreNoQuestions": "Ankieta początkowa nie zawiera żadnych pytań. Jeśli chcesz, możesz dodać pytania.",
+        "refresh": "Odśwież",
+        "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później."
+    },
+    "shared": {
+        "typeToConfirmDialog": {
+            "warningHeader": "Uwaga!",
+            "typeToConfirm": "Wpisz \"{{input}}\", aby potwierdzić",
+            "confirm": "Potwierdź",
+            "cancel": "Anuluj"
         }
     }
 }

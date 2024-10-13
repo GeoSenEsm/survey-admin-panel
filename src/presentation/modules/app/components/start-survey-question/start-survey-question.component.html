@@ -1,0 +1,50 @@
+<mat-card *ngIf="question">
+  <mat-card-header>
+    <mat-form-field class="question-field">
+      <mat-label>
+        {{ "startSurvey.question" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [(ngModel)]="question.content"
+        [readonly]="isReadOnly"
+        [maxlength]="maxInputLen"
+        (blur)="validateQuestion()"
+        [errorStateMatcher]="questionContentErrorStateMatcher"
+      />
+      <mat-error *ngIf="questionError != null">{{ questionError }}</mat-error>
+    </mat-form-field>
+  </mat-card-header>
+  <mat-card-content>
+    <h4>
+      {{ "startSurvey.options" | translate }}
+    </h4>
+    <app-start-survey-question-option
+      *ngFor="let option of question.options"
+      [option]="option"
+      [isReadOnly]="isReadOnly"
+      (removeOptionCallback)="removeOption($event)"
+      [allOptions]="question.options"
+    />
+  </mat-card-content>
+  <mat-card-footer>
+    <button
+      mat-button
+      color="primary"
+      *ngIf="!isReadOnly"
+      (click)="addOption()"
+    >
+      <mat-icon>add</mat-icon>
+      {{ "startSurvey.addOption" | translate }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="!isReadOnly"
+      (click)="removeQusetion()"
+    >
+      <mat-icon>delete</mat-icon>
+      {{ "startSurvey.deleteQuestion" | translate }}
+    </button>
+  </mat-card-footer>
+</mat-card>

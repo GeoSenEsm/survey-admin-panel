@@ -1,0 +1,14 @@
+<div class="option-content">
+    <mat-form-field class="option-field" *ngIf="option">
+        <mat-label>
+            {{ 'startSurvey.optionContent' | translate }}
+        </mat-label>
+        <input matInput [(ngModel)]="option.content" [readonly]="isReadOnly"
+               [maxlength]="maxLen" (blur)="validateOption()" [errorStateMatcher]="optionErrorStateMatcher"/>
+        <mat-error *ngIf="optionError != null">{{ optionError }}</mat-error>
+    </mat-form-field>
+    <button mat-icon-button color="primary" *ngIf="!isReadOnly" (click)="removeOption()"
+            [disabled]="allOptions?.length == 1">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>
