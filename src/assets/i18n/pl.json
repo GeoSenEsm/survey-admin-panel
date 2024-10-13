@@ -180,7 +180,9 @@
         "questionCannotBeEmpty": "Pytanie nie może być puste",
         "questionAlreadyExists": "Pytania nie mogą sie powtarzać",
         "optionCannotBeEmpty": "Opcja nie może być pusta",
-        "optionAlreadyExists": "Opcje nie mogą sie powtarzać"
+        "optionAlreadyExists": "Opcje nie mogą sie powtarzać",
+        "thereAreValidationErrors": "Wystąpiły błędy walidacji.",
+        "ok": "Ok"
     },
     "shared": {
         "typeToConfirmDialog": {

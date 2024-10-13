@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { StartSurveyOption, StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { TranslateService } from '@ngx-translate/core';
+import { StartSurveyQuestionOptionComponent } from '../start-survey-question-option/start-survey-question-option.component';
 
 @Component({
   selector: 'app-start-survey-question',
@@ -18,6 +19,7 @@ export class StartSurveyQuestionComponent {
   @Input() allNewQuestions: StartSurveyQuestion[] | undefined = undefined;
   questionError: string | null = null
   questionContentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.questionError);
+  @ViewChildren(StartSurveyQuestionOptionComponent) optionComponents: QueryList<StartSurveyQuestionOptionComponent> | undefined;
 
   constructor(private readonly translate: TranslateService){}
 
@@ -39,25 +41,39 @@ export class StartSurveyQuestionComponent {
     }
   }
 
-  validateQuestion(): void{
+  validate(): boolean{
+    const questionValid = this.validateQuestion();
+    let allOptionsValid = true;
+    this.optionComponents?.forEach((optionComponent) => {
+      if (!optionComponent.validateOption()){
+        allOptionsValid = false;
+      }
+    })
+    return questionValid && allOptionsValid;
+  }
+
+  validateQuestion(): boolean{
     if (this.isReadOnly){
-      return;
+      return true;
     }
-    
+
     this.questionError = null;
 
     if (!this.question){
-      return;
+      return true;
     }
 
     if (this.question.content.length == 0){
       this.questionError = this.translate.instant('startSurvey.questionCannotBeEmpty');
-      return;
+      return false;
     }
 
     if ((this.allOldQuestions && this.allOldQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))
     || (this.allNewQuestions && this.allNewQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))){
       this.questionError = this.translate.instant('startSurvey.questionAlreadyExists');
+      return false;
     }
+
+    return true;
   }
 }

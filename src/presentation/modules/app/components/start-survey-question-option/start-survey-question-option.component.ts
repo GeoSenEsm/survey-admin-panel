@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, input, Input, Output, ViewChild } from '@angular/core';
 import { StartSurveyOption } from '../../../../../core/models/start-survey-question';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -20,20 +20,23 @@ export class StartSurveyQuestionOptionComponent {
 
   constructor(private readonly translate: TranslateService){}
 
-  validateOption(): void {
-    if (!this.option){
-      return;
+  validateOption(): boolean {
+    if (!this.option || this.isReadOnly){
+      return true;
     }
 
     this.optionError = null;
     if (this.option.content.trim().length == 0){
       this.optionError = this.translate.instant('startSurvey.optionCannotBeEmpty');
-      return;
+      return false;
     }
 
     if (this.allOptions && this.allOptions.find(e => e != this.option && e.content.trim() == this.option!.content.trim())){
       this.optionError = this.translate.instant('startSurvey.optionAlreadyExists');
+      return false;
     }
+
+    return true;
   }
 
   removeOption(): void{

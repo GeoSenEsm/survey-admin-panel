@@ -180,7 +180,9 @@
         "questionCannotBeEmpty": "Question cannot be empty",
         "questionAlreadyExists": "Questions cannot repeat",
         "optionCannotBeEmpty": "Option cannot be empty",
-        "optionAlreadyExists": "Options cannot repeat"
+        "optionAlreadyExists": "Options cannot repeat",
+        "thereAreValidationErrors": "There are validation errors.",
+        "ok": "Ok"
     },
     "shared": {
         "typeToConfirmDialog": {

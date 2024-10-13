@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationData, TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
+import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { StartSurveyQuestionComponent } from '../start-survey-question/start-survey-question.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-start-survey',
@@ -12,9 +14,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class StartSurveyComponent implements OnInit {
   oldQuestions: StartSurveyQuestion[] = [];
   newQuestions: StartSurveyQuestion[] = [];
+  @ViewChildren(StartSurveyQuestionComponent) newQuestionsComponents: QueryList<StartSurveyQuestionComponent> | undefined;
 
   constructor(private readonly dialog: MatDialog,
-    private readonly translate: TranslateService){}
+    private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef){}
 
   ngOnInit(): void {
     //here I'll load the old questions
@@ -76,6 +81,10 @@ export class StartSurveyComponent implements OnInit {
   }
 
   save(): void{
+    if (!this.validate()){
+      return;
+    }
+
     this.dialog.open(TypeToConfirmDialogComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -90,6 +99,24 @@ export class StartSurveyComponent implements OnInit {
         this.saveCore();
       }
     });
+  }
+
+  private validate(): boolean{
+    let valid = true;
+    this.newQuestionsComponents?.forEach((questionComponent) => {
+      if (!questionComponent.isReadOnly && !questionComponent.validate()){
+        valid = false;
+      }
+    });
+
+    if (!valid){
+      this.snackbar.open(this.translate.instant('startSurvey.thereAreValidationErrors'),
+      this.translate.instant('startSurvey.ok'),
+      {duration: 3000});
+      this.cdr.detectChanges();
+    }
+
+    return valid;
   }
 
   private saveCore(): void{
