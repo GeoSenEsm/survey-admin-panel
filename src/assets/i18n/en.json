@@ -166,7 +166,7 @@
         }
     },
     "startSurvey":{
-        "description": "The initial survey is a special type of survey. It is displayed to respondents once, immediately after logging into the application. It contains only multiple-choice questions, allowing you to ask questions specifically for a particular group of respondents. For example, you can ask about gender, and later in other surveys, you can include questions only for women/men.",
+        "description": "The initial survey is a special type of survey. It is shown to respondents once, immediately after their first login to the application. It contains only multiple-choice questions, which allow you to group respondents. This way, in later surveys, you can ask questions only for specific groups of respondents. For example, you can collect information about gender and later create questions only for women/men.",
         "question": "Question",
         "options": "Options:",
         "optionContent": "Option content",

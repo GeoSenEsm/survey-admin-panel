@@ -166,7 +166,7 @@
         }
     },
     "startSurvey":{
-        "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz zadawać im pytania tylko dla kokretnej grupy respondentów. Np., możesz zapytać o płeć, a później w innych ankietach dodawać pytania tylko dla kobiet/mężczyzn.",
+        "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po pierwszym zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz pogrupować respondentów. Dzięki temu, w późniejszych ankietach, możesz zadawać pytania tylko dla konkretnych grup respondentów. Np., możesz zebrać informacje o płci, a później tworzyć pytania tylko dla kobiet/mężczyzn. ",
         "question": "Pytanie",
         "options": "Opcje:",
         "optionContent": "Treść opcji",
