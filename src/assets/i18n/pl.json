@@ -178,7 +178,9 @@
         "saveInformationText": "Jeśli w systemie są już dodani respondenci, nie zostaną automatycznie przypisani do odpowiednich grup. Będzie trzeba zrobić to ręcznie.",
         "saveConfirmationInput": "zapisz",
         "questionCannotBeEmpty": "Pytanie nie może być puste",
-        "questionAlreadyExists": "Pytania nie mogą sie powtarzać"
+        "questionAlreadyExists": "Pytania nie mogą sie powtarzać",
+        "optionCannotBeEmpty": "Opcja nie może być pusta",
+        "optionAlreadyExists": "Opcje nie mogą sie powtarzać"
     },
     "shared": {
         "typeToConfirmDialog": {

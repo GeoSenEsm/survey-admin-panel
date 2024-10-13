@@ -176,7 +176,11 @@
         "saveNewQuestions": "Save new questions",
         "deleteQuestion": "Delete question",
         "saveInformationText": "If respondents have already been added to the system, they will not be automatically assigned to the appropriate groups. This will need to be done manually.",
-        "saveConfirmationInput": "save"
+        "saveConfirmationInput": "save",
+        "questionCannotBeEmpty": "Question cannot be empty",
+        "questionAlreadyExists": "Questions cannot repeat",
+        "optionCannotBeEmpty": "Option cannot be empty",
+        "optionAlreadyExists": "Options cannot repeat"
     },
     "shared": {
         "typeToConfirmDialog": {

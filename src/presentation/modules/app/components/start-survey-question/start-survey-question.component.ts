@@ -40,6 +40,10 @@ export class StartSurveyQuestionComponent {
   }
 
   validateQuestion(): void{
+    if (this.isReadOnly){
+      return;
+    }
+    
     this.questionError = null;
 
     if (!this.question){
