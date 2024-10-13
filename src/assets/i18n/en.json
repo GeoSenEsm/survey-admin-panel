@@ -182,7 +182,11 @@
         "optionCannotBeEmpty": "Option cannot be empty",
         "optionAlreadyExists": "Options cannot repeat",
         "thereAreValidationErrors": "There are validation errors.",
-        "ok": "Ok"
+        "ok": "Ok",
+        "couldNotLoadStartSurvey": "Could not load initial survey. Please try again later.",
+        "thereAreNoQuestions": "The initial survey does not contain any questions. You can add some if you wish.",
+        "refresh": "Refresh",
+        "addingQuestionsFailed": "Adding questions failed. Please try again later."
     },
     "shared": {
         "typeToConfirmDialog": {

@@ -1,12 +1,26 @@
 <div class="container">
+    <app-buttons-ribbon [buttons]="ribbonButtons"/>
     <h3>
         {{ 'startSurvey.description' | translate }}
     </h3>
-    <mat-card>
+    <div class="spinner-container" *ngIf="isBusy">
+        <mat-spinner/>
+    </div>
+    <h3 *ngIf="!isBusy && loadingErrorOccured">
+        <mat-error>
+          {{ 'startSurvey.couldNotLoadStartSurvey' | translate }}
+        </mat-error>
+      </h3>
+    <mat-card *ngIf="!loadingErrorOccured && !isBusy">
         <mat-card-header>
             <h3>{{ 'startSurvey.questions' | translate }}</h3>        
         </mat-card-header>
         <mat-card-content>
+            <div *ngIf="oldQuestions.length === 0 && newQuestions.length === 0" class="text-center">
+                <h3>
+                    {{ 'startSurvey.thereAreNoQuestions' | translate }}
+                </h3>
+            </div>
             <div class="questions-container">
                 <app-start-survey-question *ngFor="let question of oldQuestions" [question]="question" [isReadOnly]="true"
                 [allNewQuestions]="newQuestions" [allOldQuestions]="oldQuestions"/>

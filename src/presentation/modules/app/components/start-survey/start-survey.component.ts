@@ -1,10 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
 import { MatDialog } from '@angular/material/dialog';
 import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { StartSurveyQuestionComponent } from '../start-survey-question/start-survey-question.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
+import { catchError, finalize, throwError } from 'rxjs';
+import { ButtonData } from '../buttons.ribbon/button.data';
 
 @Component({
   selector: 'app-start-survey',
@@ -15,52 +19,51 @@ export class StartSurveyComponent implements OnInit {
   oldQuestions: StartSurveyQuestion[] = [];
   newQuestions: StartSurveyQuestion[] = [];
   @ViewChildren(StartSurveyQuestionComponent) newQuestionsComponents: QueryList<StartSurveyQuestionComponent> | undefined;
+  isBusy: boolean = false;
+  loadingErrorOccured: boolean = false;
+  ribbonButtons: ButtonData[] = [
+    {
+      content: "startSurvey.refresh",
+      icon: "refresh",
+      onClick: () => {
+        this.loadQuestions();
+      }
+    }
+  ]
 
   constructor(private readonly dialog: MatDialog,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
-    private readonly cdr: ChangeDetectorRef){}
+    @Inject(START_SURVEY_SERVICE_TOKEN) private readonly service: StartSurveyService){}
 
   ngOnInit(): void {
-    //here I'll load the old questions
-    this.oldQuestions = [
-      {
-        order: 0,
-        content: 'old question 1',
-        options: [
-          {
-            order: 0,
-            content: 'old option 1'
-          },
-          {
-            order: 1,
-            content: 'old option 2'
-          },
-          {
-            order: 2,
-            content: 'old option 3'
-          }
-        ]
-      },
-      {
-        order: 1,
-        content: 'old question 2',
-        options: [
-          {
-            order: 0,
-            content: 'old option 1'
-          },
-          {
-            order: 1,
-            content: 'old option 2'
-          },
-          {
-            order: 2,
-            content: 'old option 3'
-          }
-        ]
-      }
-    ]
+    this.loadQuestions();
+  }
+
+  loadQuestions(): void{
+    if (this.isBusy){
+      return;
+    }
+
+    this.isBusy = true;
+    this.loadingErrorOccured = false;
+    this.oldQuestions.length = 0;
+    this.newQuestions.length = 0;
+    this.service
+    .getStartSurveyQuestions()
+    .pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+      catchError(error =>{
+        this.loadingErrorOccured = true;
+        return throwError(() => error);
+      }))
+      .subscribe(questions => {
+        questions.forEach(question => {
+          this.oldQuestions.push(question);
+        })
+      });
   }
 
   addQuestion(): void {
@@ -113,16 +116,36 @@ export class StartSurveyComponent implements OnInit {
       this.snackbar.open(this.translate.instant('startSurvey.thereAreValidationErrors'),
       this.translate.instant('startSurvey.ok'),
       {duration: 3000});
-      this.cdr.detectChanges();
     }
 
     return valid;
   }
 
   private saveCore(): void{
-    this.newQuestions.forEach(question =>{
-      this.oldQuestions.push(question);
-    });
-    this.newQuestions.length = 0;
+    if (this.isBusy){
+      return;
+    }
+
+    this.isBusy = true;
+
+    this.service.addStartSurveyQuestions(this.newQuestions)
+    .pipe(
+      finalize(() => {
+        this.isBusy = false;
+      }),
+      catchError(error =>{
+        this.snackbar.open(this.translate.instant('startSurvey.addingQuestionsFailed'),
+        this.translate.instant('startSurvey.ok'),
+        {
+          duration: 3000
+        })
+        return throwError(() => error);
+      }))
+      .subscribe(_ =>{
+        this.newQuestions.forEach(question =>{
+          this.oldQuestions.push(question);
+        });
+        this.newQuestions.length = 0;
+      });
   }
 }

@@ -182,7 +182,11 @@
         "optionCannotBeEmpty": "Opcja nie może być pusta",
         "optionAlreadyExists": "Opcje nie mogą sie powtarzać",
         "thereAreValidationErrors": "Wystąpiły błędy walidacji.",
-        "ok": "Ok"
+        "ok": "Ok",
+        "couldNotLoadStartSurvey": "Nie udało się załadować ankiety początkowej. Sproboj ponownie później.",
+        "thereAreNoQuestions": "Ankieta początkowa nie zawiera żadnych pytań. Jeśli chcesz, możesz dodać pytania.",
+        "refresh": "Odśwież",
+        "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później."
     },
     "shared": {
         "typeToConfirmDialog": {

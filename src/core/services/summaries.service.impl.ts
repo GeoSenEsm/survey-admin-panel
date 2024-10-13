@@ -16,7 +16,7 @@ implements SummariesService {
     }
 
     getTableResults(filter: SurveyResultsFilter): Observable<SurveyResultEntry[]> {
-        return this.get(`api/surveyresponses/results`, {
+        return this.get(`/api/surveyresponses/results`, {
             'surveyId': filter.surveyId,
             'dateFrom': filter.fromDate.toISOString(),
             'dateTo': filter.toDate.toISOString()
