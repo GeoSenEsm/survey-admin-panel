@@ -8,9 +8,11 @@
         </mat-card-header>
         <mat-card-content>
             <div class="questions-container">
-                <app-start-survey-question *ngFor="let question of oldQuestions" [question]="question" [isReadOnly]="true"/>
+                <app-start-survey-question *ngFor="let question of oldQuestions" [question]="question" [isReadOnly]="true"
+                [allNewQuestions]="newQuestions" [allOldQuestions]="oldQuestions"/>
                 <app-start-survey-question *ngFor="let question of newQuestions" [question]="question"
-                (removeQuestionCallback)="removeQuestion($event)"/>
+                (removeQuestionCallback)="removeQuestion($event)"
+                [allNewQuestions]="newQuestions" [allOldQuestions]="oldQuestions"/>
             </div>
         </mat-card-content>
         <mat-card-footer>
