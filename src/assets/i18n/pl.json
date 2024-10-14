@@ -64,7 +64,8 @@
             "yesNo": "Tak/Nie",
             "multipleChoice": "Wielokrotny wybór",
             "contentNotEmptyError": "Pole nie może być puste",
-            "contentLenError": "Pole nie może być dłuższe niż 250 znaków"
+            "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
+            "number": "Liczba"
         },
         "createSection":{
             "section": "Sekcja",

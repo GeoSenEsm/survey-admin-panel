@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnDestroy, OnInit, QueryList, ViewChildren } 
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
-import { QuestionType } from '../../../../../domain/models/question.type';
+import { QuestionType } from '../../../../../domain/models/question-type';
 import { CreateSurveyDto } from '../../../../../domain/models/create.survey.dto';
 import { Mapper } from '../../../../../core/mappers/mapper';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
