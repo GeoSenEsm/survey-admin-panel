@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
-import { QuestionType } from '../../../../../domain/models/question.type';
+import { QuestionType } from '../../../../../domain/models/question-type';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
 import { RespondentsGroupDto } from '../../../../../domain/models/respondents.group.dto';
 import { CreateQuestionComponent } from '../create-question/create-question.component';

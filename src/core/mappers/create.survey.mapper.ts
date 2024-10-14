@@ -3,7 +3,7 @@ import { CreateQuestionDto } from "../../domain/models/create.question.dto";
 import { CreateSurveyDto } from "../../domain/models/create.survey.dto";
 import { CreateSurveySectionDto } from "../../domain/models/create.survey.section.dto";
 import { NumberRangeDto } from "../../domain/models/number.range.dto";
-import { QuestionType } from "../../domain/models/question.type";
+import { QuestionType } from "../../domain/models/question-type";
 import { CreateQuestionModel } from "../models/create.question.model";
 import { CreateSectionModel } from "../models/create.section.model";
 import { CreateSurveyModel } from "../models/create.survey.model";

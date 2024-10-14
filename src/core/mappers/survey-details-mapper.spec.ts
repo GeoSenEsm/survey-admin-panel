@@ -1,4 +1,4 @@
-import { QuestionType } from "../../domain/models/question.type";
+import { QuestionType } from "../../domain/models/question-type";
 import { SectionVisibility } from "../../domain/models/section.visibility";
 import { SurveyDetailsDto } from "../../domain/models/survey.details.dtos";
 import { CreateSurveyModel } from "../models/create.survey.model";

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import { CreateQuestionModel } from '../../../../../core/models/create.question.model';
-import { QuestionType } from '../../../../../domain/models/question.type';
+import { QuestionType } from '../../../../../domain/models/question-type';
 import { CreateTextSelectionOptionsComponent } from '../create-text-selection-options/create-text-selection-options.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -32,21 +32,24 @@ export class CreateQuestionComponent {
     QuestionType.SINGLE_TEXT_SELECTION,
     QuestionType.DISCRETE_NUMBER_SELECTION,
     QuestionType.YES_NO_SELECTION,
-    QuestionType.MULTIPLE_CHOICE
+    QuestionType.MULTIPLE_CHOICE,
+    QuestionType.NUMBER
   ];
 
   questionTypeIconSelector = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
     [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale',
     [QuestionType.YES_NO_SELECTION]: 'check',
-    [QuestionType.MULTIPLE_CHOICE]: 'check_box'
+    [QuestionType.MULTIPLE_CHOICE]: 'check_box',
+    [QuestionType.NUMBER]: 'filter_5'
   };
 
   questionTypeDisplay = {
     [QuestionType.SINGLE_TEXT_SELECTION]: 'createSurvey.createQuestion.singleChoice',
     [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale',
     [QuestionType.YES_NO_SELECTION]: 'createSurvey.createQuestion.yesNo',
-    [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice'
+    [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice',
+    [QuestionType.NUMBER]: 'createSurvey.createQuestion.number'
   };
 
   constructor(readonly translate: TranslateService){}
