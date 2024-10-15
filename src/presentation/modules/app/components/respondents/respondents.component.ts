@@ -5,11 +5,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
-import { RespondentData } from '../../../../../domain/models/respondent.data';
-import { RespondentDataService } from '../../../../../domain/external_services/respondent.data.servce';
-import { convertToValueDisplayMappings, getMapForProperty, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent.info';
+import { RespondentData } from '../../../../../domain/models/respondent-data';
+import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
+import { convertToValueDisplayMappings, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent-info';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, forkJoin, Subscription } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
+import { CsvExportService } from '../../../../../core/services/csv-export.service';
 
 @Component({
   selector: 'app-respondents',
@@ -18,37 +19,13 @@ import { finalize, forkJoin, Subscription } from 'rxjs';
   styleUrl: './respondents.component.css'
 })
 export class RespondentsComponent 
-implements AfterViewInit, OnDestroy{
+implements AfterViewInit{
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
-  readonly headers = [
-    'username',
-    'gender',
-    'ageCategoryId',
-    'occupationId',
-    'educationCategoryId',
-    'healthConditionId',
-    'medicationUseId',
-    'lifeSatisfactionId',
-    'stressLevelId',
-    'qualityOfSleepId'
-  ];
-  headerTranslationMappings: { [key: string]: string } = {
-    'username': 'respondents.respondents.usernameColumnHeader',
-    'gender': 'respondents.respondents.sexColumnHeader',
-    'ageCategoryId': 'respondents.respondents.ageCategoryColumnHeader',
-    'occupationCategoryId': 'respondents.respondents.occupationColumnHeader',
-    'educationCategoryId': 'respondents.respondents.educationColumnHeader',
-    'healthConditionId': 'respondents.respondents.healthStatusColumnHeader',
-    'medicationUseId': 'respondents.respondents.medicationUseColumnHeader',
-    'lifeSatisfactionId': 'respondents.respondents.lifeSatisfactionColumnHeader',
-    'stressLevelId': 'respondents.respondents.stressLevelColumnHeader',
-    'qualityOfSleepId': 'respondents.respondents.qualityOfSleepColumnHeader'
-  }
-  translatableColumns = new Set<string>(['gender']);
-  directDisplayColumns = new Set<string>(['username']);
+  headers: string[] | undefined;
+  directDisplayColumns = new Set<string>(['username', 'id']);
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
   valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
@@ -62,21 +39,20 @@ implements AfterViewInit, OnDestroy{
     {
       content: 'respondents.respondents.createRespondentsAccounts',
       onClick: this.generateRespondentsAccounts.bind(this)
+    },
+    {
+      content: 'respondents.respondents.export',
+      onClick: this.exportToCsv.bind(this),
+      icon: 'file_download',
+      disabled: () => this.respondents.length == 0
     }
   ];
   loadingErrorOccured = false;
-  private readonly langChangeSubscription: Subscription;
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
-    private readonly translate: TranslateService){
-      this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
-        //TODO: maybe it's enough to just reload groups, not all data
-        this.loadData();
-      });
-  }
-  ngOnDestroy(): void {
-    this.langChangeSubscription.unsubscribe();
+    private readonly translate: TranslateService,
+    private readonly exportService: CsvExportService){
   }
 
   ngAfterViewInit(): void {
@@ -112,6 +88,7 @@ implements AfterViewInit, OnDestroy{
       next: ([respondentInfos, respondents]) => {
         this.loadingErrorOccured = false;
         this.respondentInfos = respondentInfos as RespondentInfoCollections;
+        this.headers = ['id', 'username'].concat(Object.keys(this.respondentInfos));
         this.valueDisplayMappings = convertToValueDisplayMappings(this.respondentInfos);
         (respondents as RespondentData[]).forEach(r => this.respondents.push(r));
       },
@@ -146,15 +123,36 @@ implements AfterViewInit, OnDestroy{
   }
 
   getActualCellDisplay(respondent: RespondentData, columnName: string): string | undefined{
-    if (this.translatableColumns.has(columnName)){
-      return this.translate.instant(`componentless.${(respondent as any)[columnName]}`);
-    }
-
     if (this.directDisplayColumns.has(columnName)){
-      return (respondent as any)[columnName];
+      return respondent[columnName];
     }
 
-    return getMapForProperty(columnName, this.valueDisplayMappings)?.get((respondent as any)[columnName]);
+    return this.valueDisplayMappings[columnName]?.get(respondent[columnName]);
   }
 
+  getActualHeaderDisplay(columnName: string): string | undefined{
+    if (columnName == 'id'){
+      return 'ID';
+    }
+
+    if (columnName == 'username'){
+      return this.translate.instant('respondents.respondents.usernameColumnHeader');
+    }
+
+    return columnName;
+  }
+
+  exportToCsv(): void{
+    if (this.headers && this.respondents.length > 0){
+      const filename = this.translate.instant("respondents.respondents.gridExportFilename");
+      const actualCells = this.dataSource.data.map(r => {
+        const cells: { [key: string]: string } = {};
+        Object.keys(r).forEach(h => {
+          cells[h] = this.getActualCellDisplay(r, h) || '';
+        });
+        return cells;
+      });
+      this.exportService.exportTableToCSV(actualCells, this.headers, filename);
+    }
+  }
 }

@@ -39,18 +39,11 @@
         "respondents": {
             "createRespondentsAccounts": "Utwórz konta dla respondentów",
             "usernameColumnHeader": "Nazwa użytkownika",
-            "sexColumnHeader": "Płeć",
-            "ageCategoryColumnHeader": "Kategoria wiekowa",
-            "occupationColumnHeader": "Zatrudnienie",
-            "educationColumnHeader": "Edukacja",
-            "healthStatusColumnHeader": "Stan zdrowia",
-            "medicationUseColumnHeader": "Przyjmowane leki",
-            "lifeSatisfactionColumnHeader": "Zadowolenie z życia",
-            "stressLevelColumnHeader": "Poziom stresu",
-            "qualityOfSleepColumnHeader": "Jakość snu",
             "refresh": "Odśwież",
             "nothingToDisplay": "Brak respondentów do wyswietlenia",
-            "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później."
+            "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
+            "export": "Exportuj",
+            "gridExportFilename": "respondenci.csv"
         }
     },
     "createSurvey": {

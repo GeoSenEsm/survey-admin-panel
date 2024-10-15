@@ -39,18 +39,11 @@
         "respondents": {
             "createRespondentsAccounts": "Create accounts for respondents",
             "usernameColumnHeader": "Username",
-            "sexColumnHeader": "Sex",
-            "ageCategoryColumnHeader": "Age category",
-            "occupationColumnHeader": "Occupation",
-            "educationColumnHeader": "Education",
-            "healthStatusColumnHeader": "Health status",
-            "medicationUseColumnHeader": "Medication use",
-            "lifeSatisfactionColumnHeader": "Life satisfaction",
-            "stressLevelColumnHeader": "Stress level",
-            "qualityOfSleepColumnHeader": "Quality of sleep",
             "refresh": "Refresh",
             "nothingToDisplay": "Nothing to display",
-            "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later."
+            "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
+            "export": "Export",
+            "gridExportFilename": "respondents.csv"
         }
     },
     "createSurvey": {
