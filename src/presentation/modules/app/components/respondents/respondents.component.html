@@ -7,7 +7,7 @@
         [matColumnDef]="column"
       >
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ headerTranslationMappings[column] | translate }}
+          {{ getActualHeaderDisplay(column) }}
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
 

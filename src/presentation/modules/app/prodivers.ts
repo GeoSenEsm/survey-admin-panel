@@ -9,7 +9,7 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { CreateSurveySendingPolicyMapper } from "../../../core/mappers/create.survey.sending.policy.mapper";
 import { SurveySendingPolicyServiceImpl } from "../../../core/services/survey.sending.policy.service.impl";
 import { SummariesServiceImpl } from "../../../core/services/summaries.service.impl";
-import { RespondentDataServiceImpl } from "../../../core/services/respondent.data.service.impl";
+import { RespondentDataServiceImpl } from "../../../core/services/respondent-data-service-impl";
 import { CookieStorageService } from "../../../core/services/local-storage";
 import { START_SURVEY_SERVICE_TOKEN, STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/services/injection-tokens";
 import { ConfigService } from "../../../core/services/config.service";
