@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { TranslateService } from '@ngx-translate/core';
+import { StringTimeRange } from '../../../../../core/models/time-range';
 
 @Component({
   selector: 'app-create-survey-sending-policy',
@@ -22,7 +23,12 @@ export class CreateSurveySendingPolicyComponent {
   isBusy = false;
   datesError: string | null = null;
   datesErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.datesError);
-
+  timeRanges: StringTimeRange[] = [
+    {
+      from: '7:00',
+      to: '11:00'
+    }
+  ];
 
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,

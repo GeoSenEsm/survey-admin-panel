@@ -107,7 +107,10 @@
             "somethingWentWrong": "Something went wrong",
             "ok": "OK",
             "createdSurveySendingPolicy": "Added survey sending policy",
-            "dates": "Dates"
+            "dates": "Dates",
+            "timeRangesDescription": "Add time ranges, when the survey should be available to submit. The selected time ranges will be applied to all selected dates.",
+            "hourFrom": "Time from",
+            "hourTo": "Time to"
         },
         "surveyDetails": {
             "sendingPolicy": "Sending policy",

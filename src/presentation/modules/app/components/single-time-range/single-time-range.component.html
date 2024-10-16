@@ -1,0 +1,24 @@
+<div *ngIf="timeRange" class="container">
+    <mat-form-field appearance="fill">
+        <mat-label>
+            {{ "surveyDetails.createSurveySendingPolicy.hourFrom" | translate }}
+        </mat-label>
+        <input matInput [ngxMatTimepicker]="timeFromPicker" readonly [(ngModel)]="timeRange.from"/>
+        <ngx-mat-timepicker-toggle matSuffix [for]="timeFromPicker" />
+        <ngx-mat-timepicker #timeFromPicker/>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>
+            {{ "surveyDetails.createSurveySendingPolicy.hourTo" | translate }}
+        </mat-label>
+        <input matInput [ngxMatTimepicker]="timeToPicker" readonly [(ngModel)]="timeRange.to"/>
+        <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
+        <ngx-mat-timepicker #timeToPicker/>
+    </mat-form-field>
+    <button mat-icon-button (click)="remove()"
+    [disabled]="!canRemove">
+        <mat-icon>
+            delete
+        </mat-icon>
+    </button>
+</div>

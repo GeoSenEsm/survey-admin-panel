@@ -1,0 +1,15 @@
+<div *ngIf="timeRanges">
+    <span>
+        {{ "surveyDetails.createSurveySendingPolicy.timeRangesDescription" | translate }}
+    </span>
+    <app-single-time-range *ngFor="let tr of timeRanges"
+     [timeRange]="tr" [canRemove]="canRemoveRange"
+     (removeCallback)="remove($event)"/>
+     <div class="buttons">
+        <button mat-icon-button (click)="addTimeRange()">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+     </div>
+</div>

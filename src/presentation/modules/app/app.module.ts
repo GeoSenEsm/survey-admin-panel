@@ -61,6 +61,8 @@ import { StartSurveyComponent } from './components/start-survey/start-survey.com
 import { StartSurveyQuestionComponent } from './components/start-survey-question/start-survey-question.component';
 import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialog/type-to-confirm-dialog.component';
 import { StartSurveyQuestionOptionComponent } from './components/start-survey-question-option/start-survey-question-option.component';
+import { TimeRangesComponent } from './components/time-ranges/time-ranges.component';
+import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
 
 
 export const routes: Routes = [
@@ -148,7 +150,9 @@ export function HttpLoaderFactory(http: HttpClient){
     StartSurveyComponent,
     StartSurveyQuestionComponent,
     TypeToConfirmDialogComponent,
-    StartSurveyQuestionOptionComponent
+    StartSurveyQuestionOptionComponent,
+    TimeRangesComponent,
+    SingleTimeRangeComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

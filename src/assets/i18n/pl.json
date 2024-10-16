@@ -101,13 +101,16 @@
     },
     "surveyDetails":{
         "createSurveySendingPolicy": {
-            "createSurveySendingPolicy": "Utwórz polityę wysyłania ankiety",
+            "createSurveySendingPolicy": "Utwórz politykę wysyłania ankiety",
             "atLeastOneDateError": "Wybierz co najmniej jednaę datę",
             "create": "Dodaj",
             "somethingWentWrong": "Cos poszło nie tak",
             "ok": "OK",
             "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety",
-            "dates": "Daty"
+            "dates": "Daty",
+            "timeRangesDescription": "Dodaj przedziały godzin, w których dostępna będzie ankieta. Utworzone przedziały będą zastosowane do wszystkich wybranych dni.",
+            "hourFrom": "Godzina od",
+            "hourTo": "Godzina do"
         },
         "surveyDetails": {
             "sendingPolicy": "Polityka wysyłania",
