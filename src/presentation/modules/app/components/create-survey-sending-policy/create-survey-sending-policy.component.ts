@@ -22,6 +22,7 @@ export class CreateSurveySendingPolicyComponent {
   readonly model: CreateSurveySendingPolicyModel;
   isBusy = false;
   datesError: string | null = null;
+  timesError: string | null = null;
   datesErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.datesError);
   timeRanges: StringTimeRange[] = [
     {
@@ -48,14 +49,16 @@ export class CreateSurveySendingPolicyComponent {
 
   isValid(): boolean {
     this.datesError = null;
+    this.timesError =  null;
 
     if (this.model.dates.length === 0) {
       this.datesError = this.translate.instant('createSurveySendingPolicy.createSurveySendingPolicy.atLeastOneDateError');
     }
 
-    return this.datesError == null;
-  }
+    if ()
 
+    return this.datesError == null && this.timesError == null;
+  }
 
   onSubmit(): void {
     if (!this.isValid() || this.isBusy) {
