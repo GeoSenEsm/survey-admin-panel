@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Subscription, throwError } from 'rxjs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-survey-sending-policy',
@@ -33,7 +34,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
    @Inject('surveySendingPolicyService') private readonly service: SurveySendingPolicyService,
    private readonly snackbar: MatSnackBar,
-   private readonly translate: TranslateService){
+   private readonly translate: TranslateService,
+   private readonly datePipe: DatePipe){
     this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
       const lang = event.lang;
       this.calendarOptions.locale = lang === 'pl' ? plLocale : enLocale;
@@ -111,10 +113,15 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
     const output: EventInput[] = [];
 
     policy.timeSlots.forEach(slot => {
+      const from = new Date(slot.start);
+      const to = new Date(slot.finish);
       output.push({
-        title: this.translate.instant("surveyDetails.surveySendingPolicy.completingSurvey"),
-        start: new Date(slot.start),
-        end: new Date(slot.finish)
+        title: this.translate.instant("surveyDetails.surveySendingPolicy.completingSurvey", {
+          from: this.datePipe.transform(from, 'shortTime'),
+          to: this.datePipe.transform(to, 'shortTime')
+        }),
+        start: from,
+        end: to
       });
     });
 

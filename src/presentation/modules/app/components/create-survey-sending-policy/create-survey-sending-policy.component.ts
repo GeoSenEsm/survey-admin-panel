@@ -67,7 +67,6 @@ export class CreateSurveySendingPolicyComponent {
     }));
 
     const existing = this.existingPolicies.map(e => e.timeSlots).flat()
-    console.log(existing);
     .map(e => {
       return {
         start: new Date(e.start),

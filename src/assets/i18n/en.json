@@ -122,7 +122,7 @@
             "craeteNewSendingPolicy": "Add new sending policy",
             "couldNotLoadSendingPolicies": "Could not load survey sending policies",
             "ok": "OK",
-            "completingSurvey": "Completing survey"
+            "completingSurvey": "Completing survey {{ from }} - {{ to }}"
         },
         "surveyTile": {
             "surveyDetails": "Survey details"
