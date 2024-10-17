@@ -110,7 +110,9 @@
             "dates": "Dates",
             "timeRangesDescription": "Add time ranges, when the survey should be available to submit. The selected time ranges will be applied to all selected dates.",
             "hourFrom": "Time from",
-            "hourTo": "Time to"
+            "hourTo": "Time to",
+            "timesOverlapping": "Time ranges must not overlap.",
+            "overlapWithExisting": "Date ranges overlap with already existing time ranges."
         },
         "surveyDetails": {
             "sendingPolicy": "Sending policy",

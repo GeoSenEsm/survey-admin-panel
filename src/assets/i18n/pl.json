@@ -102,7 +102,7 @@
     "surveyDetails":{
         "createSurveySendingPolicy": {
             "createSurveySendingPolicy": "Utwórz politykę wysyłania ankiety",
-            "atLeastOneDateError": "Wybierz co najmniej jednaę datę",
+            "atLeastOneDateError": "Wybierz co najmniej jedną datę",
             "create": "Dodaj",
             "somethingWentWrong": "Cos poszło nie tak",
             "ok": "OK",
@@ -110,7 +110,9 @@
             "dates": "Daty",
             "timeRangesDescription": "Dodaj przedziały godzin, w których dostępna będzie ankieta. Utworzone przedziały będą zastosowane do wszystkich wybranych dni.",
             "hourFrom": "Godzina od",
-            "hourTo": "Godzina do"
+            "hourTo": "Godzina do",
+            "timesOverlapping": "Przedziały czasu nie mogą nachodzić na siebie.",
+            "overlapWithExisting": "Przedziały czasu nachodzą na któreś z już istniejących."
         },
         "surveyDetails": {
             "sendingPolicy": "Polityka wysyłania",

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Mapper } from "./mapper";
 import { CreateSurveySendingPolicyModel } from "../models/create.survey.sending.policy.model";
-import { CreateSurveySendingPolicyDto } from "../../domain/models/create.survey.sending.policy.dto";
+import { CreateSurveySendingPolicyDto } from "../../domain/models/create-survey-sending-policy-dto";
 
 @Injectable()
 export class CreateSurveySendingPolicyMapper 

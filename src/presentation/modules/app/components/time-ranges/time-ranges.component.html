@@ -5,6 +5,9 @@
     <app-single-time-range *ngFor="let tr of timeRanges"
      [timeRange]="tr" [canRemove]="canRemoveRange"
      (removeCallback)="remove($event)"/>
+     <mat-error *ngIf="error">
+        {{ error }}
+     </mat-error>
      <div class="buttons">
         <button mat-icon-button (click)="addTimeRange()">
             <mat-icon>

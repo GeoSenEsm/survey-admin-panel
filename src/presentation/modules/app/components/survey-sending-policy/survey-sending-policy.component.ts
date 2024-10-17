@@ -28,6 +28,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
   };
   calendarEvents: EventInput[] = [];
   private readonly langChangeSubscription: Subscription;
+  policies: SurveySendingPolicyDto[] = [];
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
    @Inject('surveySendingPolicyService') private readonly service: SurveySendingPolicyService,
@@ -51,18 +52,18 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
     this.calendarEvents.length = 0;
     this.service.getAll(this.surveyId!)
     .pipe(
-      catchError((_) => {
+      catchError((e) => {
         this.snackbar.open(
           this.translate.instant("surveyDetails.surveySendingPolicy.couldNotLoadSendingPolicies"), 
           this.translate.instant("surveyDetails.surveySendingPolicy.ok"), 
           { duration: 3000 }
         );
-        //TO DO: change to custom error
-        return throwError(() => new Error('Error'));
+        return throwError(() => e);
       })
     )
     .subscribe({
       next: policies => {
+        this.policies = policies;
         this.addPoliciesToEvents(policies);
       },
       error: err => {
@@ -85,7 +86,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
       hasBackdrop: true,
       closeOnNavigation: false,
       data: {
-        surveyId: this.surveyId
+        surveyId: this.surveyId,
+        existingPolicies: this.policies
       }
     });
 

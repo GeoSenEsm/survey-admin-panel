@@ -9,6 +9,8 @@ import { StringTimeRange } from '../../../../../core/models/time-range';
 export class TimeRangesComponent {
   @Input()
   timeRanges: StringTimeRange[] | undefined;
+  @Input()
+  error: string | null | undefined;
   get canRemoveRange(): boolean{
     if (this.timeRanges){
       return this.timeRanges.length > 1;

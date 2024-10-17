@@ -26,3 +26,11 @@ mat-form-field {
 button{
   width: 100%;
 }
+
+.errors{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
