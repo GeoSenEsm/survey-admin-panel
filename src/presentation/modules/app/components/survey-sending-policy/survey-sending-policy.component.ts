@@ -115,10 +115,11 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
     policy.timeSlots.forEach(slot => {
       const from = new Date(slot.start);
       const to = new Date(slot.finish);
+      console.log(slot.start);
       output.push({
         title: this.translate.instant("surveyDetails.surveySendingPolicy.completingSurvey", {
-          from: this.datePipe.transform(from, 'shortTime'),
-          to: this.datePipe.transform(to, 'shortTime')
+          from: this.datePipe.transform(from, 'shortTime', 'UTC'),
+          to: this.datePipe.transform(to, 'shortTime', 'UTC')
         }),
         start: from,
         end: to

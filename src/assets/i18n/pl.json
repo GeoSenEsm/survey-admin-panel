@@ -122,7 +122,7 @@
             "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
             "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
             "ok": "OK",
-            "completingSurvey": "Wypełnianie ankiety {{ from }} - {{ to }}"
+            "completingSurvey": "{{ from }} - {{ to }}"
         },
         "surveyTile": {
             "surveyDetails": "Szczegóły ankiety"
