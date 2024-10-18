@@ -50,6 +50,7 @@ export class CreateSurveySendingPolicyComponent {
   isValid(): boolean {
     this.datesError = null;
     this.timesError =  null;
+    this.overlapWithExistingError =  null;
 
     if (!this.dates || this.dates.length === 0) {
       this.datesError = this.translate.instant('surveyDetails.createSurveySendingPolicy.atLeastOneDateError');
