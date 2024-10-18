@@ -3,3 +3,9 @@
     display: flex;
     justify-content: end;
 }
+
+.time-ranges-scroll-area{
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 5px;
+}

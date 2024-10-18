@@ -99,6 +99,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
         return;
       }
 
+      this.policies.push(policy);
       const events = this.calendarEventsFromPolicy(policy);
       events.forEach(e => this.calendarEvents.push(e));
       this.refreshEvents();
@@ -115,7 +116,6 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy{
     policy.timeSlots.forEach(slot => {
       const from = new Date(slot.start);
       const to = new Date(slot.finish);
-      console.log(slot.start);
       output.push({
         title: this.translate.instant("surveyDetails.surveySendingPolicy.completingSurvey", {
           from: this.datePipe.transform(from, 'shortTime', 'UTC'),

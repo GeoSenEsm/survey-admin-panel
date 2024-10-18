@@ -1,13 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { CreateSurveySendingPolicyModel } from '../../../../../core/models/create.survey.sending.policy.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Mapper } from '../../../../../core/mappers/mapper';
 import { CreateSurveySendingPolicyDto, crossDatesAndTimes } from '../../../../../domain/models/create-survey-sending-policy-dto';
 import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { TranslateService } from '@ngx-translate/core';
 import { StringTimeRange } from '../../../../../core/models/time-range';
 import { stringTimeRangesOverlapping } from '../../../../../core/utils/time-functions';
@@ -37,8 +34,6 @@ export class CreateSurveySendingPolicyComponent {
   overlapWithExistingError: string | null = null;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    @Inject('createSurveySendingPolicyMapper') 
-    private readonly mapper: Mapper<CreateSurveySendingPolicyModel, CreateSurveySendingPolicyDto>,
     @Inject('surveySendingPolicyService')private readonly service: SurveySendingPolicyService,
     private readonly dialogRef: MatDialogRef<CreateSurveySendingPolicyComponent>,
     private readonly snackbar: MatSnackBar,
@@ -58,6 +53,7 @@ export class CreateSurveySendingPolicyComponent {
 
     if (stringTimeRangesOverlapping(this.timeRanges)){
       this.timesError = this.translate.instant('surveyDetails.createSurveySendingPolicy.timesOverlapping');
+      return false;
     }
 
     this.model = crossDatesAndTimes(this.surveyId, this.dates, this.timeRanges.map(e => {
