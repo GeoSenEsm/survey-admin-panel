@@ -1,0 +1,21 @@
+<div class="container">
+    <p>
+        {{ survey.name }}
+    </p>
+    <div class="horizontal-panel">
+        <mat-form-field appearance="fill">
+            <mat-label>
+              {{ 'summary.surveySummaryTile.completitionDate' | translate }}
+            </mat-label>
+            <mat-select [(ngModel)]="selectedDate">
+              <mat-option *ngFor="let date of survey.dates" [value]="date.start">
+                {{ formatDate(date) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <button mat-flat-button color="primary"
+        (click)="navigateToSummary()">
+          {{ 'summary.surveySummaryTile.showSummary' | translate }}
+        </button>
+    </div>
+</div>

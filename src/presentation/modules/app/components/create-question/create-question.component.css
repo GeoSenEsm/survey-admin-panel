@@ -1,0 +1,54 @@
+.wrap-panel{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+mat-card{
+    border-radius: 30px;;
+}
+
+.card mat-card-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.card mat-card-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.question-type-selector{
+    width: 100%;
+}
+
+.two-columns-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; 
+}
+
+.two-columns-row-item {
+    padding: 10px;
+    text-align: center;
+}
+
+mat-card-footer{
+    font-size: 15px; 
+    font-weight: 600;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+mat-select-trigger{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

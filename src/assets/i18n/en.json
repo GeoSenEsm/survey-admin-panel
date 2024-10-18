@@ -1,0 +1,198 @@
+{
+    "componentless": {
+        "male": "male",
+        "female": "female"
+    },
+    "app": {
+        "login": {
+            "username": "Username",
+            "usernameRequiredError": "Username is required.",
+            "usernameMaxLenError": "Username cannot be longer than {{maxLen}} characters.",
+            "password": "Password",
+            "passwordError": "Password is required and cannot be longer than {{maxLen}} characters",
+            "login": "Log in",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "invalidUsername": "Username or password is invalid",
+            "invalidPassword": "Username or password is invalid",
+            "passwordRequiredError": "Password is required.",
+            "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters.",
+            "welcome": "Welcome to the UrbEat admin panel!",
+            "loginToContinue": "Log in to continue"
+        },
+        "dashboard": {
+            "respondents": "Respondents",
+            "surveys": "Surveys",
+            "creatingSurveys": "Creating surveys",
+            "results": "Results",
+            "logout": "Logout",
+            "startSurvey": "Start survey"
+        }
+    },
+    "respondents": {
+        "addRespondents": {
+            "quantity": "Quantity",
+            "validationError": "Value must be between 1 and 400",
+            "create": "Create",
+            "copyToClipboard": "Copy to clipboard"
+        },
+        "respondents": {
+            "createRespondentsAccounts": "Create accounts for respondents",
+            "usernameColumnHeader": "Username",
+            "refresh": "Refresh",
+            "nothingToDisplay": "Nothing to display",
+            "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
+            "export": "Export",
+            "gridExportFilename": "respondents.csv"
+        }
+    },
+    "createSurvey": {
+        "createNumberRange": {
+            "labelOptional": "Label (optional)"
+        },
+        "createQuestion": {
+            "required": "Required",
+            "singleChoice": "Single choice",
+            "linearScale": "Linear scale",
+            "yesNo": "Yes/No",
+            "multipleChoice": "Multiple choice",
+            "contentNotEmptyError": "Field cannot be empty",
+            "contentLenError": "Field cannot be longer than 250 characters",
+            "number": "Number"
+        },
+        "createSection": {
+            "section": "Section",
+            "visibility": "Visibility",
+            "group": "Group",
+            "addFirstQuestion": "Add first question",
+            "addQuestion": "Add question",
+            "addSection": "Add section",
+            "always": "Always",
+            "groupSpecific": "Group",
+            "answerTriggered": "After choosing a specific answer",
+            "defaultQuestion": "Question",
+            "nameLenError": "Field cannot be longer than 100 characters",
+            "questionsNumError": "Section must contain a question"
+        },
+        "createSurvey": {
+            "addSection": "Add section",
+            "save": "Save",
+            "defaultSurveyName": "Untitled survey",
+            "nameNotEmptyError": "Field cannot be empty",
+            "nameLenError": "Field cannot be longer than 100 characters",
+            "sectionsNumError": "Survey must contain at least one section",
+            "defaultSectionName": "Untitled section",
+            "defaultQuestionContent": "Question",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "successfullyCreatedSurvey": "Successfully created survey"
+        },
+        "createTextSelectionOptions": {
+            "showSection": "Show section",
+            "none": "None",
+            "addOption": "Add option",
+            "questionMustContainOptions": "Question must contain options",
+            "optionsMustBeUnique": "All options must be unique"
+        },
+        "option": {
+            "notEmptyError": "Option cannot be empty",
+            "lenError": "Option cannot be longer than {{maxLen}} characters"
+        }
+    },
+    "surveyDetails": {
+        "createSurveySendingPolicy": {
+            "createSurveySendingPolicy": "Create survey sending policy",
+            "atLeastOneDateError": "Select at least one date",
+            "create": "Add",
+            "somethingWentWrong": "Something went wrong",
+            "ok": "OK",
+            "createdSurveySendingPolicy": "Added survey sending policy",
+            "dates": "Dates",
+            "timeRangesDescription": "Add time ranges, when the survey should be available to submit. The selected time ranges will be applied to all selected dates.",
+            "hourFrom": "Time from",
+            "hourTo": "Time to",
+            "timesOverlapping": "Time ranges must not overlap.",
+            "overlapWithExisting": "Date ranges overlap with already existing time ranges."
+        },
+        "surveyDetails": {
+            "sendingPolicy": "Sending policy",
+            "preview": "Preview"
+        },
+        "surveySendingPolicy": {
+            "craeteNewSendingPolicy": "Add new sending policy",
+            "couldNotLoadSendingPolicies": "Could not load survey sending policies",
+            "ok": "OK",
+            "completingSurvey": "{{ from }} - {{ to }}"
+        },
+        "surveyTile": {
+            "surveyDetails": "Survey details"
+        },
+        "surveys": {
+            "addSurvey": "Add survey"
+        },
+        "surveysList": {
+            "couldNotLoadSurveys": "Could not load surveys",
+            "ok": "OK"
+        }
+    },
+    "summary": {
+        "surveySummary": {
+            "couldNotLoadData": "Could not load data",
+            "ok": "OK",
+            "gridExportFilename": "data.csv" 
+        },
+        "surveySummaryTile": {
+            "completitionDate": "Survey completion date",
+            "showSummary": "Show summary"
+        },
+        "resultsFilters": {
+            "survey": "Survey",
+            "dateFrom": "Date from",
+            "timeFrom": "Time from",
+            "dateTo": "Date to",
+            "timeTo": "Time to",
+            "load": "Load",
+            "export": "Export"
+        },
+        "resultsGrid": {
+            "surveyName": "Survey name",
+            "question": "Question",
+            "responseDate": "Answer date",
+            "answers": "Answers",
+            "respondentId": "Respondent ID",
+            "nothingToDisplay":"No results to display. Try changing filters.",
+            "loadingError": "An error occured when loading the results. Please try again later."
+        }
+    },
+    "startSurvey":{
+        "description": "The initial survey is a special type of survey. It is shown to respondents once, immediately after their first login to the application. It contains only multiple-choice questions, which allow you to group respondents. This way, in later surveys, you can ask questions only for specific groups of respondents. For example, you can collect information about gender and later create questions only for women/men.",
+        "question": "Question",
+        "options": "Options:",
+        "optionContent": "Option content",
+        "questions": "Questions",
+        "addOption": "Add option",
+        "addQuestion": "Add question",
+        "saveNewQuestions": "Save new questions",
+        "deleteQuestion": "Delete question",
+        "saveInformationText": "If respondents have already been added to the system, they will not be automatically assigned to the appropriate groups. This will need to be done manually.",
+        "saveConfirmationInput": "save",
+        "questionCannotBeEmpty": "Question cannot be empty",
+        "questionAlreadyExists": "Questions cannot repeat",
+        "optionCannotBeEmpty": "Option cannot be empty",
+        "optionAlreadyExists": "Options cannot repeat",
+        "thereAreValidationErrors": "There are validation errors.",
+        "ok": "Ok",
+        "couldNotLoadStartSurvey": "Could not load initial survey. Please try again later.",
+        "thereAreNoQuestions": "The initial survey does not contain any questions. You can add some if you wish.",
+        "refresh": "Refresh",
+        "addingQuestionsFailed": "Adding questions failed. Please try again later."
+    },
+    "shared": {
+        "typeToConfirmDialog": {
+            "warningHeader": "Warning!",
+            "typeToConfirm": "Type '{{input}}' to confirm",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        }
+    }
+}

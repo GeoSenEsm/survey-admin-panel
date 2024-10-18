@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-icon>radio_button_off</mat-icon>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="option.content"
+      maxlength="50"
+      [errorStateMatcher]="optionErrorStateMatcher"
+      (blur)="validate()"
+      [readonly]="isReadOnly"
+    />
+    <mat-error *ngIf="!isValid()">
+      {{ optionError }}
+    </mat-error>
+  </mat-form-field>
+  <mat-icon>add_photo_alternate</mat-icon>
+</div>

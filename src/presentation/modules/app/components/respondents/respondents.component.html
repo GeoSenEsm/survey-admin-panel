@@ -1,0 +1,41 @@
+<div class="container">
+  <app-buttons-ribbon [buttons]="ribbonButtons"/>
+  <div class="table-container">
+    <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8" *ngIf="respondents.length > 0">
+      <ng-container
+        *ngFor="let column of headers"
+        [matColumnDef]="column"
+      >
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ getActualHeaderDisplay(column) }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let respondent">
+
+          {{ getActualCellDisplay(respondent, column) }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="headers"
+        class="table-header"
+      ></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: headers"></mat-row>
+    </mat-table>
+    <h3 *ngIf="!isBusy && respondents.length === 0 && !loadingErrorOccured">
+      {{ 'respondents.respondents.nothingToDisplay' | translate }}
+    </h3>
+    <mat-error *ngIf="!isBusy && respondents.length === 0 && loadingErrorOccured">
+      <h3>
+        {{ 'respondents.respondents.errorLoadingRespondents' | translate }}
+      </h3>
+    </mat-error>
+  </div>
+
+  <div class="paginator-container">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+@use '@angular/material' as mat;
+@use 'ngx-multiple-dates' as ngxMultipleDates;
+@import './variables.scss';
+
+@include mat.core();
+
+
+$my-palette: (
+  50: #e8eaf6,
+  100: #ffffff,
+  200: #f4f4f4,
+  300: #39424F,
+  400: #333A4B,
+  500: $primary-color,
+  600: #39424F,
+  700: #333A4B,
+  800: #2D3146,
+  900: #262B3C,
+  A100: #C5CAE9,
+  A200: #39424F,
+  A400: #333A4B,
+  A700: #2D3146,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+
+$primary: mat.define-palette($my-palette, 500);
+$accent: mat.define-palette($my-palette, 100);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $primary,
+   accent: $accent,
+ )
+));
+
+@include mat.all-component-themes($my-theme);
+@include ngxMultipleDates.multiple-dates-theme($my-theme); 
+
+:root {
+    --primary: $primary;
+    --accent: $accent;
+}
+
+html, body {
+    height: 100%; 
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+
+button { 
+    border-radius: 50px !important; 
+}
+
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
+    padding: 0;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-input-element {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select {
+    padding: 0;
+    background-color: transparent;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select .mat-select-value {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select-trigger {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+}
+
+mat-error{
+    font-size: 14px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  margin: 2px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

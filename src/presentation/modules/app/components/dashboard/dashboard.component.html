@@ -1,0 +1,64 @@
+<mat-toolbar color="primary" class="toolbar">
+  <button mat-icon-button class="hamburger" (click)="toggleDrawer()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>UrbEaT</span>
+  <span class="spacer"></span>
+    <mat-form-field appearance="fill">
+      <mat-select [(value)]="language">
+        <mat-select-trigger>
+          <span class="flag-and-text">
+            <img
+              class="flag"
+              src="assets/imgs/flags/{{ language }}.svg"
+              alt="{{ language }} flag"
+            />
+            <span class="lang-span">{{ langageDisplayMappings[language] }}</span>
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let lang of availableLanguages" [value]="lang">
+          <span class="flag-and-text">
+            <img
+              class="flag"
+              src="assets/imgs/flags/{{ lang }}.svg"
+              alt="{{ lang }} flag"
+            />
+            <span>{{ langageDisplayMappings[lang] }}</span>
+          </span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="avatar-chip">
+      <span class="avatar-initials">{{ avatarInitials }}</span>
+    </div>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+      <mat-icon>
+        arrow_drop_down
+      </mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        {{ 'app.dashboard.logout' | translate }}
+      </button>
+    </mat-menu>
+</mat-toolbar>
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" [opened]="isDrawerOpen">
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let navListItem of navListItems"
+        class="vertical-middle"
+        routerLink="{{ navListItem.link }}"
+      >
+        <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
+        <span class="vertical-middle">{{
+          navListItem.display | translate
+        }}</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet />
+  </mat-drawer-content>
+</mat-drawer-container>

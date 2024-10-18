@@ -1,0 +1,44 @@
+<div class="form-container">
+    <div class="welcome-content">
+        <img class="logo" src="assets/imgs/logo.png"/>
+        <h1>{{ 'app.login.welcome' | translate }}</h1>
+        <h2>{{ 'app.login.loginToContinue' | translate }}</h2>
+    </div>
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>
+                {{ 'app.login.username' | translate }}
+            </mat-label>
+            <input matInput [errorStateMatcher]="matcher" [formControl]="usernameFormControl"
+            (blur)="clearInvalidCredentialsErrors()">
+            <mat-error *ngIf="usernameFormControl.hasError('required')">
+                {{'app.login.usernameRequiredError' | translate}}
+            </mat-error>
+            <mat-error *ngIf="usernameFormControl.hasError('maxlength')">
+                {{'app.login.usernameMaxLenError' | translate:{maxLen: maxLength} }}
+            </mat-error>
+            <mat-error *ngIf="usernameFormControl.hasError('invalidUsername')">
+                {{'app.login.invalidUsername' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>
+                {{ 'app.login.password' | translate }}
+            </mat-label>
+            <input matInput type="password" [errorStateMatcher]="matcher" [formControl]="passwordFormControl"
+            (blur)="clearInvalidCredentialsErrors()">
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+                {{'app.login.passwordRequiredError' | translate}}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('maxlength')">
+                {{'app.login.passwordMaxLenError' | translate:{maxLen: maxLength} }}
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('invalidPassword')">
+                {{'app.login.invalidPassword' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full-width" [disabled]="!form.valid">
+            {{ 'app.login.login' | translate }}
+        </button>
+    </form>
+</div>

@@ -1,0 +1,85 @@
+@import "../../../../../styles/variables.scss";
+
+.vertical-middle{
+    vertical-align: middle;
+}
+
+.spacer{
+    width: 10px;
+}
+
+.container{
+  height: calc(100% - 64px);
+}
+
+.mat-icon{
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
+
+mat-drawer-content{
+    overflow: auto;
+    /* TODO change this not to be hardcoded!!!!*/
+    background-color: #ffffff;
+}
+
+mat-toolbar span{
+    font-weight: 600;
+    font-size: 20px;
+}
+
+mat-toolbar mat-form-field{
+    /* I really cannot center this in a better way, it just does not react on any 'center' css property*/
+    margin-top: 20px;
+    width: 150px;
+}
+
+.flag-and-text {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+}
+
+.flag {
+    margin-right: 8px; 
+    width: 15px;
+    height: auto;
+}
+
+.spacer{
+    flex-grow: 1;
+}
+
+/* This is a workaround, because mat-icon-button does not  center the icon vertically.
+After changing mat-icon-button to mat-button it is properly centered, but the button is too wide.
+This was the only solution I found*/
+.hamburger mat-icon{
+    margin-top: -7px;
+}
+
+.lang-span{
+    color: $primary-color;
+}
+
+.avatar-chip {
+    margin-left: 10px;
+    background-color: $backgrouod-primary;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.avatar-initials {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 25px;
+} 
