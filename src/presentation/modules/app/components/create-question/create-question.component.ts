@@ -29,27 +29,27 @@ export class CreateQuestionComponent {
   isReadOnly: boolean = false;
 
   allQuestionTypes = [
-    QuestionType.SINGLE_TEXT_SELECTION,
-    QuestionType.DISCRETE_NUMBER_SELECTION,
-    QuestionType.YES_NO_SELECTION,
+    QuestionType.SINGLE_CHOICE,
+    QuestionType.LINEAR_SCALE,
+    QuestionType.YES_NO_CHOICE,
     QuestionType.MULTIPLE_CHOICE,
-    QuestionType.NUMBER
+    QuestionType.NUMBER_INPUT
   ];
 
   questionTypeIconSelector = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale',
-    [QuestionType.YES_NO_SELECTION]: 'check',
+    [QuestionType.SINGLE_CHOICE]: 'radio_button_checked',
+    [QuestionType.LINEAR_SCALE]: 'linear_scale',
+    [QuestionType.YES_NO_CHOICE]: 'check',
     [QuestionType.MULTIPLE_CHOICE]: 'check_box',
-    [QuestionType.NUMBER]: 'filter_5'
+    [QuestionType.NUMBER_INPUT]: 'filter_5'
   };
 
   questionTypeDisplay = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'createSurvey.createQuestion.singleChoice',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale',
-    [QuestionType.YES_NO_SELECTION]: 'createSurvey.createQuestion.yesNo',
+    [QuestionType.SINGLE_CHOICE]: 'createSurvey.createQuestion.singleChoice',
+    [QuestionType.LINEAR_SCALE]: 'createSurvey.createQuestion.linearScale',
+    [QuestionType.YES_NO_CHOICE]: 'createSurvey.createQuestion.yesNo',
     [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice',
-    [QuestionType.NUMBER]: 'createSurvey.createQuestion.number'
+    [QuestionType.NUMBER_INPUT]: 'createSurvey.createQuestion.number'
   };
 
   constructor(readonly translate: TranslateService){}
@@ -64,7 +64,7 @@ export class CreateQuestionComponent {
 
   isValid(): boolean{
     const isValid = this.contentError == null &&
-     (this.question?.type !== QuestionType.SINGLE_TEXT_SELECTION 
+     (this.question?.type !== QuestionType.SINGLE_CHOICE 
       || this.textSelectionOptions?.isValid() === true);
 
     return isValid;
@@ -73,7 +73,7 @@ export class CreateQuestionComponent {
   validate(): void{
     this.validateContent();
 
-    if (this.question?.type == QuestionType.SINGLE_TEXT_SELECTION){
+    if (this.question?.type == QuestionType.SINGLE_CHOICE){
       this.textSelectionOptions?.validate();
     }
   }

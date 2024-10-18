@@ -49,7 +49,7 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
             required: source.isRequired,
         };
 
-        if (source.type == QuestionType.SINGLE_TEXT_SELECTION
+        if (source.type == QuestionType.SINGLE_CHOICE
             || source.type == QuestionType.MULTIPLE_CHOICE
         ){
             question.options = [];
@@ -58,7 +58,7 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
             });
         }
 
-        if (source.type == QuestionType.DISCRETE_NUMBER_SELECTION){
+        if (source.type == QuestionType.LINEAR_SCALE){
             question.numberRange = this.mapNumberRange(source.numberRange);
         }        
 

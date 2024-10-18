@@ -33,9 +33,9 @@
         <mat-card-content>
             <app-create-text-selection-options [options]="question!.options"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
-            *ngIf="question!.type == QuestionType.SINGLE_TEXT_SELECTION || question!.type == QuestionType.MULTIPLE_CHOICE"
+            *ngIf="question!.type == QuestionType.SINGLE_CHOICE || question!.type == QuestionType.MULTIPLE_CHOICE"
             [isReadOnly]="isReadOnly"/>
-            <app-create-number-range *ngIf="question!.type == QuestionType.DISCRETE_NUMBER_SELECTION"
+            <app-create-number-range *ngIf="question!.type == QuestionType.LINEAR_SCALE"
             [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"
             [isReadOnly]="isReadOnly"/>
         </mat-card-content>
