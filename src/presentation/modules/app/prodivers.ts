@@ -6,7 +6,6 @@ import { RespondentGroupsServiceImpl } from "../../../core/services/respondent.g
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { ENGLISH_DATE_FORMATS } from "./date.formats";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { CreateSurveySendingPolicyMapper } from "../../../core/mappers/create.survey.sending.policy.mapper";
 import { SurveySendingPolicyServiceImpl } from "../../../core/services/survey.sending.policy.service.impl";
 import { SummariesServiceImpl } from "../../../core/services/summaries.service.impl";
 import { RespondentDataServiceImpl } from "../../../core/services/respondent-data-service-impl";
@@ -36,7 +35,6 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
     { provide: LOCALE_ID, useValue: 'en' },
-    {provide: 'createSurveySendingPolicyMapper', useClass: CreateSurveySendingPolicyMapper},
     {provide: 'surveySendingPolicyService', useClass: SurveySendingPolicyServiceImpl},
     {provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl},
     {provide: 'respondentDataService', useClass: RespondentDataServiceImpl},

@@ -8,14 +8,20 @@
       <mat-card-content>
           <mat-form-field>
             <ngx-multiple-dates [matDatepicker]="picker" [placeholder]="'surveyDetails.createSurveySendingPolicy.dates' | translate"
-                                [(ngModel)]="model.dates" [errorStateMatcher]="datesErrorStateMatcher">
+                                [(ngModel)]="dates">
             </ngx-multiple-dates>
             <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-            <mat-error>
-              {{ 'surveyDetails.createSurveySendingPolicy.atLeastOneDateError' | translate }}
-            </mat-error>
           </mat-form-field>
+          <app-time-ranges [timeRanges]="timeRanges" [error]="timesError"/>
+          <div class="errors">
+            <mat-error *ngIf="datesError">
+              {{ datesError }}
+            </mat-error>
+            <mat-error *ngIf="overlapWithExistingError">
+              {{ overlapWithExistingError }}
+            </mat-error>
+          </div>
           <button mat-raised-button color="primary" type="submit"
           (click)="onSubmit()">
           {{ 'surveyDetails.createSurveySendingPolicy.create' | translate }}

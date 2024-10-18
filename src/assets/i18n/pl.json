@@ -101,13 +101,18 @@
     },
     "surveyDetails":{
         "createSurveySendingPolicy": {
-            "createSurveySendingPolicy": "Utwórz polityę wysyłania ankiety",
-            "atLeastOneDateError": "Wybierz co najmniej jednaę datę",
+            "createSurveySendingPolicy": "Utwórz politykę wysyłania ankiety",
+            "atLeastOneDateError": "Wybierz co najmniej jedną datę",
             "create": "Dodaj",
             "somethingWentWrong": "Cos poszło nie tak",
             "ok": "OK",
             "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety",
-            "dates": "Daty"
+            "dates": "Daty",
+            "timeRangesDescription": "Dodaj przedziały godzin, w których dostępna będzie ankieta. Utworzone przedziały będą zastosowane do wszystkich wybranych dni.",
+            "hourFrom": "Godzina od",
+            "hourTo": "Godzina do",
+            "timesOverlapping": "Przedziały czasu nie mogą nachodzić na siebie.",
+            "overlapWithExisting": "Przedziały czasu nachodzą na któreś z już istniejących."
         },
         "surveyDetails": {
             "sendingPolicy": "Polityka wysyłania",
@@ -117,7 +122,7 @@
             "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
             "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
             "ok": "OK",
-            "completingSurvey": "Wypełnianie ankiety"
+            "completingSurvey": "{{ from }} - {{ to }}"
         },
         "surveyTile": {
             "surveyDetails": "Szczegóły ankiety"

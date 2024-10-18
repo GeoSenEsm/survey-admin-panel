@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { CreateSurveySendingPolicyDto } from "../models/create.survey.sending.policy.dto";
+import { CreateSurveySendingPolicyDto } from "../models/create-survey-sending-policy-dto";
 import { SurveySendingPolicyDto } from "../models/survey.sending.policy.dto";
 
 export interface SurveySendingPolicyService{

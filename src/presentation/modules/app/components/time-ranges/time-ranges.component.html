@@ -1,0 +1,20 @@
+<div *ngIf="timeRanges" class="container">
+    <span>
+        {{ "surveyDetails.createSurveySendingPolicy.timeRangesDescription" | translate }}
+    </span>
+    <div class="time-ranges-scroll-area">
+        <app-single-time-range *ngFor="let tr of timeRanges"
+        [timeRange]="tr" [canRemove]="canRemoveRange"
+        (removeCallback)="remove($event)"/>
+    </div>
+     <mat-error *ngIf="error">
+        {{ error }}
+     </mat-error>
+     <div class="buttons">
+        <button mat-icon-button (click)="addTimeRange()">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+     </div>
+</div>
