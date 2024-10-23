@@ -8,6 +8,7 @@ import { SurveyResultsFilter } from '../../../../../domain/models/survey-results
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { adjustDateRange } from '../../../../../core/utils/adjust-date-range';
 import { parseToTime } from '../../../../../core/utils/parsers';
+import { DateAndTimeRangeService } from '../../../../../core/services/date-and-time-range.service';
 
 @Component({
   selector: 'app-results-filters',
@@ -30,7 +31,8 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy{
   constructor(@Inject('surveyService')private readonly service: SurveyService,
   private readonly snackbar: MatSnackBar,
   private readonly translate: TranslateService,
-  formBuilder: FormBuilder){
+  formBuilder: FormBuilder,
+  private readonly dateAndTimeRangeService: DateAndTimeRangeService){
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined), 
       selectedDateFrom: [new Date()],
@@ -47,40 +49,11 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.loadSurveys();
     this.subscriptionsToDisposeOnDestroy = [
-      this.filtersForm.get('selectedDateFrom')?.valueChanges.subscribe(() => {
-        this.adjustToToFrom();
-      }),
-      this.filtersForm.get('selectedTimeFrom')?.valueChanges.subscribe(() => {
-        this.adjustToToFrom();
-      }),
-      this.filtersForm.get('selectedDateTo')?.valueChanges.subscribe(() => {
-        this.adjustFromToTo();
-      }),
-      this.filtersForm.get('selectedTimeTo')?.valueChanges.subscribe(() => {
-        this.adjustFromToTo();
-      }),
+      this.dateAndTimeRangeService.guardDates(this.filtersForm, 'selectedDateFrom', 'selectedTimeFrom', 'selectedDateTo', 'selectedTimeTo'),
     ];
   }
 
-  private adjustToToFrom(): void{
-    adjustDateRange(this.filtersForm.get('selectedDateFrom')?.value,
-      parseToTime(this.filtersForm.get('selectedTimeFrom')?.value),
-      this.filtersForm.get('selectedDateTo')?.value,
-      parseToTime(this.filtersForm.get('selectedTimeTo')?.value),
-      'from', (newDate) => {
-        this.filtersForm.get('selectedDateTo')?.setValue(newDate);
-      });
-  }
 
-  private adjustFromToTo(): void{
-    adjustDateRange(this.filtersForm.get('selectedDateFrom')?.value,
-      parseToTime(this.filtersForm.get('selectedTimeFrom')?.value),
-      this.filtersForm.get('selectedDateTo')?.value,
-      parseToTime(this.filtersForm.get('selectedTimeTo')?.value),
-      'to', (newDate) => {
-        this.filtersForm.get('selectedDateFrom')?.setValue(newDate);
-      });
-  }
 
   loadSurveys(): void {
     if (this.isBusy){
