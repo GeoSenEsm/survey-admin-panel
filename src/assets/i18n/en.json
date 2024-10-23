@@ -197,6 +197,12 @@
         }
     },
     "temperature":{
-        "description": "In this view, data from temperature sensors is available. If the respondents have the appropriate sensors and have synchronized them with the application, the data will be displayed in the table."
+        "description": "In this view, data from temperature sensors is available. If the respondents have the appropriate sensors and have synchronized them with the application, the data will be displayed in the table.",
+        "dateFrom":"Date ",
+        "timeFrom":"Time from",
+        "dateTo":"Date to",
+        "timeTo":"Time to",
+        "load": "Load",
+        "export": "Export"
     }
 }

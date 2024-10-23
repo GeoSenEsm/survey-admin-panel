@@ -63,7 +63,8 @@ import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialo
 import { StartSurveyQuestionOptionComponent } from './components/start-survey-question-option/start-survey-question-option.component';
 import { TimeRangesComponent } from './components/time-ranges/time-ranges.component';
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
-import { TempratureDataComponent } from './temprature-data/temprature-data.component';
+import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
+import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
 
 
 export const routes: Routes = [
@@ -155,7 +156,8 @@ export function HttpLoaderFactory(http: HttpClient){
     StartSurveyQuestionOptionComponent,
     TimeRangesComponent,
     SingleTimeRangeComponent,
-    TempratureDataComponent
+    TempratureDataComponent,
+    TemperatureDataFiltersComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

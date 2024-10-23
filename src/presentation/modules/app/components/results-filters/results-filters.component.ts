@@ -53,8 +53,6 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy{
     ];
   }
 
-
-
   loadSurveys(): void {
     if (this.isBusy){
       return;
