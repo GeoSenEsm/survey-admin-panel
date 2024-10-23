@@ -8,7 +8,7 @@ import { SurveyResultsFilter } from '../../../../../domain/models/survey-results
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { adjustDateRange } from '../../../../../core/utils/adjust-date-range';
 import { parseToTime } from '../../../../../core/utils/parsers';
-import { DateAndTimeRangeService } from '../../../../../core/services/date-and-time-range.service';
+import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
 
 @Component({
   selector: 'app-results-filters',
