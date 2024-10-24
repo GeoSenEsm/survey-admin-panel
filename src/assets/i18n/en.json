@@ -203,6 +203,12 @@
         "dateTo":"Date to",
         "timeTo":"Time to",
         "load": "Load",
-        "export": "Export"
+        "export": "Export",
+        "gridExportFilename": "temperatures.csv",
+        "respondentId": "Respondent ID",
+        "dateTime": "Date and time",
+        "temperature": "Temperature (°C)",
+        "nothingToDisplay": "No data to display. Try changing filters.",
+        "loadingError": "An error occured when loading the data. Please try again later."
     }
 }

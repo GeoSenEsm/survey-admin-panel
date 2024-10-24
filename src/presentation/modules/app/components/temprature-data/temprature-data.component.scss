@@ -1,3 +1,16 @@
 .container{
     padding: 10px;
+    height: 100vh;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+h3{
+    text-align: center;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

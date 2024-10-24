@@ -203,6 +203,12 @@
         "dateTo":"Data do",
         "timeTo":"Godzina do",
         "load": "Załaduj",
-        "export": "Eksportuj"
+        "export": "Eksportuj",
+        "gridExportFilename": "temperatury.csv",
+        "respondentId": "ID respondenta",
+        "dateTime": "Data i czas",
+        "temperature": "Temperatura (°C)",
+        "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
+        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
     }
 }

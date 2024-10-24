@@ -3,4 +3,28 @@
         {{ 'temperature.description' | translate }}
     </h3>
     <app-temperature-data-filters/>
+    <mat-table [dataSource]="dataSource">
+        <ng-container *ngFor="let column of headers" [matColumnDef]="column">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "temperature." + column | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let answer"> 
+            {{ getActualColumnDisplay(answer[column], column) }}
+          </mat-cell>
+        </ng-container>
+        <mat-header-row
+          *matHeaderRowDef="headers"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: headers"></mat-row>
+      </mat-table>
+      <h3 *ngIf="!isBusy && resultEntries.length === 0 && !loadDataError && loadedAtLeastOnce">
+        {{ 'temperature.nothingToDisplay' | translate }}
+      </h3>
+      <h3 *ngIf="!isBusy && loadDataError">
+        <mat-error>
+          {{ 'temperature.loadingError' | translate }}
+        </mat-error>
+      </h3>
+      <div class="spinner-container" *ngIf="isBusy">
+        <mat-spinner/>
+      </div>
 </div>
