@@ -1,5 +1,5 @@
 export interface TemperatureDataEntry{
     respondentId: string,
-    date: string,
-    temperature: number,
+    dateTime: string,
+    temperature: number
 }
