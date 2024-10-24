@@ -63,6 +63,8 @@ import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialo
 import { StartSurveyQuestionOptionComponent } from './components/start-survey-question-option/start-survey-question-option.component';
 import { TimeRangesComponent } from './components/time-ranges/time-ranges.component';
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
+import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
+import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
 
 
 export const routes: Routes = [
@@ -73,7 +75,8 @@ export const routes: Routes = [
     {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -152,7 +155,9 @@ export function HttpLoaderFactory(http: HttpClient){
     TypeToConfirmDialogComponent,
     StartSurveyQuestionOptionComponent,
     TimeRangesComponent,
-    SingleTimeRangeComponent
+    SingleTimeRangeComponent,
+    TempratureDataComponent,
+    TemperatureDataFiltersComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

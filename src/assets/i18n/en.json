@@ -26,7 +26,8 @@
             "creatingSurveys": "Creating surveys",
             "results": "Results",
             "logout": "Logout",
-            "startSurvey": "Start survey"
+            "startSurvey": "Start survey",
+            "temepratureSensors": "Temperature sensors"
         }
     },
     "respondents": {
@@ -194,5 +195,20 @@
             "confirm": "Confirm",
             "cancel": "Cancel"
         }
+    },
+    "temperature":{
+        "description": "In this view, data from temperature sensors is available. If the respondents have the appropriate sensors and have synchronized them with the application, the data will be displayed in the table.",
+        "dateFrom":"Date ",
+        "timeFrom":"Time from",
+        "dateTo":"Date to",
+        "timeTo":"Time to",
+        "load": "Load",
+        "export": "Export",
+        "gridExportFilename": "temperatures.csv",
+        "respondentId": "Respondent ID",
+        "dateTime": "Date and time",
+        "temperature": "Temperature (°C)",
+        "nothingToDisplay": "No data to display. Try changing filters.",
+        "loadingError": "An error occured when loading the data. Please try again later."
     }
 }

@@ -20,6 +20,6 @@ implements SummariesService {
             'surveyId': filter.surveyId,
             'dateFrom': filter.fromDate.toISOString(),
             'dateTo': filter.toDate.toISOString()
-        })
+        });
     }
 }

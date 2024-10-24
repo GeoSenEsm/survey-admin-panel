@@ -26,7 +26,8 @@
             "creatingSurveys": "Tworzenie ankiet",
             "results": "Wyniki",
             "logout": "Wyloguj się",
-            "startSurvey": "Ankieta początkowa"
+            "startSurvey": "Ankieta początkowa",
+            "temepratureSensors": "Czujniki temperatury"
         }
     },
     "respondents":{
@@ -194,5 +195,20 @@
             "confirm": "Potwierdź",
             "cancel": "Anuluj"
         }
+    },
+    "temperature":{
+        "description": "W tym widoku dostępne są dane z czujników temperatur. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
+        "dateFrom":"Data od",
+        "timeFrom":"Godzina od",
+        "dateTo":"Data do",
+        "timeTo":"Godzina do",
+        "load": "Załaduj",
+        "export": "Eksportuj",
+        "gridExportFilename": "temperatury.csv",
+        "respondentId": "ID respondenta",
+        "dateTime": "Data i czas",
+        "temperature": "Temperatura (°C)",
+        "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
+        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
     }
 }
