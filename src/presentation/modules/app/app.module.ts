@@ -65,6 +65,7 @@ import { TimeRangesComponent } from './components/time-ranges/time-ranges.compon
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
 import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
 import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 export const routes: Routes = [
@@ -124,7 +125,8 @@ export function HttpLoaderFactory(http: HttpClient){
     MatMenuModule,
     NgxMatTimepickerModule,
     CommonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule
   ],
   declarations: [
     AppComponent, 

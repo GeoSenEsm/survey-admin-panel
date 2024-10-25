@@ -23,6 +23,7 @@ describe('SurveyDetailsMapper', () => {
           order: 1,
           name: 'Section 1',
           visibility: SectionVisibility.ALWAYS,
+          displayOnOneScreen: true,
           rowVersion: 1,
           questions: [
             {
@@ -65,6 +66,7 @@ describe('SurveyDetailsMapper', () => {
           order: 3,
           name: 'Section 3',
           visibility: SectionVisibility.GROUP_SPECIFIC,
+          displayOnOneScreen: true,
           groupId: 'group-123',
           rowVersion: 1,
           questions: [
@@ -84,6 +86,7 @@ describe('SurveyDetailsMapper', () => {
           order: 2,
           name: 'Section 2',
           visibility: SectionVisibility.ANSWER_TRIGGERED,
+          displayOnOneScreen: true,
           rowVersion: 1,
           questions: [
             {
@@ -134,7 +137,8 @@ describe('SurveyDetailsMapper', () => {
               ],
               numberRange: getDefaultNumberRange()
             }
-          ]
+          ],
+          displayOnOneScreen: true
         },
         {
           name: 'Section 2',
@@ -148,7 +152,8 @@ describe('SurveyDetailsMapper', () => {
               numberRange: getDefaultNumberRange(),
               options: []
             }
-          ]
+          ],
+          displayOnOneScreen: true
         },
         {
           name: 'Section 3',
@@ -162,7 +167,8 @@ describe('SurveyDetailsMapper', () => {
               options: [],
               numberRange: { from: 0, to: 2, fromLabel: 'Youngest', toLabel: 'Oldest'}
             }
-          ]
+          ],
+          displayOnOneScreen: true
         }
       ]
     };

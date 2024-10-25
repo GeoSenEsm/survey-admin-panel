@@ -40,7 +40,7 @@ $my-palette: (
 
 
 $primary: mat.define-palette($my-palette, 500);
-$accent: mat.define-palette($my-palette, 100);
+$accent: mat.define-palette($my-palette, 200);
 
 $my-theme: mat.define-light-theme((
  color: (

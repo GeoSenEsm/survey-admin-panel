@@ -73,7 +73,9 @@
             "answerTriggered": "After choosing a specific answer",
             "defaultQuestion": "Question",
             "nameLenError": "Field cannot be longer than 100 characters",
-            "questionsNumError": "Section must contain a question"
+            "questionsNumError": "Section must contain a question",
+            "displayOnOneScreen": "Displayu on one page",
+            "displayOnOneScreenTooltip": "If checked, all questions in this section will be displayed on one page in the application."
         },
         "createSurvey": {
             "addSection": "Add section",

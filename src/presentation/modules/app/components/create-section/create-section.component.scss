@@ -1,3 +1,5 @@
+@import "../../../../../styles/variables.scss";
+
 .container{
     width: 100%;
     padding: 20px;
@@ -78,4 +80,16 @@ mat-form-field{
     width: 100%;
     font-size: 20px;
     font-weight: 500;
+}
+
+mat-slide-toggle{
+    color: $color-on-backgroung !important;
+    font-weight: 600;
+}
+
+.disp-on-on-screen-toggle{
+    padding: 0px !important;
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
 }

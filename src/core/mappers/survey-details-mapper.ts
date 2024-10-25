@@ -26,7 +26,8 @@ export class SurveyDetailsMapper implements Mapper<SurveyDetailsDto, CreateSurve
             name: section.name,
             visibility: section.visibility,
             respondentsGroupId: section.groupId,
-            questions: sortedQuestions.map(e => this.mapQuestion(e))
+            questions: sortedQuestions.map(e => this.mapQuestion(e)),
+            displayOnOneScreen: section.displayOnOneScreen
         };
     }
 

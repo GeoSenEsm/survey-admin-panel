@@ -39,6 +39,15 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="grid-item"></div>
+            <div class="grid-item disp-on-on-screen-toggle">
+                <mat-slide-toggle color="accent" 
+                [(ngModel)]="section!.displayOnOneScreen"
+                labelPosition="before"
+                matTooltip="{{ 'createSurvey.createSection.displayOnOneScreenTooltip' | translate  }}">
+                    {{ 'createSurvey.createSection.displayOnOneScreen' | translate}}
+                </mat-slide-toggle>
+            </div>
         </div>
         <div class="questions">
             <button mat-button
@@ -67,7 +76,7 @@
                 <mat-icon>add</mat-icon>
              </button>
             <button *ngIf="!isReadOnly"
-            mat-stroked-button
+            mat-stroked-button color="primar"
             (click)="addSectionBelow()">
                 {{ 'createSurvey.createSection.addSection' | translate  }}
                 <mat-icon>add</mat-icon>
