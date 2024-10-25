@@ -37,8 +37,8 @@
 }
 
 .header{
-    background-color: #49454F;
-    color: #ffffff;
+    background-color: $background-thetriary;
+    color: $text-on-backgroung-secondary;
     padding: 10px 20px 10px 20px;
     border-radius: 30px 30px 0px 0px; 
     display: inline-block;
@@ -53,7 +53,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 10px; 
-    background-color: #79747E;
+    background-color: $background-quaternary;
     padding: 20px;
     border-radius: 30px;
     padding-bottom: 100px;
@@ -83,7 +83,6 @@ mat-form-field{
 }
 
 mat-slide-toggle{
-    color: $color-on-backgroung !important;
     font-weight: 600;
 }
 
@@ -92,4 +91,8 @@ mat-slide-toggle{
     display: flex;
     justify-content: end;
     margin-right: 20px;
+}
+
+.disp-on-on-screen-toggle-label{
+    color: $text-on-background-thetrairy;
 }

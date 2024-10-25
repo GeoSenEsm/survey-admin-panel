@@ -45,7 +45,9 @@
                 [(ngModel)]="section!.displayOnOneScreen"
                 labelPosition="before"
                 matTooltip="{{ 'createSurvey.createSection.displayOnOneScreenTooltip' | translate  }}">
-                    {{ 'createSurvey.createSection.displayOnOneScreen' | translate}}
+                    <span class="disp-on-on-screen-toggle-label">
+                        {{ 'createSurvey.createSection.displayOnOneScreen' | translate}}
+                    </span>
                 </mat-slide-toggle>
             </div>
         </div>
