@@ -151,6 +151,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
         this.translate.instant('createSurvey.createSurvey.ok'), 
         {duration: 3000}
       );
+      console.log(error.error.message);
       this.isLocked  = false;
       return of('');
     }))
