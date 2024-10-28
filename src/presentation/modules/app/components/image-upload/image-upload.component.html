@@ -1,0 +1,25 @@
+<div style="padding:2cqh">
+    <form id="editForm" name="editForm" [formGroup]="editForm">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'createSurvey.createImageOptions.image' | translate }}</mat-label>
+        <div class="fileUploadContainer" [ngStyle]="{'margin-top' : '20px'}">
+          <ng-container *ngIf="editForm.get('photo')!.value">
+            <img [src]="editForm.get('photo')!.value" />
+            <button class="deleteButton" mat-icon-button (click)="fileInput.value = ''; editForm.get('photo')?.setValue(null);">
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-container>
+          <div *ngIf="!editForm.get('photo')!.value" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <mat-icon style="opacity: 60%;">file_upload</mat-icon>
+            <button mat-raised-button color="primary" style="width:100%; opacity: 80%;">
+                {{ 'createSurvey.createImageOptions.fileBrowser' | translate }}
+            </button>
+            <small style="margin: 20px">{{ 'createSurvey.createImageOptions.dragAndDropHere' | translate }}</small>
+          </div>
+          <input #fileInput class="fileInput" type="file" multiple="multiple" accept="image/*"
+            (change)="setFileData($event)" />
+        </div>
+        <input matInput formControlName="photo" readonly [hidden]="true " />
+      </mat-form-field>
+    </form>
+  </div>

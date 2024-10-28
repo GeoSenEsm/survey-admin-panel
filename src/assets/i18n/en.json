@@ -51,6 +51,11 @@
         "createNumberRange": {
             "labelOptional": "Label (optional)"
         },
+        "createImageOptions": {
+            "image": "Image",
+            "dragAndDropHere": "Drag and drop here",
+            "fileBrowser": "Browser"
+        },
         "createQuestion": {
             "required": "Required",
             "singleChoice": "Single choice",
@@ -59,7 +64,8 @@
             "multipleChoice": "Multiple choice",
             "contentNotEmptyError": "Field cannot be empty",
             "contentLenError": "Field cannot be longer than 250 characters",
-            "number": "Number"
+            "number": "Number",
+            "image": "Image"
         },
         "createSection": {
             "section": "Section",

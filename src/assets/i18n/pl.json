@@ -51,6 +51,11 @@
         "createNumberRange": {
             "labelOptional": "Etykieta (opcjonalna)"
         },
+        "createImageOptions": {
+            "image": "Obraz",
+            "dragAndDropHere": "Przecieraj obraz tutaj",
+            "fileBrowser": "Eksplorator"
+        },
         "createQuestion": {
             "required": "Wymagane",
             "singleChoice": "Jednokrotny wybór",
@@ -59,7 +64,8 @@
             "multipleChoice": "Wielokrotny wybór",
             "contentNotEmptyError": "Pole nie może być puste",
             "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
-            "number": "Liczba"
+            "number": "Liczba",
+            "image": "Obraz"
         },
         "createSection":{
             "section": "Sekcja",
