@@ -7,7 +7,7 @@ import { StartSurveyQuestionComponent } from '../start-survey-question/start-sur
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
-import { catchError, finalize, throwError } from 'rxjs';
+import { catchError, finalize, of, throwError } from 'rxjs';
 import { ButtonData } from '../buttons.ribbon/button.data';
 
 @Component({
@@ -56,6 +56,9 @@ export class StartSurveyComponent implements OnInit {
         this.isBusy = false;
       }),
       catchError(error =>{
+        if (error.status == 404){
+          return of([]);
+        }
         this.loadingErrorOccured = true;
         return throwError(() => error);
       }))

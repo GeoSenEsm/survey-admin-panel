@@ -17,7 +17,7 @@ implements RespondentDataService{
     }
 
     getRespondentInfoCollections(): Observable<RespondentInfoCollections> {
-        return this.get<StartSurveyQuestion[]>('/api/startSurveyQuestions')
+        return this.get<StartSurveyQuestion[]>('/api/initialsurvey')
         .pipe(
             map(questions =>{
                 const result: RespondentInfoCollections = {};
