@@ -44,6 +44,7 @@
                 <mat-slide-toggle color="accent" 
                 [(ngModel)]="section!.displayOnOneScreen"
                 labelPosition="before"
+                [disabled]="isReadOnly"
                 matTooltip="{{ 'createSurvey.createSection.displayOnOneScreenTooltip' | translate  }}">
                     <span class="disp-on-on-screen-toggle-label">
                         {{ 'createSurvey.createSection.displayOnOneScreen' | translate}}
