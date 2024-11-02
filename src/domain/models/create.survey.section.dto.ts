@@ -7,4 +7,5 @@ export interface CreateSurveySectionDto {
     visibility: SectionVisibility;
     groupId?: string;
     questions: CreateQuestionDto[];
+    displayOnOneScreen: boolean;
 }

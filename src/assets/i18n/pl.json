@@ -73,7 +73,9 @@
             "answerTriggered": "Po zaznaczeniu właściwej odpowiedzi",
             "defaultQuestion": "Pytanie",
             "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
-            "questionsNumError": "Sekcja musi zawierać pytanie"
+            "questionsNumError": "Sekcja musi zawierać pytanie",
+            "displayOnOneScreen": "Wyświetl na jednej stronie",
+            "displayOnOneScreenTooltip": "Jeśli zaznaczone, wszystkie pytania z tej sekcji zostaną wyświetlone na jednej stronie w aplikacji."
         },
         "createSurvey":{
             "addSection": "Dodaj sekcję",

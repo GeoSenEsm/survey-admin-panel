@@ -5,5 +5,6 @@ export interface CreateSectionModel{
     name?: string,
     visibility: SectionVisibility,
     questions: CreateQuestionModel[],
-    respondentsGroupId?: string
+    respondentsGroupId?: string,
+    displayOnOneScreen: boolean
 }

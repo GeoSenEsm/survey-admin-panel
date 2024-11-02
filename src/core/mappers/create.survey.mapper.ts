@@ -31,7 +31,8 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
             name: source.name!,
             visibility: source.visibility,
             groupId: source.respondentsGroupId,
-            questions: []
+            questions: [],
+            displayOnOneScreen: source.displayOnOneScreen
         };
 
         source.questions.forEach((question, index) => {

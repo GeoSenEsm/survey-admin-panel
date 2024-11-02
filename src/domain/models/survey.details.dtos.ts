@@ -16,6 +16,7 @@ export interface SurveySectionDto{
     groupId?: string,
     rowVersion: number,
     questions: SurveyQuestionDto[]
+    displayOnOneScreen: boolean
 }
 
 export interface SurveyQuestionDto{

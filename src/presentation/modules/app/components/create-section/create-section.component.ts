@@ -15,7 +15,7 @@ import { generateGuid } from '../../../../../core/utils/guid';
 @Component({
   selector: 'app-create-section',
   templateUrl: './create-section.component.html',
-  styleUrl: './create-section.component.css'
+  styleUrl: './create-section.component.scss'
 })
 export class CreateSectionComponent {
   SectionVisibility = SectionVisibility;
