@@ -30,7 +30,8 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "src/styles/full.calendar.scss"
+              "src/styles/full.calendar.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           },
@@ -90,7 +91,8 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "src/styles/full.calendar.scss"
+              "src/styles/full.calendar.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }
