@@ -67,6 +67,7 @@ import { TempratureDataComponent } from './components/temprature-data/temprature
 import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MapComponent } from './components/map/map.component';
+import { MapFiltersComponent } from './components/map-filters/map-filters.component';
 
 
 export const routes: Routes = [
@@ -162,7 +163,8 @@ export function HttpLoaderFactory(http: HttpClient){
     SingleTimeRangeComponent,
     TempratureDataComponent,
     TemperatureDataFiltersComponent,
-    MapComponent
+    MapComponent,
+    MapFiltersComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

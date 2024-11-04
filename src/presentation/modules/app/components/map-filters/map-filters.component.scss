@@ -1,0 +1,11 @@
+form > * {
+    margin-right: 16px;
+}
+  
+form > *:last-child {
+    margin-right: 0;
+}
+
+mat-slide-toggle{
+    font-weight: 600;
+}

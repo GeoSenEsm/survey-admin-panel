@@ -1,0 +1,99 @@
+<div>
+  <form (onsubmit)="loadData()" [formGroup]="filtersForm">
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ "map.survey" | translate }}
+      </mat-label>
+      <mat-select formControlName="selectedSurveyId">
+        <mat-option *ngFor="let survey of surveys" [value]="survey.id">
+          {{ survey.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>
+          {{ "map.respondent" | translate }}
+        </mat-label>
+        <mat-select formControlName="selectedRespondentId">
+          <mat-option *ngFor="let respondent of respondents" [value]="respondent.id">
+            {{ respondent.username }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ "map.dateFrom" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [matDatepicker]="dateFromPicker"
+        readonly
+        formControlName="selectedDateFrom"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dateFromPicker" />
+      <mat-datepicker #dateFromPicker />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ "map.timeFrom" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [ngxMatTimepicker]="timeFromPicker"
+        readonly
+        formControlName="selectedTimeFrom"
+      />
+      <ngx-mat-timepicker-toggle matSuffix [for]="timeFromPicker" />
+      <ngx-mat-timepicker #timeFromPicker></ngx-mat-timepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ "map.dateTo" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [matDatepicker]="dateToPicker"
+        readonly
+        formControlName="selectedDateTo"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dateToPicker" />
+      <mat-datepicker #dateToPicker />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ "map.timeTo" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [ngxMatTimepicker]="timeToPicker"
+        readonly
+        formControlName="selectedTimeTo"
+      />
+      <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
+      <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
+    </mat-form-field>
+    <mat-slide-toggle labelPosition="before">
+        {{ "map.onlyOutsideResearchArea" | translate }}
+    </mat-slide-toggle>
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      (click)="loadData()"
+      [disabled]="!canLoad()"
+    >
+      <mat-icon> refresh </mat-icon>
+      {{ "map.load" | translate }}
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="exportData()"
+      [disabled]="!canExport"
+    >
+      <mat-icon> file_download </mat-icon>
+      {{ "map.export" | translate }}
+    </button>
+  </form>
+</div>
