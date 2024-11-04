@@ -66,6 +66,7 @@ import { SingleTimeRangeComponent } from './components/single-time-range/single-
 import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
 import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MapComponent } from './components/map/map.component';
 
 
 export const routes: Routes = [
@@ -77,7 +78,8 @@ export const routes: Routes = [
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -159,7 +161,8 @@ export function HttpLoaderFactory(http: HttpClient){
     TimeRangesComponent,
     SingleTimeRangeComponent,
     TempratureDataComponent,
-    TemperatureDataFiltersComponent
+    TemperatureDataFiltersComponent,
+    MapComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

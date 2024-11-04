@@ -27,7 +27,8 @@
             "results": "Wyniki",
             "logout": "Wyloguj się",
             "startSurvey": "Ankieta początkowa",
-            "temepratureSensors": "Czujniki temperatury"
+            "temepratureSensors": "Czujniki temperatury",
+            "map": "Mapa"
         }
     },
     "respondents":{
