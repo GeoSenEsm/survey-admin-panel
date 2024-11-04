@@ -5,6 +5,9 @@
         {{ "map.survey" | translate }}
       </mat-label>
       <mat-select formControlName="selectedSurveyId">
+        <mat-option [value]="undefined">
+          {{ "map.none" | translate }}
+        </mat-option>
         <mat-option *ngFor="let survey of surveys" [value]="survey.id">
           {{ survey.name }}
         </mat-option>
@@ -15,6 +18,9 @@
           {{ "map.respondent" | translate }}
         </mat-label>
         <mat-select formControlName="selectedRespondentId">
+           <mat-option [value]="undefined">
+                {{ "map.none" | translate }}
+            </mat-option>
           <mat-option *ngFor="let respondent of respondents" [value]="respondent.id">
             {{ respondent.username }}
           </mat-option>
@@ -72,7 +78,7 @@
       <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
       <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
     </mat-form-field>
-    <mat-slide-toggle labelPosition="before">
+    <mat-slide-toggle labelPosition="before" formControlName="isOnlyOutside">
         {{ "map.onlyOutsideResearchArea" | translate }}
     </mat-slide-toggle>
     <button

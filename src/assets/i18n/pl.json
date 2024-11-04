@@ -223,6 +223,7 @@
         "timeTo":"Godzina do",
         "onlyOutsideResearchArea": "Tylko poza obszarem badania",
         "load": "Załaduj",
-        "export": "Eksportuj"
+        "export": "Eksportuj",
+        "none": "Brak"
     }
 }

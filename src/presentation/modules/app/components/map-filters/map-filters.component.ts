@@ -2,8 +2,6 @@ import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { parseToTime } from '../../../../../core/utils/parsers';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
-import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Subscription, throwError } from 'rxjs';
 import { LocationFilters } from '../../../../../domain/models/location-filters';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
@@ -72,11 +70,14 @@ export class MapFiltersComponent {
 
       dateFrom.setHours(timeFrom.hours, timeFrom.minutes);
       dateTo.setHours(timeTo.hours, timeTo.minutes);
-      this.loadDataCallback.emit({
+      const filters = {
         from: dateFrom,
         to: dateTo,
-        onlyAutsideResearchArea: false
-      });
+        onlyAutsideResearchArea: this.filtersForm.get('isOnlyOutside')?.value,
+        respondentId: this.filtersForm.get('selectedRespondentId')?.value,
+        surveyId: this.filtersForm.get('selectedSurveyId')?.value,
+      }
+      this.loadDataCallback.emit(filters);
     }
   }
 
