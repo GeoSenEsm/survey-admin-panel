@@ -10,7 +10,7 @@ import { SurveySendingPolicyServiceImpl } from "../../../core/services/survey.se
 import { SummariesServiceImpl } from "../../../core/services/summaries.service.impl";
 import { RespondentDataServiceImpl } from "../../../core/services/respondent-data-service-impl";
 import { CookieStorageService } from "../../../core/services/local-storage";
-import { START_SURVEY_SERVICE_TOKEN, STORAGE_SERVICE_TOKEN, TEMPERATURE_DATA_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/services/injection-tokens";
+import { LOCATION_SERVICE_TOKEN, START_SURVEY_SERVICE_TOKEN, STORAGE_SERVICE_TOKEN, TEMPERATURE_DATA_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from "../../../core/services/injection-tokens";
 import { ConfigService } from "../../../core/services/config.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LanguageInterceptor } from "../../../core/services/language-interceptor";
@@ -22,6 +22,7 @@ import { AuthInterceptor } from "../../../core/services/auth-interceptor";
 import { DatePipe } from "@angular/common";
 import { StartSurveyServiceImpl } from "../../../core/services/start-survey-service-impl";
 import { TemperatureDataServiceImpl } from "../../../core/services/temperature-data-service-impl";
+import { LocationServiceImpl } from "../../../core/services/location-service-impl";
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
     return () => configService.loadConfig();
@@ -76,5 +77,9 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     {
       provide: TEMPERATURE_DATA_SERVICE_TOKEN,
       useClass: TemperatureDataServiceImpl
+    },
+    {
+      provide: LOCATION_SERVICE_TOKEN,
+      useClass: LocationServiceImpl
     }
 ]

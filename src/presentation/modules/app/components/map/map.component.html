@@ -1,5 +1,5 @@
 <div class="container">
-    <app-map-filters/>
+    <app-map-filters (loadDataCallback)="loadData($event)"/>
     <div style="height: 10px;"></div>
     <div id="map"></div>
 </div>
