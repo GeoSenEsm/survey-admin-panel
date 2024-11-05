@@ -17,16 +17,6 @@ export class LocationServiceImpl extends ApiService implements LocationService{
     }
 
     getLocationData(filters: LocationFilters): Observable<LocationData[]> {
-
-        const locations: LocationData[] = [
-            { respondentId: '1', latitude: 52.2297, longitude: 21.0122, dateTime: '2024-11-01', surveyId: 'A' },
-            { respondentId: '2', latitude: 52.2300, longitude: 21.0130, dateTime: '2024-11-02', surveyId: 'B' },
-            { respondentId: '3', latitude: 52.2310, longitude: 21.0140, dateTime: '2024-11-03', surveyId: undefined, outsideResearchArea: true }, // Bez surveyId
-            { respondentId: '4', latitude: 52.2320, longitude: 21.0150, dateTime: '2024-11-04', surveyId: 'C' },
-            { respondentId: '5', latitude: 52.2330, longitude: 21.0160, dateTime: '2024-11-05', surveyId: 'D' },
-          ];
-      
-          return of(locations);
         const actualFilters: any = {
             'from': filters.from.toISOString(),
             'to': filters.to.toISOString(),

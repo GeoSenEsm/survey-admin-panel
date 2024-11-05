@@ -33,6 +33,8 @@ export class MapFiltersComponent {
   private readonly dateAndTimeRangeService: DateAndTimeRangeService){
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined), 
+      selectedRespondentId: new FormControl<string | undefined>(undefined),
+      onlyOutside: new FormControl<boolean>(false),
       selectedDateFrom: [new Date()],
       selectedTimeFrom: ['7:00'],
       selectedDateTo: [new Date()],
@@ -72,7 +74,7 @@ export class MapFiltersComponent {
       const filters = {
         from: dateFrom,
         to: dateTo,
-        onlyAutsideResearchArea: this.filtersForm.get('isOnlyOutside')?.value,
+        onlyAutsideResearchArea: this.filtersForm.get('onlyOutside')?.value,
         respondentId: this.filtersForm.get('selectedRespondentId')?.value,
         surveyId: this.filtersForm.get('selectedSurveyId')?.value,
       }
