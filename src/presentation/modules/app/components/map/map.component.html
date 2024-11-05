@@ -1,5 +1,6 @@
 <div class="container">
-    <app-map-filters (loadDataCallback)="loadData($event)"/>
+    <app-map-filters (loadDataCallback)="loadData($event)" [respondents]="respondents" [surveys]="surveys"
+    [canExport]="locationData.length > 0" (exportDataCallback)="exportData()"/>
     <div style="height: 10px;"></div>
     <div id="map"></div>
 </div>

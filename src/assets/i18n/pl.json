@@ -230,6 +230,7 @@
         "dateTime": "Data i czas: {{dateTime}}",
         "tooltipRespondent": "Respondent: {{respondent}}",
         "tooltipSurvey": "Ankieta: {{survey}}",
-        "measurmentOutsideResearchArea": "Poza obszarem badania"
+        "measurmentOutsideResearchArea": "Poza obszarem badania",
+        "csvExportFilename": "lokalizacje.csv"
     }
 }

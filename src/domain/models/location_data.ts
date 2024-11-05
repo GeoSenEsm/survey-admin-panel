@@ -2,7 +2,7 @@ export interface LocationData{
     respondentId: string,
     latitude: number,
     longitude: number
-    date: string,
+    dateTime: string,
     surveyId?: string,
     outsideResearchArea?: boolean
 }

@@ -17,6 +17,9 @@ import { RespondentDataService } from '../../../../../domain/external_services/r
 import { catchError, throwError } from 'rxjs';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
+import { CsvExportService } from '../../../../../core/services/csv-export.service';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -25,7 +28,7 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
 })
 export class MapComponent implements OnInit {
   private map: L.Map | undefined;
-  private locationData: LocationData[] = [];
+  locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
   private tooltipRef: ComponentRef<MapPinTooltipComponent> | null = null;
   respondents: RespondentData[] = [];
@@ -37,7 +40,9 @@ export class MapComponent implements OnInit {
     private viewContainerRef: ViewContainerRef,
     private injector: Injector,
     @Inject('surveyService')private readonly surveyService: SurveyService,
-   @Inject('respondentDataService')private readonly respondentsService: RespondentDataService,
+    @Inject('respondentDataService')private readonly respondentsService: RespondentDataService,
+    private readonly exportService: CsvExportService,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -143,5 +148,11 @@ export class MapComponent implements OnInit {
         this.respondents = res;
       }
     });
+  }
+
+  exportData(): void{
+    this.exportService.exportTableToCSV(this.locationData, 
+      ['latitude', 'longitude', 'respondentId', 'dateTime', 'surveyId', 'outsideResearchArea'], 
+    this.translate.instant('map.csvExportFilename'));
   }
 }

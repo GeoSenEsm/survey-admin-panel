@@ -25,7 +25,7 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
         'map.dateTime'
           | translate
             : {
-                dateTime: datePipe.transform(location.date, 'shortTime', 'UTC')
+                dateTime: getActualDateDisplay()
               }
       }}</span>
       <span>{{
@@ -84,5 +84,9 @@ export class MapPinTooltipComponent {
       )[0].name;
     }
     return undefined;
+  }
+
+  getActualDateDisplay(): string | undefined | null{
+    return this.location?.dateTime ? this.datePipe.transform(new Date(this.location!.dateTime), 'short', 'UTC') : undefined;
   }
 }
