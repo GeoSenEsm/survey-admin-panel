@@ -20,6 +20,7 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -39,10 +40,12 @@ export class MapComponent implements OnInit {
     private readonly locationService: LocationService,
     private viewContainerRef: ViewContainerRef,
     private injector: Injector,
-    @Inject('surveyService')private readonly surveyService: SurveyService,
-    @Inject('respondentDataService')private readonly respondentsService: RespondentDataService,
+    @Inject('surveyService') private readonly surveyService: SurveyService,
+    @Inject('respondentDataService')
+    private readonly respondentsService: RespondentDataService,
     private readonly exportService: CsvExportService,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -64,9 +67,29 @@ export class MapComponent implements OnInit {
   }
 
   loadData(filters: LocationFilters): void {
-    this.locationService.getLocationData(filters).subscribe((data) => {
-      this.locationData = data;
-      this.refreshPins();
+    this.locationService.getLocationData(filters).subscribe({
+      next: (data) => {
+        if (data.length == 0) {
+          this.snackbar.open(
+            this.translate.instant('map.noData'),
+            this.translate.instant('map.ok'),
+            {
+              duration: 3000,
+            }
+          );
+        }
+        this.locationData = data;
+        this.refreshPins();
+      },
+      error: () => {
+        this.snackbar.open(
+          this.translate.instant('map.somethingWentWrong'),
+          this.translate.instant('map.ok'),
+          {
+            duration: 3000,
+          }
+        );
+      },
     });
   }
 
@@ -79,7 +102,7 @@ export class MapComponent implements OnInit {
     this.markers.length = 0;
 
     const bounds = L.latLngBounds([]);
-
+    let any = false;
     this.locationData.forEach((location) => {
       const marker = L.circleMarker([location.latitude, location.longitude], {
         radius: 5,
@@ -90,10 +113,13 @@ export class MapComponent implements OnInit {
       marker.on('mouseover', (e) => this.showCustomTooltip(e, location));
       marker.on('mouseout', () => this.hideCustomTooltip());
       bounds.extend([location.latitude, location.longitude]);
+      any = true;
       this.markers.push(marker);
     });
 
-    this.map.fitBounds(bounds);
+    if (any) {
+      this.map.fitBounds(bounds);
+    }
   }
 
   showCustomTooltip(event: L.LeafletMouseEvent, location: LocationData) {
@@ -123,36 +149,48 @@ export class MapComponent implements OnInit {
     }
   }
 
-  loadSurveys(): void{
+  loadSurveys(): void {
     this.surveyService
-    .getAllSummaryShort()
-    .pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error));
-      })
-    ).subscribe({
-      next: res => {
-        this.surveys = res;
-      }
-    });
+      .getAllSummaryShort()
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error(error));
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.surveys = res;
+        },
+      });
   }
 
-  loadRespondents(): void{
-    this.respondentsService.getRespondents()
-    .pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error));
-      })
-    ).subscribe({
-      next: res => {
-        this.respondents = res;
-      }
-    });
+  loadRespondents(): void {
+    this.respondentsService
+      .getRespondents()
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error(error));
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.respondents = res;
+        },
+      });
   }
 
-  exportData(): void{
-    this.exportService.exportTableToCSV(this.locationData, 
-      ['latitude', 'longitude', 'respondentId', 'dateTime', 'surveyId', 'outsideResearchArea'], 
-    this.translate.instant('map.csvExportFilename'));
+  exportData(): void {
+    this.exportService.exportTableToCSV(
+      this.locationData,
+      [
+        'latitude',
+        'longitude',
+        'respondentId',
+        'dateTime',
+        'surveyId',
+        'outsideResearchArea',
+      ],
+      this.translate.instant('map.csvExportFilename')
+    );
   }
 }

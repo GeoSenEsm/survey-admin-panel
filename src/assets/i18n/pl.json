@@ -231,6 +231,9 @@
         "tooltipRespondent": "Respondent: {{respondent}}",
         "tooltipSurvey": "Ankieta: {{survey}}",
         "measurmentOutsideResearchArea": "Poza obszarem badania",
-        "csvExportFilename": "lokalizacje.csv"
+        "csvExportFilename": "lokalizacje.csv",
+        "noData": "Brak danych, spróbuj zmienić filtry",
+        "somethingWentWrong":"Cos poszło nie tak. Spróbuj ponownie później.",
+        "ok": "OK"
     }
 }
