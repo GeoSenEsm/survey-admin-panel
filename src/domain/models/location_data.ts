@@ -3,5 +3,6 @@ export interface LocationData{
     latitude: number,
     longitude: number
     date: string,
-    surveyId?: string
+    surveyId?: string,
+    outsideResearchArea?: boolean
 }

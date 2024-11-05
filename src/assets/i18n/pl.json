@@ -224,6 +224,12 @@
         "onlyOutsideResearchArea": "Tylko poza obszarem badania",
         "load": "Załaduj",
         "export": "Eksportuj",
-        "none": "Brak"
+        "none": "Brak",
+        "longitude": "Długość geograficzna: {{longitude}}",
+        "latitude": "Szerokość geograficzna: {{latitude}}",
+        "dateTime": "Data i czas: {{dateTime}}",
+        "tooltipRespondent": "Respondent: {{respondent}}",
+        "tooltipSurvey": "Ankieta: {{survey}}",
+        "measurmentOutsideResearchArea": "Poza obszarem badania"
     }
 }
