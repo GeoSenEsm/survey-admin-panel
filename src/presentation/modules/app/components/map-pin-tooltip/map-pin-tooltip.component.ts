@@ -7,17 +7,35 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
 @Component({
   selector: 'app-map-pin-tooltip',
   template: `
-    <div class="container" *ngIf="location" [ngClass]="location.outsideResearchArea ? 'error-border' : 'black-border'">
+    <div
+      class="container"
+      *ngIf="location"
+      [ngClass]="location.outsideResearchArea ? 'error-border' : 'black-border'"
+    >
       <mat-error *ngIf="location.outsideResearchArea">
-        {{ "map.measurmentOutsideResearchArea" | translate }}
+        {{ 'map.measurmentOutsideResearchArea' | translate }}
       </mat-error>
-      <span>{{ "map.longitude" | translate:{longitude: location.longitude} }}</span>
-      <span>{{ "map.latitude" | translate:{latitude: location.latitude} }}</span>
-      <span>{{ "map.dateTime" | translate:{dateTime: datePipe.transform(location.date, 'shortTime', 'UTC')} }}</span>
-      <span>{{ "map.tooltipRespondent" | translate:{respondent: location.respondentId} }}</span>
-      <span *ngIf="location.surveyId">{{ "map.tooltipSurvey" | translate:{survey: location.surveyId} }}</span>
+      <span>{{
+        'map.longitude' | translate : { longitude: location.longitude }
+      }}</span>
+      <span>{{
+        'map.latitude' | translate : { latitude: location.latitude }
+      }}</span>
+      <span>{{
+        'map.dateTime'
+          | translate
+            : {
+                dateTime: datePipe.transform(location.date, 'shortTime', 'UTC')
+              }
+      }}</span>
+      <span>{{
+        'map.tooltipRespondent'
+          | translate : { respondent: getRespondentName() }
+      }}</span>
+      <span *ngIf="location.surveyId">{{
+        'map.tooltipSurvey' | translate : { survey: getSurveyName() }
+      }}</span>
     </div>
-
   `,
   styles: `
   .container {
@@ -40,14 +58,31 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
   .error-border{
     border-color: red;
   }
-  `
+  `,
 })
 export class MapPinTooltipComponent {
   location: LocationData | undefined;
   respondents: RespondentData[] | undefined;
-  surveys: SurveySummaryShortDto[] | undefined
+  surveys: SurveySummaryShortDto[] | undefined;
 
-  constructor(
-    readonly datePipe: DatePipe
-  ){}
+  constructor(readonly datePipe: DatePipe) {}
+
+  getSurveyName(): string | undefined {
+    if (this.respondents && this.location) {
+      return this.respondents.filter(
+        (e) => e.id === this.location!.respondentId
+      )[0].surveyName;
+    }
+
+    return undefined;
+  }
+
+  getRespondentName(): string | undefined {
+    if (this.respondents && this.location) {
+      return this.respondents.filter(
+        (e) => e.id === this.location!.respondentId
+      )[0].name;
+    }
+    return undefined;
+  }
 }
