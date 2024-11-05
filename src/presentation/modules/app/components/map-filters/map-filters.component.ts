@@ -23,11 +23,12 @@ export class MapFiltersComponent {
   canExport: boolean = false;
   filtersForm: FormGroup;
   subscriptionsToDisposeOnDestroy: (Subscription | undefined)[] = [];
+  @Input()
   surveys: SurveySummaryShortDto[] = [];
+  @Input()
   respondents: RespondentData[] = [];
 
-  constructor(@Inject('surveyService')private readonly surveyService: SurveyService,
-  @Inject('respondentDataService')private readonly respondentsService: RespondentDataService,
+  constructor(
   formBuilder: FormBuilder,
   private readonly dateAndTimeRangeService: DateAndTimeRangeService){
     this.filtersForm = formBuilder.group({
@@ -47,8 +48,6 @@ export class MapFiltersComponent {
     this.subscriptionsToDisposeOnDestroy = [
       this.dateAndTimeRangeService.guardDates(this.filtersForm, 'selectedDateFrom', 'selectedTimeFrom', 'selectedDateTo', 'selectedTimeTo'),
     ];
-    this.loadSurveys();
-    this.loadRespondents();
   }
 
   canLoad(): boolean{
@@ -83,33 +82,6 @@ export class MapFiltersComponent {
 
   exportData(): void{
     this.exportDataCallback.emit();
-  }
-
-  loadSurveys(): void{
-    this.surveyService
-    .getAllSummaryShort()
-    .pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error));
-      })
-    ).subscribe({
-      next: res => {
-        this.surveys = res;
-      }
-    });
-  }
-
-  loadRespondents(): void{
-    this.respondentsService.getRespondents()
-    .pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error));
-      })
-    ).subscribe({
-      next: res => {
-        this.respondents = res;
-      }
-    });
   }
 }
 

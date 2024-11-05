@@ -12,6 +12,11 @@ import { LOCATION_SERVICE_TOKEN } from '../../../../../core/services/injection-t
 import { LocationService } from '../../../../../domain/external_services/location.service';
 import { LocationData } from '../../../../../domain/models/location_data';
 import { MapPinTooltipComponent } from '../map-pin-tooltip/map-pin-tooltip.component';
+import { SurveyService } from '../../../../../domain/external_services/survey.service';
+import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
+import { catchError, throwError } from 'rxjs';
+import { RespondentData } from '../../../../../domain/models/respondent-data';
+import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 
 @Component({
   selector: 'app-map',
@@ -23,16 +28,22 @@ export class MapComponent implements OnInit {
   private locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
   private tooltipRef: ComponentRef<MapPinTooltipComponent> | null = null;
+  respondents: RespondentData[] = [];
+  surveys: SurveySummaryShortDto[] = [];
 
   constructor(
     @Inject(LOCATION_SERVICE_TOKEN)
     private readonly locationService: LocationService,
     private viewContainerRef: ViewContainerRef,
-    private injector: Injector
+    private injector: Injector,
+    @Inject('surveyService')private readonly surveyService: SurveyService,
+   @Inject('respondentDataService')private readonly respondentsService: RespondentDataService,
   ) {}
 
   ngOnInit(): void {
     this.initMap();
+    this.loadSurveys();
+    this.loadRespondents();
   }
 
   private initMap(): void {
@@ -62,6 +73,8 @@ export class MapComponent implements OnInit {
     this.markers.forEach((marker) => this.map?.removeLayer(marker));
     this.markers.length = 0;
 
+    const bounds = L.latLngBounds([]);
+
     this.locationData.forEach((location) => {
       const marker = L.circleMarker([location.latitude, location.longitude], {
         radius: 5,
@@ -71,9 +84,11 @@ export class MapComponent implements OnInit {
 
       marker.on('mouseover', (e) => this.showCustomTooltip(e, location));
       marker.on('mouseout', () => this.hideCustomTooltip());
-
+      bounds.extend([location.latitude, location.longitude]);
       this.markers.push(marker);
     });
+
+    this.map.fitBounds(bounds);
   }
 
   showCustomTooltip(event: L.LeafletMouseEvent, location: LocationData) {
@@ -85,6 +100,8 @@ export class MapComponent implements OnInit {
     );
 
     this.tooltipRef.instance.location = location;
+    this.tooltipRef.instance.respondents = this.respondents;
+    this.tooltipRef.instance.surveys = this.surveys;
 
     const tooltipElement = this.tooltipRef.location
       .nativeElement as HTMLElement;
@@ -99,5 +116,32 @@ export class MapComponent implements OnInit {
       this.tooltipRef.destroy();
       this.tooltipRef = null;
     }
+  }
+
+  loadSurveys(): void{
+    this.surveyService
+    .getAllSummaryShort()
+    .pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error));
+      })
+    ).subscribe({
+      next: res => {
+        this.surveys = res;
+      }
+    });
+  }
+
+  loadRespondents(): void{
+    this.respondentsService.getRespondents()
+    .pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error));
+      })
+    ).subscribe({
+      next: res => {
+        this.respondents = res;
+      }
+    });
   }
 }
