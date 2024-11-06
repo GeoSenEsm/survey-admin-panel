@@ -28,7 +28,8 @@
       "logout": "Logout",
       "startSurvey": "Start survey",
       "temepratureSensors": "Temperature sensors",
-      "map": "Map"
+      "map": "Map",
+      "configuration": "Configuration"
     }
   },
   "respondents": {
