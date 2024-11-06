@@ -212,7 +212,8 @@
     "dateTime": "Date and time",
     "temperature": "Temperature (°C)",
     "nothingToDisplay": "No data to display. Try changing filters.",
-    "loadingError": "An error occured when loading the data. Please try again later."
+    "loadingError": "An error occured when loading the data. Please try again later.",
+    "humidity": "Humidity (%)"
   },
   "map": {
     "survey": "Survey",

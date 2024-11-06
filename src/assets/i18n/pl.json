@@ -212,7 +212,8 @@
         "dateTime": "Data i czas",
         "temperature": "Temperatura (°C)",
         "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
-        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
+        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
+        "humidity": "Wilgotność (%)"
     },
     "map": {
         "survey": "Ankieta",

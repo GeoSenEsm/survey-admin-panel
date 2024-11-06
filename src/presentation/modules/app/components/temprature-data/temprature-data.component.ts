@@ -16,7 +16,7 @@ import { catchError, finalize, throwError } from 'rxjs';
 })
 export class TempratureDataComponent {
   readonly headers = [
-    'respondentId', 'dateTime', 'temperature'
+    'respondentId', 'dateTime', 'temperature', 'humidity'
   ];
   isBusy: boolean = false;
   loadDataError: boolean = false;
