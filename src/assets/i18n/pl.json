@@ -27,7 +27,8 @@
             "results": "Wyniki",
             "logout": "Wyloguj się",
             "startSurvey": "Ankieta początkowa",
-            "temepratureSensors": "Czujniki temperatury"
+            "temepratureSensors": "Czujniki temperatury",
+            "map": "Mapa"
         }
     },
     "respondents":{
@@ -211,6 +212,29 @@
         "dateTime": "Data i czas",
         "temperature": "Temperatura (°C)",
         "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
-        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
+        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
+        "humidity": "Wilgotność (%)"
+    },
+    "map": {
+        "survey": "Ankieta",
+        "respondent": "Respondent",
+        "dateFrom":"Data od",
+        "timeFrom":"Godzina od",
+        "dateTo":"Data do",
+        "timeTo":"Godzina do",
+        "onlyOutsideResearchArea": "Tylko poza obszarem badania",
+        "load": "Załaduj",
+        "export": "Eksportuj",
+        "none": "Brak",
+        "longitude": "Długość geograficzna: {{longitude}}",
+        "latitude": "Szerokość geograficzna: {{latitude}}",
+        "dateTime": "Data i czas: {{dateTime}}",
+        "tooltipRespondent": "Respondent: {{respondent}}",
+        "tooltipSurvey": "Ankieta: {{survey}}",
+        "measurmentOutsideResearchArea": "Poza obszarem badania",
+        "csvExportFilename": "lokalizacje.csv",
+        "noData": "Brak danych, spróbuj zmienić filtry",
+        "somethingWentWrong":"Cos poszło nie tak. Spróbuj ponownie później.",
+        "ok": "OK"
     }
 }

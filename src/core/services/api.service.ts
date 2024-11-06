@@ -16,7 +16,7 @@ export class ApiService {
     });
   }
 
-  protected get<T>(url: string, params?: { [param: string]: string | number }): Observable<T> {
+  protected get<T>(url: string, params?: { [param: string]: string | number | boolean }): Observable<T> {
     let queryParams = new HttpParams();
     if (params) {
       Object.keys(params).forEach(key => {

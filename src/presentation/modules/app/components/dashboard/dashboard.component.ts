@@ -51,6 +51,11 @@ export class DashboardComponent implements OnInit{
       display: 'app.dashboard.temepratureSensors',
       matIcon: 'device_thermostat',
       link: 'temperature'
+    },
+    {
+      display: 'app.dashboard.map',
+      matIcon: 'map',
+      link: 'map'
     }
   ]
 

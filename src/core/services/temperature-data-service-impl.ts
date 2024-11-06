@@ -18,7 +18,7 @@ implements TemperatureDataService{
         }
 
     getTemperatureData(filter: TemperatureDataFilter): Observable<TemperatureDataEntry[]> {
-        return this.get(`/api/temperaturedata`, {
+        return this.get(`/api/sensordata`, {
             'from': filter.from.toISOString(),
             'to': filter.to.toISOString()
         });
