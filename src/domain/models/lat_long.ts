@@ -1,4 +1,4 @@
-export interface LocationAreaNode {
+export interface LatLong {
     longitude: number;
     latitude: number;
 }

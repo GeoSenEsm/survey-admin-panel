@@ -1,7 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import L, { LatLng } from 'leaflet';
 import { Papa } from 'ngx-papaparse';
-import { LocationAreaNode } from '../../../../../domain/models/location_area_node';
+import { LatLong } from '../../../../../domain/models/lat_long';
+import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
+import { catchError, of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-research-area',
@@ -12,11 +15,19 @@ export class ResearchAreaComponent implements OnInit {
   private map: L.Map | undefined;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   changesMade: boolean = false;
+  private researchAreaPolygon: L.Polygon | undefined;
+  private nodes: LatLong[] | undefined;
+  errorOnLoadingCurrentResearchArea: boolean = false;
+  private rememberedNodes: LatLong[] | undefined;
 
-  constructor(private papa: Papa) {} 
+
+  constructor(private papa: Papa,
+    @Inject(RESEARCH_AREA_SERVICE_TOKEN) private readonly researchAreaService: ResearchAreaService
+  ) {} 
 
   ngOnInit(): void {
     this.initMap();
+    this.loadCurrentResearchArea();
   }
 
   private initMap(): void {
@@ -29,6 +40,32 @@ export class ResearchAreaComponent implements OnInit {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
+  }
+
+  private loadCurrentResearchArea(): void {
+    this.nodes = undefined;
+    this.rememberedNodes = undefined;
+    this.errorOnLoadingCurrentResearchArea = false;
+
+    this.researchAreaService
+    .getResearchArea()
+    .pipe(
+      catchError((error) => {
+        if (error.status ==  404){
+          return of([]);
+        }
+
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
+      next: (data) => {
+        this.drawPolygon(data);
+      },
+      error: () => {
+        this.errorOnLoadingCurrentResearchArea = true;
+      }
+    })
   }
 
   loadFromFile(): void {
@@ -44,7 +81,7 @@ export class ResearchAreaComponent implements OnInit {
         header: true,
         skipEmptyLines: true,
         complete: (result) => {
-          const data: LocationAreaNode[] = result.data as LocationAreaNode[];
+          const data: LatLong[] = result.data as LatLong[];
           this.drawPolygon(data);
           this.changesMade = true;
         },
@@ -55,16 +92,27 @@ export class ResearchAreaComponent implements OnInit {
     }
   }
 
-  private drawPolygon(vertices: LocationAreaNode[]): void {
+  private drawPolygon(vertices: LatLong[]): void {
+    if (this.nodes && !this.rememberedNodes){
+      this.rememberedNodes = this.nodes;
+    }
+    this.removePolygon();
+    this.nodes = vertices;
     const latLngs = vertices.map(vertex => new LatLng(vertex.latitude, vertex.longitude));
-    const polygon = L.polygon(latLngs, {
+    this.researchAreaPolygon = L.polygon(latLngs, {
       color: 'darkblue',
       fillColor: 'blue',
       fillOpacity: 0.5
     });
 
-    polygon.addTo(this.map!);
-    this.map?.fitBounds(polygon.getBounds());
+    this.researchAreaPolygon.addTo(this.map!);
+    this.map?.fitBounds(this.researchAreaPolygon.getBounds());
   }
 
+  private removePolygon(): void {
+    if (this.map && this.researchAreaPolygon) {
+      this.map.removeLayer(this.researchAreaPolygon);
+      this.researchAreaPolygon = undefined;
+    }
+  }
 }
