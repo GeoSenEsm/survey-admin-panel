@@ -247,7 +247,9 @@
             "resetChanges": "Wycofaj zmiany",
             "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później.",
             "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
-            "delete": "Usuń"
+            "delete": "Usuń",
+            "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
+            "noResearchAreaDefined": "Nie zdefiniowano obszaru badania."
         },
         "ok": "OK"
     }

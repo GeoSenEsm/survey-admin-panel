@@ -6,6 +6,14 @@
         {{ 'configuration.researchArea.description' | translate }}
     </h4>
     <div id="map"></div>
+    <h4 *ngIf="!areaDefined()">
+        {{ 'configuration.researchArea.noResearchAreaDefined' | translate }}
+    </h4>
+    <h4 *ngIf="errorOnLoadingCurrentResearchArea">
+        <mat-error>
+            {{ 'configuration.researchArea.errorOnLoading' | translate }}
+        </mat-error>
+    </h4>
     <div class="buttons">
         <button mat-flat-button color="primary" (click)="loadFromFile()">
             <mat-icon>cloud_upload</mat-icon>

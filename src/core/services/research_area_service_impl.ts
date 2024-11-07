@@ -19,11 +19,7 @@ export class ResearchAreaServiceImpl
 
     getResearchArea(): Observable<LatLong[]> {
         const coordinates: LatLong[] = [
-            { longitude: 21.011780, latitude: 52.229800 },
-            { longitude: 21.027800, latitude: 52.229800 },
-            { longitude: 21.027800, latitude: 52.246800 },
-            { longitude: 21.011780, latitude: 52.246800 },
-            { longitude: 21.011780, latitude: 52.229800 }
+
           ];
 
           return of(coordinates);

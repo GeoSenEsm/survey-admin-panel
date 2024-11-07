@@ -167,4 +167,8 @@ export class ResearchAreaComponent implements OnInit {
   canDelete(): boolean{
     return (this.nodes ?? false) && this.nodes?.length !== 0;
   }
+
+  areaDefined(): boolean{
+    return !this.errorOnLoadingCurrentResearchArea && this.nodes !== undefined && this.nodes.length !== 0;
+  }
 }
