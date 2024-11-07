@@ -26,4 +26,8 @@ export class ApiService {
 
     return this.httpClient.get<T>(this.baseUrl + url, { params: queryParams });
   }
+
+  protected delete<T>(url: string): Observable<T> {
+    return this.httpClient.delete<T>(this.baseUrl + url);
+  }
 }

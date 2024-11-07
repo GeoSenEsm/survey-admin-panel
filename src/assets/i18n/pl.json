@@ -28,7 +28,8 @@
             "logout": "Wyloguj się",
             "startSurvey": "Ankieta początkowa",
             "temepratureSensors": "Czujniki temperatury",
-            "map": "Mapa"
+            "map": "Mapa",
+            "configuration": "Konfiguracja"
         }
     },
     "respondents":{
@@ -236,5 +237,22 @@
         "noData": "Brak danych, spróbuj zmienić filtry",
         "somethingWentWrong":"Cos poszło nie tak. Spróbuj ponownie później.",
         "ok": "OK"
+    },
+    "configuration": {
+        "researchArea": {
+            "title": "Obszar badania",
+            "description": "W tym miejscu możesz zdefiniować obszar przeprowadzanego badania. Pozwoli to automatycznie flagować lokalizację respondentów jako 'poza obszarem badania', oraz odpowiedzi w aniketach, jako udzielone poza obszarem badania",
+            "readFromFile": "Wczytaj z pliku",
+            "save": "Zapisz",
+            "resetChanges": "Wycofaj zmiany",
+            "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później.",
+            "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
+            "delete": "Usuń",
+            "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
+            "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
+            "refresh": "Odśwież"
+        },
+        "ok": "OK",
+        "somethingWentWrong":"Coś poszło nie tak"
     }
 }

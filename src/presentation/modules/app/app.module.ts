@@ -69,6 +69,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MapComponent } from './components/map/map.component';
 import { MapFiltersComponent } from './components/map-filters/map-filters.component';
 import { MapPinTooltipComponent } from './components/map-pin-tooltip/map-pin-tooltip.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { ResearchAreaComponent } from './components/research-area/research-area.component';
 
 
 export const routes: Routes = [
@@ -82,6 +84,7 @@ export const routes: Routes = [
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
     {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -166,7 +169,9 @@ export function HttpLoaderFactory(http: HttpClient){
     TemperatureDataFiltersComponent,
     MapComponent,
     MapFiltersComponent,
-    MapPinTooltipComponent
+    MapPinTooltipComponent,
+    ConfigurationComponent,
+    ResearchAreaComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

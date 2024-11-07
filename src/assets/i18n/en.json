@@ -28,7 +28,8 @@
       "logout": "Logout",
       "startSurvey": "Start survey",
       "temepratureSensors": "Temperature sensors",
-      "map": "Map"
+      "map": "Map",
+      "configuration": "Configuration"
     }
   },
   "respondents": {
@@ -236,5 +237,22 @@
     "noData": "No data, please try changing the filters.",
     "somethingWentWrong": "Something went wrong. Please try again later.",
     "ok": "OK"
+  },
+  "configuration": {
+    "researchArea": {
+      "title": "Research Area",
+      "description": "Here you can define the area of the conducted research. This will automatically flag the location of respondents as 'outside the research area', as well as responses in the surveys as provided outside the research area.",
+      "readFromFile": "Load from file",
+      "save": "Save",
+      "resetChanges": "Revert changes",
+      "errorOnSavingChanges": "An error occurred while saving changes. Please try again later.",
+      "errorOnDeleting": "An error occurred while deleting. Please try again later.",
+      "delete": "Delete",
+      "errorOnLoading": "An error occurred while loading the research area. Please try again later.",
+      "noResearchAreaDefined": "No research area defined.",
+      "refresh": "Refresh"
+    },
+    "ok": "OK",
+    "somethingWentWrong": "Something went wrong"
   }
 }
