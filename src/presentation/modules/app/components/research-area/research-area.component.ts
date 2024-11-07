@@ -115,4 +115,11 @@ export class ResearchAreaComponent implements OnInit {
       this.researchAreaPolygon = undefined;
     }
   }
+
+  resetChanges(): void {
+    if (this.rememberedNodes){
+      this.drawPolygon(this.rememberedNodes);
+      this.changesMade = false;
+    }
+  }
 }
