@@ -5,6 +5,8 @@ import { LatLong } from '../../../../../domain/models/lat_long';
 import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
 import { catchError, of, throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-research-area',
@@ -22,7 +24,9 @@ export class ResearchAreaComponent implements OnInit {
 
 
   constructor(private papa: Papa,
-    @Inject(RESEARCH_AREA_SERVICE_TOKEN) private readonly researchAreaService: ResearchAreaService
+    @Inject(RESEARCH_AREA_SERVICE_TOKEN) private readonly researchAreaService: ResearchAreaService,
+    private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar
   ) {} 
 
   ngOnInit(): void {
@@ -120,6 +124,26 @@ export class ResearchAreaComponent implements OnInit {
     if (this.rememberedNodes){
       this.drawPolygon(this.rememberedNodes);
       this.changesMade = false;
+    }
+  }
+
+  save(): void {
+    if (this.nodes){
+      this.errorOnLoadingCurrentResearchArea = false;
+      this.researchAreaService
+        .upsert(this.nodes)
+        .subscribe({
+          next: _ =>{
+            this.changesMade = false;
+            this.rememberedNodes = this.nodes;
+          },
+          error: () => {
+            const message = this.translate.instant('configuration.researchArea.errorOnSavingChanges');
+            const ok = this.translate.instant('configuration.ok');
+            this.snackbar.open(message, ok, { duration: 3000 });
+          }
+        });
+      
     }
   }
 }

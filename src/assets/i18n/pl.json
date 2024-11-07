@@ -244,7 +244,9 @@
             "description": "W tym miejscu możesz zdefiniować obszar przeprowadzanego badania. Pozwoli to automatycznie flagować lokalizację respondentów jako 'poza obszarem badania', oraz odpowiedzi w aniketach, jako udzielone poza obszarem badania",
             "readFromFile": "Wczytaj z pliku",
             "save": "Zapisz",
-            "resetChanges": "Wycofaj zmiany"
-        }
+            "resetChanges": "Wycofaj zmiany",
+            "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później."
+        },
+        "ok": "OK"
     }
 }
