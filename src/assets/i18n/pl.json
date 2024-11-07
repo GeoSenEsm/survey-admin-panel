@@ -245,7 +245,9 @@
             "readFromFile": "Wczytaj z pliku",
             "save": "Zapisz",
             "resetChanges": "Wycofaj zmiany",
-            "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później."
+            "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później.",
+            "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
+            "delete": "Usuń"
         },
         "ok": "OK"
     }

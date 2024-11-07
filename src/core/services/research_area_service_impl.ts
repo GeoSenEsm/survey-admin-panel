@@ -28,9 +28,13 @@ export class ResearchAreaServiceImpl
 
           return of(coordinates);
 
-        return this.get('api/researcharea');
+        return this.get('/api/researcharea');
     }
     upsert(nodes: LatLong[]): Observable<LatLong[]> {
-        return this.post('api/researcharea', nodes);
+        return this.post('/api/researcharea', nodes);
+    }
+
+    remove(): Observable<void> {
+        return this.delete('/api/researcharea');
     }
 }

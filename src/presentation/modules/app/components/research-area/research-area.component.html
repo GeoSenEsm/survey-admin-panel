@@ -18,6 +18,12 @@
         accept=".csv" 
         style="display: none;" 
         />
+        <button mat-stroked-button color="warn" [disabled]="!canDelete()" (click)="deleteResearchArea()">
+            <mat-icon>
+                delete
+            </mat-icon>
+            {{ 'configuration.researchArea.delete' | translate }}
+        </button>
         <button mat-stroked-button color="primary" [disabled]="!changesMade" (click)="save()">
             <mat-icon>
                 save

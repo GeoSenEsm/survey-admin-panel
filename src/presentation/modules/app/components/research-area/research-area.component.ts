@@ -137,13 +137,34 @@ export class ResearchAreaComponent implements OnInit {
             this.changesMade = false;
             this.rememberedNodes = this.nodes;
           },
-          error: () => {
+          error: (e) => {
             const message = this.translate.instant('configuration.researchArea.errorOnSavingChanges');
             const ok = this.translate.instant('configuration.ok');
             this.snackbar.open(message, ok, { duration: 3000 });
+            console.log(e);
           }
         });
-      
     }
+  }
+
+  deleteResearchArea(): void {
+    this.errorOnLoadingCurrentResearchArea = false;
+    this.researchAreaService.remove()
+      .subscribe({
+      next: _ =>{
+        this.changesMade = false;
+        this.rememberedNodes = undefined;
+        this.drawPolygon([]);
+      },
+      error: () => {
+        const message = this.translate.instant('configuration.researchArea.errorOnDeleting');
+        const ok = this.translate.instant('configuration.ok');
+        this.snackbar.open(message, ok, { duration: 3000 });
+      }
+    });
+  }
+
+  canDelete(): boolean{
+    return (this.nodes ?? false) && this.nodes?.length !== 0;
   }
 }
