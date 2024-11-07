@@ -15,6 +15,10 @@
         </mat-error>
     </h4>
     <div class="buttons">
+        <button mat-flat-button color="primary" (click)="loadCurrentResearchArea()">
+            <mat-icon>refresh</mat-icon>
+            {{ 'configuration.researchArea.refresh' | translate }}
+        </button>
         <button mat-flat-button color="primary" (click)="loadFromFile()">
             <mat-icon>cloud_upload</mat-icon>
             {{ 'configuration.researchArea.readFromFile' | translate }}

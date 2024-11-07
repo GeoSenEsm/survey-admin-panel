@@ -18,12 +18,6 @@ export class ResearchAreaServiceImpl
     }
 
     getResearchArea(): Observable<LatLong[]> {
-        const coordinates: LatLong[] = [
-
-          ];
-
-          return of(coordinates);
-
         return this.get('/api/researcharea');
     }
     upsert(nodes: LatLong[]): Observable<LatLong[]> {

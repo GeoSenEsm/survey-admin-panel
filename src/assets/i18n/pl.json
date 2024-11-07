@@ -249,8 +249,10 @@
             "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
             "delete": "Usuń",
             "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
-            "noResearchAreaDefined": "Nie zdefiniowano obszaru badania."
+            "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
+            "refresh": "Odśwież"
         },
-        "ok": "OK"
+        "ok": "OK",
+        "somethingWentWrong":"Coś poszło nie tak"
     }
 }

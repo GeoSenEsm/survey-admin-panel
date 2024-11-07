@@ -46,7 +46,7 @@ export class ResearchAreaComponent implements OnInit {
     }).addTo(this.map);
   }
 
-  private loadCurrentResearchArea(): void {
+  loadCurrentResearchArea(): void {
     this.nodes = undefined;
     this.rememberedNodes = undefined;
     this.errorOnLoadingCurrentResearchArea = false;
@@ -66,8 +66,9 @@ export class ResearchAreaComponent implements OnInit {
       next: (data) => {
         this.drawPolygon(data);
       },
-      error: () => {
+      error: (error) => {
         this.errorOnLoadingCurrentResearchArea = true;
+        console.log(error);
       }
     })
   }
@@ -90,6 +91,8 @@ export class ResearchAreaComponent implements OnInit {
           this.changesMade = true;
         },
         error: (error) => {
+          const message = this.translate.instant('configuration.researchArea.somethingWentWrong');
+          this.showOkMessage(message);
           console.error('Error parsing CSV file:', error);
         }
       });
@@ -102,6 +105,9 @@ export class ResearchAreaComponent implements OnInit {
     }
     this.removePolygon();
     this.nodes = vertices;
+    if (vertices.length === 0){
+      return;
+    }
     const latLngs = vertices.map(vertex => new LatLng(vertex.latitude, vertex.longitude));
     this.researchAreaPolygon = L.polygon(latLngs, {
       color: 'darkblue',
@@ -139,8 +145,7 @@ export class ResearchAreaComponent implements OnInit {
           },
           error: (e) => {
             const message = this.translate.instant('configuration.researchArea.errorOnSavingChanges');
-            const ok = this.translate.instant('configuration.ok');
-            this.snackbar.open(message, ok, { duration: 3000 });
+            this.showOkMessage(message);
             console.log(e);
           }
         });
@@ -156,19 +161,24 @@ export class ResearchAreaComponent implements OnInit {
         this.rememberedNodes = undefined;
         this.drawPolygon([]);
       },
-      error: () => {
+      error: (error) => {
         const message = this.translate.instant('configuration.researchArea.errorOnDeleting');
-        const ok = this.translate.instant('configuration.ok');
-        this.snackbar.open(message, ok, { duration: 3000 });
+        this.showOkMessage(message);
+        console.log(error);
       }
     });
   }
 
+  private showOkMessage(message: string){
+    const ok = this.translate.instant('configuration.ok');
+    this.snackbar.open(message, ok, { duration: 3000 });
+  }
+
   canDelete(): boolean{
-    return (this.nodes ?? false) && this.nodes?.length !== 0;
+    return (this.rememberedNodes ?? false) && this.rememberedNodes?.length !== 0;
   }
 
   areaDefined(): boolean{
-    return !this.errorOnLoadingCurrentResearchArea && this.nodes !== undefined && this.nodes.length !== 0;
+    return this.errorOnLoadingCurrentResearchArea || (this.nodes !== undefined && this.nodes.length !== 0);
   }
 }
