@@ -6,4 +6,29 @@
         {{ 'configuration.researchArea.description' | translate }}
     </h4>
     <div id="map"></div>
+    <div class="buttons">
+        <button mat-flat-button color="primary" (click)="loadFromFile()">
+            <mat-icon>cloud_upload</mat-icon>
+            {{ 'configuration.researchArea.readFromFile' | translate }}
+        </button>
+        <input 
+        type="file" 
+        #fileInput 
+        (change)="onFileSelected($event)" 
+        accept=".csv" 
+        style="display: none;" 
+        />
+        <button mat-stroked-button color="primary" [disabled]="!changesMade">
+            <mat-icon>
+                save
+            </mat-icon>
+            {{ 'configuration.researchArea.save' | translate }}
+        </button>
+        <button mat-stroked-button color="warn" [disabled]="!changesMade">
+            <mat-icon>
+                restart_alt
+            </mat-icon>
+            {{ 'configuration.researchArea.resetChanges' | translate }}
+        </button>
+    </div>
 </div>
