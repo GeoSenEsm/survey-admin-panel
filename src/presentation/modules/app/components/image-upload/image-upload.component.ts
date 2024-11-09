@@ -7,7 +7,7 @@ import { UntypedFormBuilder } from '@angular/forms';
   styleUrl: './image-upload.component.scss'
 })
 export class ImageUploadComponent {
-  @Input() 
+  readonly maxCodeLength = 20;
 
   editForm = this.fb.group({
     photo: []

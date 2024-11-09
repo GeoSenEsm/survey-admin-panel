@@ -53,8 +53,10 @@
         },
         "createImageOptions": {
             "image": "Obraz",
-            "dragAndDropHere": "Przecieraj obraz tutaj",
-            "fileBrowser": "Eksplorator"
+            "dragAndDropHere": "Przeciągnij obraz tutaj",
+            "fileBrowser": "Eksplorator",
+            "code": "Kod",
+            "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom."
         },
         "createQuestion": {
             "required": "Wymagane",

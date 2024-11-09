@@ -21,5 +21,12 @@
         </div>
         <input matInput formControlName="photo" readonly [hidden]="true " />
       </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>
+          {{ 'createSurvey.createImageOptions.code' | translate }}
+        </mat-label>
+        <input matInput [maxLength]="maxCodeLength"
+        [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"/>
+      </mat-form-field>
     </form>
   </div>
