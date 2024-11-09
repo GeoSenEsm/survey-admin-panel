@@ -31,7 +31,7 @@
             </div>
         </mat-card-header>
         <mat-card-content>
-            <app-create-image-options *ngIf="question!.type == QuestionType.IMAGE_CHOICE"/>
+            <app-create-image-options *ngIf="question!.type == QuestionType.IMAGE_CHOICE" [imageOptions]="question!.imageOptions"/>
             <app-create-text-selection-options [options]="question!.options"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
             *ngIf="question!.type == QuestionType.SINGLE_CHOICE || question!.type == QuestionType.MULTIPLE_CHOICE"

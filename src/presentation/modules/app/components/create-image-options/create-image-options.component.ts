@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ImageOption } from '../../../../../core/models/image_option';
 
 @Component({
   selector: 'app-create-image-options',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './create-image-options.component.scss'
 })
 export class CreateImageOptionsComponent {
+  @Input()
+  imageOptions: ImageOption[] | undefined;
 
+  addImageOption() {
+    this.imageOptions = this.imageOptions ? [...this.imageOptions, { code: undefined, file: undefined }] : [{ code: '', file: undefined }];
+  }
 }

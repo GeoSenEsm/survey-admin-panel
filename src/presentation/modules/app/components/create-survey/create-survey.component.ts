@@ -110,6 +110,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
           isRequired: true,
           type: QuestionType.SINGLE_CHOICE,
           options: [],
+          imageOptions: [],
           numberRange: {from: 0, to: 5, step: 1, sectionVisibilityTrigger: {}}
         }
       ],

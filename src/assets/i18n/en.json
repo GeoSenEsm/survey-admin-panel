@@ -58,7 +58,8 @@
       "dragAndDropHere": "Drag and drop here",
       "fileBrowser": "Browser",
       "code": "Code",
-      "codeTooltip": "The image code is required in order to export survey results. It will not be displayed to the respondents."
+      "codeTooltip": "The image code is required in order to export survey results. It will not be displayed to the respondents.",
+      "addImage": "Add image"
     },
     "createQuestion": {
       "required": "Required",

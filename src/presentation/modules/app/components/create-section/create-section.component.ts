@@ -127,6 +127,7 @@ export class CreateSectionComponent {
       isRequired: true,
       type: QuestionType.SINGLE_CHOICE,
       options: [],
+      imageOptions: [],
       numberRange: {from: 0, to: 5}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);

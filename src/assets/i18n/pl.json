@@ -58,7 +58,8 @@
             "dragAndDropHere": "Przeciągnij obraz tutaj",
             "fileBrowser": "Eksplorator",
             "code": "Kod",
-            "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom."
+            "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
+            "addImage": "Dodaj obraz"
         },
         "createQuestion": {
             "required": "Wymagane",
