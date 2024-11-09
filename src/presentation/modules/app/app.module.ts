@@ -65,6 +65,12 @@ import { TimeRangesComponent } from './components/time-ranges/time-ranges.compon
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
 import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
 import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MapComponent } from './components/map/map.component';
+import { MapFiltersComponent } from './components/map-filters/map-filters.component';
+import { MapPinTooltipComponent } from './components/map-pin-tooltip/map-pin-tooltip.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { ResearchAreaComponent } from './components/research-area/research-area.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { CreateImageOptionsComponent } from './components/create-image-options/create-image-options.component';
 
@@ -78,7 +84,9 @@ export const routes: Routes = [
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -126,7 +134,8 @@ export function HttpLoaderFactory(http: HttpClient){
     MatMenuModule,
     NgxMatTimepickerModule,
     CommonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule
   ],
   declarations: [
     AppComponent, 
@@ -160,6 +169,11 @@ export function HttpLoaderFactory(http: HttpClient){
     SingleTimeRangeComponent,
     TempratureDataComponent,
     TemperatureDataFiltersComponent,
+    MapComponent,
+    MapFiltersComponent,
+    MapPinTooltipComponent,
+    ConfigurationComponent,
+    ResearchAreaComponent,
     ImageUploadComponent,
     CreateImageOptionsComponent
     ],

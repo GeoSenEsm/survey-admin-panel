@@ -9,7 +9,7 @@ import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { convertToValueDisplayMappings, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent-info';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, forkJoin } from 'rxjs';
+import { catchError, finalize, forkJoin, of, throwError } from 'rxjs';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 
 @Component({
@@ -84,6 +84,13 @@ implements AfterViewInit{
       finalize(() => {
         this.isBusy = false;
       }),
+      catchError(e =>{
+        if (e.status == 404){
+          return of([[], []]);
+        }
+
+        return throwError(() => e);
+      })
     ).subscribe({
       next: ([respondentInfos, respondents]) => {
         this.loadingErrorOccured = false;

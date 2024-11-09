@@ -17,9 +17,9 @@ implements StartSurveyService{
     }
 
     getStartSurveyQuestions(): Observable<StartSurveyQuestion[]> {
-        return this.get('/api/startSurveyQuestions');
+        return this.get('/api/initialsurvey');
     }
     addStartSurveyQuestions(newQuestions: StartSurveyQuestion[]): Observable<any> {
-        return this.post('/api/startSurveyQuestions', newQuestions);
+        return this.post('/api/initialsurvey', newQuestions);
     }
 }

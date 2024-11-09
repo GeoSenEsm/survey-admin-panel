@@ -84,12 +84,12 @@ export class CreateQuestionComponent {
   validateContent(){
     this.contentError = null;
     if (this.question?.content == null || this.question.content.trim().length === 0){
-      this.contentError = this.translate.instant('app.addRespondents.contentNotEmptyError');
+      this.contentError = this.translate.instant('createSurvey.createQuestion.contentNotEmptyError');
       return;
     }
 
     if (this.question.content.length > 250){
-      this.contentError = this.translate.instant('app.addRespondents.contentLenError');
+      this.contentError = this.translate.instant('createSurvey.createQuestion.contentLenError');
     }
   }
 }
