@@ -16,15 +16,22 @@ export class ApiService {
     });
   }
 
+  protected postQuery<T>(url: string, params:  { [param: string]: string | number | boolean }): Observable<T>{
+    return this.httpClient.post<T>(this.baseUrl + url, null, { params: this.toHttpParams(params) });
+  }
+
   protected get<T>(url: string, params?: { [param: string]: string | number | boolean }): Observable<T> {
+    return this.httpClient.get<T>(this.baseUrl + url, { params: this.toHttpParams(params) });
+  }
+
+  private toHttpParams(params?: { [param: string]: string | number | boolean }): HttpParams {
     let queryParams = new HttpParams();
     if (params) {
       Object.keys(params).forEach(key => {
         queryParams = queryParams.append(key, params[key].toString());
       });
     }
-
-    return this.httpClient.get<T>(this.baseUrl + url, { params: queryParams });
+    return queryParams;
   }
 
   protected delete<T>(url: string): Observable<T> {
