@@ -1,32 +1,63 @@
-<div style="padding:2cqh">
-    <form id="editForm" name="editForm" [formGroup]="editForm">
-      <mat-form-field appearance="fill">
-        <mat-label>{{ 'createSurvey.createImageOptions.image' | translate }}</mat-label>
-        <div class="fileUploadContainer" [ngStyle]="{'margin-top' : '20px'}">
-          <ng-container *ngIf="editForm.get('photo')!.value">
-            <img [src]="editForm.get('photo')!.value" />
-            <button class="deleteButton" mat-icon-button (click)="fileInput.value = ''; editForm.get('photo')?.setValue(null);">
-              <mat-icon>close</mat-icon>
-            </button>
-          </ng-container>
-          <div *ngIf="!editForm.get('photo')!.value" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-            <mat-icon style="opacity: 60%;">file_upload</mat-icon>
-            <button mat-raised-button color="primary" style="width:100%; opacity: 80%;">
-                {{ 'createSurvey.createImageOptions.fileBrowser' | translate }}
-            </button>
-            <small style="margin: 20px">{{ 'createSurvey.createImageOptions.dragAndDropHere' | translate }}</small>
-          </div>
-          <input #fileInput class="fileInput" type="file" multiple="multiple" accept="image/*"
-            (change)="setFileData($event)" />
+<div style="padding: 2cqh">
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        "createSurvey.createImageOptions.image" | translate
+      }}</mat-label>
+      <div class="fileUploadContainer" [ngStyle]="{ 'margin-top': '20px' }">
+        <ng-container *ngIf="imageOption?.src">
+          <img [src]="imageOption!.src" />
+          <button
+            class="deleteButton"
+            mat-icon-button
+            (click)="fileInput.value = ''; clearFile()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-container>
+        <div
+          *ngIf="!imageOption?.src"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <mat-icon style="opacity: 60%">file_upload</mat-icon>
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 100%; opacity: 80%"
+          >
+            {{ "createSurvey.createImageOptions.fileBrowser" | translate }}
+          </button>
+          <small style="margin: 20px">{{
+            "createSurvey.createImageOptions.dragAndDropHere" | translate
+          }}</small>
         </div>
-        <input matInput formControlName="photo" readonly [hidden]="true " />
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>
-          {{ 'createSurvey.createImageOptions.code' | translate }}
-        </mat-label>
-        <input matInput [maxLength]="maxCodeLength"
-        [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"/>
-      </mat-form-field>
-    </form>
-  </div>
+        <input
+          #fileInput
+          class="fileInput"
+          type="file"
+          multiple="multiple"
+          accept="image/*"
+          (change)="setFileData($event)"
+        />
+      </div>
+      <input matInput readonly [hidden]="true" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="imageOption">
+      <mat-label>
+        {{ "createSurvey.createImageOptions.code" | translate }}
+      </mat-label>
+      <input
+        matInput
+        [(ngModel)]="imageOption.code"
+        name="imageOptionCode"
+        [maxLength]="maxCodeLength"
+        [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"
+        (blur)="validateCode()"
+        [errorStateMatcher]="codeErrorStateMatcher"
+      />
+      <mat-error *ngIf="codeError != null">{{ codeError | translate }}</mat-error>
+    </mat-form-field>
+  </form>
+</div>

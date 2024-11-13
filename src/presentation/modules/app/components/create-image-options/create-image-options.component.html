@@ -1,5 +1,5 @@
 <div *ngIf="imageOptions" class="container">
-    <app-image-upload *ngFor="let imageOption of imageOptions"/>
+    <app-image-upload *ngFor="let imageOption of imageOptions" [imageOption]="imageOption" [allImageOptions]="imageOptions"/>
     <button mat-stroked-button color="primary" class="big-button"
         (click)="addImageOption()">
         <div class="button-content">

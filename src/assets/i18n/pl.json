@@ -59,7 +59,9 @@
             "fileBrowser": "Eksplorator",
             "code": "Kod",
             "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
-            "addImage": "Dodaj obraz"
+            "addImage": "Dodaj obraz",
+            "codeRequiredError": "Kod obrazka jest wymagany.",
+            "codeDuplicateError": "Kod obrazka musi być unikalny."
         },
         "createQuestion": {
             "required": "Wymagane",
