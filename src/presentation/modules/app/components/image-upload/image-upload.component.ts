@@ -31,6 +31,7 @@ export class ImageUploadComponent {
         if (this.imageOption){
           this.imageOption.file = file;
           this.imageOption.src = reader.result as string;
+          this.imageError = null;
         }
       });
       reader.readAsDataURL(file);
