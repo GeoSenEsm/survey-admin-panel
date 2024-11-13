@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 import { TranslateService } from '@ngx-translate/core';
+import { CreateImageOptionsComponent } from '../create-image-options/create-image-options.component';
 
 @Component({
   selector: 'app-create-question',
@@ -15,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class CreateQuestionComponent {
   QuestionType = QuestionType;
   @ViewChild(CreateTextSelectionOptionsComponent) textSelectionOptions: CreateTextSelectionOptionsComponent | null = null;
+  @ViewChild(CreateImageOptionsComponent) imageOptionsComponent: CreateImageOptionsComponent | null = null;
   @Input()
   question: CreateQuestionModel | null = null;
   @Output()
@@ -68,7 +70,10 @@ export class CreateQuestionComponent {
   isValid(): boolean{
     const isValid = this.contentError == null &&
      (this.question?.type !== QuestionType.SINGLE_CHOICE 
-      || this.textSelectionOptions?.isValid() === true);
+      || this.textSelectionOptions?.isValid() === true)
+      && (this.question?.type !== QuestionType.IMAGE_CHOICE
+        || this.imageOptionsComponent?.validate() === true
+      );
 
     return isValid;
   }
@@ -78,6 +83,10 @@ export class CreateQuestionComponent {
 
     if (this.question?.type == QuestionType.SINGLE_CHOICE){
       this.textSelectionOptions?.validate();
+    }
+
+    if (this.question?.type == QuestionType.IMAGE_CHOICE){
+      this.imageOptionsComponent?.validate();
     }
   }
 

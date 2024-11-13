@@ -15,7 +15,9 @@ export class ImageUploadComponent {
   @Input()
   allImageOptions: ImageOption[] | undefined;
   codeError: string | null = null;
+  imageError: string | null = null;
   codeErrorStateMatcher = new FormlessErrorStateMatcher(() => this.codeError);
+  imageErrorStateMatcher = new FormlessErrorStateMatcher(() => this.imageError);
 
   constructor() { }
 
@@ -42,9 +44,14 @@ export class ImageUploadComponent {
     }
   }
 
+  validate(): boolean{
+    const codeValid = this.validateCode();
+    const imageValid = this.validateImage();
+    return codeValid && imageValid;
+  }
+
   validateCode(): boolean{
     this.codeError = null;
-
     if (!this.imageOption){
       return true;
     }
@@ -67,6 +74,21 @@ export class ImageUploadComponent {
       return false;
     }
 
-    return false;
+    return true;
+  }
+
+  validateImage(): boolean{
+    this.imageError = null;
+
+    if (!this.imageOption){
+      return true;
+    }
+
+    if (!this.imageOption.file){
+      this.imageError = "createSurvey.createImageOptions.imageRequiredError";
+      return false;
+    }
+
+    return true;
   }
 }

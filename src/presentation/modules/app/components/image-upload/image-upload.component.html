@@ -42,7 +42,8 @@
           (change)="setFileData($event)"
         />
       </div>
-      <input matInput readonly [hidden]="true" />
+      <input matInput readonly [hidden]="true" [errorStateMatcher]="imageErrorStateMatcher"/>
+      <mat-error *ngIf="imageError != null">{{ imageError | translate }}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill" *ngIf="imageOption">
       <mat-label>

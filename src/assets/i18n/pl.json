@@ -61,7 +61,8 @@
             "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
             "addImage": "Dodaj obraz",
             "codeRequiredError": "Kod obrazka jest wymagany.",
-            "codeDuplicateError": "Kod obrazka musi być unikalny."
+            "codeDuplicateError": "Kod obrazka musi być unikalny.",
+            "imageRequiredError": "Obraz jest wymagany."
         },
         "createQuestion": {
             "required": "Wymagane",
