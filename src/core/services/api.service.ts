@@ -30,7 +30,7 @@ export class ApiService {
     return queryParams;
   }
 
-  protected delete<T>(url: string): Observable<T> {
-    return this.httpClient.delete<T>(this.baseUrl + url);
+  protected delete<T>(url: string, body: any = null): Observable<T> {
+    return this.httpClient.delete<T>(this.baseUrl + url, {body: body});
   }
 }

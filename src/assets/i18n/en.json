@@ -139,7 +139,13 @@
       "craeteNewSendingPolicy": "Add new sending policy",
       "couldNotLoadSendingPolicies": "Could not load survey sending policies",
       "ok": "OK",
-      "completingSurvey": "{{ from }} - {{ to }}"
+      "completingSurvey": "{{ from }} - {{ to }}",
+      "deleteMode": "Delete Mode",
+      "delete": "Delete",
+      "selectTimeSlotsToDeleteFirst": "Please select at least one time slot from the calendar that you want to delete first",
+      "deletingConfirmationText": "Are you sure you want to delete the selected time slots?",
+      "deletingConfirmationInput": "delete",
+      "couldNotDeleteSendingPolicies": "Failed to delete the survey sending policy"
     },
     "surveyTile": {
       "surveyDetails": "Survey details"
