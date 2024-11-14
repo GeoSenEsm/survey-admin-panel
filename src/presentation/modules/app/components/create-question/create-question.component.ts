@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 import { TranslateService } from '@ngx-translate/core';
+import { CreateImageOptionsComponent } from '../create-image-options/create-image-options.component';
 
 @Component({
   selector: 'app-create-question',
@@ -15,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class CreateQuestionComponent {
   QuestionType = QuestionType;
   @ViewChild(CreateTextSelectionOptionsComponent) textSelectionOptions: CreateTextSelectionOptionsComponent | null = null;
+  @ViewChild(CreateImageOptionsComponent) imageOptionsComponent: CreateImageOptionsComponent | null = null;
   @Input()
   question: CreateQuestionModel | null = null;
   @Output()
@@ -33,7 +35,8 @@ export class CreateQuestionComponent {
     QuestionType.LINEAR_SCALE,
     QuestionType.YES_NO_CHOICE,
     QuestionType.MULTIPLE_CHOICE,
-    QuestionType.NUMBER_INPUT
+    QuestionType.NUMBER_INPUT,
+    QuestionType.IMAGE_CHOICE
   ];
 
   questionTypeIconSelector = {
@@ -41,7 +44,8 @@ export class CreateQuestionComponent {
     [QuestionType.LINEAR_SCALE]: 'linear_scale',
     [QuestionType.YES_NO_CHOICE]: 'check',
     [QuestionType.MULTIPLE_CHOICE]: 'check_box',
-    [QuestionType.NUMBER_INPUT]: 'filter_5'
+    [QuestionType.NUMBER_INPUT]: 'filter_5',
+    [QuestionType.IMAGE_CHOICE]: 'image'
   };
 
   questionTypeDisplay = {
@@ -49,7 +53,8 @@ export class CreateQuestionComponent {
     [QuestionType.LINEAR_SCALE]: 'createSurvey.createQuestion.linearScale',
     [QuestionType.YES_NO_CHOICE]: 'createSurvey.createQuestion.yesNo',
     [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice',
-    [QuestionType.NUMBER_INPUT]: 'createSurvey.createQuestion.number'
+    [QuestionType.NUMBER_INPUT]: 'createSurvey.createQuestion.number',
+    [QuestionType.IMAGE_CHOICE]: 'createSurvey.createQuestion.image'
   };
 
   constructor(readonly translate: TranslateService){}
@@ -65,7 +70,10 @@ export class CreateQuestionComponent {
   isValid(): boolean{
     const isValid = this.contentError == null &&
      (this.question?.type !== QuestionType.SINGLE_CHOICE 
-      || this.textSelectionOptions?.isValid() === true);
+      || this.textSelectionOptions?.isValid() === true)
+      && (this.question?.type !== QuestionType.IMAGE_CHOICE
+        || this.imageOptionsComponent?.validate() === true
+      );
 
     return isValid;
   }
@@ -75,6 +83,10 @@ export class CreateQuestionComponent {
 
     if (this.question?.type == QuestionType.SINGLE_CHOICE){
       this.textSelectionOptions?.validate();
+    }
+
+    if (this.question?.type == QuestionType.IMAGE_CHOICE){
+      this.imageOptionsComponent?.validate();
     }
   }
 

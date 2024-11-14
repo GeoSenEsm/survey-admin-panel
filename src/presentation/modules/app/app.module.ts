@@ -71,6 +71,8 @@ import { MapFiltersComponent } from './components/map-filters/map-filters.compon
 import { MapPinTooltipComponent } from './components/map-pin-tooltip/map-pin-tooltip.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { ResearchAreaComponent } from './components/research-area/research-area.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { CreateImageOptionsComponent } from './components/create-image-options/create-image-options.component';
 
 
 export const routes: Routes = [
@@ -171,7 +173,9 @@ export function HttpLoaderFactory(http: HttpClient){
     MapFiltersComponent,
     MapPinTooltipComponent,
     ConfigurationComponent,
-    ResearchAreaComponent
+    ResearchAreaComponent,
+    ImageUploadComponent,
+    CreateImageOptionsComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

@@ -6,7 +6,7 @@ import { SurveyDetailsDto } from "../models/survey.details.dtos";
 
 export interface SurveyService{
     //TO DO: this is of type any just temporary, has to be changed
-    createSurvey(dto: CreateSurveyDto): Observable<any>;
+    createSurvey(dto: CreateSurveyDto, images: File[]): Observable<any>;
     getAllShort(): Observable<SurveyDto[]>;
     getAllSummaryShort(): Observable<SurveySummaryShortDto[]>;
     getSurveyById(id: string): Observable<SurveyDetailsDto>;

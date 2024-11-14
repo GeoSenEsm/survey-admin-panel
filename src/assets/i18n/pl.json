@@ -53,6 +53,17 @@
         "createNumberRange": {
             "labelOptional": "Etykieta (opcjonalna)"
         },
+        "createImageOptions": {
+            "image": "Obraz",
+            "dragAndDropHere": "Przeciągnij obraz tutaj",
+            "fileBrowser": "Eksplorator",
+            "code": "Kod",
+            "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
+            "addImage": "Dodaj obraz",
+            "codeRequiredError": "Kod obrazka jest wymagany.",
+            "codeDuplicateError": "Kod obrazka musi być unikalny.",
+            "imageRequiredError": "Obraz jest wymagany."
+        },
         "createQuestion": {
             "required": "Wymagane",
             "singleChoice": "Jednokrotny wybór",
@@ -61,7 +72,8 @@
             "multipleChoice": "Wielokrotny wybór",
             "contentNotEmptyError": "Pole nie może być puste",
             "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
-            "number": "Liczba"
+            "number": "Liczba",
+            "image": "Obraz"
         },
         "createSection":{
             "section": "Sekcja",

@@ -114,6 +114,7 @@ describe('SurveyDetailsMapper', () => {
               content: 'What is your favorite color?',
               type: QuestionType.SINGLE_CHOICE,
               isRequired: true,
+              imageOptions: [],
               options: [
                 { content: 'Red', showSection: undefined},
                 { content: 'Blue', showSection: undefined},
@@ -125,12 +126,14 @@ describe('SurveyDetailsMapper', () => {
               type: QuestionType.LINEAR_SCALE,
               isRequired: false,
               options: [],
+              imageOptions: [],
               numberRange: { from: 1, to: 3, fromLabel: 'Low', toLabel: 'Big'}
             },
             {
               content: 'This question can trigger a section',
               type: QuestionType.MULTIPLE_CHOICE,
               isRequired: false,
+              imageOptions: [],
               options: [
                 { content: 'This shows section 2', showSection: 2 },
                 { content: 'This does not show section 2', showSection: undefined},
@@ -150,7 +153,8 @@ describe('SurveyDetailsMapper', () => {
               type: QuestionType.YES_NO_CHOICE,
               isRequired: true,
               numberRange: getDefaultNumberRange(),
-              options: []
+              options: [],
+              imageOptions: []
             }
           ],
           displayOnOneScreen: true
@@ -165,6 +169,7 @@ describe('SurveyDetailsMapper', () => {
               type: QuestionType.LINEAR_SCALE,
               isRequired: true,
               options: [],
+              imageOptions: [],
               numberRange: { from: 0, to: 2, fromLabel: 'Youngest', toLabel: 'Oldest'}
             }
           ],

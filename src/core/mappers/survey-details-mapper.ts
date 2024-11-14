@@ -37,6 +37,7 @@ export class SurveyDetailsMapper implements Mapper<SurveyDetailsDto, CreateSurve
             content: question.content,
             type: question.questionType,
             isRequired: question.required,
+            imageOptions: [],
             options: sorderOptions ? sorderOptions.map(e => this.mapOption(e)) : [],
             numberRange: question.numberRange ? this.mapNumberRange(question.numberRange) : getDefaultNumberRange()
         };

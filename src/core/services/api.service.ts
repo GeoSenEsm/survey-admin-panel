@@ -15,11 +15,7 @@ export class ApiService {
       responseType: responseType as 'json'
     });
   }
-
-  protected postQuery<T>(url: string, params:  { [param: string]: string | number | boolean }): Observable<T>{
-    return this.httpClient.post<T>(this.baseUrl + url, null, { params: this.toHttpParams(params) });
-  }
-
+  
   protected get<T>(url: string, params?: { [param: string]: string | number | boolean }): Observable<T> {
     return this.httpClient.get<T>(this.baseUrl + url, { params: this.toHttpParams(params) });
   }

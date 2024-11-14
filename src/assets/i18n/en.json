@@ -53,6 +53,17 @@
     "createNumberRange": {
       "labelOptional": "Label (optional)"
     },
+    "createImageOptions": {
+      "image": "Image",
+      "dragAndDropHere": "Drag and drop here",
+      "fileBrowser": "Browser",
+      "code": "Code",
+      "codeTooltip": "The image code is required in order to export survey results. It will not be displayed to the respondents.",
+      "addImage": "Add image",
+      "codeRequiredError": "Image code is required.",
+      "codeDuplicateError": "Image code must be unique.",
+      "imageRequiredError": "Image is required."
+    },
     "createQuestion": {
       "required": "Required",
       "singleChoice": "Single choice",
@@ -61,7 +72,8 @@
       "multipleChoice": "Multiple choice",
       "contentNotEmptyError": "Field cannot be empty",
       "contentLenError": "Field cannot be longer than 250 characters",
-      "number": "Number"
+      "number": "Number",
+      "image":  "Image"
     },
     "createSection": {
       "section": "Section",
