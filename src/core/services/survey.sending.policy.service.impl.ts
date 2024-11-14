@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { SurveySendingPolicyService } from "../../domain/external_services/survey.sending.policy.service";
+import { SurveySendingPolicyService } from "../../domain/external_services/survey-sending-policy-service";
 import { CreateSurveySendingPolicyDto } from "../../domain/models/create-survey-sending-policy-dto";
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
@@ -14,6 +14,7 @@ implements SurveySendingPolicyService{
     constructor(client: HttpClient, confgiService: ConfigService) {
         super(client, confgiService);
     }
+
     getAll(surveyId: string): Observable<SurveySendingPolicyDto[]> {
         return this.get(`/api/surveysendingpolicies`, {
             'surveyId': surveyId
@@ -23,5 +24,10 @@ implements SurveySendingPolicyService{
     createPolicy(dto: CreateSurveySendingPolicyDto): Observable<SurveySendingPolicyDto> {
         return this.post('/api/surveysendingpolicies', dto);
     }
-    
+
+    deleteAll(ids: string[]): Observable<any> {
+        const idsJson: any = {};
+        idsJson.ids = ids;
+        return this.delete('/api/surveysendingpolicies', idsJson);
+    }
 }

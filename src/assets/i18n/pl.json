@@ -142,7 +142,10 @@
             "completingSurvey": "{{ from }} - {{ to }}",
             "deleteMode": "Tryb usuwania",
             "delete": "Usuń",
-            "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć"
+            "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
+            "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
+            "deletingConfirmationInput": "usuń",
+            "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety"
         },
         "surveyTile": {
             "surveyDetails": "Szczegóły ankiety"

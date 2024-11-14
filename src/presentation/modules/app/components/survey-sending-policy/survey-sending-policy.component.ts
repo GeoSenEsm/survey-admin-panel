@@ -15,13 +15,14 @@ import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import plLocale from '@fullcalendar/core/locales/pl';
 import enLocale from '@fullcalendar/core/locales/en-gb';
 import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.sending.policy.dto';
-import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
+import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey-sending-policy-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, Subscription, throwError } from 'rxjs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { CalendarEventCheckboxComponent } from '../calendar-event-checkbox/calendar-event-checkbox.component';
+import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
 
 interface Selectable {
   selected: boolean;
@@ -45,12 +46,11 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   calendarEvents: (EventInput & Selectable)[] = [];
   private readonly langChangeSubscription: Subscription;
   policies: SurveySendingPolicyDto[] = [];
-  _deleteMode = true;
-
+  
+  _deleteMode = false;
   get deleteMode(): boolean {
     return this._deleteMode;
   }
-
   set deleteMode(value: boolean) {
     this._deleteMode = value;
     if (!value){
@@ -66,7 +66,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService,
     private readonly datePipe: DatePipe,
-    private viewContainerRef: ViewContainerRef
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly dialog: MatDialog
   ) {
     this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
       const lang = event.lang;
@@ -151,7 +152,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   ): (EventInput & Selectable)[] {
     const output: (EventInput & Selectable)[] = [];
 
-    policy.timeSlots.forEach((slot) => {
+    policy.timeSlots.filter(e => !e.deleted).forEach((slot) => {
       const from = new Date(slot.start);
       const to = new Date(slot.finish);
       output.push({
@@ -172,7 +173,44 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     return output;
   }
 
-  deleteSelected(): void {}
+  deleteSelected(): void {
+    this.dialog.open(TypeToConfirmDialogComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data:{
+        informationText: this.translate.instant('surveyDetails.surveySendingPolicy.deletingConfirmationText'),
+        textToType: this.translate.instant('surveyDetails.surveySendingPolicy.deletingConfirmationInput')
+      }
+    })
+    .afterClosed()
+    .subscribe(res =>{
+      if (res === true){
+        this.deleteSelectedCore();
+      }
+    });
+  }
+
+  private deleteSelectedCore(): void{
+    const toDelete = this.calendarEvents.filter(e => e.selected).map(e => e.id!);
+    this.service
+    .deleteAll(toDelete)
+    .subscribe({
+      next: () => {
+        this.calendarEvents = this.calendarEvents.filter(e => !e.selected);
+        this.refreshEvents();
+      },
+      error: (err) => {
+        console.log(err);
+        this.snackbar.open(
+          this.translate.instant(
+            'surveyDetails.surveySendingPolicy.couldNotDeleteSendingPolicies'
+          ),
+          this.translate.instant('surveyDetails.surveySendingPolicy.ok'),
+          { duration: 3000 }
+        );
+      }
+    });
+  }
 
   private renderEventContent(arg: any) {
     const contentNodes = [];

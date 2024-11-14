@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Mapper } from '../../../../../core/mappers/mapper';
 import { CreateSurveySendingPolicyDto, crossDatesAndTimes } from '../../../../../domain/models/create-survey-sending-policy-dto';
-import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey.sending.policy.service';
+import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey-sending-policy-service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
