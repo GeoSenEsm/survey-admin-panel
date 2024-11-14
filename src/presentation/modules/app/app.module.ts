@@ -73,6 +73,8 @@ import { ConfigurationComponent } from './components/configuration/configuration
 import { ResearchAreaComponent } from './components/research-area/research-area.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { CreateImageOptionsComponent } from './components/create-image-options/create-image-options.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CalendarEventCheckboxComponent } from './components/calendar-event-checkbox/calendar-event-checkbox.component';
 
 
 export const routes: Routes = [
@@ -135,7 +137,8 @@ export function HttpLoaderFactory(http: HttpClient){
     NgxMatTimepickerModule,
     CommonModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ],
   declarations: [
     AppComponent, 
@@ -175,7 +178,8 @@ export function HttpLoaderFactory(http: HttpClient){
     ConfigurationComponent,
     ResearchAreaComponent,
     ImageUploadComponent,
-    CreateImageOptionsComponent
+    CreateImageOptionsComponent,
+    CalendarEventCheckboxComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

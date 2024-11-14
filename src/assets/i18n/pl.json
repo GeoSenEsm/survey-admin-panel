@@ -139,7 +139,10 @@
             "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
             "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
             "ok": "OK",
-            "completingSurvey": "{{ from }} - {{ to }}"
+            "completingSurvey": "{{ from }} - {{ to }}",
+            "deleteMode": "Tryb usuwania",
+            "delete": "Usuń",
+            "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć"
         },
         "surveyTile": {
             "surveyDetails": "Szczegóły ankiety"
