@@ -23,8 +23,15 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
         return this.get<SurveyDto[]>("/api/surveys/short");
     }
 
-    createSurvey(dto: CreateSurveyDto): Observable<any> {
-       return this.post('/api/surveys', dto);
+    createSurvey(dto: CreateSurveyDto, images: File[]): Observable<any> {
+        const formData = new FormData();
+        formData.append('json', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+      
+        images.forEach(image => {
+          formData.append('files', image, image.name);
+        });
+
+        return this.post('/api/surveys', formData);
     }
 
     getSurveyById(id: string): Observable<SurveyDetailsDto> {

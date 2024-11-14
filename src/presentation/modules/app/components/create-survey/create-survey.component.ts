@@ -145,14 +145,15 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
     }
 
     const dto = this.surveyMapper.map(this.model);
+    const files = this.model.sections.flatMap(s => s.questions.flatMap(q => q.imageOptions.map(io => io.file))).filter(f => f !== null) as File[];
     console.log(dto);
-    this.service.createSurvey(dto)
+    this.service.createSurvey(dto, files)
     .pipe(catchError((error) => {
       this.snackbar.open(this.translate.instant('createSurvey.createSurvey.somethingWentWrong'), 
         this.translate.instant('createSurvey.createSurvey.ok'), 
         {duration: 3000}
       );
-      console.log(error.error.message);
+      console.log(error);
       this.isLocked  = false;
       return of('');
     }))

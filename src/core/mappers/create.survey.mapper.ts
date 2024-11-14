@@ -7,6 +7,7 @@ import { QuestionType } from "../../domain/models/question-type";
 import { CreateQuestionModel } from "../models/create.question.model";
 import { CreateSectionModel } from "../models/create.section.model";
 import { CreateSurveyModel } from "../models/create.survey.model";
+import { ImageOption } from "../models/image_option";
 import { NumberRangeModel } from "../models/number.range.model";
 import { TextSelectionOption } from "../models/text.selection.option";
 import { Mapper } from "./mapper";
@@ -61,9 +62,23 @@ export class CreateSurveyMapper implements Mapper<CreateSurveyModel, CreateSurve
 
         if (source.type == QuestionType.LINEAR_SCALE){
             question.numberRange = this.mapNumberRange(source.numberRange);
-        }        
+        }
+        
+        if (source.type == QuestionType.IMAGE_CHOICE){
+            question.options = [];
+            source.imageOptions.forEach((option, index) => {
+                question.options!.push(this.mapImageOption(option, index));
+            });
+        }
 
         return question;
+    }
+
+    private mapImageOption(source: ImageOption, index: number): CreateOptionDto {
+        return {
+            order: index + 1,
+            label: source.code!,
+        }
     }
 
     private mapOption(source: TextSelectionOption, index: number): CreateOptionDto {
