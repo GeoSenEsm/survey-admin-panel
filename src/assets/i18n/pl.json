@@ -46,7 +46,8 @@
             "nothingToDisplay": "Brak respondentów do wyswietlenia",
             "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
             "export": "Exportuj",
-            "gridExportFilename": "respondenci.csv"
+            "gridExportFilename": "respondenci.csv",
+            "edit": "Edytuj"
         }
     },
     "createSurvey": {

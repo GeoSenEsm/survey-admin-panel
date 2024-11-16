@@ -162,4 +162,8 @@ implements AfterViewInit{
       this.exportService.exportTableToCSV(actualCells, this.headers, filename);
     }
   }
+
+  edit(respondent: RespondentData): void{
+
+  }
 }
