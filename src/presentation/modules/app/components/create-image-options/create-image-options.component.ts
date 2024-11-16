@@ -13,7 +13,9 @@ export class CreateImageOptionsComponent {
   @ViewChildren(ImageUploadComponent) optionComponents!: QueryList<ImageUploadComponent>;
 
   addImageOption() {
-    this.imageOptions = this.imageOptions ? [...this.imageOptions, { code: undefined, file: undefined }] : [{ code: '', file: undefined }];
+    if (this.imageOptions){
+      this.imageOptions.push({});
+    }
   }
 
   validate(): boolean{

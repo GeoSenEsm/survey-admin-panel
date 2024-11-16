@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, EnvironmentProviders, LOCALE_ID, Provider } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { CreateSurveyMapper } from "../../../core/mappers/create.survey.mapper";
+import { CreateSurveyMapper } from "../../../core/mappers/create-survey-mapper";
 import { SurveyServiceImpl } from "../../../core/services/survey-service-impl";
 import { RespondentGroupsServiceImpl } from "../../../core/services/respondent.groups.service.impl";
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
