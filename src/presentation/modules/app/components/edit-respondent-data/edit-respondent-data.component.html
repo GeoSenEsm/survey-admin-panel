@@ -1,0 +1,41 @@
+<div class="container">
+  <h3>
+    {{ "respondents.edit.title" | translate }}
+  </h3>
+  <mat-form-field>
+    <mat-label>
+      {{ "respondents.edit.id" | translate }}
+    </mat-label>
+    <input matInput [(ngModel)]="data.id" readonly="true" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      {{ "respondents.edit.username" | translate }}
+    </mat-label>
+    <input matInput [(ngModel)]="data.username" readonly="true" />
+  </mat-form-field>
+  <form class="data-container" [formGroup]="formGroup">
+    <mat-form-field
+      *ngFor="let question of questions">
+      <mat-label>
+        {{ question.content }}
+      </mat-label>
+      <mat-select required="true" [formControlName]="question.id!">
+        <mat-option *ngFor="let option of question.options" [value]="option.id">
+          {{ option.content }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        {{ "respondents.edit.emptyValidationError" | translate }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+  <div class="buttons-panel">
+    <button mat-stroked-button color="warn" (click)="cancel()">
+      {{ "respondents.edit.cancel" | translate }}
+    </button>
+    <button mat-flat-button color="primary" (click)="submit()">
+      {{ "respondents.edit.save" | translate }}
+    </button>
+  </div>
+</div>

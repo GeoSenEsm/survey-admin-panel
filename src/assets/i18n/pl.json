@@ -48,6 +48,16 @@
             "export": "Exportuj",
             "gridExportFilename": "respondenci.csv",
             "edit": "Edytuj"
+        },
+        "edit": {
+            "title": "Edycja danych respondenta",
+            "username": "Nazwa użytkownika",
+            "id": "ID",
+            "cancel": "Anuluj",
+            "save": "Zapisz",
+            "emptyValidationError": "Pole jest wymagane",
+            "ok": "OK",
+            "somethingWentWrong":"Coś poszło nie tak"
         }
     },
     "createSurvey": {
