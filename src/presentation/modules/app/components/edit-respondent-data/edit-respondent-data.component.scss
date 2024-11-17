@@ -1,0 +1,29 @@
+.container{
+    max-width: 400px;
+    min-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons-panel{
+    display: flex;
+    gap: 10px;
+    justify-content: stretch;
+    width: 100%;
+}
+
+.buttons-panel button {
+    flex-grow: 1;
+}
+
+.data-container{
+    max-width: 400px;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 600px;
+    overflow-y: scroll;
+}

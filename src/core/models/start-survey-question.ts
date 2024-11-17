@@ -10,3 +10,8 @@ export interface StartSurveyOption{
     order: number;
     content: string;
 }
+
+export interface StartSurveyResponse{
+    questionId: string,
+    optionId: string
+}

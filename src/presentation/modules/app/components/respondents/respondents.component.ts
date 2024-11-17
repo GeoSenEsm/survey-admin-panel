@@ -11,6 +11,7 @@ import { convertToValueDisplayMappings, RespondentInfoCollections, RespondentInf
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, finalize, forkJoin, of, throwError } from 'rxjs';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
+import { EditRespondentDataComponent } from '../edit-respondent-data/edit-respondent-data.component';
 
 @Component({
   selector: 'app-respondents',
@@ -161,5 +162,13 @@ implements AfterViewInit{
       });
       this.exportService.exportTableToCSV(actualCells, this.headers, filename);
     }
+  }
+
+  edit(respondent: RespondentData): void{
+    this._dialog.open(EditRespondentDataComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data: respondent
+    })
   }
 }

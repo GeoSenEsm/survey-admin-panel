@@ -46,7 +46,18 @@
       "nothingToDisplay": "Nothing to display",
       "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
       "export": "Export",
-      "gridExportFilename": "respondents.csv"
+      "gridExportFilename": "respondents.csv",
+      "edit": "Edit"
+    },
+    "edit": {
+      "title": "Edit respondent data",
+      "username": "Username",
+      "id": "ID",
+      "cancel": "Cancel",
+      "save": "Save",
+      "emptyValidationError": "This field is required",
+      "ok": "OK",
+      "somethingWentWrong": "Something went wrong"
     }
   },
   "createSurvey": {
@@ -73,7 +84,7 @@
       "contentNotEmptyError": "Field cannot be empty",
       "contentLenError": "Field cannot be longer than 250 characters",
       "number": "Number",
-      "image":  "Image"
+      "image": "Image"
     },
     "createSection": {
       "section": "Section",
