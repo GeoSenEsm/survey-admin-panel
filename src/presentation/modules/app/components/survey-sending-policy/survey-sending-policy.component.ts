@@ -48,6 +48,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   policies: SurveySendingPolicyDto[] = [];
   
   _deleteMode = false;
+
   get deleteMode(): boolean {
     return this._deleteMode;
   }

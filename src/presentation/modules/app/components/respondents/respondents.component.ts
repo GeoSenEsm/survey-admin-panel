@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
-import { RespondentData } from '../../../../../domain/models/respondent-data';
+import { RespondentData, RespondentFilters } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { convertToValueDisplayMappings, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent-info';
 import { TranslateService } from '@ngx-translate/core';
@@ -49,11 +49,18 @@ implements AfterViewInit{
     }
   ];
   loadingErrorOccured = false;
+  filters: RespondentFilters;
 
   constructor(@Inject('dialog') private readonly _dialog: MatDialog,
     @Inject('respondentDataService')private readonly service: RespondentDataService,
     private readonly translate: TranslateService,
     private readonly exportService: CsvExportService){
+      const now = new Date();
+      this.filters = {
+        amount: 1,
+        from: new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7)),
+        to: new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20))
+      }
   }
 
   ngAfterViewInit(): void {
@@ -110,7 +117,7 @@ implements AfterViewInit{
     if (this.isBusy){
       return;
     }
-
+    console.log(this.filters);
     this.isBusy = true;
     this.respondents.length = 0;
     this.service.getRespondents()

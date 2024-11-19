@@ -5,6 +5,8 @@ export type DateRangeAdjusTo = 'from' | 'to';
 export function adjustDateRange(dateFrom: Date | undefined, timeFrom: Time | undefined,
       dateTo: Date | undefined, timeTo: Time | undefined,
       adjustTo: DateRangeAdjusTo, dateChangeCallback: (newDate: Date) => void): void{
+      
+
       if (!dateFrom || !timeFrom || !dateTo || !timeTo){
         return;
       }

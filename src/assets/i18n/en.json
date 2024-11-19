@@ -58,6 +58,18 @@
       "emptyValidationError": "This field is required",
       "ok": "OK",
       "somethingWentWrong": "Something went wrong"
+    },
+    "filters": {
+      "showRespondentsWho": "Show respondents who",
+      "hasNotSentAtLeastNumberOfSurveys": "Have not completed at least this many surveys",
+      "hasNotSentAtLeastNumberOfLocationData": "Have not sent at least this many location data points",
+      "hasNotSentAtLeastNumberOfSensorsData": "Have not sent at least this much sensor data",
+      "amount": "Amount",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "timeFrom": "Time from",
+      "timeTo": "Time to",
+      "none": "None"
     }
   },
   "createSurvey": {
