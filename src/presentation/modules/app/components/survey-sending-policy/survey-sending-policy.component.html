@@ -3,9 +3,12 @@
     <button mat-flat-button color="primary" (click)="addSendingPolicy()">
       {{ "surveyDetails.surveySendingPolicy.craeteNewSendingPolicy" | translate }}
     </button>
-    <mat-slide-toggle [(ngModel)]="deleteMode" labelPosition="before">
+    <button *ngIf="deleteMode" mat-flat-button color="primary" (click)="toggleDeleteMode()">
       {{ "surveyDetails.surveySendingPolicy.deleteMode" | translate }}
-    </mat-slide-toggle>
+    </button>
+    <button *ngIf="!deleteMode" mat-stroked-button color="primary" (click)="toggleDeleteMode()">
+      {{ "surveyDetails.surveySendingPolicy.deleteMode" | translate }}
+    </button>
     <div [matTooltip]="!deletingEnabled() ? ('surveyDetails.surveySendingPolicy.selectTimeSlotsToDeleteFirst' | translate) : ''">
       <button 
         *ngIf="deleteMode" 

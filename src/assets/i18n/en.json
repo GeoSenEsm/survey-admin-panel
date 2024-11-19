@@ -163,7 +163,7 @@
       "couldNotLoadSendingPolicies": "Could not load survey sending policies",
       "ok": "OK",
       "completingSurvey": "{{ from }} - {{ to }}",
-      "deleteMode": "Delete Mode",
+      "deleteMode": "Edit sending policies",
       "delete": "Delete",
       "selectTimeSlotsToDeleteFirst": "Please select at least one time slot from the calendar that you want to delete first",
       "deletingConfirmationText": "Are you sure you want to delete the selected time slots?",

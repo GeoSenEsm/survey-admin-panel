@@ -249,4 +249,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   deletingEnabled(): boolean {
     return this.deleteMode && this.calendarEvents.some((e) => e.selected);
   }
+
+  toggleDeleteMode(): void {
+    this.deleteMode = !this.deleteMode;
+  }
 }

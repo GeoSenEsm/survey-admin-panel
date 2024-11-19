@@ -163,7 +163,7 @@
             "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
             "ok": "OK",
             "completingSurvey": "{{ from }} - {{ to }}",
-            "deleteMode": "Tryb usuwania",
+            "deleteMode": "Edytuj polityki wysyłania",
             "delete": "Usuń",
             "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
             "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
