@@ -41,6 +41,12 @@
             </div>
             <div class="grid-item"></div>
             <div class="grid-item disp-on-on-screen-toggle">
+                <button mat-icon-button (click)="down()">
+                    <mat-icon color="accent">arrow_downward</mat-icon>
+                </button>
+                <button mat-icon-button (click)="up()">
+                    <mat-icon color="accent">arrow_upward</mat-icon>
+                </button>
                 <mat-slide-toggle color="accent" 
                 [(ngModel)]="section!.displayOnOneScreen"
                 labelPosition="before"
@@ -69,8 +75,8 @@
             (removeEvent)="removeQuestion($event)"
             [question]="question"
             [sectionsToBeTriggered]="selectableSectionsToBeTriggered"
-            (upCallback)="up($event)"
-            (downCallback)="down($event)"/>
+            (upCallback)="questionUp($event)"
+            (downCallback)="questionDown($event)"/>
         </div>
         <mat-error *ngIf="questionsNumberError != null">{{ questionsNumberError }}></mat-error>
         <div class="wrap-panel">
