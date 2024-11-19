@@ -3,6 +3,7 @@ import {
   ComponentRef,
   Inject,
   Injector,
+  OnDestroy,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
@@ -27,7 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
   private map: L.Map | undefined;
   locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
@@ -47,6 +48,12 @@ export class MapComponent implements OnInit {
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar
   ) {}
+  
+  ngOnDestroy(): void {
+    if (this.map){
+      this.map.remove();
+    }
+  }
 
   ngOnInit(): void {
     this.initMap();

@@ -41,8 +41,11 @@
             [isReadOnly]="isReadOnly"/>
         </mat-card-content>
         <mat-card-footer>
-            <button mat-button color="primary">
-                <mat-icon>content_copy</mat-icon>
+            <button mat-icon-button color="primary" class="circle-button" (click)="down()">
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" class="circle-button" (click)="up()">
+                <mat-icon>arrow_upward</mat-icon>
             </button>
             <button *ngIf="!isReadOnly"
             mat-button color="primary" 
