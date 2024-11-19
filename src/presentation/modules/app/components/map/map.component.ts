@@ -166,7 +166,7 @@ export class MapComponent implements OnInit {
 
   loadRespondents(): void {
     this.respondentsService
-      .getRespondents()
+      .getRespondents(undefined)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error));

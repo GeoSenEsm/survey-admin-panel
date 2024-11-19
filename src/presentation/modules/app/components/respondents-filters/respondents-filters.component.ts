@@ -66,7 +66,7 @@ export class RespondentsFiltersComponent implements OnChanges {
     this._timeFrom = val;
     if (val && this.filtersModel) {
       const time = parseToTime(val);
-      this.filtersModel.to = new Date(
+      this.filtersModel.from = new Date(
         Date.UTC(
           this.filtersModel.from.getUTCFullYear(),
           this.filtersModel.from.getUTCMonth(),
@@ -93,7 +93,7 @@ export class RespondentsFiltersComponent implements OnChanges {
   set dateTo(value: Date | undefined) {
     this._dateTo = value;
     if (this._dateTo && this.filtersModel) {
-      this.filtersModel.from = new Date(
+      this.filtersModel.to = new Date(
         Date.UTC(
           value!.getUTCFullYear(),
           value!.getUTCMonth(),

@@ -85,7 +85,7 @@ implements AfterViewInit{
     this.respondents.length = 0;
     const observables = [
       this.service.getRespondentInfoCollections(),
-      this.service.getRespondents()
+      this.service.getRespondents(this.filters)
     ];
 
     forkJoin(observables).pipe(
@@ -117,10 +117,10 @@ implements AfterViewInit{
     if (this.isBusy){
       return;
     }
-    console.log(this.filters);
     this.isBusy = true;
     this.respondents.length = 0;
-    this.service.getRespondents()
+    console.log(this.filters);
+    this.service.getRespondents(this.filters)
     .pipe(
       finalize(() => {
         this.isBusy = false;
