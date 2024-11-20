@@ -1,4 +1,5 @@
 <div class="container">
+  <app-respondents-filters [filtersModel]="filters"/>
   <app-buttons-ribbon [buttons]="ribbonButtons"></app-buttons-ribbon>
   <div class="table-container">
     <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8" *ngIf="respondents.length > 0">

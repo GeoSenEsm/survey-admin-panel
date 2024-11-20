@@ -26,6 +26,10 @@ export class CreateSectionComponent {
   addSectionBelowEvent = new EventEmitter<CreateSectionModel>();
   @Output()
   removeSectionEvent = new EventEmitter<CreateSectionModel>();
+  @Output()
+  upCallback = new EventEmitter<CreateSectionModel>();
+  @Output()
+  downCallback = new EventEmitter<CreateSectionModel>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   @Input()
@@ -182,5 +186,33 @@ export class CreateSectionComponent {
   isValid() : boolean{
     return this.nameError == null && this.questionsNumberError == null
     && this.questions.toArray().every(component => component.isValid());
+  }
+
+  questionDown(question: CreateQuestionModel): void {
+    const index = this.section!.questions.indexOf(question);
+  
+    if (index > -1 && index < this.questions.length - 1) {
+      const temp = this.section!.questions[index];
+      this.section!.questions[index] = this.section!.questions[index + 1];
+      this.section!.questions[index + 1] = temp;
+    }
+  }
+  
+  questionUp(question: CreateQuestionModel): void {
+    const index = this.section!.questions.indexOf(question);
+  
+    if (index > 0) {
+      const temp = this.section!.questions[index];
+      this.section!.questions[index] = this.section!.questions[index - 1];
+      this.section!.questions[index - 1] = temp;
+    }
+  }
+
+  up(): void{
+    this.upCallback.emit(this.section!);
+  }
+
+  down(): void{
+    this.downCallback.emit(this.section!);
   }
 }

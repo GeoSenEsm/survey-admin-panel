@@ -76,6 +76,7 @@ import { CreateImageOptionsComponent } from './components/create-image-options/c
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CalendarEventCheckboxComponent } from './components/calendar-event-checkbox/calendar-event-checkbox.component';
 import { EditRespondentDataComponent } from './components/edit-respondent-data/edit-respondent-data.component';
+import { RespondentsFiltersComponent } from './components/respondents-filters/respondents-filters.component';
 
 
 export const routes: Routes = [
@@ -181,7 +182,8 @@ export function HttpLoaderFactory(http: HttpClient){
     ImageUploadComponent,
     CreateImageOptionsComponent,
     CalendarEventCheckboxComponent,
-    EditRespondentDataComponent
+    EditRespondentDataComponent,
+    RespondentsFiltersComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

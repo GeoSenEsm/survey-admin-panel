@@ -14,6 +14,14 @@
       />
       <mat-error *ngIf="questionError != null">{{ questionError }}</mat-error>
     </mat-form-field>
+    <button mat-icon-button color="primary" *ngIf="!isReadOnly" (click)="up()"
+            [disabled]="allQuestions?.length == 1">
+        <mat-icon>arrow_upwards</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" *ngIf="!isReadOnly" (click)="down()"
+            [disabled]="allQuestions?.length == 1">
+            <mat-icon>arrow_downwards</mat-icon>
+    </button>
   </mat-card-header>
   <mat-card-content>
     <h4>

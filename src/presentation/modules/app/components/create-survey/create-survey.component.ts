@@ -169,4 +169,24 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
       this.router.navigate(['/']);
     });
   }
+
+  sectionDown(section: CreateSectionModel): void {
+    const index = this.model.sections.indexOf(section);
+  
+    if (index > -1 && index < this.model.sections.length - 1) {
+      const temp = this.model.sections[index];
+      this.model.sections[index] = this.model.sections[index + 1];
+      this.model.sections[index + 1] = temp;
+    }
+  }
+  
+  sectionUp(section: CreateSectionModel): void {
+    const index = this.model.sections.indexOf(section);
+  
+    if (index > 0) {
+      const temp = this.model.sections[index];
+      this.model.sections[index] = this.model.sections[index - 1];
+      this.model.sections[index - 1] = temp;
+    }
+  }
 }

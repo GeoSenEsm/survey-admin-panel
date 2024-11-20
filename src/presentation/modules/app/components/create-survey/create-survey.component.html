@@ -23,7 +23,9 @@
             [section]="section"
             [sectionsToBeTriggered]="sectionsToBeTriggered"
             [respondentsGroups]="groups"
-            [isReadOnly]="isReadOnly"/>
+            [isReadOnly]="isReadOnly"
+            (upCallback)="sectionUp($event)" 
+            (downCallback)="sectionDown($event)"/>
         </mat-card-content>
         <mat-card-footer>
             <button *ngIf="!isReadOnly"

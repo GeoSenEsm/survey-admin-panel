@@ -1,0 +1,78 @@
+<div class="container" *ngIf="filtersModel">
+  <mat-form-field class="show-respondents-who-form-field">
+    <mat-label>
+      {{ "respondents.filters.showRespondentsWho" | translate }}
+    </mat-label>
+    <mat-select [(ngModel)]="filtersModel.filterOption">
+      <mat-option [value]="undefined">
+        {{ "respondents.filters.none" | translate }}
+      </mat-option>
+      <mat-option *ngFor="let option of allFilterOptions" [value]="option">
+        {{ filterOptionDisplayMappings[option] | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      {{ "respondents.filters.amount" | translate }}
+    </mat-label>
+    <input type="number" matInput min="1" max="99999" [(ngModel)]="filtersModel.amount"
+    [disabled]="!filtersModel.filterOption"/>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>
+      {{ "respondents.filters.dateFrom" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [matDatepicker]="dateFromPicker"
+      readonly
+      [(ngModel)]="dateFrom"
+      [disabled]="!filtersModel.filterOption"
+    />
+    <mat-datepicker-toggle matSuffix [for]="dateFromPicker" />
+    <mat-datepicker #dateFromPicker />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>
+      {{ "respondents.filters.timeFrom" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [ngxMatTimepicker]="timeFromPicker"
+      readonly
+      [(ngModel)]="timeFrom"
+      [disabled]="!filtersModel.filterOption"
+    />
+    <ngx-mat-timepicker-toggle matSuffix [for]="timeFromPicker" />
+    <ngx-mat-timepicker #timeFromPicker></ngx-mat-timepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>
+      {{ "respondents.filters.dateTo" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [matDatepicker]="dateToPicker"
+      readonly
+      [(ngModel)]="dateTo"
+      [disabled]="!filtersModel.filterOption"
+    />
+    <mat-datepicker-toggle matSuffix [for]="dateToPicker" />
+    <mat-datepicker #dateToPicker />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>
+      {{ "respondents.filters.timeTo" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [ngxMatTimepicker]="timeToPicker"
+      readonly
+      [(ngModel)]="timeTo"
+      [disabled]="!filtersModel.filterOption"
+    />
+    <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
+    <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
+  </mat-form-field>
+</div>

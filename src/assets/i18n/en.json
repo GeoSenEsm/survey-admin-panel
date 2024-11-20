@@ -58,6 +58,18 @@
       "emptyValidationError": "This field is required",
       "ok": "OK",
       "somethingWentWrong": "Something went wrong"
+    },
+    "filters": {
+      "showRespondentsWho": "Show respondents who",
+      "hasNotSentAtLeastNumberOfSurveys": "Have not completed at least this many surveys",
+      "hasNotSentAtLeastNumberOfLocationData": "Have not sent at least this many location data points",
+      "hasNotSentAtLeastNumberOfSensorsData": "Have not sent at least this much sensor data",
+      "amount": "Amount",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "timeFrom": "Time from",
+      "timeTo": "Time to",
+      "none": "None"
     }
   },
   "createSurvey": {
@@ -68,11 +80,11 @@
       "image": "Image",
       "dragAndDropHere": "Drag and drop here",
       "fileBrowser": "Browser",
-      "code": "Code",
-      "codeTooltip": "The image code is required in order to export survey results. It will not be displayed to the respondents.",
+      "code": "Label",
+      "codeTooltip": "The image label is required in order to export survey results. It will not be displayed to the respondents.",
       "addImage": "Add image",
-      "codeRequiredError": "Image code is required.",
-      "codeDuplicateError": "Image code must be unique.",
+      "codeRequiredError": "Image label is required.",
+      "codeDuplicateError": "Image label must be unique.",
       "imageRequiredError": "Image is required."
     },
     "createQuestion": {
@@ -151,7 +163,7 @@
       "couldNotLoadSendingPolicies": "Could not load survey sending policies",
       "ok": "OK",
       "completingSurvey": "{{ from }} - {{ to }}",
-      "deleteMode": "Delete Mode",
+      "deleteMode": "Edit sending policies",
       "delete": "Delete",
       "selectTimeSlotsToDeleteFirst": "Please select at least one time slot from the calendar that you want to delete first",
       "deletingConfirmationText": "Are you sure you want to delete the selected time slots?",
@@ -219,7 +231,8 @@
     "couldNotLoadStartSurvey": "Could not load initial survey. Please try again later.",
     "thereAreNoQuestions": "The initial survey does not contain any questions. You can add some if you wish.",
     "refresh": "Refresh",
-    "addingQuestionsFailed": "Adding questions failed. Please try again later."
+    "addingQuestionsFailed": "Adding questions failed. Please try again later.",
+    "savedSuccesfully": "Saved successfully"
   },
   "shared": {
     "typeToConfirmDialog": {

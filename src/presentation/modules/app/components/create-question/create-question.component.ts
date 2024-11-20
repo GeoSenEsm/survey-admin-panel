@@ -23,6 +23,10 @@ export class CreateQuestionComponent {
   addQuestionBelowEvent = new EventEmitter<CreateQuestionModel>();
   @Output()
   removeEvent = new EventEmitter<CreateQuestionModel>();
+  @Output()
+  upCallback = new EventEmitter<CreateQuestionModel>();
+  @Output()
+  downCallback = new EventEmitter<CreateQuestionModel>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   contentError: string | null = null;
@@ -100,5 +104,13 @@ export class CreateQuestionComponent {
     if (this.question.content.length > 250){
       this.contentError = this.translate.instant('createSurvey.createQuestion.contentLenError');
     }
+  }
+
+  up(): void{
+    this.upCallback.emit(this.question!);
+  }
+
+  down(): void{
+    this.downCallback.emit(this.question!);
   }
 }

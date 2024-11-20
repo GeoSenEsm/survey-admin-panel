@@ -45,20 +45,25 @@
       <input matInput readonly [hidden]="true"/>
     </mat-form-field>
     <mat-error *ngIf="imageError != null">{{ imageError | translate }}</mat-error>
-    <mat-form-field appearance="fill" *ngIf="imageOption">
-      <mat-label>
-        {{ "createSurvey.createImageOptions.code" | translate }}
-      </mat-label>
-      <input
-        matInput
-        [(ngModel)]="imageOption.code"
-        name="imageOptionCode"
-        [maxLength]="maxCodeLength"
-        [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"
-        (blur)="validateCode()"
-        [errorStateMatcher]="codeErrorStateMatcher"
-      />
-      <mat-error *ngIf="codeError != null">{{ codeError | translate }}</mat-error>
-    </mat-form-field>
+    <div class="row">
+      <mat-form-field appearance="fill" *ngIf="imageOption">
+        <mat-label>
+          {{ "createSurvey.createImageOptions.code" | translate }}
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="imageOption.code"
+          name="imageOptionCode"
+          [maxLength]="maxCodeLength"
+          [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"
+          (blur)="validateCode()"
+          [errorStateMatcher]="codeErrorStateMatcher"
+        />
+        <mat-error *ngIf="codeError != null">{{ codeError | translate }}</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="remove()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </form>
 </div>
