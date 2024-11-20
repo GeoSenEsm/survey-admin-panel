@@ -92,4 +92,10 @@ export class ImageUploadComponent {
 
     return true;
   }
+
+  remove(): void{
+    if (this.allImageOptions && this.imageOption){
+      this.allImageOptions.splice(this.allImageOptions.indexOf(this.imageOption), 1);
+    }
+  }
 }

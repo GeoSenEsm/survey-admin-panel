@@ -54,3 +54,9 @@ form{
   max-width: 200px;
   gap: 5px;
 }
+
+.row{
+  display:flex;
+  flex-direction:row;
+  gap: 5px;
+}

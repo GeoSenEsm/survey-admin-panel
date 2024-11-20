@@ -80,11 +80,11 @@
             "image": "Obraz",
             "dragAndDropHere": "Przeciągnij obraz tutaj",
             "fileBrowser": "Eksplorator",
-            "code": "Kod",
-            "codeTooltip": "Kod obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
+            "code": "Etykieta",
+            "codeTooltip": "Etykieta obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
             "addImage": "Dodaj obraz",
-            "codeRequiredError": "Kod obrazka jest wymagany.",
-            "codeDuplicateError": "Kod obrazka musi być unikalny.",
+            "codeRequiredError": "Etykieta obrazka jest wymagany.",
+            "codeDuplicateError": "Etykieta obrazka musi być unikalny.",
             "imageRequiredError": "Obraz jest wymagany."
         },
         "createQuestion": {
