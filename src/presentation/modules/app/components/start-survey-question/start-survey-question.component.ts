@@ -15,8 +15,7 @@ export class StartSurveyQuestionComponent {
   @Input() isReadOnly: boolean = false;
   readonly maxInputLen = 250;
   @Output() removeQuestionCallback = new EventEmitter<StartSurveyQuestion>();
-  @Input() allOldQuestions: StartSurveyQuestion[] | undefined = undefined;
-  @Input() allNewQuestions: StartSurveyQuestion[] | undefined = undefined;
+  @Input() allQuestions: StartSurveyQuestion[] | undefined = undefined;
   questionError: string | null = null
   questionContentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.questionError);
   @ViewChildren(StartSurveyQuestionOptionComponent) optionComponents: QueryList<StartSurveyQuestionOptionComponent> | undefined;
@@ -68,8 +67,7 @@ export class StartSurveyQuestionComponent {
       return false;
     }
 
-    if ((this.allOldQuestions && this.allOldQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))
-    || (this.allNewQuestions && this.allNewQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))){
+    if ((this.allQuestions && this.allQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))){
       this.questionError = this.translate.instant('startSurvey.questionAlreadyExists');
       return false;
     }

@@ -231,7 +231,8 @@
         "couldNotLoadStartSurvey": "Nie udało się załadować ankiety początkowej. Sproboj ponownie później.",
         "thereAreNoQuestions": "Ankieta początkowa nie zawiera żadnych pytań. Jeśli chcesz, możesz dodać pytania.",
         "refresh": "Odśwież",
-        "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później."
+        "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później.",
+        "savedSuccesfully": "Zapisano pomyślnie"
     },
     "shared": {
         "typeToConfirmDialog": {

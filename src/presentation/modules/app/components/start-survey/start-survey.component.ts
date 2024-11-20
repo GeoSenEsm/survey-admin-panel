@@ -16,8 +16,7 @@ import { ButtonData } from '../buttons.ribbon/button.data';
   styleUrl: './start-survey.component.scss'
 })
 export class StartSurveyComponent implements OnInit {
-  oldQuestions: StartSurveyQuestion[] = [];
-  newQuestions: StartSurveyQuestion[] = [];
+  questions: StartSurveyQuestion[] = [];
   @ViewChildren(StartSurveyQuestionComponent) newQuestionsComponents: QueryList<StartSurveyQuestionComponent> | undefined;
   isBusy: boolean = false;
   loadingErrorOccured: boolean = false;
@@ -47,8 +46,7 @@ export class StartSurveyComponent implements OnInit {
 
     this.isBusy = true;
     this.loadingErrorOccured = false;
-    this.oldQuestions.length = 0;
-    this.newQuestions.length = 0;
+    this.questions.length = 0;
     this.service
     .getStartSurveyQuestions()
     .pipe(
@@ -64,14 +62,14 @@ export class StartSurveyComponent implements OnInit {
       }))
       .subscribe(questions => {
         questions.forEach(question => {
-          this.oldQuestions.push(question);
+          this.questions.push(question);
         })
       });
   }
 
   addQuestion(): void {
-    this.newQuestions.push({
-      order: this.oldQuestions.length + this.newQuestions.length + 1,
+    this.questions.push({
+      order: this.questions.length + this.questions.length + 1,
       content: '',
       options: [
         {
@@ -83,7 +81,7 @@ export class StartSurveyComponent implements OnInit {
   }
 
   removeQuestion(question: StartSurveyQuestion): void {
-    this.newQuestions.splice(this.newQuestions.indexOf(question), 1);
+    this.questions.splice(this.questions.indexOf(question), 1);
   }
 
   save(): void{
@@ -131,7 +129,9 @@ export class StartSurveyComponent implements OnInit {
 
     this.isBusy = true;
 
-    this.service.addStartSurveyQuestions(this.newQuestions)
+    this.adjustOrders();
+
+    this.service.addStartSurveyQuestions(this.questions)
     .pipe(
       finalize(() => {
         this.isBusy = false;
@@ -141,14 +141,25 @@ export class StartSurveyComponent implements OnInit {
         this.translate.instant('startSurvey.ok'),
         {
           duration: 3000
-        })
+        });
         return throwError(() => error);
       }))
       .subscribe(_ =>{
-        this.newQuestions.forEach(question =>{
-          this.oldQuestions.push(question);
+        this.snackbar.open(this.translate.instant('startSurvey.savedSuccesfully'),
+        this.translate.instant('startSurvey.ok'),
+        {
+          duration: 3000
         });
-        this.newQuestions.length = 0;
       });
+  }
+  adjustOrders() {
+    let i = 0;
+    this.questions.forEach(question => {
+      question.order = i++;
+      let j = 0;
+      question.options.forEach(option => {
+        option.order = j++;
+      });
+    });
   }
 }
