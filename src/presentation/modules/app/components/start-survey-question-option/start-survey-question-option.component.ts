@@ -44,4 +44,32 @@ export class StartSurveyQuestionOptionComponent {
       this.removeOptionCallback.emit(this.option);
     }
   }
+
+  down(): void{
+    if (!this.allOptions || !this.option){
+      return;
+    }
+
+    const index = this.allOptions.indexOf(this.option);
+  
+    if (index > -1 && index < this.allOptions.length - 1) {
+      const temp = this.allOptions[index];
+      this.allOptions[index] = this.allOptions[index + 1];
+      this.allOptions[index + 1] = temp;
+    }
+  }
+
+  up(): void{
+    if (!this.allOptions || !this.option){
+      return;
+    }
+
+    const index = this.allOptions.indexOf(this.option);
+  
+    if (index > 0) {
+      const temp = this.allOptions[index];
+      this.allOptions[index] = this.allOptions[index - 1];
+      this.allOptions[index - 1] = temp;
+    }
+  }
 }

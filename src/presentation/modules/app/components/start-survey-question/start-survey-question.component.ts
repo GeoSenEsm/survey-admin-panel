@@ -74,4 +74,32 @@ export class StartSurveyQuestionComponent {
 
     return true;
   }
+
+  down(): void{
+    if (!this.allQuestions || !this.question){
+      return;
+    }
+
+    const index = this.allQuestions.indexOf(this.question);
+  
+    if (index > -1 && index < this.allQuestions.length - 1) {
+      const temp = this.allQuestions[index];
+      this.allQuestions[index] = this.allQuestions[index + 1];
+      this.allQuestions[index + 1] = temp;
+    }
+  }
+
+  up(): void{
+    if (!this.allQuestions || !this.question){
+      return;
+    }
+
+    const index = this.allQuestions.indexOf(this.question);
+  
+    if (index > 0) {
+      const temp = this.allQuestions[index];
+      this.allQuestions[index] = this.allQuestions[index - 1];
+      this.allQuestions[index - 1] = temp;
+    }
+  }
 }
