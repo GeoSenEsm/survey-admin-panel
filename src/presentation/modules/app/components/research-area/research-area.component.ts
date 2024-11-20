@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import L, { LatLng } from 'leaflet';
 import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './research-area.component.html',
   styleUrl: './research-area.component.scss'
 })
-export class ResearchAreaComponent implements OnInit, OnDestroy {
+export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   changesMade: boolean = false;
@@ -29,6 +29,10 @@ export class ResearchAreaComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar
   ) {} 
   
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+  
   ngOnDestroy(): void {
     if (this.map){
       this.map.remove();
@@ -36,12 +40,11 @@ export class ResearchAreaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initMap();
     this.loadCurrentResearchArea();
   }
 
   private initMap(): void {
-    this.map = L.map('map', {
+    this.map = L.map('research-area-map', {
       center: [52.2297, 21.0122],
       zoom: 13,
     });

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ComponentRef,
   Inject,
@@ -28,7 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
   locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
@@ -49,6 +50,10 @@ export class MapComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar
   ) {}
   
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+  
   ngOnDestroy(): void {
     if (this.map){
       this.map.remove();
@@ -56,7 +61,6 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initMap();
     this.loadSurveys();
     this.loadRespondents();
   }
