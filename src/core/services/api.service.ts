@@ -12,6 +12,10 @@ export class ApiService {
       this.baseUrl = configService.apiUrl;
     }
 
+  protected patch<T>(url: string, body?: any): Observable<T> {
+    return this.httpClient.patch<T>(this.baseUrl + url, body);
+  }
+
   protected post<T>(url: string, data: any, responseType: string | undefined = 'json'): Observable<T> {
     return this.httpClient.post<T>(this.baseUrl + url, data, {
       responseType: responseType as 'json'

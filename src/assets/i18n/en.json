@@ -232,7 +232,10 @@
     "thereAreNoQuestions": "The initial survey does not contain any questions. You can add some if you wish.",
     "refresh": "Refresh",
     "addingQuestionsFailed": "Adding questions failed. Please try again later.",
-    "savedSuccesfully": "Saved successfully"
+    "savedSuccesfully": "Saved successfully",
+    "publishingFailed": "Failed to publish the survey. Please try again later.",
+    "publishedSuccesfully": "Published successfully.",
+    "publish": "Publish"
   },
   "shared": {
     "typeToConfirmDialog": {

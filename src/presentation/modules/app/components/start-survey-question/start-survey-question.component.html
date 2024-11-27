@@ -11,6 +11,7 @@
         [maxlength]="maxInputLen"
         (blur)="validateQuestion()"
         [errorStateMatcher]="questionContentErrorStateMatcher"
+        (change)="changed.emit()"
       />
       <mat-error *ngIf="questionError != null">{{ questionError }}</mat-error>
     </mat-form-field>
@@ -33,6 +34,7 @@
       [isReadOnly]="isReadOnly"
       (removeOptionCallback)="removeOption($event)"
       [allOptions]="question.options"
+      (changed)="changed.emit()"
     />
   </mat-card-content>
   <mat-card-footer>
