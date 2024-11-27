@@ -235,7 +235,9 @@
     "savedSuccesfully": "Saved successfully",
     "publishingFailed": "Failed to publish the survey. Please try again later.",
     "publishedSuccesfully": "Published successfully.",
-    "publish": "Publish"
+    "publish": "Publish",
+    "publishInformationText": "Are you sure you want to publish the survey? You will not be able to edit it afterward.",
+    "publishConfirmationInput": "publish"
   },
   "shared": {
     "typeToConfirmDialog": {

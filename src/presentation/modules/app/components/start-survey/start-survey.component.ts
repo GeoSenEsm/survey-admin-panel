@@ -171,6 +171,27 @@ export class StartSurveyComponent implements OnInit {
   }
 
   publish(): void{
+    if (!this.publishable()){
+      return;
+    }
+
+    this.dialog.open(TypeToConfirmDialogComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data:{
+        informationText: this.translate.instant('startSurvey.publishInformationText'),
+        textToType: this.translate.instant('startSurvey.publishConfirmationInput')
+      }
+    })
+    .afterClosed()
+    .subscribe(res =>{
+      if (res === true){
+        this.publishCore();
+      }
+    });
+  }
+
+  private publishCore(): void{
     this.service.publish()
     .pipe(
       catchError(error => {

@@ -235,7 +235,9 @@
         "savedSuccesfully": "Zapisano pomyślnie",
         "publishingFailed": "Nie udało się opublikować ankiety. Sproboj ponownie później.",
         "publishedSuccesfully": "Opublikowano pomyślnie.",
-        "publish": "Opublikuj"
+        "publish": "Opublikuj",
+        "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",
+        "publishConfirmationInput": "opublikuj"
     },
     "shared": {
         "typeToConfirmDialog": {
