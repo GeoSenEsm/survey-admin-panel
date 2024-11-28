@@ -16,6 +16,7 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
     constructor(client: HttpClient, configService: ConfigService) {
         super(client, configService);
       }
+
     getAllSummaryShort(): Observable<SurveySummaryShortDto[]> {
         return this.get<SurveySummaryShortDto[]>('/api/surveys/shortsummaries');
     }
@@ -36,5 +37,23 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
 
     getSurveyById(id: string): Observable<SurveyDetailsDto> {
         return this.get('/api/surveys', { surveyId: id });
+    }
+
+    update(dto: CreateSurveyDto, images: File[], id: string): Observable<any> {
+        const formData = new FormData();
+        formData.append('json', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+        console.log(dto);
+        images.forEach(image => {
+          formData.append('files', image, image.name);
+        });
+        return this.put(`/api/surveys/${id}`, formData);
+    }
+
+    publish(id: string): Observable<any> {
+        return this.patch(`/api/surveys/publish`, { surveyId: id });
+    }
+
+    deleteSurvey(id: string): Observable<any> {
+        return this.delete(`/api/surveys/${id}`);
     }
 }
