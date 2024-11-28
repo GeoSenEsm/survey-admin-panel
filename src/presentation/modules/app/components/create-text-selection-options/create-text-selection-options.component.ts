@@ -1,4 +1,4 @@
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { OptionComponent } from '../option/option.component';
@@ -19,6 +19,7 @@ export class CreateTextSelectionOptionsComponent {
   commonOptionsError: string | null = null;
   @Input()
   isReadOnly: boolean = false;
+  @Output() changed = new EventEmitter<void>();
 
   constructor(private readonly translate: TranslateService){}
 
@@ -26,10 +27,12 @@ export class CreateTextSelectionOptionsComponent {
     this.options.push({
       content: ''
     });
+    this.changed.emit();
   }
 
   removeOption(index: number) : void {
     this.options.splice(index, 1);
+    this.changed.emit();
   }
 
   isValid() : boolean {

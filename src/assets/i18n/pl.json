@@ -187,6 +187,7 @@
     "delete": "Usuń",
     "successfullyDeletedSurvey": "Pomyślnie usunięto ankietę",
     "errorOnDeletingSurvey": "Wystąpił błąd podczas usuwania ankiety.",
+    "errorOnPublishingSurvey": "Wystąpił błąd podczas publikowania ankiety.",
     "ok": "OK",
     "successfullyPublishedSurvey": "Pomyślnie opublikowano ankietę.",
     "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",

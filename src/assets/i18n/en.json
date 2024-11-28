@@ -187,6 +187,7 @@
     "delete": "Delete",
     "successfullyDeletedSurvey": "The survey was successfully deleted",
     "errorOnDeletingSurvey": "An error occurred while deleting the survey.",
+    "errorOnPublishingSurvey": "An error occurred while publishing the survey.",
     "ok": "OK",
     "successfullyPublishedSurvey": "The survey was successfully published.",
     "publishInformationText": "Are you sure you want to publish the survey? You will no longer be able to edit it.",

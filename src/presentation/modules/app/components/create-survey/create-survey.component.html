@@ -4,7 +4,8 @@
             <mat-form-field class="full-width" appearance="fill">
                 <input matInput [(ngModel)]="model.name" (blur)="validateName()"
                 [readonly]="isReadOnly"
-                [errorStateMatcher]="surveyNameErrorStateMatcher"/>
+                [errorStateMatcher]="surveyNameErrorStateMatcher"
+                (change)="changed.emit()"/>
                 <mat-error *ngIf="nameValidationError != null">{{ nameValidationError }}</mat-error>
             </mat-form-field>
         </mat-card-header>
@@ -25,7 +26,8 @@
             [respondentsGroups]="groups"
             [isReadOnly]="isReadOnly"
             (upCallback)="sectionUp($event)" 
-            (downCallback)="sectionDown($event)"/>
+            (downCallback)="sectionDown($event)"
+            (changed)="changed.emit()"/>
         </mat-card-content>
         <mat-card-footer>
             <button *ngIf="!isReadOnly"

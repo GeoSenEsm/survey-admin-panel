@@ -4,6 +4,7 @@
     [imageOption]="imageOption"
     [allImageOptions]="imageOptions"
     [isReadOnly]="isReadOnly"
+    (selectionChange)="changed.emit()"
   />
   <button
     mat-stroked-button

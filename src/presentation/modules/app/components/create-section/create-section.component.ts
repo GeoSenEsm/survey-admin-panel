@@ -30,6 +30,8 @@ export class CreateSectionComponent {
   upCallback = new EventEmitter<CreateSectionModel>();
   @Output()
   downCallback = new EventEmitter<CreateSectionModel>();
+  @Output()
+  changed = new EventEmitter<void>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   @Input()
@@ -135,6 +137,7 @@ export class CreateSectionComponent {
       numberRange: {from: 0, to: 5}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);
+    this.changed.emit();
   }
 
   addQuestionBelow(model: CreateQuestionModel) : void{
@@ -160,6 +163,7 @@ export class CreateSectionComponent {
     const idx = this.section?.questions.indexOf(question);
     if (idx !== -1 && idx !== undefined) {
       this.section?.questions.splice(idx, 1);
+      this.changed.emit();
     }
   }
 
@@ -195,6 +199,7 @@ export class CreateSectionComponent {
       const temp = this.section!.questions[index];
       this.section!.questions[index] = this.section!.questions[index + 1];
       this.section!.questions[index + 1] = temp;
+      this.changed.emit();
     }
   }
   
@@ -205,6 +210,7 @@ export class CreateSectionComponent {
       const temp = this.section!.questions[index];
       this.section!.questions[index] = this.section!.questions[index - 1];
       this.section!.questions[index - 1] = temp;
+      this.changed.emit();
     }
   }
 

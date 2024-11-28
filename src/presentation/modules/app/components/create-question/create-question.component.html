@@ -1,64 +1,98 @@
 <div class="container">
-    <mat-card class="card">
-        <mat-card-header>
-            <div class="two-columns-row">
-                <div class="two-columns-row-item">
-                    <mat-form-field appearance="fill" class="full-width">
-                        <input matInput maxlength="250" [(ngModel)]="question!.content"
-                        [errorStateMatcher]="contentErrorStateMatcher"
-                        [readonly]="isReadOnly"
-                        (blur)="validateContent()"/>
-                        <mat-error *ngIf="contentError != null">
-                            {{ contentError }}
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="two-columns-row-item">
-                    <mat-form-field appearance="outline" class="question-type-selector">
-                        <mat-select [(value)]="question!.type" [disabled]="isReadOnly">
-                            <mat-select-trigger>
-                                <mat-icon>{{ questionTypeIconSelector[question!.type] }}</mat-icon>
-                                {{ questionTypeDisplay[question!.type] | translate }}
-                            </mat-select-trigger>
-                          <mat-option *ngFor="let type of allQuestionTypes"
-                          [value]="type">
-                            <mat-icon>{{ questionTypeIconSelector[type] }}</mat-icon>
-                            {{ questionTypeDisplay[type] | translate }}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </mat-card-header>
-        <mat-card-content>
-            <app-create-image-options *ngIf="question!.type == QuestionType.IMAGE_CHOICE" [imageOptions]="question!.imageOptions"
-            [isReadOnly]="isReadOnly"/>
-            <app-create-text-selection-options [options]="question!.options"
-            [sectionsToBeTriggered]="sectionsToBeTriggered"
-            *ngIf="question!.type == QuestionType.SINGLE_CHOICE || question!.type == QuestionType.MULTIPLE_CHOICE"
-            [isReadOnly]="isReadOnly"/>
-            <app-create-number-range *ngIf="question!.type == QuestionType.LINEAR_SCALE"
-            [model]="question!.numberRange" [sectionsToBeTriggered]="sectionsToBeTriggered"
-            [isReadOnly]="isReadOnly"/>
-        </mat-card-content>
-        <mat-card-footer>
-            <button mat-icon-button color="primary" class="circle-button" (click)="down()">
-                <mat-icon>arrow_downward</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" class="circle-button" (click)="up()">
-                <mat-icon>arrow_upward</mat-icon>
-            </button>
-            <button *ngIf="!isReadOnly"
-            mat-button color="primary" 
-            (click)="remove()">
-                <mat-icon>delete_outline</mat-icon>
-             </button>
-             <mat-slide-toggle
-                [disabled]="isReadOnly"
-                labelPosition="before" [(ngModel)]="question!.isRequired"
-                color="primary">
-                {{ 'createSurvey.createQuestion.required' | translate }}
-            </mat-slide-toggle>
-        </mat-card-footer>
-    </mat-card>
+  <mat-card class="card">
+    <mat-card-header>
+      <div class="two-columns-row">
+        <div class="two-columns-row-item">
+          <mat-form-field appearance="fill" class="full-width">
+            <input
+              matInput
+              maxlength="250"
+              [(ngModel)]="question!.content"
+              [errorStateMatcher]="contentErrorStateMatcher"
+              [readonly]="isReadOnly"
+              (change)="changed.emit()"
+              (blur)="validateContent()"
+            />
+            <mat-error *ngIf="contentError != null">
+              {{ contentError }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="two-columns-row-item">
+          <mat-form-field appearance="outline" class="question-type-selector">
+            <mat-select
+              [(value)]="question!.type"
+              [disabled]="isReadOnly"
+              (selectionChange)="changed.emit()"
+            >
+              <mat-select-trigger>
+                <mat-icon>{{
+                  questionTypeIconSelector[question!.type]
+                }}</mat-icon>
+                {{ questionTypeDisplay[question!.type] | translate }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let type of allQuestionTypes" [value]="type">
+                <mat-icon>{{ questionTypeIconSelector[type] }}</mat-icon>
+                {{ questionTypeDisplay[type] | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <app-create-image-options
+        *ngIf="question!.type == QuestionType.IMAGE_CHOICE"
+        [imageOptions]="question!.imageOptions"
+        [isReadOnly]="isReadOnly"
+        (changed)="changed.emit()"
+      />
+      <app-create-text-selection-options
+        [options]="question!.options"
+        (changed)="changed.emit()"
+        [sectionsToBeTriggered]="sectionsToBeTriggered"
+        *ngIf="
+          question!.type == QuestionType.SINGLE_CHOICE ||
+          question!.type == QuestionType.MULTIPLE_CHOICE
+        "
+        [isReadOnly]="isReadOnly"
+      />
+      <app-create-number-range
+        *ngIf="question!.type == QuestionType.LINEAR_SCALE"
+        (changed)="changed.emit()"
+        [model]="question!.numberRange"
+        [sectionsToBeTriggered]="sectionsToBeTriggered"
+        [isReadOnly]="isReadOnly"
+      />
+    </mat-card-content>
+    <mat-card-footer>
+      <button
+        mat-icon-button
+        color="primary"
+        class="circle-button"
+        (click)="down()"
+      >
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        class="circle-button"
+        (click)="up()"
+      >
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+      <button *ngIf="!isReadOnly" mat-button color="primary" (click)="remove()">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <mat-slide-toggle
+        [disabled]="isReadOnly"
+        labelPosition="before"
+        [(ngModel)]="question!.isRequired"
+        color="primary"
+      >
+        {{ "createSurvey.createQuestion.required" | translate }}
+      </mat-slide-toggle>
+    </mat-card-footer>
+  </mat-card>
 </div>

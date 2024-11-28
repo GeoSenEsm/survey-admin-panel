@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { CreateSectionModel } from '../../../../../core/models/create.section.model';
 import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 import { CreateSurveyModel } from '../../../../../core/models/create.survey.model';
@@ -39,6 +39,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
   private readonly langChangeSubscription: Subscription;
   @Input()
   isReadOnly: boolean = false;
+  @Output() changed: EventEmitter<void> = new EventEmitter();
 
 
   constructor(@Inject('surveyMapper') private readonly surveyMapper: Mapper<CreateSurveyModel, CreateSurveyDto>,
@@ -117,6 +118,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
       displayOnOneScreen: true
     };
     this.model.sections.splice(index, 0, newSection);
+    this.changed.emit();
   }
 
   addSectionBelow(anotherSection: CreateSectionModel) : void{
@@ -130,6 +132,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
     const idx = this.model.sections.indexOf(section);
     if (idx !== -1){
       this.model.sections.splice(idx, 1);
+      this.changed.emit();
     }
   }
 
@@ -177,6 +180,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
       const temp = this.model.sections[index];
       this.model.sections[index] = this.model.sections[index + 1];
       this.model.sections[index + 1] = temp;
+      this.changed.emit();
     }
   }
   
@@ -187,6 +191,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy{
       const temp = this.model.sections[index];
       this.model.sections[index] = this.model.sections[index - 1];
       this.model.sections[index - 1] = temp;
+      this.changed.emit();
     }
   }
 }

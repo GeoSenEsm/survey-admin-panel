@@ -25,6 +25,7 @@ export class SurveyPreviewComponent implements OnChanges{
   model!: CreateSurveyModel;
   detailsDto!: SurveyDetailsDto;
   editMode: boolean = false;
+  changesMade = false;
 
 
   constructor(@Inject('surveyService') private readonly service: SurveyService,
@@ -45,6 +46,7 @@ export class SurveyPreviewComponent implements OnChanges{
     this.isLoadingSurvey = true;
     this.loadingSurveyStatusCode = -1;
     this.editMode = false;
+    this.changesMade = false;
     
     if (!this.surveyId){
       return;
@@ -91,8 +93,8 @@ export class SurveyPreviewComponent implements OnChanges{
       hasBackdrop: true,
       closeOnNavigation: true,
       data:{
-        informationText: this.translate.instant('surveyPreview.publishInformationText'),
-        textToType: this.translate.instant('startSurvey.publishConfirmationInput')
+        informationText: this.translate.instant('surveyDetails.publishInformationText'),
+        textToType: this.translate.instant('surveyDetails.publishConfirmationInput')
       }
     })
     .afterClosed()
@@ -108,13 +110,13 @@ export class SurveyPreviewComponent implements OnChanges{
     .subscribe({
       next: _ => {
         this.snackbar.open(this.translate.instant('surveyDetails.successfullyPublishedSurvey'), 
-        this.translate.instant('surveyPreview.ok'), {duration: 3000});
+        this.translate.instant('surveyDetails.ok'), {duration: 3000});
         this.reloadSurvey();
       },
       error: (error) => {
         console.log(error);
         this.snackbar.open(this.translate.instant('surveyDetails.errorOnPublishingSurvey'), 
-        this.translate.instant('surveyPreview.ok'), {duration: 3000});
+        this.translate.instant('surveyDetails.ok'), {duration: 3000});
       }
     })
   }
@@ -128,8 +130,8 @@ export class SurveyPreviewComponent implements OnChanges{
       hasBackdrop: true,
       closeOnNavigation: true,
       data:{
-        informationText: this.translate.instant('surveyPreview.deleteInformationText'),
-        textToType: this.translate.instant('startSurvey.deleteConfirmationInput')
+        informationText: this.translate.instant('surveyDetails.deleteInformationText'),
+        textToType: this.translate.instant('surveyDetails.deleteConfirmationInput')
       }
     })
     .afterClosed()
@@ -145,14 +147,18 @@ export class SurveyPreviewComponent implements OnChanges{
     .subscribe({
       next: _ => {
         this.snackbar.open(this.translate.instant('surveyDetails.successfullyDeletedSurvey'), 
-        this.translate.instant('surveyPreview.ok'), {duration: 3000});
+        this.translate.instant('surveyDetails.ok'), {duration: 3000});
         this.router.navigate(['surveys']);
       },
       error: (error) => {
         console.log(error);
         this.snackbar.open(this.translate.instant('surveyDetails.errorOnDeletingSurvey'), 
-        this.translate.instant('surveyPreview.ok'), {duration: 3000});
+        this.translate.instant('surveyDetails.ok'), {duration: 3000});
       }
     });
+  }
+
+  setChangesMade(): void{
+    this.changesMade = true;
   }
 }

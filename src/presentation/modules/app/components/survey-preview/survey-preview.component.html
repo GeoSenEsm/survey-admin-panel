@@ -15,7 +15,7 @@
             </mat-icon>
             {{'surveyDetails.editMode'| translate}}
         </button>
-        <button mat-flat-button color="primary" (click)="publishSurvey()">
+        <button [disabled]="changesMade" mat-flat-button color="primary" (click)="publishSurvey()">
             <mat-icon>
                 publish
             </mat-icon>
@@ -28,5 +28,5 @@
             {{'surveyDetails.delete'| translate}}
         </button>
     </div>
-    <app-create-survey *ngIf="model" [model]="model" [isReadOnly]="!editMode"/>
+    <app-create-survey *ngIf="model" [model]="model" [isReadOnly]="!editMode" (changed)="setChangesMade()"/>
 </div>

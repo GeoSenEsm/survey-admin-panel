@@ -1,7 +1,7 @@
 <div class="container">
   <div class="hoizontal-container">
     <mat-form-field appearance="fill">
-      <mat-select [(value)]="model.from" [disabled]="isReadOnly">
+      <mat-select [(value)]="model.from" [disabled]="isReadOnly" (selectionChange)="changed.emit()">
         <mat-option *ngFor="let from of fromOptions;" [value]="from">
           {{ from }}
         </mat-option>
@@ -11,7 +11,7 @@
       -
     </span>
     <mat-form-field appearance="fill">
-      <mat-select [(value)]="model.to" [disabled]="isReadOnly">
+      <mat-select [(value)]="model.to" [disabled]="isReadOnly" (selectionChange)="changed.emit()">
         <mat-option *ngFor="let to of toOptions;" [value]="to">
           {{ to }}
         </mat-option>
@@ -24,7 +24,7 @@
     </span>
     <mat-form-field appearance="fill">
       <input matInput [(ngModel)]="model.fromLabel" maxlength="50" [readonly]="isReadOnly"
-      [placeholder]="translate.instant('createSurvey.createNumberRange.labelOptional')"/>
+      [placeholder]="translate.instant('createSurvey.createNumberRange.labelOptional')" (change)="changed.emit()"/>
     </mat-form-field>
   </div>
   <div class="hoizontal-container">
@@ -33,6 +33,7 @@
     </span>
     <mat-form-field appearance="fill">
       <input matInput [(ngModel)]="model.toLabel" maxlength="50" [readonly]="isReadOnly"
+      (change)="changed.emit()"
       [placeholder]="translate.instant('createSurvey.createNumberRange.labelOptional')"/>
     </mat-form-field>
   </div>
