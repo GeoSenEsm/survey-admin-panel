@@ -1,5 +1,5 @@
 <div style="padding: 2cqh">
-  <form>
+  <form [ngStyle]="{'pointer-events': isReadOnly ? 'none' : 'auto'}">
     <mat-form-field appearance="fill">
       <mat-label>{{
         "createSurvey.createImageOptions.image" | translate
@@ -11,6 +11,7 @@
             class="deleteButton"
             mat-icon-button
             (click)="fileInput.value = ''; clearFile()"
+            [disabled]="isReadOnly"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -26,6 +27,7 @@
             mat-raised-button
             color="primary"
             style="width: 100%; opacity: 80%"
+            [disabled]="isReadOnly"
           >
             {{ "createSurvey.createImageOptions.fileBrowser" | translate }}
           </button>
@@ -40,6 +42,7 @@
           multiple="multiple"
           accept="image/*"
           (change)="setFileData($event)"
+          [readonly]="isReadOnly"
         />
       </div>
       <input matInput readonly [hidden]="true"/>
@@ -58,10 +61,11 @@
           [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"
           (blur)="validateCode()"
           [errorStateMatcher]="codeErrorStateMatcher"
+          [readonly]="isReadOnly"
         />
         <mat-error *ngIf="codeError != null">{{ codeError | translate }}</mat-error>
       </mat-form-field>
-      <button mat-icon-button color="primary" (click)="remove()">
+      <button mat-icon-button color="primary" (click)="remove()" [disabled]="isReadOnly">
         <mat-icon>delete</mat-icon>
       </button>
     </div>

@@ -36,6 +36,7 @@ export interface SurveyOptionDto{
     label: string,
     showSection?: number,
     rowVersion: number
+    imagePath?: string
 }
 
 export interface SurveyNumberRangeDto{

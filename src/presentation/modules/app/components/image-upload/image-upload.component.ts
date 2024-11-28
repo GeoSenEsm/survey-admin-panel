@@ -18,6 +18,8 @@ export class ImageUploadComponent {
   imageError: string | null = null;
   codeErrorStateMatcher = new FormlessErrorStateMatcher(() => this.codeError);
   imageErrorStateMatcher = new FormlessErrorStateMatcher(() => this.imageError);
+  @Input()
+  isReadOnly: boolean = false;
 
   constructor() { }
 

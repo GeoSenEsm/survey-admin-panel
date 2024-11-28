@@ -50,6 +50,7 @@ export class SurveyPreviewComponent implements OnChanges{
       .subscribe({
         next: (model) => {
           this.model = model;
+          console.log(model);
           this.loadingSurveyStatusCode = 200;
         },
         error: (error) => {

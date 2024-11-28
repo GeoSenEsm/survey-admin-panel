@@ -11,6 +11,8 @@ export class CreateImageOptionsComponent {
   @Input()
   imageOptions: ImageOption[] | undefined;
   @ViewChildren(ImageUploadComponent) optionComponents!: QueryList<ImageUploadComponent>;
+  @Input()
+  isReadOnly: boolean = false
 
   addImageOption() {
     if (this.imageOptions){
