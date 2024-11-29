@@ -68,8 +68,8 @@ export class TempratureDataComponent {
     ).subscribe(result =>{
       result.forEach(e => {
         this.resultEntries.push(e);
-        this.dataSource = new MatTableDataSource<TemperatureDataEntry>(this.resultEntries);
-      })
+      });
+      this.dataSource = new MatTableDataSource<TemperatureDataEntry>(this.resultEntries);
     });
   }
 }

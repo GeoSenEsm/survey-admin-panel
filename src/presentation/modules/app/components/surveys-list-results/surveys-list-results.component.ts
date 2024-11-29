@@ -60,8 +60,8 @@ export class SurveysListResultsComponent implements AfterViewInit{
     ).subscribe(result =>{
       result.forEach(e => {
         this.resultEntries.push(e);
-        this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
-      })
+      });
+      this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
     });
   }
 
