@@ -39,14 +39,40 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
         return this.get('/api/surveys', { surveyId: id });
     }
 
-    update(dto: CreateSurveyDto, images: File[], id: string): Observable<any> {
+    update(dto: CreateSurveyDto, images: (File | string)[], id: string): Observable<any> {
         const formData = new FormData();
         formData.append('json', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
-        console.log(dto);
-        images.forEach(image => {
-          formData.append('files', image, image.name);
+    
+        const uploadTasks: Promise<void>[] = images.map(image => {
+            if (typeof image === 'string') {
+                return fetch(image)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch image from URL: ${image}`);
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const fileName = image.split('/').pop() || 'image';
+                        formData.append('files', blob, fileName);
+                    });
+            } else {
+                formData.append('files', image, image.name);
+                return Promise.resolve();
+            }
         });
-        return this.put(`/api/surveys/${id}`, formData);
+    
+        return new Observable(observer => {
+            Promise.all(uploadTasks)
+                .then(() => {
+                    this.put(`/api/surveys/${id}`, formData).subscribe({
+                        next: result => observer.next(result),
+                        error: err => observer.error(err),
+                        complete: () => observer.complete()
+                    });
+                })
+                .catch(err => observer.error(err));
+        });
     }
 
     publish(id: string): Observable<any> {

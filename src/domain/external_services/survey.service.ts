@@ -10,7 +10,7 @@ export interface SurveyService{
     getAllShort(): Observable<SurveyDto[]>;
     getAllSummaryShort(): Observable<SurveySummaryShortDto[]>;
     getSurveyById(id: string): Observable<SurveyDetailsDto>;
-    update(dto: CreateSurveyDto, images: File[], id: string): Observable<any>;
+    update(dto: CreateSurveyDto, images: (File | string)[], id: string): Observable<any>;
     publish(id: string): Observable<any>;
     deleteSurvey(id: string): Observable<any>;
 }
