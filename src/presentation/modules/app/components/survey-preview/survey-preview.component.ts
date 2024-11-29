@@ -42,7 +42,7 @@ export class SurveyPreviewComponent implements OnChanges{
     }
   }
 
-  private reloadSurvey(): void {
+  reloadSurvey(): void {
     this.isLoadingSurvey = true;
     this.loadingSurveyStatusCode = -1;
     this.editMode = false;

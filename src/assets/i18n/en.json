@@ -193,7 +193,8 @@
     "publishInformationText": "Are you sure you want to publish the survey? You will no longer be able to edit it.",
     "publishConfirmationInput": "publish",
     "deleteInformationText": "Are you sure you want to delete the survey? This action cannot be undone.",
-    "deleteConfirmationInput": "delete"
+    "deleteConfirmationInput": "delete",
+    "undoChanges": "Undo changes"
   },
   "summary": {
     "surveySummary": {

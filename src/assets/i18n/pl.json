@@ -193,7 +193,8 @@
     "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",
     "publishConfirmationInput": "opublikuj",
     "deleteInformationText": "Czy na pewno chcesz usunąć ankietę? Nie będziesz mógł cofnąć tej operacji.",
-    "deleteConfirmationInput": "usuń"
+    "deleteConfirmationInput": "usuń",
+    "undoChanges": "Cofnij zmiany"
   },
   "summary": {
     "surveySummary": {
