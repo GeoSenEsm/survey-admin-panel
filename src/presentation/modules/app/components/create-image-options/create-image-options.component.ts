@@ -1,4 +1,4 @@
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { ImageOption } from '../../../../../core/models/image_option';
 import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
@@ -11,10 +11,14 @@ export class CreateImageOptionsComponent {
   @Input()
   imageOptions: ImageOption[] | undefined;
   @ViewChildren(ImageUploadComponent) optionComponents!: QueryList<ImageUploadComponent>;
+  @Input()
+  isReadOnly: boolean = false
+  @Output() changed = new EventEmitter<void>()
 
   addImageOption() {
     if (this.imageOptions){
       this.imageOptions.push({});
+      this.changed.emit();
     }
   }
 

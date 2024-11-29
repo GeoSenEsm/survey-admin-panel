@@ -4,7 +4,8 @@
             {{ 'startSurvey.optionContent' | translate }}
         </mat-label>
         <input matInput [(ngModel)]="option.content" [readonly]="isReadOnly"
-               [maxlength]="maxLen" (blur)="validateOption()" [errorStateMatcher]="optionErrorStateMatcher"/>
+               [maxlength]="maxLen" (blur)="validateOption()" [errorStateMatcher]="optionErrorStateMatcher"
+               (change)="changed.emit()"/>
         <mat-error *ngIf="optionError != null">{{ optionError }}</mat-error>
     </mat-form-field>
     <button mat-icon-button color="primary" *ngIf="!isReadOnly" (click)="up()"

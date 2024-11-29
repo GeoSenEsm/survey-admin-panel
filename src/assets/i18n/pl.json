@@ -1,300 +1,320 @@
 {
-    "componentless": {
-        "male": "mężczyzna",
-        "female": "kobieta"
+  "componentless": {
+    "male": "mężczyzna",
+    "female": "kobieta"
+  },
+  "app": {
+    "login": {
+      "username": "Nazwa użytkownika",
+      "usernameRequiredError": "Nazwa użytkownika jest wymagana.",
+      "usernameMaxLenError": "Nazwa użytkownika nie może być dłuższa niż {{maxLen}} znaków.",
+      "password": "Hasło",
+      "passwordError": "Hasło jest wymagane i nie może być dłuższe niż {{maxLen}} znaków",
+      "login": "Zaloguj się",
+      "somethingWentWrong": "Cos poszło nie tak",
+      "ok": "OK",
+      "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
+      "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
+      "passwordRequiredError": "Hasło jest wymagane.",
+      "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
+      "welcome": "Witamy w panelu administracyjnym UrbEat!",
+      "loginToContinue": "Zaloguj się, aby kontynuować"
     },
-    "app": {
-        "login":{
-            "username": "Nazwa użytkownika",
-            "usernameRequiredError": "Nazwa użytkownika jest wymagana.",
-            "usernameMaxLenError": "Nazwa użytkownika nie może być dłuższa niż {{maxLen}} znaków.",
-            "password": "Hasło",
-            "passwordError": "Hasło jest wymagane i nie może być dłuższe niż {{maxLen}} znaków",
-            "login": "Zaloguj się",
-            "somethingWentWrong": "Cos poszło nie tak",
-            "ok": "OK",
-            "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
-            "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
-            "passwordRequiredError": "Hasło jest wymagane.",
-            "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
-            "welcome": "Witamy w panelu administracyjnym UrbEat!",
-            "loginToContinue": "Zaloguj się, aby kontynuować"
-        },
-        "dashboard": {
-            "respondents": "Respondenci",
-            "surveys": "Ankiety",
-            "creatingSurveys": "Tworzenie ankiet",
-            "results": "Wyniki",
-            "logout": "Wyloguj się",
-            "startSurvey": "Ankieta początkowa",
-            "temepratureSensors": "Czujniki temperatury",
-            "map": "Mapa",
-            "configuration": "Konfiguracja"
-        }
+    "dashboard": {
+      "respondents": "Respondenci",
+      "surveys": "Ankiety",
+      "creatingSurveys": "Tworzenie ankiet",
+      "results": "Wyniki",
+      "logout": "Wyloguj się",
+      "startSurvey": "Ankieta początkowa",
+      "temepratureSensors": "Czujniki temperatury",
+      "map": "Mapa",
+      "configuration": "Konfiguracja"
+    }
+  },
+  "respondents": {
+    "addRespondents": {
+      "quantity": "Ilość",
+      "validationError": "Wartość musi być między 1 a 400",
+      "create": "Utwórz",
+      "copyToClipboard": "Skopiuj do schowka"
     },
-    "respondents":{
-        "addRespondents":{
-            "quantity": "Ilość",
-            "validationError": "Wartość musi być między 1 a 400",
-            "create": "Utwórz",
-            "copyToClipboard": "Skopiuj do schowka"
-        },
-        "respondents": {
-            "createRespondentsAccounts": "Utwórz konta dla respondentów",
-            "usernameColumnHeader": "Nazwa użytkownika",
-            "refresh": "Odśwież",
-            "nothingToDisplay": "Brak respondentów do wyswietlenia",
-            "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
-            "export": "Exportuj",
-            "gridExportFilename": "respondenci.csv",
-            "edit": "Edytuj"
-        },
-        "edit": {
-            "title": "Edycja danych respondenta",
-            "username": "Nazwa użytkownika",
-            "id": "ID",
-            "cancel": "Anuluj",
-            "save": "Zapisz",
-            "emptyValidationError": "Pole jest wymagane",
-            "ok": "OK",
-            "somethingWentWrong":"Coś poszło nie tak"
-        },
-        "filters": {
-            "showRespondentsWho": "Pokazuj respondentów, którzy",
-            "hasNotSentAtLeastNumberOfSurveys": "Nie wypełnili przynajmniej tylu ankiet",
-            "hasNotSentAtLeastNumberOfLocationData": "Nie wysłali przynajmniej tylu danych lokalizacyjnych",
-            "hasNotSentAtLeastNumberOfSensorsData": "Nie wysłali przynajmniej tylu danych z czujników",
-            "amount": "Ilość",
-            "dateFrom": "Data od",
-            "dateTo": "Data do",
-            "timeFrom": "Godzina od",
-            "timeTo": "Godzina do",
-            "none": "Brak"
-        }
+    "respondents": {
+      "createRespondentsAccounts": "Utwórz konta dla respondentów",
+      "usernameColumnHeader": "Nazwa użytkownika",
+      "refresh": "Odśwież",
+      "nothingToDisplay": "Brak respondentów do wyswietlenia",
+      "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
+      "export": "Exportuj",
+      "gridExportFilename": "respondenci.csv",
+      "edit": "Edytuj"
+    },
+    "edit": {
+      "title": "Edycja danych respondenta",
+      "username": "Nazwa użytkownika",
+      "id": "ID",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "emptyValidationError": "Pole jest wymagane",
+      "ok": "OK",
+      "somethingWentWrong": "Coś poszło nie tak"
+    },
+    "filters": {
+      "showRespondentsWho": "Pokazuj respondentów, którzy",
+      "hasNotSentAtLeastNumberOfSurveys": "Nie wypełnili przynajmniej tylu ankiet",
+      "hasNotSentAtLeastNumberOfLocationData": "Nie wysłali przynajmniej tylu danych lokalizacyjnych",
+      "hasNotSentAtLeastNumberOfSensorsData": "Nie wysłali przynajmniej tylu danych z czujników",
+      "amount": "Ilość",
+      "dateFrom": "Data od",
+      "dateTo": "Data do",
+      "timeFrom": "Godzina od",
+      "timeTo": "Godzina do",
+      "none": "Brak"
+    }
+  },
+  "createSurvey": {
+    "createNumberRange": {
+      "labelOptional": "Etykieta (opcjonalna)"
+    },
+    "createImageOptions": {
+      "image": "Obraz",
+      "dragAndDropHere": "Przeciągnij obraz tutaj",
+      "fileBrowser": "Eksplorator",
+      "code": "Etykieta",
+      "codeTooltip": "Etykieta obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
+      "addImage": "Dodaj obraz",
+      "codeRequiredError": "Etykieta obrazka jest wymagany.",
+      "codeDuplicateError": "Etykieta obrazka musi być unikalny.",
+      "imageRequiredError": "Obraz jest wymagany."
+    },
+    "createQuestion": {
+      "required": "Wymagane",
+      "singleChoice": "Jednokrotny wybór",
+      "linearScale": "Skala liniowa",
+      "yesNo": "Tak/Nie",
+      "multipleChoice": "Wielokrotny wybór",
+      "contentNotEmptyError": "Pole nie może być puste",
+      "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
+      "number": "Liczba",
+      "image": "Obraz"
+    },
+    "createSection": {
+      "section": "Sekcja",
+      "visibility": "Widoczność",
+      "group": "Grupa",
+      "addFirstQuestion": "Dodaj pierwsze pytanie",
+      "addQuestion": "Dodaj pytanie",
+      "addSection": "Dodaj sekcję",
+      "always": "Zawsze",
+      "groupSpecific": "Grupowa",
+      "answerTriggered": "Po zaznaczeniu właściwej odpowiedzi",
+      "defaultQuestion": "Pytanie",
+      "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
+      "questionsNumError": "Sekcja musi zawierać pytanie",
+      "displayOnOneScreen": "Wyświetl na jednej stronie",
+      "displayOnOneScreenTooltip": "Jeśli zaznaczone, wszystkie pytania z tej sekcji zostaną wyświetlone na jednej stronie w aplikacji."
     },
     "createSurvey": {
-        "createNumberRange": {
-            "labelOptional": "Etykieta (opcjonalna)"
-        },
-        "createImageOptions": {
-            "image": "Obraz",
-            "dragAndDropHere": "Przeciągnij obraz tutaj",
-            "fileBrowser": "Eksplorator",
-            "code": "Etykieta",
-            "codeTooltip": "Etykieta obrazka jest konieczny, aby móc eksportować wyniki ankiet. Nie będzie wyświetlany respondentom.",
-            "addImage": "Dodaj obraz",
-            "codeRequiredError": "Etykieta obrazka jest wymagany.",
-            "codeDuplicateError": "Etykieta obrazka musi być unikalny.",
-            "imageRequiredError": "Obraz jest wymagany."
-        },
-        "createQuestion": {
-            "required": "Wymagane",
-            "singleChoice": "Jednokrotny wybór",
-            "linearScale": "Skala liniowa",
-            "yesNo": "Tak/Nie",
-            "multipleChoice": "Wielokrotny wybór",
-            "contentNotEmptyError": "Pole nie może być puste",
-            "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
-            "number": "Liczba",
-            "image": "Obraz"
-        },
-        "createSection":{
-            "section": "Sekcja",
-            "visibility": "Widoczność",
-            "group": "Grupa",
-            "addFirstQuestion": "Dodaj pierwsze pytanie",
-            "addQuestion": "Dodaj pytanie",
-            "addSection": "Dodaj sekcję",
-            "always": "Zawsze",
-            "groupSpecific": "Grupowa",
-            "answerTriggered": "Po zaznaczeniu właściwej odpowiedzi",
-            "defaultQuestion": "Pytanie",
-            "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
-            "questionsNumError": "Sekcja musi zawierać pytanie",
-            "displayOnOneScreen": "Wyświetl na jednej stronie",
-            "displayOnOneScreenTooltip": "Jeśli zaznaczone, wszystkie pytania z tej sekcji zostaną wyświetlone na jednej stronie w aplikacji."
-        },
-        "createSurvey":{
-            "addSection": "Dodaj sekcję",
-            "save": "Zapisz",
-            "defaultSurveyName": "Ankieta bez nazwy",
-            "nameNotEmptyError": "Pole nie może być puste",
-            "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
-            "sectionsNumError": "Ankieta musi zawierać co najmniej jedną sekcję",
-            "defaultSectionName": "Sekcja bez nazwy",
-            "defaultQuestionContent": "Pytanie",
-            "somethingWentWrong": "Cos poszło nie tak",
-            "ok": "OK",
-            "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę"
-        },
-        "createTextSelectionOptions":{
-            "showSection": "Pokaż sekcję",
-            "none": "Brak",
-            "addOption": "Dodaj opcję",
-            "questionMustContainOptions": "Pytanie musi zawierać opcje",
-            "optionsMustBeUnique": "Wszystkie opcje musza być unikalne"
-        },
-        "option":{
-            "notEmptyError": "Opcja nie może być pusta",
-            "lenError": "Opcja nie może być dłuzsza niż {{maxLen}} znaków"
-        }
+      "addSection": "Dodaj sekcję",
+      "save": "Zapisz",
+      "defaultSurveyName": "Ankieta bez nazwy",
+      "nameNotEmptyError": "Pole nie może być puste",
+      "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
+      "sectionsNumError": "Ankieta musi zawierać co najmniej jedną sekcję",
+      "defaultSectionName": "Sekcja bez nazwy",
+      "defaultQuestionContent": "Pytanie",
+      "somethingWentWrong": "Cos poszło nie tak",
+      "ok": "OK",
+      "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę"
     },
-    "surveyDetails":{
-        "createSurveySendingPolicy": {
-            "createSurveySendingPolicy": "Utwórz politykę wysyłania ankiety",
-            "atLeastOneDateError": "Wybierz co najmniej jedną datę",
-            "create": "Dodaj",
-            "somethingWentWrong": "Cos poszło nie tak",
-            "ok": "OK",
-            "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety",
-            "dates": "Daty",
-            "timeRangesDescription": "Dodaj przedziały godzin, w których dostępna będzie ankieta. Utworzone przedziały będą zastosowane do wszystkich wybranych dni.",
-            "hourFrom": "Godzina od",
-            "hourTo": "Godzina do",
-            "timesOverlapping": "Przedziały czasu nie mogą nachodzić na siebie.",
-            "overlapWithExisting": "Przedziały czasu nachodzą na któreś z już istniejących."
-        },
-        "surveyDetails": {
-            "sendingPolicy": "Polityka wysyłania",
-            "preview": "Podgląd"
-        },
-        "surveySendingPolicy": {
-            "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
-            "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
-            "ok": "OK",
-            "completingSurvey": "{{ from }} - {{ to }}",
-            "deleteMode": "Edytuj polityki wysyłania",
-            "delete": "Usuń",
-            "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
-            "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
-            "deletingConfirmationInput": "usuń",
-            "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety"
-        },
-        "surveyTile": {
-            "surveyDetails": "Szczegóły ankiety"
-        },
-        "surveys": {
-            "addSurvey": "Dodaj ankietę"
-        },
-        "surveysList": {
-            "couldNotLoadSurveys": "Nie udało się załadować ankiet",
-            "ok": "OK"
-        }
+    "createTextSelectionOptions": {
+      "showSection": "Pokaż sekcję",
+      "none": "Brak",
+      "addOption": "Dodaj opcję",
+      "questionMustContainOptions": "Pytanie musi zawierać opcje",
+      "optionsMustBeUnique": "Wszystkie opcje musza być unikalne"
     },
-    "summary": {
-        "surveySummary": {
-            "couldNotLoadData": "Nie udało się załadować danych",
-            "ok": "OK",
-            "gridExportFilename": "dane.csv" 
-        },
-        "surveySummaryTile": {
-            "completitionDate": "Data wypełnienia ankiety",
-            "showSummary": "Zobacz podumowanie"
-        },
-        "resultsFilters": {
-            "survey": "Ankieta",
-            "dateFrom": "Data od",
-            "timeFrom": "Godzina od",
-            "dateTo": "Data do",
-            "timeTo": "Godzina do",
-            "load": "Załaduj",
-            "export": "Exportuj"
-        },
-        "resultsGrid": {
-            "surveyName": "Nazwa ankiety",
-            "question": "Pytanie",
-            "responseDate": "Data udzielenia odpowiedzi",
-            "answers": "Udzielone odpowiedzi",
-            "respondentId": "ID respondenta",
-            "nothingToDisplay":"Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
-            "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
-        }
-    },
-    "startSurvey":{
-        "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po pierwszym zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz pogrupować respondentów. Dzięki temu, w późniejszych ankietach, możesz zadawać pytania tylko dla konkretnych grup respondentów. Np., możesz zebrać informacje o płci, a później tworzyć pytania tylko dla kobiet/mężczyzn. ",
-        "question": "Pytanie",
-        "options": "Opcje:",
-        "optionContent": "Treść opcji",
-        "questions": "Pytania",
-        "addOption": "Dodaj opcję",
-        "addQuestion": "Dodaj pytanie",
-        "saveNewQuestions": "Zapisz nowe pytania",
-        "deleteQuestion": "Usuń pytanie",
-        "saveInformationText": "Jeśli w systemie są już dodani respondenci, nie zostaną automatycznie przypisani do odpowiednich grup. Będzie trzeba zrobić to ręcznie.",
-        "saveConfirmationInput": "zapisz",
-        "questionCannotBeEmpty": "Pytanie nie może być puste",
-        "questionAlreadyExists": "Pytania nie mogą sie powtarzać",
-        "optionCannotBeEmpty": "Opcja nie może być pusta",
-        "optionAlreadyExists": "Opcje nie mogą sie powtarzać",
-        "thereAreValidationErrors": "Wystąpiły błędy walidacji.",
-        "ok": "Ok",
-        "couldNotLoadStartSurvey": "Nie udało się załadować ankiety początkowej. Sproboj ponownie później.",
-        "thereAreNoQuestions": "Ankieta początkowa nie zawiera żadnych pytań. Jeśli chcesz, możesz dodać pytania.",
-        "refresh": "Odśwież",
-        "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później.",
-        "savedSuccesfully": "Zapisano pomyślnie"
-    },
-    "shared": {
-        "typeToConfirmDialog": {
-            "warningHeader": "Uwaga!",
-            "typeToConfirm": "Wpisz \"{{input}}\", aby potwierdzić",
-            "confirm": "Potwierdź",
-            "cancel": "Anuluj"
-        }
-    },
-    "temperature":{
-        "description": "W tym widoku dostępne są dane z czujników temperatur. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
-        "dateFrom":"Data od",
-        "timeFrom":"Godzina od",
-        "dateTo":"Data do",
-        "timeTo":"Godzina do",
-        "load": "Załaduj",
-        "export": "Eksportuj",
-        "gridExportFilename": "temperatury.csv",
-        "respondentId": "ID respondenta",
-        "dateTime": "Data i czas",
-        "temperature": "Temperatura (°C)",
-        "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
-        "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
-        "humidity": "Wilgotność (%)"
-    },
-    "map": {
-        "survey": "Ankieta",
-        "respondent": "Respondent",
-        "dateFrom":"Data od",
-        "timeFrom":"Godzina od",
-        "dateTo":"Data do",
-        "timeTo":"Godzina do",
-        "onlyOutsideResearchArea": "Tylko poza obszarem badania",
-        "load": "Załaduj",
-        "export": "Eksportuj",
-        "none": "Brak",
-        "longitude": "Długość geograficzna: {{longitude}}",
-        "latitude": "Szerokość geograficzna: {{latitude}}",
-        "dateTime": "Data i czas: {{dateTime}}",
-        "tooltipRespondent": "Respondent: {{respondent}}",
-        "tooltipSurvey": "Ankieta: {{survey}}",
-        "measurmentOutsideResearchArea": "Poza obszarem badania",
-        "csvExportFilename": "lokalizacje.csv",
-        "noData": "Brak danych, spróbuj zmienić filtry",
-        "somethingWentWrong":"Cos poszło nie tak. Spróbuj ponownie później.",
-        "ok": "OK"
-    },
-    "configuration": {
-        "researchArea": {
-            "title": "Obszar badania",
-            "description": "W tym miejscu możesz zdefiniować obszar przeprowadzanego badania. Pozwoli to automatycznie flagować lokalizację respondentów jako 'poza obszarem badania', oraz odpowiedzi w aniketach, jako udzielone poza obszarem badania",
-            "readFromFile": "Wczytaj z pliku",
-            "save": "Zapisz",
-            "resetChanges": "Wycofaj zmiany",
-            "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później.",
-            "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
-            "delete": "Usuń",
-            "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
-            "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
-            "refresh": "Odśwież"
-        },
-        "ok": "OK",
-        "somethingWentWrong":"Coś poszło nie tak"
+    "option": {
+      "notEmptyError": "Opcja nie może być pusta",
+      "lenError": "Opcja nie może być dłuzsza niż {{maxLen}} znaków"
     }
+  },
+  "surveyDetails": {
+    "createSurveySendingPolicy": {
+      "createSurveySendingPolicy": "Utwórz politykę wysyłania ankiety",
+      "atLeastOneDateError": "Wybierz co najmniej jedną datę",
+      "create": "Dodaj",
+      "somethingWentWrong": "Cos poszło nie tak",
+      "ok": "OK",
+      "createdSurveySendingPolicy": "Dodano politykę wysyłania ankiety",
+      "dates": "Daty",
+      "timeRangesDescription": "Dodaj przedziały godzin, w których dostępna będzie ankieta. Utworzone przedziały będą zastosowane do wszystkich wybranych dni.",
+      "hourFrom": "Godzina od",
+      "hourTo": "Godzina do",
+      "timesOverlapping": "Przedziały czasu nie mogą nachodzić na siebie.",
+      "overlapWithExisting": "Przedziały czasu nachodzą na któreś z już istniejących."
+    },
+    "surveyDetails": {
+      "sendingPolicy": "Polityka wysyłania",
+      "preview": "Podgląd"
+    },
+    "surveySendingPolicy": {
+      "craeteNewSendingPolicy": "Dodaj nową politykę wysyłania",
+      "couldNotLoadSendingPolicies": "Nie udało się załadować polityki wysyłania ankiety",
+      "ok": "OK",
+      "completingSurvey": "{{ from }} - {{ to }}",
+      "deleteMode": "Edytuj polityki wysyłania",
+      "delete": "Usuń",
+      "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
+      "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
+      "deletingConfirmationInput": "usuń",
+      "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety"
+    },
+    "surveyTile": {
+      "surveyDetails": "Szczegóły ankiety"
+    },
+    "surveys": {
+      "addSurvey": "Dodaj ankietę"
+    },
+    "surveysList": {
+      "couldNotLoadSurveys": "Nie udało się załadować ankiet",
+      "ok": "OK"
+    },
+    "editMode": "Tryb edycji",
+    "surveyNotPublished": "Ankieta nie została jeszcze opublikowana",
+    "surveyPublished": "Ankieta została opublikowana",
+    "publish": "Opublikuj",
+    "delete": "Usuń",
+    "successfullyDeletedSurvey": "Pomyślnie usunięto ankietę",
+    "errorOnDeletingSurvey": "Wystąpił błąd podczas usuwania ankiety.",
+    "errorOnPublishingSurvey": "Wystąpił błąd podczas publikowania ankiety.",
+    "ok": "OK",
+    "successfullyPublishedSurvey": "Pomyślnie opublikowano ankietę.",
+    "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",
+    "publishConfirmationInput": "opublikuj",
+    "deleteInformationText": "Czy na pewno chcesz usunąć ankietę? Nie będziesz mógł cofnąć tej operacji.",
+    "deleteConfirmationInput": "usuń",
+    "undoChanges": "Cofnij zmiany"
+  },
+  "summary": {
+    "surveySummary": {
+      "couldNotLoadData": "Nie udało się załadować danych",
+      "ok": "OK",
+      "gridExportFilename": "dane.csv"
+    },
+    "surveySummaryTile": {
+      "completitionDate": "Data wypełnienia ankiety",
+      "showSummary": "Zobacz podumowanie"
+    },
+    "resultsFilters": {
+      "survey": "Ankieta",
+      "dateFrom": "Data od",
+      "timeFrom": "Godzina od",
+      "dateTo": "Data do",
+      "timeTo": "Godzina do",
+      "load": "Załaduj",
+      "export": "Exportuj"
+    },
+    "resultsGrid": {
+      "surveyName": "Nazwa ankiety",
+      "question": "Pytanie",
+      "responseDate": "Data udzielenia odpowiedzi",
+      "answers": "Udzielone odpowiedzi",
+      "respondentId": "ID respondenta",
+      "nothingToDisplay": "Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
+      "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
+    }
+  },
+  "startSurvey": {
+    "description": "Ankieta początkowa jest szczególnym rodzajem ankiety. Jest ona wyświetlana respondentom raz, od razu po pierwszym zalogowaniu do aplikacji. Zawiera ona wyłącznie pytania wielokrotnego wyboru, dzięki którym możesz pogrupować respondentów. Dzięki temu, w późniejszych ankietach, możesz zadawać pytania tylko dla konkretnych grup respondentów. Np., możesz zebrać informacje o płci, a później tworzyć pytania tylko dla kobiet/mężczyzn. ",
+    "question": "Pytanie",
+    "options": "Opcje:",
+    "optionContent": "Treść opcji",
+    "questions": "Pytania",
+    "addOption": "Dodaj opcję",
+    "addQuestion": "Dodaj pytanie",
+    "saveNewQuestions": "Zapisz nowe pytania",
+    "deleteQuestion": "Usuń pytanie",
+    "saveInformationText": "Jeśli w systemie są już dodani respondenci, nie zostaną automatycznie przypisani do odpowiednich grup. Będzie trzeba zrobić to ręcznie.",
+    "saveConfirmationInput": "zapisz",
+    "questionCannotBeEmpty": "Pytanie nie może być puste",
+    "questionAlreadyExists": "Pytania nie mogą sie powtarzać",
+    "optionCannotBeEmpty": "Opcja nie może być pusta",
+    "optionAlreadyExists": "Opcje nie mogą sie powtarzać",
+    "thereAreValidationErrors": "Wystąpiły błędy walidacji.",
+    "ok": "Ok",
+    "couldNotLoadStartSurvey": "Nie udało się załadować ankiety początkowej. Sproboj ponownie później.",
+    "thereAreNoQuestions": "Ankieta początkowa nie zawiera żadnych pytań. Jeśli chcesz, możesz dodać pytania.",
+    "refresh": "Odśwież",
+    "addingQuestionsFailed": "Nie udało sie dodać pytań. Sproboj ponownie później.",
+    "savedSuccesfully": "Zapisano pomyślnie",
+    "publishingFailed": "Nie udało się opublikować ankiety. Sproboj ponownie później.",
+    "publishedSuccesfully": "Opublikowano pomyślnie.",
+    "publish": "Opublikuj",
+    "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",
+    "publishConfirmationInput": "opublikuj"
+  },
+  "shared": {
+    "typeToConfirmDialog": {
+      "warningHeader": "Uwaga!",
+      "typeToConfirm": "Wpisz \"{{input}}\", aby potwierdzić",
+      "confirm": "Potwierdź",
+      "cancel": "Anuluj"
+    }
+  },
+  "temperature": {
+    "description": "W tym widoku dostępne są dane z czujników temperatur. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
+    "dateFrom": "Data od",
+    "timeFrom": "Godzina od",
+    "dateTo": "Data do",
+    "timeTo": "Godzina do",
+    "load": "Załaduj",
+    "export": "Eksportuj",
+    "gridExportFilename": "temperatury.csv",
+    "respondentId": "ID respondenta",
+    "dateTime": "Data i czas",
+    "temperature": "Temperatura (°C)",
+    "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
+    "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
+    "humidity": "Wilgotność (%)"
+  },
+  "map": {
+    "survey": "Ankieta",
+    "respondent": "Respondent",
+    "dateFrom": "Data od",
+    "timeFrom": "Godzina od",
+    "dateTo": "Data do",
+    "timeTo": "Godzina do",
+    "onlyOutsideResearchArea": "Tylko poza obszarem badania",
+    "load": "Załaduj",
+    "export": "Eksportuj",
+    "none": "Brak",
+    "longitude": "Długość geograficzna: {{longitude}}",
+    "latitude": "Szerokość geograficzna: {{latitude}}",
+    "dateTime": "Data i czas: {{dateTime}}",
+    "tooltipRespondent": "Respondent: {{respondent}}",
+    "tooltipSurvey": "Ankieta: {{survey}}",
+    "measurmentOutsideResearchArea": "Poza obszarem badania",
+    "csvExportFilename": "lokalizacje.csv",
+    "noData": "Brak danych, spróbuj zmienić filtry",
+    "somethingWentWrong": "Cos poszło nie tak. Spróbuj ponownie później.",
+    "ok": "OK"
+  },
+  "configuration": {
+    "researchArea": {
+      "title": "Obszar badania",
+      "description": "W tym miejscu możesz zdefiniować obszar przeprowadzanego badania. Pozwoli to automatycznie flagować lokalizację respondentów jako 'poza obszarem badania', oraz odpowiedzi w aniketach, jako udzielone poza obszarem badania",
+      "readFromFile": "Wczytaj z pliku",
+      "save": "Zapisz",
+      "resetChanges": "Wycofaj zmiany",
+      "errorOnSavingChanges": "Wystąpił bład podczas zapisywania zmian. Sproboj ponownie później.",
+      "errorOnDeleting": "Występpił bład podczas usuwania. Spróbuj ponownie później.",
+      "delete": "Usuń",
+      "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
+      "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
+      "refresh": "Odśwież"
+    },
+    "ok": "OK",
+    "somethingWentWrong": "Coś poszło nie tak"
+  }
 }

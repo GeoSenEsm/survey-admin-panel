@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NumberRangeModel } from '../../../../../core/models/number.range.model';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,8 @@ export class CreateNumberRangeComponent {
   model!: NumberRangeModel;
   @Input()
   isReadOnly: boolean = false;
-
+  @Output()
+  changed = new EventEmitter<void>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
 

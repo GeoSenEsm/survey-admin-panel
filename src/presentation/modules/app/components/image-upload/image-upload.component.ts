@@ -18,6 +18,9 @@ export class ImageUploadComponent {
   imageError: string | null = null;
   codeErrorStateMatcher = new FormlessErrorStateMatcher(() => this.codeError);
   imageErrorStateMatcher = new FormlessErrorStateMatcher(() => this.imageError);
+  @Input()
+  isReadOnly: boolean = false;
+  @Output() changed = new EventEmitter<void>();
 
   constructor() { }
 
@@ -35,6 +38,7 @@ export class ImageUploadComponent {
         }
       });
       reader.readAsDataURL(file);
+      this.changed.emit();
     }
   }
 
@@ -42,6 +46,7 @@ export class ImageUploadComponent {
     if (this.imageOption){
       this.imageOption.file = undefined;
       this.imageOption.src = undefined;
+      this.changed.emit();
     }
   }
 
@@ -96,6 +101,7 @@ export class ImageUploadComponent {
   remove(): void{
     if (this.allImageOptions && this.imageOption){
       this.allImageOptions.splice(this.allImageOptions.indexOf(this.imageOption), 1);
+      this.changed.emit();
     }
   }
 }

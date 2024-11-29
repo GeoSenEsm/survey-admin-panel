@@ -15,3 +15,5 @@ export interface StartSurveyResponse{
     questionId: string,
     optionId: string
 }
+
+export type InitialSurveyState = 'not_created' | 'craeted' | 'published'

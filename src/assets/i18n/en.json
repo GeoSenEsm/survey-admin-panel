@@ -179,7 +179,22 @@
     "surveysList": {
       "couldNotLoadSurveys": "Could not load surveys",
       "ok": "OK"
-    }
+    },
+    "editMode": "Edit Mode",
+    "surveyNotPublished": "The survey has not been published yet",
+    "surveyPublished": "The survey has been published",
+    "publish": "Publish",
+    "delete": "Delete",
+    "successfullyDeletedSurvey": "The survey was successfully deleted",
+    "errorOnDeletingSurvey": "An error occurred while deleting the survey.",
+    "errorOnPublishingSurvey": "An error occurred while publishing the survey.",
+    "ok": "OK",
+    "successfullyPublishedSurvey": "The survey was successfully published.",
+    "publishInformationText": "Are you sure you want to publish the survey? You will no longer be able to edit it.",
+    "publishConfirmationInput": "publish",
+    "deleteInformationText": "Are you sure you want to delete the survey? This action cannot be undone.",
+    "deleteConfirmationInput": "delete",
+    "undoChanges": "Undo changes"
   },
   "summary": {
     "surveySummary": {
@@ -232,7 +247,12 @@
     "thereAreNoQuestions": "The initial survey does not contain any questions. You can add some if you wish.",
     "refresh": "Refresh",
     "addingQuestionsFailed": "Adding questions failed. Please try again later.",
-    "savedSuccesfully": "Saved successfully"
+    "savedSuccesfully": "Saved successfully",
+    "publishingFailed": "Failed to publish the survey. Please try again later.",
+    "publishedSuccesfully": "Published successfully.",
+    "publish": "Publish",
+    "publishInformationText": "Are you sure you want to publish the survey? You will not be able to edit it afterward.",
+    "publishConfirmationInput": "publish"
   },
   "shared": {
     "typeToConfirmDialog": {

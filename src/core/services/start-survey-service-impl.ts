@@ -1,6 +1,6 @@
 import { delay, Observable, of } from "rxjs";
 import { StartSurveyService } from "../../domain/external_services/start-survey.service";
-import { StartSurveyQuestion, StartSurveyResponse } from "../models/start-survey-question";
+import { InitialSurveyState, StartSurveyQuestion, StartSurveyResponse } from "../models/start-survey-question";
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
@@ -24,5 +24,13 @@ implements StartSurveyService{
     }
     addStartSurveyQuestions(newQuestions: StartSurveyQuestion[]): Observable<any> {
         return this.post('/api/initialsurvey', newQuestions);
+    }
+
+    getState(): Observable<InitialSurveyState> {
+        return this.get('/api/initialsurvey/state');
+    }
+
+    publish(): Observable<any>{
+        return this.patch('/api/initialsurvey/publish');
     }
 }

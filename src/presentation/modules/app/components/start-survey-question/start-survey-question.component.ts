@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { StartSurveyOption, StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -19,24 +19,28 @@ export class StartSurveyQuestionComponent {
   questionError: string | null = null
   questionContentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.questionError);
   @ViewChildren(StartSurveyQuestionOptionComponent) optionComponents: QueryList<StartSurveyQuestionOptionComponent> | undefined;
+  @Output() changed: EventEmitter<void> = new EventEmitter();
 
   constructor(private readonly translate: TranslateService){}
 
   addOption(): void {
     if (this.question) {
       this.question.options.push({ order: this.question.options.length + 1, content: '' });
+      this.changed.emit();
     }
   }
 
   removeOption(option: StartSurveyOption){
     if (this.question) {
       this.question.options = this.question.options.filter(e => e !== option);
+      this.changed.emit();
     }
   }
 
   removeQusetion(): void{
     if (this.question) {
       this.removeQuestionCallback.emit(this.question);
+      this.changed.emit();  
     }
   }
 
@@ -86,6 +90,7 @@ export class StartSurveyQuestionComponent {
       const temp = this.allQuestions[index];
       this.allQuestions[index] = this.allQuestions[index + 1];
       this.allQuestions[index + 1] = temp;
+      this.changed.emit();
     }
   }
 
@@ -100,6 +105,7 @@ export class StartSurveyQuestionComponent {
       const temp = this.allQuestions[index];
       this.allQuestions[index] = this.allQuestions[index - 1];
       this.allQuestions[index - 1] = temp;
+      this.changed.emit();
     }
   }
 }

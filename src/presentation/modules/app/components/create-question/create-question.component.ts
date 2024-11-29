@@ -33,6 +33,7 @@ export class CreateQuestionComponent {
   contentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.contentError);
   @Input()
   isReadOnly: boolean = false;
+  @Output() changed = new EventEmitter<void>();
 
   allQuestionTypes = [
     QuestionType.SINGLE_CHOICE,

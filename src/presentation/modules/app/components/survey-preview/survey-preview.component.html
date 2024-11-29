@@ -1,1 +1,53 @@
-<app-create-survey *ngIf="model" [model]="model" [isReadOnly]="true"></app-create-survey>
+<div class="container">
+  <h4 *ngIf="detailsDto.state == 'published'"> 
+    {{ "surveyDetails.surveyPublished" | translate }}
+  </h4>
+  <div class="wrap-panel" *ngIf="detailsDto.state && detailsDto.state != 'published'">
+    <h4>
+      {{ "surveyDetails.surveyNotPublished" | translate }}
+    </h4>
+    <button
+      *ngIf="!editMode"
+      mat-stroked-button
+      color="primary"
+      (click)="toggleEditMode()"
+    >
+      <mat-icon> edit </mat-icon>
+      {{ "surveyDetails.editMode" | translate }}
+    </button>
+    <button
+      *ngIf="editMode"
+      mat-flat-button
+      color="primary"
+      (click)="toggleEditMode()"
+    >
+      <mat-icon> edit </mat-icon>
+      {{ "surveyDetails.editMode" | translate }}
+    </button>
+    <button
+      [disabled]="changesMade"
+      mat-flat-button
+      color="primary"
+      (click)="publishSurvey()"
+    >
+      <mat-icon> publish </mat-icon>
+      {{ "surveyDetails.publish" | translate }}
+    </button>
+    <button [disabled]="!changesMade" mat-stroked-button color="primary" (click)="reloadSurvey()">
+        <mat-icon> undo </mat-icon>
+        {{ "surveyDetails.undoChanges" | translate }}
+    </button>
+    <button mat-stroked-button color="warn" (click)="deleteSurvey()">
+      <mat-icon> delete </mat-icon>
+      {{ "surveyDetails.delete" | translate }}
+    </button>
+  </div>
+  <app-create-survey
+    *ngIf="model"
+    [model]="model"
+    [isReadOnly]="!editMode"
+    (changed)="setChangesMade()"
+    [mode]="'edit'"
+    [id]="surveyId"
+  />
+</div>

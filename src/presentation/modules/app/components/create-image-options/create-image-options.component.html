@@ -1,9 +1,22 @@
 <div *ngIf="imageOptions" class="container">
-    <app-image-upload *ngFor="let imageOption of imageOptions" [imageOption]="imageOption" [allImageOptions]="imageOptions"/>
-    <button mat-stroked-button color="primary" class="big-button"
-        (click)="addImageOption()">
-        <div class="button-content">
-          <span class="button-label">{{ 'createSurvey.createImageOptions.addImage' | translate}}</span>
-        </div>
-    </button>
+  <app-image-upload
+    *ngFor="let imageOption of imageOptions"
+    [imageOption]="imageOption"
+    [allImageOptions]="imageOptions"
+    [isReadOnly]="isReadOnly"
+    (selectionChange)="changed.emit()"
+  />
+  <button
+    mat-stroked-button
+    color="primary"
+    class="big-button"
+    (click)="addImageOption()"
+    [disabled]="isReadOnly"
+  >
+    <div class="button-content">
+      <span class="button-label">{{
+        "createSurvey.createImageOptions.addImage" | translate
+      }}</span>
+    </div>
+  </button>
 </div>
