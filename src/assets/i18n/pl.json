@@ -252,7 +252,8 @@
     "publishedSuccesfully": "Opublikowano pomyślnie.",
     "publish": "Opublikuj",
     "publishInformationText": "Czy na pewno chcesz opublikować ankietę? Nie będziesz mógł jej już potem edytować.",
-    "publishConfirmationInput": "opublikuj"
+    "publishConfirmationInput": "opublikuj",
+    "surveyAlreadyPublished": "Ankieta jest już opublikowana"
   },
   "shared": {
     "typeToConfirmDialog": {
