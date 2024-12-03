@@ -1,4 +1,4 @@
-import { delay, Observable, of } from "rxjs";
+import { delay, map, Observable, of } from "rxjs";
 import { StartSurveyService } from "../../domain/external_services/start-survey.service";
 import { InitialSurveyState, StartSurveyQuestion, StartSurveyResponse } from "../models/start-survey-question";
 import { ApiService } from "./api.service";
@@ -27,7 +27,12 @@ implements StartSurveyService{
     }
 
     getState(): Observable<InitialSurveyState> {
-        return this.get('/api/initialsurvey/state');
+        return this.get<any>('/api/initialsurvey/state')
+        .pipe(
+            map((res) => {
+                return res.text as InitialSurveyState
+            })
+        );
     }
 
     publish(): Observable<any>{

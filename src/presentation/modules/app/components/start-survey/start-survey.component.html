@@ -3,6 +3,9 @@
     <h3>
         {{ 'startSurvey.description' | translate }}
     </h3>
+    <h3 *ngIf="!editable()">
+        {{ 'startSurvey.surveyAlreadyPublished' | translate }}
+    </h3>
     <div class="spinner-container" *ngIf="isBusy">
         <mat-spinner/>
     </div>

@@ -252,7 +252,8 @@
     "publishedSuccesfully": "Published successfully.",
     "publish": "Publish",
     "publishInformationText": "Are you sure you want to publish the survey? You will not be able to edit it afterward.",
-    "publishConfirmationInput": "publish"
+    "publishConfirmationInput": "publish",
+    "surveyAlreadyPublished": "The survey has already been published."
   },
   "shared": {
     "typeToConfirmDialog": {
