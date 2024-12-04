@@ -76,7 +76,7 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
     }
 
     publish(id: string): Observable<any> {
-        return this.patch(`/api/surveys/publish`, { surveyId: id });
+        return this.patch(`/api/surveys/publish`, null, { surveyId: id });
     }
 
     deleteSurvey(id: string): Observable<any> {
