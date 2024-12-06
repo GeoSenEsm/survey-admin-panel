@@ -1,6 +1,6 @@
 import { forkJoin, map, Observable, of } from "rxjs";
 import { RespondentDataService } from "../../domain/external_services/respondent-data.servce";
-import { RespondentData } from "../../domain/models/respondent-data";
+import { RespondentData, RespondentFilters } from "../../domain/models/respondent-data";
 import { RespondentInfo, RespondentInfoCollections } from "../../domain/models/respondent-info";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
@@ -17,7 +17,7 @@ implements RespondentDataService{
     }
 
     getRespondentInfoCollections(): Observable<RespondentInfoCollections> {
-        return this.get<StartSurveyQuestion[]>('/api/startSurveyQuestions')
+        return this.get<StartSurveyQuestion[]>('/api/initialsurvey')
         .pipe(
             map(questions =>{
                 const result: RespondentInfoCollections = {};
@@ -35,7 +35,15 @@ implements RespondentDataService{
         );
     }
 
-    getRespondents(): Observable<RespondentData[]> {
+    getRespondents(filters: RespondentFilters | undefined): Observable<RespondentData[]> {
+        if (filters && filters.filterOption){
+            this.get('/api/respondents/all', {
+                'filterOption': filters.filterOption,
+                'amount': filters.amount,
+                'from': filters.from.toISOString(),
+                'to': filters.to.toISOString()
+            });
+        }
         return this.get('/api/respondents/all');
     }
     

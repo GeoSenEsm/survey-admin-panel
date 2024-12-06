@@ -23,8 +23,13 @@ export class DashboardComponent implements OnInit{
 
   navListItems: NavListItem[] = [
     {
+      display: 'app.dashboard.configuration',
+      matIcon: 'settings',
+      link: 'configuration'
+    },
+    {
       display: 'app.dashboard.startSurvey',
-      "matIcon": "list",
+      matIcon: "list",
       link: 'startSurvey'
     },
     {
@@ -46,6 +51,16 @@ export class DashboardComponent implements OnInit{
       display: 'app.dashboard.results',
       matIcon: 'bar_chart',
       link: 'summaries'
+    },
+    {
+      display: 'app.dashboard.temepratureSensors',
+      matIcon: 'device_thermostat',
+      link: 'temperature'
+    },
+    {
+      display: 'app.dashboard.map',
+      matIcon: 'map',
+      link: 'map'
     }
   ]
 

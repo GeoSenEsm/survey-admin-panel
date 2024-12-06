@@ -21,7 +21,12 @@ function isTokenAvailable(): boolean{
     }
 
     const tokenHandler = inject(TOKEN_HANDLER_TOKEN);
-    return !isTokenExpired(token, tokenHandler);
+    if(isTokenExpired(token, tokenHandler)){
+        storageService.remove('token');
+        return false;
+    }
+
+    return true;
 }
 
 function navigateTo(route: string): Promise<boolean> {

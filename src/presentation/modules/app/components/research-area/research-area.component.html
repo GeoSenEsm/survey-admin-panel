@@ -1,0 +1,52 @@
+<div class="container">
+    <h2>
+        {{ 'configuration.researchArea.title' | translate }}
+    </h2>
+    <h4>
+        {{ 'configuration.researchArea.description' | translate }}
+    </h4>
+    <div id="research-area-map"></div>
+    <h4 *ngIf="!areaDefined()">
+        {{ 'configuration.researchArea.noResearchAreaDefined' | translate }}
+    </h4>
+    <h4 *ngIf="errorOnLoadingCurrentResearchArea">
+        <mat-error>
+            {{ 'configuration.researchArea.errorOnLoading' | translate }}
+        </mat-error>
+    </h4>
+    <div class="buttons">
+        <button mat-flat-button color="primary" (click)="loadCurrentResearchArea()">
+            <mat-icon>refresh</mat-icon>
+            {{ 'configuration.researchArea.refresh' | translate }}
+        </button>
+        <button mat-flat-button color="primary" (click)="loadFromFile()">
+            <mat-icon>cloud_upload</mat-icon>
+            {{ 'configuration.researchArea.readFromFile' | translate }}
+        </button>
+        <input 
+        type="file" 
+        #fileInput 
+        (change)="onFileSelected($event)" 
+        accept=".csv" 
+        style="display: none;" 
+        />
+        <button mat-stroked-button color="warn" [disabled]="!canDelete()" (click)="deleteResearchArea()">
+            <mat-icon>
+                delete
+            </mat-icon>
+            {{ 'configuration.researchArea.delete' | translate }}
+        </button>
+        <button mat-stroked-button color="primary" [disabled]="!changesMade" (click)="save()">
+            <mat-icon>
+                save
+            </mat-icon>
+            {{ 'configuration.researchArea.save' | translate }}
+        </button>
+        <button mat-stroked-button color="warn" [disabled]="!changesMade" (click)="resetChanges()">
+            <mat-icon>
+                restart_alt
+            </mat-icon>
+            {{ 'configuration.researchArea.resetChanges' | translate }}
+        </button>
+    </div>
+</div>

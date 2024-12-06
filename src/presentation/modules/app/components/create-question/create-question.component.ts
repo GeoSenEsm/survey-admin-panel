@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { SectionToBeTriggered } from '../../../../../core/models/section.to.be.triggered';
 import { TranslateService } from '@ngx-translate/core';
+import { CreateImageOptionsComponent } from '../create-image-options/create-image-options.component';
 
 @Component({
   selector: 'app-create-question',
@@ -15,41 +16,50 @@ import { TranslateService } from '@ngx-translate/core';
 export class CreateQuestionComponent {
   QuestionType = QuestionType;
   @ViewChild(CreateTextSelectionOptionsComponent) textSelectionOptions: CreateTextSelectionOptionsComponent | null = null;
+  @ViewChild(CreateImageOptionsComponent) imageOptionsComponent: CreateImageOptionsComponent | null = null;
   @Input()
   question: CreateQuestionModel | null = null;
   @Output()
   addQuestionBelowEvent = new EventEmitter<CreateQuestionModel>();
   @Output()
   removeEvent = new EventEmitter<CreateQuestionModel>();
+  @Output()
+  upCallback = new EventEmitter<CreateQuestionModel>();
+  @Output()
+  downCallback = new EventEmitter<CreateQuestionModel>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   contentError: string | null = null;
   contentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.contentError);
   @Input()
   isReadOnly: boolean = false;
+  @Output() changed = new EventEmitter<void>();
 
   allQuestionTypes = [
-    QuestionType.SINGLE_TEXT_SELECTION,
-    QuestionType.DISCRETE_NUMBER_SELECTION,
-    QuestionType.YES_NO_SELECTION,
+    QuestionType.SINGLE_CHOICE,
+    QuestionType.LINEAR_SCALE,
+    QuestionType.YES_NO_CHOICE,
     QuestionType.MULTIPLE_CHOICE,
-    QuestionType.NUMBER
+    QuestionType.NUMBER_INPUT,
+    QuestionType.IMAGE_CHOICE
   ];
 
   questionTypeIconSelector = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'radio_button_checked',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'linear_scale',
-    [QuestionType.YES_NO_SELECTION]: 'check',
+    [QuestionType.SINGLE_CHOICE]: 'radio_button_checked',
+    [QuestionType.LINEAR_SCALE]: 'linear_scale',
+    [QuestionType.YES_NO_CHOICE]: 'check',
     [QuestionType.MULTIPLE_CHOICE]: 'check_box',
-    [QuestionType.NUMBER]: 'filter_5'
+    [QuestionType.NUMBER_INPUT]: 'filter_5',
+    [QuestionType.IMAGE_CHOICE]: 'image'
   };
 
   questionTypeDisplay = {
-    [QuestionType.SINGLE_TEXT_SELECTION]: 'createSurvey.createQuestion.singleChoice',
-    [QuestionType.DISCRETE_NUMBER_SELECTION]: 'createSurvey.createQuestion.linearScale',
-    [QuestionType.YES_NO_SELECTION]: 'createSurvey.createQuestion.yesNo',
+    [QuestionType.SINGLE_CHOICE]: 'createSurvey.createQuestion.singleChoice',
+    [QuestionType.LINEAR_SCALE]: 'createSurvey.createQuestion.linearScale',
+    [QuestionType.YES_NO_CHOICE]: 'createSurvey.createQuestion.yesNo',
     [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice',
-    [QuestionType.NUMBER]: 'createSurvey.createQuestion.number'
+    [QuestionType.NUMBER_INPUT]: 'createSurvey.createQuestion.number',
+    [QuestionType.IMAGE_CHOICE]: 'createSurvey.createQuestion.image'
   };
 
   constructor(readonly translate: TranslateService){}
@@ -64,8 +74,11 @@ export class CreateQuestionComponent {
 
   isValid(): boolean{
     const isValid = this.contentError == null &&
-     (this.question?.type !== QuestionType.SINGLE_TEXT_SELECTION 
-      || this.textSelectionOptions?.isValid() === true);
+     (this.question?.type !== QuestionType.SINGLE_CHOICE 
+      || this.textSelectionOptions?.isValid() === true)
+      && (this.question?.type !== QuestionType.IMAGE_CHOICE
+        || this.imageOptionsComponent?.validate() === true
+      );
 
     return isValid;
   }
@@ -73,20 +86,32 @@ export class CreateQuestionComponent {
   validate(): void{
     this.validateContent();
 
-    if (this.question?.type == QuestionType.SINGLE_TEXT_SELECTION){
+    if (this.question?.type == QuestionType.SINGLE_CHOICE){
       this.textSelectionOptions?.validate();
+    }
+
+    if (this.question?.type == QuestionType.IMAGE_CHOICE){
+      this.imageOptionsComponent?.validate();
     }
   }
 
   validateContent(){
     this.contentError = null;
     if (this.question?.content == null || this.question.content.trim().length === 0){
-      this.contentError = this.translate.instant('app.addRespondents.contentNotEmptyError');
+      this.contentError = this.translate.instant('createSurvey.createQuestion.contentNotEmptyError');
       return;
     }
 
     if (this.question.content.length > 250){
-      this.contentError = this.translate.instant('app.addRespondents.contentLenError');
+      this.contentError = this.translate.instant('createSurvey.createQuestion.contentLenError');
     }
+  }
+
+  up(): void{
+    this.upCallback.emit(this.question!);
+  }
+
+  down(): void{
+    this.downCallback.emit(this.question!);
   }
 }

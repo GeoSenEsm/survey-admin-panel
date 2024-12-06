@@ -3,25 +3,31 @@
 </mat-error>
 <div *ngFor="let option of options; let i = index" class="row">
   <div class="row-item">
-    <app-option [option]="option" [isReadOnly]="isReadOnly"/>
+    <app-option [option]="option" [isReadOnly]="isReadOnly" (changed)="changed.emit()"/>
   </div>
   <mat-form-field appearance="outline" class="row-item">
     <mat-label>
-      {{ 'createSurvey.createTextSelectionOptions.showSection' | translate }}
+      {{ "createSurvey.createTextSelectionOptions.showSection" | translate }}
     </mat-label>
-    <mat-select [(value)]="option.showSection" [disabled]="isReadOnly">
+    <mat-select
+      [(value)]="option.showSection"
+      [disabled]="isReadOnly"
+      (selectionChange)="changed.emit()"
+    >
       <mat-option [value]="undefined">
-        {{ 'createSurvey.createTextSelectionOptions.none' | translate }}
+        {{ "createSurvey.createTextSelectionOptions.none" | translate }}
       </mat-option>
       <mat-option
         *ngFor="let section of sectionsToBeTriggered; let i = index"
-        [value]="section.sectionNumber">
+        [value]="section.sectionNumber"
+      >
         {{ section.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
-<button *ngIf="!isReadOnly"
+<button
+  *ngIf="!isReadOnly"
   mat-button
   color="primary"
   (click)="addNewOption()"
@@ -29,6 +35,6 @@
 >
   <mat-icon>add</mat-icon>
   <span>
-    {{ 'createSurvey.createTextSelectionOptions.addOption' | translate }}
+    {{ "createSurvey.createTextSelectionOptions.addOption" | translate }}
   </span>
 </button>

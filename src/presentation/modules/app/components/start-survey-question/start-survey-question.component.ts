@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { StartSurveyOption, StartSurveyQuestion } from '../../../../../core/models/start-survey-question';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -15,29 +15,32 @@ export class StartSurveyQuestionComponent {
   @Input() isReadOnly: boolean = false;
   readonly maxInputLen = 250;
   @Output() removeQuestionCallback = new EventEmitter<StartSurveyQuestion>();
-  @Input() allOldQuestions: StartSurveyQuestion[] | undefined = undefined;
-  @Input() allNewQuestions: StartSurveyQuestion[] | undefined = undefined;
+  @Input() allQuestions: StartSurveyQuestion[] | undefined = undefined;
   questionError: string | null = null
   questionContentErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.questionError);
   @ViewChildren(StartSurveyQuestionOptionComponent) optionComponents: QueryList<StartSurveyQuestionOptionComponent> | undefined;
+  @Output() changed: EventEmitter<void> = new EventEmitter();
 
   constructor(private readonly translate: TranslateService){}
 
   addOption(): void {
     if (this.question) {
       this.question.options.push({ order: this.question.options.length + 1, content: '' });
+      this.changed.emit();
     }
   }
 
   removeOption(option: StartSurveyOption){
     if (this.question) {
       this.question.options = this.question.options.filter(e => e !== option);
+      this.changed.emit();
     }
   }
 
   removeQusetion(): void{
     if (this.question) {
       this.removeQuestionCallback.emit(this.question);
+      this.changed.emit();  
     }
   }
 
@@ -68,12 +71,41 @@ export class StartSurveyQuestionComponent {
       return false;
     }
 
-    if ((this.allOldQuestions && this.allOldQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))
-    || (this.allNewQuestions && this.allNewQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))){
+    if ((this.allQuestions && this.allQuestions.find(e => e != this.question && e.content.trim() == this.question!.content.trim()))){
       this.questionError = this.translate.instant('startSurvey.questionAlreadyExists');
       return false;
     }
 
     return true;
+  }
+
+  down(): void{
+    if (!this.allQuestions || !this.question){
+      return;
+    }
+
+    const index = this.allQuestions.indexOf(this.question);
+  
+    if (index > -1 && index < this.allQuestions.length - 1) {
+      const temp = this.allQuestions[index];
+      this.allQuestions[index] = this.allQuestions[index + 1];
+      this.allQuestions[index + 1] = temp;
+      this.changed.emit();
+    }
+  }
+
+  up(): void{
+    if (!this.allQuestions || !this.question){
+      return;
+    }
+
+    const index = this.allQuestions.indexOf(this.question);
+  
+    if (index > 0) {
+      const temp = this.allQuestions[index];
+      this.allQuestions[index] = this.allQuestions[index - 1];
+      this.allQuestions[index - 1] = temp;
+      this.changed.emit();
+    }
   }
 }

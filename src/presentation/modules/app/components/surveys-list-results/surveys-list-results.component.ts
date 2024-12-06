@@ -29,7 +29,7 @@ export class SurveysListResultsComponent implements AfterViewInit{
   }
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     responseDate: (property: any) => {
-      return this.datePipe.transform(new Date(property), 'short');
+      return this.datePipe.transform(new Date(property), 'short', 'UTC');
     }
   };
 
@@ -60,8 +60,8 @@ export class SurveysListResultsComponent implements AfterViewInit{
     ).subscribe(result =>{
       result.forEach(e => {
         this.resultEntries.push(e);
-        this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
-      })
+      });
+      this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
     });
   }
 

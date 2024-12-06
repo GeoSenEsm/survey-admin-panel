@@ -15,7 +15,7 @@ import { generateGuid } from '../../../../../core/utils/guid';
 @Component({
   selector: 'app-create-section',
   templateUrl: './create-section.component.html',
-  styleUrl: './create-section.component.css'
+  styleUrl: './create-section.component.scss'
 })
 export class CreateSectionComponent {
   SectionVisibility = SectionVisibility;
@@ -26,6 +26,12 @@ export class CreateSectionComponent {
   addSectionBelowEvent = new EventEmitter<CreateSectionModel>();
   @Output()
   removeSectionEvent = new EventEmitter<CreateSectionModel>();
+  @Output()
+  upCallback = new EventEmitter<CreateSectionModel>();
+  @Output()
+  downCallback = new EventEmitter<CreateSectionModel>();
+  @Output()
+  changed = new EventEmitter<void>();
   @Input()
   sectionsToBeTriggered: SectionToBeTriggered[] = [];
   @Input()
@@ -125,11 +131,13 @@ export class CreateSectionComponent {
     const emptyQuestion = {
       content: this.translate.instant('createSurvey.createSurvey.defaultQuestionContent'),
       isRequired: true,
-      type: QuestionType.SINGLE_TEXT_SELECTION,
+      type: QuestionType.SINGLE_CHOICE,
       options: [],
+      imageOptions: [],
       numberRange: {from: 0, to: 5}
     };
     this.section?.questions.splice(index, 0, emptyQuestion);
+    this.changed.emit();
   }
 
   addQuestionBelow(model: CreateQuestionModel) : void{
@@ -155,6 +163,7 @@ export class CreateSectionComponent {
     const idx = this.section?.questions.indexOf(question);
     if (idx !== -1 && idx !== undefined) {
       this.section?.questions.splice(idx, 1);
+      this.changed.emit();
     }
   }
 
@@ -181,5 +190,35 @@ export class CreateSectionComponent {
   isValid() : boolean{
     return this.nameError == null && this.questionsNumberError == null
     && this.questions.toArray().every(component => component.isValid());
+  }
+
+  questionDown(question: CreateQuestionModel): void {
+    const index = this.section!.questions.indexOf(question);
+  
+    if (index > -1 && index < this.questions.length - 1) {
+      const temp = this.section!.questions[index];
+      this.section!.questions[index] = this.section!.questions[index + 1];
+      this.section!.questions[index + 1] = temp;
+      this.changed.emit();
+    }
+  }
+  
+  questionUp(question: CreateQuestionModel): void {
+    const index = this.section!.questions.indexOf(question);
+  
+    if (index > 0) {
+      const temp = this.section!.questions[index];
+      this.section!.questions[index] = this.section!.questions[index - 1];
+      this.section!.questions[index - 1] = temp;
+      this.changed.emit();
+    }
+  }
+
+  up(): void{
+    this.upCallback.emit(this.section!);
+  }
+
+  down(): void{
+    this.downCallback.emit(this.section!);
   }
 }

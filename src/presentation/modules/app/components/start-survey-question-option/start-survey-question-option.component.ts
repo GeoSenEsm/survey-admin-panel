@@ -17,6 +17,7 @@ export class StartSurveyQuestionOptionComponent {
   optionError: string | null = null;
   optionErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.optionError);
   @Output() removeOptionCallback = new EventEmitter<StartSurveyOption>();
+  @Output() changed: EventEmitter<void> = new EventEmitter();
 
   constructor(private readonly translate: TranslateService){}
 
@@ -42,6 +43,37 @@ export class StartSurveyQuestionOptionComponent {
   removeOption(): void{
     if (this.option){
       this.removeOptionCallback.emit(this.option);
+      this.changed.emit();
+    }
+  }
+
+  down(): void{
+    if (!this.allOptions || !this.option){
+      return;
+    }
+
+    const index = this.allOptions.indexOf(this.option);
+  
+    if (index > -1 && index < this.allOptions.length - 1) {
+      const temp = this.allOptions[index];
+      this.allOptions[index] = this.allOptions[index + 1];
+      this.allOptions[index + 1] = temp;
+      this.changed.emit();
+    }
+  }
+
+  up(): void{
+    if (!this.allOptions || !this.option){
+      return;
+    }
+
+    const index = this.allOptions.indexOf(this.option);
+  
+    if (index > 0) {
+      const temp = this.allOptions[index];
+      this.allOptions[index] = this.allOptions[index - 1];
+      this.allOptions[index - 1] = temp;
+      this.changed.emit();
     }
   }
 }

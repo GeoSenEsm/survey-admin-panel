@@ -3,6 +3,9 @@
     <h3>
         {{ 'startSurvey.description' | translate }}
     </h3>
+    <h3 *ngIf="!editable()">
+        {{ 'startSurvey.surveyAlreadyPublished' | translate }}
+    </h3>
     <div class="spinner-container" *ngIf="isBusy">
         <mat-spinner/>
     </div>
@@ -16,27 +19,32 @@
             <h3>{{ 'startSurvey.questions' | translate }}</h3>        
         </mat-card-header>
         <mat-card-content>
-            <div *ngIf="oldQuestions.length === 0 && newQuestions.length === 0" class="text-center">
+            <div *ngIf="questions.length === 0" class="text-center">
                 <h3>
                     {{ 'startSurvey.thereAreNoQuestions' | translate }}
                 </h3>
             </div>
             <div class="questions-container">
-                <app-start-survey-question *ngFor="let question of oldQuestions" [question]="question" [isReadOnly]="true"
-                [allNewQuestions]="newQuestions" [allOldQuestions]="oldQuestions"/>
-                <app-start-survey-question *ngFor="let question of newQuestions" [question]="question"
+                <app-start-survey-question *ngFor="let question of questions" [question]="question"
                 (removeQuestionCallback)="removeQuestion($event)"
-                [allNewQuestions]="newQuestions" [allOldQuestions]="oldQuestions"/>
+                [allQuestions]="questions"
+                [isReadOnly]="!editable()"
+                (changed)="onSurveyChanged()"/>
             </div>
         </mat-card-content>
-        <mat-card-footer>
+        <mat-card-footer *ngIf="editable()">
             <button mat-flat-button color="primary" (click)="addQuestion()">
                 <mat-icon>add</mat-icon>
                 {{ 'startSurvey.addQuestion' | translate }}
             </button>
-            <button mat-stroked-button (click)="save()" [disabled]="newQuestions.length == 0">
+            <button mat-stroked-button (click)="save()">
                 <mat-icon>save</mat-icon>
                 {{ 'startSurvey.saveNewQuestions' | translate }}
+            </button>
+            <button mat-flat-button color="primary" (click)="publish()" *ngIf="editable()"
+                [disabled]="!publishable()">
+                <mat-icon>publish</mat-icon>
+                {{ 'startSurvey.publish' | translate }}
             </button>
         </mat-card-footer>
     </mat-card>

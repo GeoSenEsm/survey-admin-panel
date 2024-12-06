@@ -23,13 +23,14 @@ describe('SurveyDetailsMapper', () => {
           order: 1,
           name: 'Section 1',
           visibility: SectionVisibility.ALWAYS,
+          displayOnOneScreen: true,
           rowVersion: 1,
           questions: [
             {
               id: 'question-2-id',
               order: 2,
               content: 'What is your favorite number?',
-              questionType: QuestionType.DISCRETE_NUMBER_SELECTION,
+              questionType: QuestionType.LINEAR_SCALE,
               required: false,
               rowVersion: 1,
               numberRange: { id: 'range-1', from: 1, to: 3, fromLabel: 'Low', toLabel: 'Big', rowVersion: 1 }
@@ -38,7 +39,7 @@ describe('SurveyDetailsMapper', () => {
               id: 'question-1-id',
               order: 1,
               content: 'What is your favorite color?',
-              questionType: QuestionType.SINGLE_TEXT_SELECTION,
+              questionType: QuestionType.SINGLE_CHOICE,
               required: true,
               rowVersion: 1,
               options: [
@@ -65,6 +66,7 @@ describe('SurveyDetailsMapper', () => {
           order: 3,
           name: 'Section 3',
           visibility: SectionVisibility.GROUP_SPECIFIC,
+          displayOnOneScreen: true,
           groupId: 'group-123',
           rowVersion: 1,
           questions: [
@@ -72,7 +74,7 @@ describe('SurveyDetailsMapper', () => {
               id: 'question-5-id',
               order: 1,
               content: 'This is a number range question',
-              questionType: QuestionType.DISCRETE_NUMBER_SELECTION,
+              questionType: QuestionType.LINEAR_SCALE,
               required: true,
               rowVersion: 1,
               numberRange: { id: 'range-2', from: 0, to: 2, fromLabel: 'Youngest', toLabel: 'Oldest', rowVersion: 1 }
@@ -84,13 +86,14 @@ describe('SurveyDetailsMapper', () => {
           order: 2,
           name: 'Section 2',
           visibility: SectionVisibility.ANSWER_TRIGGERED,
+          displayOnOneScreen: true,
           rowVersion: 1,
           questions: [
             {
               id: 'question-4-id',
               order: 1,
               content: 'This is a yes/no question',
-              questionType: QuestionType.YES_NO_SELECTION,
+              questionType: QuestionType.YES_NO_CHOICE,
               required: true,
               rowVersion: 1
             }
@@ -109,8 +112,9 @@ describe('SurveyDetailsMapper', () => {
           questions: [
             {
               content: 'What is your favorite color?',
-              type: QuestionType.SINGLE_TEXT_SELECTION,
+              type: QuestionType.SINGLE_CHOICE,
               isRequired: true,
+              imageOptions: [],
               options: [
                 { content: 'Red', showSection: undefined},
                 { content: 'Blue', showSection: undefined},
@@ -119,22 +123,25 @@ describe('SurveyDetailsMapper', () => {
             },
             {
               content: 'What is your favorite number?',
-              type: QuestionType.DISCRETE_NUMBER_SELECTION,
+              type: QuestionType.LINEAR_SCALE,
               isRequired: false,
               options: [],
+              imageOptions: [],
               numberRange: { from: 1, to: 3, fromLabel: 'Low', toLabel: 'Big'}
             },
             {
               content: 'This question can trigger a section',
               type: QuestionType.MULTIPLE_CHOICE,
               isRequired: false,
+              imageOptions: [],
               options: [
                 { content: 'This shows section 2', showSection: 2 },
                 { content: 'This does not show section 2', showSection: undefined},
               ],
               numberRange: getDefaultNumberRange()
             }
-          ]
+          ],
+          displayOnOneScreen: true
         },
         {
           name: 'Section 2',
@@ -143,12 +150,14 @@ describe('SurveyDetailsMapper', () => {
           questions: [
             {
               content: 'This is a yes/no question',
-              type: QuestionType.YES_NO_SELECTION,
+              type: QuestionType.YES_NO_CHOICE,
               isRequired: true,
               numberRange: getDefaultNumberRange(),
-              options: []
+              options: [],
+              imageOptions: []
             }
-          ]
+          ],
+          displayOnOneScreen: true
         },
         {
           name: 'Section 3',
@@ -157,12 +166,14 @@ describe('SurveyDetailsMapper', () => {
           questions: [
             {
               content: 'This is a number range question',
-              type: QuestionType.DISCRETE_NUMBER_SELECTION,
+              type: QuestionType.LINEAR_SCALE,
               isRequired: true,
               options: [],
+              imageOptions: [],
               numberRange: { from: 0, to: 2, fromLabel: 'Youngest', toLabel: 'Oldest'}
             }
-          ]
+          ],
+          displayOnOneScreen: true
         }
       ]
     };

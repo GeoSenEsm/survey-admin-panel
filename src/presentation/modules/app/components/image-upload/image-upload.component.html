@@ -1,0 +1,73 @@
+<div style="padding: 2cqh">
+  <form [ngStyle]="{'pointer-events': isReadOnly ? 'none' : 'auto'}">
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        "createSurvey.createImageOptions.image" | translate
+      }}</mat-label>
+      <div class="fileUploadContainer" [ngStyle]="{ 'margin-top': '20px' }">
+        <ng-container *ngIf="imageOption?.src">
+          <img [src]="imageOption!.src" />
+          <button
+            class="deleteButton"
+            mat-icon-button
+            (click)="fileInput.value = ''; clearFile()"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-container>
+        <div
+          *ngIf="!imageOption?.src"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px"
+        >
+          <mat-icon style="opacity: 60%">file_upload</mat-icon>
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 100%; opacity: 80%"
+            [disabled]="isReadOnly"
+          >
+            {{ "createSurvey.createImageOptions.fileBrowser" | translate }}
+          </button>
+          <small style="margin: 20px">{{
+            "createSurvey.createImageOptions.dragAndDropHere" | translate
+          }}</small>
+        </div>
+        <input
+          #fileInput
+          class="fileInput"
+          type="file"
+          multiple="multiple"
+          accept="image/*"
+          (change)="setFileData($event)"
+          [readonly]="isReadOnly"
+        />
+      </div>
+      <input matInput readonly [hidden]="true"/>
+    </mat-form-field>
+    <mat-error *ngIf="imageError != null">{{ imageError | translate }}</mat-error>
+    <div class="row">
+      <mat-form-field appearance="fill" *ngIf="imageOption">
+        <mat-label>
+          {{ "createSurvey.createImageOptions.code" | translate }}
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="imageOption.code"
+          name="imageOptionCode"
+          [maxLength]="maxCodeLength"
+          [matTooltip]="'createSurvey.createImageOptions.codeTooltip' | translate"
+          (blur)="validateCode()"
+          [errorStateMatcher]="codeErrorStateMatcher"
+          [readonly]="isReadOnly"
+        />
+        <mat-error *ngIf="codeError != null">{{ codeError | translate }}</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="remove()" [disabled]="isReadOnly">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

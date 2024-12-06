@@ -1,6 +1,24 @@
 <div class="container">
-  <button mat-flat-button color="primary" (click)="addSendingPolicy()">
-    {{ "surveyDetails.surveySendingPolicy.craeteNewSendingPolicy" | translate }}
-  </button>
+  <div class="wrap-panel">
+    <button mat-flat-button color="primary" (click)="addSendingPolicy()">
+      {{ "surveyDetails.surveySendingPolicy.craeteNewSendingPolicy" | translate }}
+    </button>
+    <button *ngIf="deleteMode" mat-flat-button color="primary" (click)="toggleDeleteMode()">
+      {{ "surveyDetails.surveySendingPolicy.deleteMode" | translate }}
+    </button>
+    <button *ngIf="!deleteMode" mat-stroked-button color="primary" (click)="toggleDeleteMode()">
+      {{ "surveyDetails.surveySendingPolicy.deleteMode" | translate }}
+    </button>
+    <div [matTooltip]="!deletingEnabled() ? ('surveyDetails.surveySendingPolicy.selectTimeSlotsToDeleteFirst' | translate) : ''">
+      <button 
+        *ngIf="deleteMode" 
+        mat-stroked-button 
+        color="warn" 
+        (click)="deleteSelected()" 
+        [disabled]="!deletingEnabled()">
+        {{ "surveyDetails.surveySendingPolicy.delete" | translate }}
+      </button>
+    </div>
+  </div>
   <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
 </div>

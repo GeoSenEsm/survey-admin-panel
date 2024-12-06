@@ -4,6 +4,7 @@ import { SectionVisibility } from "./section.visibility"
 export interface SurveyDetailsDto {
     id: string,
     name: string,
+    state: SurveyState,
     rowVersion: number,
     sections: SurveySectionDto[]
 }
@@ -16,6 +17,7 @@ export interface SurveySectionDto{
     groupId?: string,
     rowVersion: number,
     questions: SurveyQuestionDto[]
+    displayOnOneScreen: boolean
 }
 
 export interface SurveyQuestionDto{
@@ -35,6 +37,7 @@ export interface SurveyOptionDto{
     label: string,
     showSection?: number,
     rowVersion: number
+    imagePath?: string
 }
 
 export interface SurveyNumberRangeDto{
@@ -45,3 +48,5 @@ export interface SurveyNumberRangeDto{
     toLabel: string,
     rowVersion: number
 }
+
+export type SurveyState = 'craeted' | 'published'; 

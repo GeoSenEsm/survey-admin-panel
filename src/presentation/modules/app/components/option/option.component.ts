@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TextSelectionOption } from '../../../../../core/models/text.selection.option';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
@@ -18,6 +18,7 @@ export class OptionComponent {
   readonly maxLen: number = 50;
   @Input()
   isReadOnly: boolean = false;
+  @Output() changed = new EventEmitter<void>();
 
   constructor(private readonly translate: TranslateService){}
 
