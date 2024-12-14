@@ -35,6 +35,10 @@ export class ChangePasswordComponent {
   ){}
 
   submit(): void{
+    if (this.formGroup.invalid){
+      return;
+    }
+
      this.dialog.open(TypeToConfirmDialogComponent, {
           hasBackdrop: true,
           closeOnNavigation: true,
