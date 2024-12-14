@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { ApiService } from "./api.service";
 import { ConfigService } from "./config.service";
 import { StartSurveyQuestion } from "../models/start-survey-question";
+import { ChangePasswordDto } from "../../domain/models/change-password-dto";
 
 @Injectable()
 export class RespondentDataServiceImpl 
@@ -45,6 +46,10 @@ implements RespondentDataService{
             });
         }
         return this.get('/api/respondents/all');
+    }
+
+    updatePassword(redpondentId: string, dto: ChangePasswordDto): Observable<any> {
+        return this.patch(`/api/respondents/${redpondentId}/password`, dto);
     }
     
 }

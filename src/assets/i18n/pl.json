@@ -47,7 +47,8 @@
       "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
       "export": "Exportuj",
       "gridExportFilename": "respondenci.csv",
-      "edit": "Edytuj"
+      "edit": "Edytuj",
+      "changePassword": "Zmiana hasła"
     },
     "edit": {
       "title": "Edycja danych respondenta",
@@ -70,6 +71,20 @@
       "timeFrom": "Godzina od",
       "timeTo": "Godzina do",
       "none": "Brak"
+    },
+    "changePassword": {
+      "changePassword": "Zmiana hasła",
+      "newPassword": "Nowe hasło",
+      "confirmNewPassword": "Potwierdź nowe hasło",
+      "saveConfirmationDialogInformation": "Czy na pewno chcesz zapisać nowe hasło?",
+      "saveConfirmationInput": "zapisz",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "fieldIsRequired": "Pole jest wymagane",
+      "passwordMinLenError": "Hasło musi mieć przynajmniej 8 znaków.",
+      "passwordsDoNotMatch": "Hasła nie są takie same.",
+      "ok": "OK",
+      "somethingWentWrong": "Coś poszło nie tak"
     }
   },
   "createSurvey": {

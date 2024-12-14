@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { catchError, finalize, forkJoin, of, throwError } from 'rxjs';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { EditRespondentDataComponent } from '../edit-respondent-data/edit-respondent-data.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @Component({
   selector: 'app-respondents',
@@ -173,6 +174,14 @@ implements AfterViewInit{
 
   edit(respondent: RespondentData): void{
     this._dialog.open(EditRespondentDataComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data: respondent
+    })
+  }
+
+  changePassword(respondent: RespondentData): void{
+    this._dialog.open(ChangePasswordComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       data: respondent

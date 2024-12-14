@@ -47,7 +47,8 @@
       "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
       "export": "Export",
       "gridExportFilename": "respondents.csv",
-      "edit": "Edit"
+      "edit": "Edit",
+      "changePassword": "Change Password"
     },
     "edit": {
       "title": "Edit respondent data",
@@ -70,6 +71,20 @@
       "timeFrom": "Time from",
       "timeTo": "Time to",
       "none": "None"
+    },
+    "changePassword": {
+      "changePassword": "Change Password",
+      "newPassoword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "saveConfirmationDialogInformation": "Are you sure you want to save the new password?",
+      "saveConfirmationInput": "save",
+      "save": "Save",
+      "cancel": "Cancel",
+      "fieldIsRequired": "This field is required",
+      "passwordMinLenError": "Password must be at least 8 characters long.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "ok": "OK",
+      "somethingWentWrong": "Something went wrong"
     }
   },
   "createSurvey": {
