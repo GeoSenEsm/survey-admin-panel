@@ -216,9 +216,10 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
           this.translate.instant('createSurvey.createSurvey.ok'),
           { duration: 3000 }
         );
+        console.log(res);
         this.saved.emit();
         if (this.mode == 'create') {
-          this.router.navigate(['/']);
+          this.router.navigate([`/surveys/${res.id}`]);
         }
       });
   }
