@@ -112,7 +112,7 @@ export class CreateSurveyComponent implements OnInit {
       );
     }
 
-    if (this.existingSurveyNames.includes(this.model.name!)) {
+    if (this.mode == 'create' && this.existingSurveyNames.includes(this.model.name!)) {
       this.nameValidationError = this.translate.instant(
         'createSurvey.createSurvey.nameMustBeUnique'
       );
