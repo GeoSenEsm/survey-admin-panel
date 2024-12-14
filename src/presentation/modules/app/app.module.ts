@@ -78,6 +78,7 @@ import { CalendarEventCheckboxComponent } from './components/calendar-event-chec
 import { EditRespondentDataComponent } from './components/edit-respondent-data/edit-respondent-data.component';
 import { RespondentsFiltersComponent } from './components/respondents-filters/respondents-filters.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 export const routes: Routes = [
@@ -141,7 +142,8 @@ export function HttpLoaderFactory(http: HttpClient){
     CommonModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule
   ],
   declarations: [
     AppComponent, 
