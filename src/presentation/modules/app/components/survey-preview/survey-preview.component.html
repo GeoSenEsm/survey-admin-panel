@@ -2,7 +2,7 @@
   <h4 *ngIf="detailsDto.state == 'published'"> 
     {{ "surveyDetails.surveyPublished" | translate }}
   </h4>
-  <div class="wrap-panel" >
+  <div class="wrap-panel" *ngIf="detailsDto.state != 'published'">
     <h4>
       {{ "surveyDetails.surveyNotPublished" | translate }}
     </h4>
