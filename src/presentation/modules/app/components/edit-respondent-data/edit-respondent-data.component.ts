@@ -3,13 +3,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
-import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import {
   StartSurveyQuestion,
-  StartSurveyResponse,
 } from '../../../../../core/models/start-survey-question';
 import { catchError, of, throwError } from 'rxjs';
-import { FormlessErrorStateMatcher } from '../../../../utils/formless.error.state.matcher';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';

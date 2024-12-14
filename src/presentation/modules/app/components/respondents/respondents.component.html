@@ -26,12 +26,23 @@
         </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="changePassword">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'respondents.respondents.changePassword' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let respondent">
+          <button mat-icon-button (click)="changePassword(respondent)" aria-label="ChangePassword">
+            <mat-icon>key</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
       <mat-header-row
-        *matHeaderRowDef="headers!.concat(['edit'])"
+        *matHeaderRowDef="headers!.concat(['edit', 'changePassword'])"
         class="table-header"
       ></mat-header-row>
 
-      <mat-row *matRowDef="let row; columns: headers!.concat(['edit'])"></mat-row>
+      <mat-row *matRowDef="let row; columns: headers!.concat(['edit', 'changePassword'])"></mat-row>
     </mat-table>
     <h3 *ngIf="!isBusy && respondents.length === 0 && !loadingErrorOccured">
       {{ 'respondents.respondents.nothingToDisplay' | translate }}

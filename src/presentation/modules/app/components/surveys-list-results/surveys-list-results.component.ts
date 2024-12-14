@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { catchError, finalize, throwError } from 'rxjs';
 import { SUMMARIES_SERVICE } from '../../../../../core/services/registration-names';
 import { SummariesService } from '../../../../../domain/external_services/summaries.service';
@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-surveys-list-results',
@@ -15,6 +17,8 @@ import { DatePipe } from '@angular/common';
   styleUrl: './surveys-list-results.component.css'
 })
 export class SurveysListResultsComponent implements AfterViewInit{
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
   readonly headers = [
     'surveyName', 'question', 'responseDate', 'answers', 'respondentId'
   ];
@@ -39,7 +43,17 @@ export class SurveysListResultsComponent implements AfterViewInit{
             private readonly datePipe: DatePipe){}
   
   ngAfterViewInit(): void {
+    this.assignDataDource();
+  }
+
+  assignDataDource(): void{
     this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
+    if (this.paginator){
+      this.dataSource.paginator = this.paginator;
+    }
+    if (this.sort){
+      this.dataSource.sort = this.sort;
+    }
   }
   
   loadTableData(filters: SurveyResultsFilter): void{
@@ -61,7 +75,7 @@ export class SurveysListResultsComponent implements AfterViewInit{
       result.forEach(e => {
         this.resultEntries.push(e);
       });
-      this.dataSource = new MatTableDataSource<SurveyResultEntry>(this.resultEntries);
+      this.assignDataDource();
     });
   }
 

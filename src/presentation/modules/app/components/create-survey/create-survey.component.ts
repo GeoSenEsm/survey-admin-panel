@@ -35,7 +35,7 @@ export type SurveyEditorMode = 'create' | 'edit';
   templateUrl: './create-survey.component.html',
   styleUrl: './create-survey.component.scss',
 })
-export class CreateSurveyComponent implements OnInit, OnDestroy {
+export class CreateSurveyComponent implements OnInit {
   @Input()
   model: CreateSurveyModel = {
     name: this.translate.instant('createSurvey.createSurvey.defaultSurveyName'),
@@ -50,7 +50,6 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   surveyNameErrorStateMatcher: ErrorStateMatcher =
     new FormlessErrorStateMatcher(() => this.nameValidationError);
   groups: RespondentsGroupDto[] = [];
-  private readonly langChangeSubscription: Subscription;
   @Input()
   isReadOnly: boolean = false;
   @Output() changed: EventEmitter<void> = new EventEmitter();
@@ -59,6 +58,7 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
   @Output()
   saved = new EventEmitter<CreateSurveyModel>();
   @Input() id?: string | null;
+  existingSurveyNames: string[] = [];
 
   constructor(
     @Inject('surveyMapper')
@@ -70,17 +70,11 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     private readonly respondentGroupsService: RespondentGroupsService,
     private readonly translate: TranslateService
   ) {
-    this.langChangeSubscription = translate.onLangChange.subscribe((event) => {
-      this.loadGroups();
-    });
   }
 
   ngOnInit(): void {
     this.loadGroups();
-  }
-
-  ngOnDestroy(): void {
-    this.langChangeSubscription.unsubscribe();
+    this.loadExistingSurveys();
   }
 
   private loadGroups(): void {
@@ -88,6 +82,16 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
     this.respondentGroupsService.getRespondentsGroups().subscribe((res) => {
       res.forEach((g) => {
         this.groups.push(g);
+      });
+      this.validateName();
+    });
+  }
+
+  private loadExistingSurveys(): void{
+    this.existingSurveyNames.length = 0;
+    this.service.getAllShort().subscribe((res) => {
+      res.forEach((s) => {
+        this.existingSurveyNames.push(s.name);
       });
     });
   }
@@ -99,11 +103,18 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
       this.nameValidationError = this.translate.instant(
         'createSurvey.createSurvey.nameNotEmptyError'
       );
+      return;
     }
 
     if (this.model.name!.length > 100) {
       this.nameValidationError = this.translate.instant(
         'createSurvey.createSurvey.nameLenError'
+      );
+    }
+
+    if (this.mode == 'create' && this.existingSurveyNames.includes(this.model.name!)) {
+      this.nameValidationError = this.translate.instant(
+        'createSurvey.createSurvey.nameMustBeUnique'
       );
     }
   }
@@ -182,6 +193,13 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
 
     if (!this.isValid()) {
       this.isLocked = false;
+      this.snackbar.open(
+        this.translate.instant(
+          'createSurvey.createSurvey.fixValidationErrorsFirst'
+        ),
+        this.translate.instant('createSurvey.createSurvey.ok'),
+        { duration: 3000 }
+      );
       return;
     }
     
@@ -216,9 +234,10 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
           this.translate.instant('createSurvey.createSurvey.ok'),
           { duration: 3000 }
         );
+        console.log(res);
         this.saved.emit();
         if (this.mode == 'create') {
-          this.router.navigate(['/']);
+          this.router.navigate([`/surveys/${res.id}`]);
         }
       });
   }

@@ -17,14 +17,10 @@
         <mat-label>
           {{ "map.respondent" | translate }}
         </mat-label>
-        <mat-select formControlName="selectedRespondentId">
-           <mat-option [value]="undefined">
-                {{ "map.none" | translate }}
-            </mat-option>
-          <mat-option *ngFor="let respondent of respondents" [value]="respondent.id">
-            {{ respondent.username }}
-          </mat-option>
-        </mat-select>
+        <input matInput formControlName="selectedRespondentName"/>
+        <mat-error>
+          {{ "map.respondentDoesNotExist" | translate }}
+        </mat-error>
       </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>

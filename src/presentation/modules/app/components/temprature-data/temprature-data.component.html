@@ -4,7 +4,7 @@
     </h3>
     <app-temperature-data-filters (loadDataCallback)="loadData($event)"
     (exportDataCallback)="exportToCsv()" [canExport]="canExport"/>
-    <mat-table [dataSource]="dataSource">
+    <mat-table [dataSource]="dataSource" matSort>
         <ng-container *ngFor="let column of headers" [matColumnDef]="column">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ "temperature." + column | translate }}
@@ -27,5 +27,11 @@
       </h3>
       <div class="spinner-container" *ngIf="isBusy">
         <mat-spinner/>
+      </div>
+      <div class="paginator-container">
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
       </div>
 </div>

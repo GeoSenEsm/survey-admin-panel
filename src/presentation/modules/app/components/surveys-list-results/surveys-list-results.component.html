@@ -1,7 +1,7 @@
 <div class="container">
   <app-results-filters (loadDataCallback)="loadTableData($event)" [canExport]="canExport"
   (exportDataCallback)="exportToCsv()"/>
-  <mat-table [dataSource]="dataSource">
+  <mat-table [dataSource]="dataSource" matSort>
     <ng-container *ngFor="let column of headers" [matColumnDef]="column">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "summary.resultsGrid." + column | translate }}
@@ -16,6 +16,12 @@
     ></mat-header-row>
     <mat-row *matRowDef="let row; columns: headers"></mat-row>
   </mat-table>
+  <div class="paginator-container">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
   <h3 *ngIf="!isBusy && resultEntries.length === 0 && !loadDataError && loadedAtLeastOnce">
     {{ 'summary.resultsGrid.nothingToDisplay' | translate }}
   </h3>

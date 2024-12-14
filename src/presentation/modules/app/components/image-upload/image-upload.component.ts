@@ -90,7 +90,7 @@ export class ImageUploadComponent {
       return true;
     }
 
-    if (!this.imageOption.file){
+    if (!this.imageOption.file && !this.imageOption.src){
       this.imageError = "createSurvey.createImageOptions.imageRequiredError";
       return false;
     }
