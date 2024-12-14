@@ -316,7 +316,8 @@
     "csvExportFilename": "locations.csv",
     "noData": "No data, please try changing the filters.",
     "somethingWentWrong": "Something went wrong. Please try again later.",
-    "ok": "OK"
+    "ok": "OK",
+    "respondentDoesNotExist": "Respondent does not exist"
   },
   "configuration": {
     "researchArea": {
