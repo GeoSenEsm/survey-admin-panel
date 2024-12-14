@@ -14,22 +14,8 @@ export class SurveysComponent implements OnInit{
 
   surveys: SurveyDto[] = [];
 
-
-  ribbonButtons: ButtonData[] = [
-    {
-      content: 'Dodaj ankietę',
-      onClick: this.createNew.bind(this)
-    }
-  ]
-
   constructor(private readonly router: Router,
-    @Inject('surveyService')private readonly surveyService: SurveyService,
-    private readonly translate: TranslateService){
-      this.translate
-      .get('surveyDetails.surveys.addSurvey')
-      .subscribe((res: string) =>{
-        this.ribbonButtons[0].content = res;
-      });
+    @Inject('surveyService')private readonly surveyService: SurveyService){
     }
   
   ngOnInit(): void {
