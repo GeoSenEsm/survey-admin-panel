@@ -81,7 +81,7 @@ export class MapPinTooltipComponent {
     if (this.respondents && this.location) {
       return this.respondents.filter(
         (e) => e.id === this.location!.respondentId
-      )[0].name;
+      )[0].username;
     }
     return undefined;
   }
