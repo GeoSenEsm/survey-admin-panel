@@ -125,7 +125,9 @@
       "defaultQuestionContent": "Pytanie",
       "somethingWentWrong": "Cos poszło nie tak",
       "ok": "OK",
-      "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę"
+      "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę",
+      "nameMustBeUnique": "Nazwa ankiety musi być unikalna.",
+      "fixValidationErrorsFirst": "Popraw błędy walidacji, aby utworzyć ankietę."
     },
     "createTextSelectionOptions": {
       "showSection": "Pokaż sekcję",

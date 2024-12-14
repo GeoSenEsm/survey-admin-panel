@@ -125,7 +125,9 @@
       "defaultQuestionContent": "Question",
       "somethingWentWrong": "Something went wrong",
       "ok": "OK",
-      "successfullyCreatedSurvey": "Successfully created survey"
+      "successfullyCreatedSurvey": "Successfully created survey",
+      "nameMustBeUnique": "Name must be unique.",
+      "fixValidationErrorsFirst": "Fix validation errors first."
     },
     "createTextSelectionOptions": {
       "showSection": "Show section",
