@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TemperatureDataEntry } from '../../../../../domain/models/temperature-data-entry';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,8 @@ import { TEMPERATURE_DATA_SERVICE_TOKEN } from '../../../../../core/services/inj
 import { TemperatureDataService } from '../../../../../domain/external_services/temperature-data.service';
 import { TemperatureDataFilter } from '../../../../../domain/models/temperature-data-filter';
 import { catchError, finalize, throwError } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-temprature-data',
@@ -15,6 +17,8 @@ import { catchError, finalize, throwError } from 'rxjs';
   styleUrl: './temprature-data.component.scss'
 })
 export class TempratureDataComponent {
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
   readonly headers = [
     'respondentId', 'dateTime', 'temperature', 'humidity'
   ];
@@ -54,6 +58,7 @@ export class TempratureDataComponent {
     if (this.isBusy){
       return;
     }
+
     this.loadedAtLeastOnce = true;
     this.isBusy = true;
     this.loadDataError = false;
@@ -70,6 +75,12 @@ export class TempratureDataComponent {
         this.resultEntries.push(e);
       });
       this.dataSource = new MatTableDataSource<TemperatureDataEntry>(this.resultEntries);
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+      if (this.sort){
+        this.dataSource.sort = this.sort;
+      }
     });
   }
 }

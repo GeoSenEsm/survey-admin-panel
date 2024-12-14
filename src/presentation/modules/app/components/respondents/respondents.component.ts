@@ -66,6 +66,7 @@ implements AfterViewInit{
 
   ngAfterViewInit(): void {
     this.loadData();
+    this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
     if (this.dataSource) {
       if (this.sort) {
         this.dataSource.sort = this.sort;
