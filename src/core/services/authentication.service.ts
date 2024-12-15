@@ -21,6 +21,6 @@ export class AuthenticationServiceImpl  extends ApiService implements Authentica
   }
 
   login(dto: LoginDto): Observable<string> {
-    return this.post('/api/authentication/login', dto, 'text');
+    return this.post('/api/authentication/login/admin', dto, 'text');
   }
 }

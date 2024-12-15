@@ -86,7 +86,15 @@ implements AfterViewInit{
     this.isBusy = true;
     this.respondents.length = 0;
     const observables = [
-      this.service.getRespondentInfoCollections(),
+      this.service.getRespondentInfoCollections()
+      .pipe(
+        catchError(e =>{
+          if (e.status == 404){
+            return of({} as RespondentInfoCollections);
+          }
+          return throwError(() => e);
+        })
+      ),
       this.service.getRespondents(this.filters)
     ];
 

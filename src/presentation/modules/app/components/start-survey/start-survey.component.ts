@@ -90,27 +90,6 @@ export class StartSurveyComponent implements OnInit {
     this.questions.splice(this.questions.indexOf(question), 1);
   }
 
-  save(): void{
-    if (!this.validate()){
-      return;
-    }
-
-    this.dialog.open(TypeToConfirmDialogComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      data:{
-        informationText: this.translate.instant('startSurvey.saveInformationText'),
-        textToType: this.translate.instant('startSurvey.saveConfirmationInput')
-      }
-    })
-    .afterClosed()
-    .subscribe(res =>{
-      if (res === true){
-        this.saveCore();
-      }
-    });
-  }
-
   private validate(): boolean{
     let valid = true;
     this.newQuestionsComponents?.forEach((questionComponent) => {
@@ -128,8 +107,8 @@ export class StartSurveyComponent implements OnInit {
     return valid;
   }
 
-  private saveCore(): void{
-    if (this.isBusy){
+  save(): void{
+    if (this.isBusy || !this.validate()){
       return;
     }
 
