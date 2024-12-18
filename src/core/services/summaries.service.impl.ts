@@ -16,10 +16,16 @@ implements SummariesService {
     }
 
     getTableResults(filter: SurveyResultsFilter): Observable<SurveyResultEntry[]> {
-        return this.get(`/api/surveyresponses/results`, {
+        const filterMap: any = {
             'surveyId': filter.surveyId,
             'dateFrom': filter.fromDate.toISOString(),
             'dateTo': filter.toDate.toISOString()
-        });
+        };
+        
+        if (filter.respondentId) {
+            filterMap['respondentId'] = filter.respondentId;
+        }
+
+        return this.get(`/api/surveyresponses/results`, filterMap);
     }
 }

@@ -31,8 +31,7 @@ export class MapFiltersComponent {
 
   constructor(
   formBuilder: FormBuilder,
-  private readonly dateAndTimeRangeService: DateAndTimeRangeService,
-  private readonly translate: TranslateService,){
+  private readonly dateAndTimeRangeService: DateAndTimeRangeService){
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined), 
       selectedRespondentName: [undefined, this.validateSelectedRespondent.bind(this)],
