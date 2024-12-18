@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,13 +13,14 @@ import { DateAndTimeRangeService } from '../../../../../core/services/data-and-t
 import { parseToTime } from '../../../../../core/utils/parsers';
 import { TemperatureDataFilter } from '../../../../../domain/models/temperature-data-filter';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-temperature-data-filters',
   templateUrl: './temperature-data-filters.component.html',
   styleUrl: './temperature-data-filters.component.scss',
 })
-export class TemperatureDataFiltersComponent {
+export class TemperatureDataFiltersComponent implements OnInit, OnDestroy{
   @Output()
   loadDataCallback = new EventEmitter<TemperatureDataFilter>();
   @Output()
@@ -35,7 +36,8 @@ export class TemperatureDataFiltersComponent {
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService,
     formBuilder: FormBuilder,
-    private readonly dateAndTimeRangeService: DateAndTimeRangeService
+    private readonly dateAndTimeRangeService: DateAndTimeRangeService,
+    private readonly route: ActivatedRoute
   ) {
     this.filtersForm = formBuilder.group({
       selectedRespondentName: [
@@ -49,6 +51,8 @@ export class TemperatureDataFiltersComponent {
       selectedTimeTo: ['20:00'],
     });
   }
+  
+
   ngOnDestroy(): void {
     this.subscriptionsToDisposeOnDestroy.forEach((sub) => sub?.unsubscribe());
   }
@@ -63,6 +67,15 @@ export class TemperatureDataFiltersComponent {
         'selectedTimeTo'
       ),
     ];
+    this.listenToQueryParams();
+  }
+
+  listenToQueryParams() {
+    const routeListener = this.route.queryParamMap.subscribe(params => {
+      this.filtersForm.patchValue({ selectedRespondentName: params.get('respondent') });
+    });
+
+    this.subscriptionsToDisposeOnDestroy.push(routeListener);
   }
 
   canLoad(): boolean {

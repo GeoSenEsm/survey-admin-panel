@@ -1,27 +1,41 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
-import { RespondentData, RespondentFilters } from '../../../../../domain/models/respondent-data';
+import {
+  RespondentData,
+  RespondentFilters,
+} from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
-import { convertToValueDisplayMappings, RespondentInfoCollections, RespondentInfoValueDisplayMappings } from '../../../../../domain/models/respondent-info';
+import {
+  convertToValueDisplayMappings,
+  RespondentInfoCollections,
+  RespondentInfoValueDisplayMappings,
+} from '../../../../../domain/models/respondent-info';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, finalize, forkJoin, of, throwError } from 'rxjs';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { EditRespondentDataComponent } from '../edit-respondent-data/edit-respondent-data.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-respondents',
   standalone: false,
   templateUrl: './respondents.component.html',
-  styleUrl: './respondents.component.css'
+  styleUrl: './respondents.component.css',
 })
-export class RespondentsComponent 
-implements AfterViewInit{
+export class RespondentsComponent implements AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource: MatTableDataSource<RespondentData> = null!;
@@ -36,32 +50,40 @@ implements AfterViewInit{
     {
       content: 'respondents.respondents.refresh',
       onClick: this.reloadRespondents.bind(this),
-      icon: 'refresh'
+      icon: 'refresh',
     },
     {
       content: 'respondents.respondents.createRespondentsAccounts',
-      onClick: this.generateRespondentsAccounts.bind(this)
+      onClick: this.generateRespondentsAccounts.bind(this),
     },
     {
       content: 'respondents.respondents.export',
       onClick: this.exportToCsv.bind(this),
       icon: 'file_download',
-      disabled: () => this.respondents.length == 0
-    }
+      disabled: () => this.respondents.length == 0,
+    },
   ];
   loadingErrorOccured = false;
   filters: RespondentFilters;
 
-  constructor(@Inject('dialog') private readonly _dialog: MatDialog,
-    @Inject('respondentDataService')private readonly service: RespondentDataService,
+  constructor(
+    @Inject('dialog') private readonly _dialog: MatDialog,
+    @Inject('respondentDataService')
+    private readonly service: RespondentDataService,
     private readonly translate: TranslateService,
-    private readonly exportService: CsvExportService){
-      const now = new Date();
-      this.filters = {
-        amount: 1,
-        from: new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7)),
-        to: new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20))
-      }
+    private readonly exportService: CsvExportService,
+    private readonly router: Router
+  ) {
+    const now = new Date();
+    this.filters = {
+      amount: 1,
+      from: new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7)
+      ),
+      to: new Date(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20)
+      ),
+    };
   }
 
   ngAfterViewInit(): void {
@@ -78,101 +100,117 @@ implements AfterViewInit{
     this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
   }
 
-  loadData(): void{
-    if (this.isBusy){
+  loadData(): void {
+    if (this.isBusy) {
       return;
     }
 
     this.isBusy = true;
     this.respondents.length = 0;
     const observables = [
-      this.service.getRespondentInfoCollections()
-      .pipe(
-        catchError(e =>{
-          if (e.status == 404){
+      this.service.getRespondentInfoCollections().pipe(
+        catchError((e) => {
+          if (e.status == 404) {
             return of({} as RespondentInfoCollections);
           }
           return throwError(() => e);
         })
       ),
-      this.service.getRespondents(this.filters)
+      this.service.getRespondents(this.filters),
     ];
 
-    forkJoin(observables).pipe(
-      finalize(() => {
-        this.isBusy = false;
-      }),
-      catchError(e =>{
-        if (e.status == 404){
-          return of([[], []]);
-        }
+    forkJoin(observables)
+      .pipe(
+        finalize(() => {
+          this.isBusy = false;
+        }),
+        catchError((e) => {
+          if (e.status == 404) {
+            return of([[], []]);
+          }
 
-        return throwError(() => e);
-      })
-    ).subscribe({
-      next: ([respondentInfos, respondents]) => {
-        this.loadingErrorOccured = false;
-        this.respondentInfos = respondentInfos as RespondentInfoCollections;
-        this.headers = ['id', 'username'].concat(Object.keys(this.respondentInfos));
-        this.valueDisplayMappings = convertToValueDisplayMappings(this.respondentInfos);
-        (respondents as RespondentData[]).forEach(r => this.respondents.push(r));
-      },
-      error: () => {
-        this.loadingErrorOccured = true;
-      }
-    });
+          return throwError(() => e);
+        })
+      )
+      .subscribe({
+        next: ([respondentInfos, respondents]) => {
+          this.loadingErrorOccured = false;
+          this.respondentInfos = respondentInfos as RespondentInfoCollections;
+          this.headers = ['id', 'username'].concat(
+            Object.keys(this.respondentInfos)
+          );
+          this.valueDisplayMappings = convertToValueDisplayMappings(
+            this.respondentInfos
+          );
+          (respondents as RespondentData[]).forEach((r) =>
+            this.respondents.push(r)
+          );
+        },
+        error: () => {
+          this.loadingErrorOccured = true;
+        },
+      });
   }
 
-  reloadRespondents(): void{
-    if (this.isBusy){
+  reloadRespondents(): void {
+    if (this.isBusy) {
       return;
     }
     this.isBusy = true;
     this.respondents.length = 0;
     console.log(this.filters);
-    this.service.getRespondents(this.filters)
-    .pipe(
-      finalize(() => {
-        this.isBusy = false;
-      }),
-    ).subscribe(res => {
-      (res as RespondentData[]).forEach(r => this.respondents.push(r));
+    this.service
+      .getRespondents(this.filters)
+      .pipe(
+        finalize(() => {
+          this.isBusy = false;
+        })
+      )
+      .subscribe((res) => {
+        (res as RespondentData[]).forEach((r) => this.respondents.push(r));
+      });
+  }
+
+  generateRespondentsAccounts(): void {
+    this._dialog.open(AddRespondentsComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: false,
     });
   }
 
-  generateRespondentsAccounts(): void{
-    this._dialog.open(AddRespondentsComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: false
-    })
-  }
-
-  getActualCellDisplay(respondent: RespondentData, columnName: string): string | undefined{
-    if (this.directDisplayColumns.has(columnName)){
+  getActualCellDisplay(
+    respondent: RespondentData,
+    columnName: string
+  ): string | undefined {
+    if (this.directDisplayColumns.has(columnName)) {
       return respondent[columnName];
     }
 
     return this.valueDisplayMappings[columnName]?.get(respondent[columnName]);
   }
 
-  getActualHeaderDisplay(columnName: string): string | undefined{
-    if (columnName == 'id'){
+  getActualHeaderDisplay(columnName: string): string | undefined {
+    if (columnName == 'id') {
       return 'ID';
     }
 
-    if (columnName == 'username'){
-      return this.translate.instant('respondents.respondents.usernameColumnHeader');
+    if (columnName == 'username') {
+      return this.translate.instant(
+        'respondents.respondents.usernameColumnHeader'
+      );
     }
 
     return columnName;
   }
 
-  exportToCsv(): void{
-    if (this.headers && this.respondents.length > 0){
-      const filename = this.translate.instant("respondents.respondents.gridExportFilename");
-      const actualCells = this.dataSource.data.map(r => {
+  exportToCsv(): void {
+    if (this.headers && this.respondents.length > 0) {
+      const filename = this.translate.instant(
+        'respondents.respondents.gridExportFilename'
+      );
+      const actualCells = this.dataSource.data.map((r) => {
         const cells: { [key: string]: string } = {};
-        Object.keys(r).forEach(h => {
+        Object.keys(r).forEach((h) => {
           cells[h] = this.getActualCellDisplay(r, h) || '';
         });
         return cells;
@@ -181,19 +219,39 @@ implements AfterViewInit{
     }
   }
 
-  edit(respondent: RespondentData): void{
+  edit(respondent: RespondentData): void {
     this._dialog.open(EditRespondentDataComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      data: respondent
-    })
+      data: respondent,
+    });
   }
 
-  changePassword(respondent: RespondentData): void{
+  changePassword(respondent: RespondentData): void {
     this._dialog.open(ChangePasswordComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      data: respondent
-    })
+      data: respondent,
+    });
+  }
+
+  goToSurveryResults(respondent: RespondentData): void {
+    this.router.navigate([`/summaries`], this.respondentNavigationExtras(respondent));
+  }
+
+  private respondentNavigationExtras(respondent: RespondentData): NavigationExtras {
+    return {
+      queryParams: {
+        respondent: respondent.username
+      }
+    };
+  }
+
+  goToMap(respondent: RespondentData): void {
+    this.router.navigate([`/map`], this.respondentNavigationExtras(respondent));
+  }
+
+  goToSensorData(respondent: RespondentData): void {
+    this.router.navigate([`/temperature`], this.respondentNavigationExtras(respondent));
   }
 }

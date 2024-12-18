@@ -18,3 +18,10 @@
 .table-container{
     text-align: center;
 }
+
+.respondents-actions-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}

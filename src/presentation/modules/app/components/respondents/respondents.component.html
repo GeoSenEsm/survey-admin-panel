@@ -1,12 +1,14 @@
 <div class="container">
-  <app-respondents-filters [filtersModel]="filters"/>
+  <app-respondents-filters [filtersModel]="filters" />
   <app-buttons-ribbon [buttons]="ribbonButtons"></app-buttons-ribbon>
   <div class="table-container">
-    <mat-table [dataSource]="dataSource!" matSort class="mat-elevation-z8" *ngIf="respondents.length > 0">
-      <ng-container
-        *ngFor="let column of headers"
-        [matColumnDef]="column"
-      >
+    <mat-table
+      [dataSource]="dataSource!"
+      matSort
+      class="mat-elevation-z8"
+      *ngIf="respondents.length > 0"
+    >
+      <ng-container *ngFor="let column of headers" [matColumnDef]="column">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ getActualHeaderDisplay(column) }}
         </mat-header-cell>
@@ -15,41 +17,72 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="edit">
+      <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef>
-          {{ 'respondents.respondents.edit' | translate }}
+          {{ "respondents.respondents.actions" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
-          <button mat-icon-button (click)="edit(respondent)" aria-label="Edit">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="changePassword">
-        <mat-header-cell *matHeaderCellDef>
-          {{ 'respondents.respondents.changePassword' | translate }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let respondent">
-          <button mat-icon-button (click)="changePassword(respondent)" aria-label="ChangePassword">
-            <mat-icon>key</mat-icon>
-          </button>
+          <div class="respondents-actions-cell">
+            <button
+              mat-icon-button
+              (click)="edit(respondent)"
+              matTooltip="{{ 'respondents.respondents.edit' | translate }}"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="changePassword(respondent)"
+              matTooltip="{{
+                'respondents.respondents.changePassword' | translate
+              }}"
+            >
+              <mat-icon>key</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="respontentResultsMenu"
+              matTooltip="{{
+                'respondents.respondents.respondentResults' | translate
+              }}"
+            >
+              <mat-icon>query_stats</mat-icon>
+            </button>
+            <mat-menu #respontentResultsMenu="matMenu">
+              <button mat-menu-item (click)="goToSurveryResults(respondent)">
+                <mat-icon>assignment</mat-icon>
+                {{ 'respondents.respondents.surveyResponses' | translate }}
+              </button>
+              <button mat-menu-item (click)="goToMap(respondent)">
+                <mat-icon>pin_drop</mat-icon>
+                {{ 'respondents.respondents.locationData' | translate }}
+              </button>
+              <button mat-menu-item (click)="goToSensorData(respondent)">
+                <mat-icon>device_thermostat</mat-icon>
+                {{ 'respondents.respondents.sensorData' | translate }}
+              </button>
+            </mat-menu>
+          </div>
         </mat-cell>
       </ng-container>
 
       <mat-header-row
-        *matHeaderRowDef="headers!.concat(['edit', 'changePassword'])"
+        *matHeaderRowDef="headers!.concat(['actions'])"
         class="table-header"
       ></mat-header-row>
 
-      <mat-row *matRowDef="let row; columns: headers!.concat(['edit', 'changePassword'])"></mat-row>
+      <mat-row
+        *matRowDef="let row; columns: headers!.concat(['actions'])"
+      ></mat-row>
     </mat-table>
     <h3 *ngIf="!isBusy && respondents.length === 0 && !loadingErrorOccured">
-      {{ 'respondents.respondents.nothingToDisplay' | translate }}
+      {{ "respondents.respondents.nothingToDisplay" | translate }}
     </h3>
-    <mat-error *ngIf="!isBusy && respondents.length === 0 && loadingErrorOccured">
+    <mat-error
+      *ngIf="!isBusy && respondents.length === 0 && loadingErrorOccured"
+    >
       <h3>
-        {{ 'respondents.respondents.errorLoadingRespondents' | translate }}
+        {{ "respondents.respondents.errorLoadingRespondents" | translate }}
       </h3>
     </mat-error>
   </div>
