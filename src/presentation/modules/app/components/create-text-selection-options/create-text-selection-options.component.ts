@@ -30,11 +30,6 @@ export class CreateTextSelectionOptionsComponent {
     this.changed.emit();
   }
 
-  removeOption(index: number) : void {
-    this.options.splice(index, 1);
-    this.changed.emit();
-  }
-
   isValid() : boolean {
     return this.commonOptionsError === null &&
     this.optionComponents.toArray().every(option => option.isValid());
@@ -60,5 +55,9 @@ export class CreateTextSelectionOptionsComponent {
     if (optionsContentSet.size !== this.options.length){
       this.commonOptionsError = this.translate.instant("createSurvey.createTextSelectionOptions.optionsMustBeUnique");
     }
+  }
+
+  removeOption(optoin: TextSelectionOption) : void {
+    this.options.splice(this.options.indexOf(optoin), 1);
   }
 }

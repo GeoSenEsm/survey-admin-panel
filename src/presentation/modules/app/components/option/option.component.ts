@@ -19,6 +19,7 @@ export class OptionComponent {
   @Input()
   isReadOnly: boolean = false;
   @Output() changed = new EventEmitter<void>();
+  @Output() removeOptionCallback = new EventEmitter<TextSelectionOption>();
 
   constructor(private readonly translate: TranslateService){}
 
@@ -39,5 +40,9 @@ export class OptionComponent {
 
   isValid() : boolean{
     return this.optionError === null;
+  }
+
+  removeOption(): void{
+    this.removeOptionCallback.emit(this.option);
   }
 }

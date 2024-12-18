@@ -3,7 +3,8 @@
 </mat-error>
 <div *ngFor="let option of options; let i = index" class="row">
   <div class="row-item">
-    <app-option [option]="option" [isReadOnly]="isReadOnly" (changed)="changed.emit()"/>
+    <app-option [option]="option" [isReadOnly]="isReadOnly" (changed)="changed.emit()"
+    (removeOptionCallback)="removeOption($event)"/>
   </div>
   <mat-form-field appearance="outline" class="row-item">
     <mat-label>
