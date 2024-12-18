@@ -14,5 +14,8 @@
       {{ optionError }}
     </mat-error>
   </mat-form-field>
-  <mat-icon>add_photo_alternate</mat-icon>
+  <button mat-icon-button color="primary" 
+  *ngIf="!isReadOnly" (click)="removeOption()">
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>
