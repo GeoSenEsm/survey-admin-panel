@@ -1,6 +1,5 @@
 import {
   Component,
-  ComponentFactoryResolver,
   Inject,
   Input,
   OnDestroy,
@@ -197,8 +196,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     .deleteAll(toDelete)
     .subscribe({
       next: () => {
-        this.calendarEvents = this.calendarEvents.filter(e => !e.selected);
-        this.refreshEvents();
+        this.loadExistingSendingPolicies();
       },
       error: (err) => {
         console.log(err);
