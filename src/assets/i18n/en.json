@@ -48,7 +48,12 @@
       "export": "Export",
       "gridExportFilename": "respondents.csv",
       "edit": "Edit",
-      "changePassword": "Change Password"
+      "changePassword": "Change Password",
+      "actions": "Actions",
+      "respondentResults": "Respondent's results",
+      "sensorData": "Sensor data",
+      "locationData": "Geolication data",
+      "surveyResponses": "Surveys responses"
     },
     "edit": {
       "title": "Edit respondent data",

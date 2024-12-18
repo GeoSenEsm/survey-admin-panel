@@ -3,9 +3,11 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
@@ -17,13 +19,14 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors 
 import { parseToTime } from '../../../../../core/utils/parsers';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-results-filters',
   templateUrl: './results-filters.component.html',
   styleUrl: './results-filters.component.scss',
 })
-export class ResultsFiltersComponent implements OnInit, OnDestroy {
+export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy {
   @Output()
   loadDataCallback = new EventEmitter<SurveyResultsFilter>();
   @Output()
@@ -43,7 +46,8 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService,
     formBuilder: FormBuilder,
-    private readonly dateAndTimeRangeService: DateAndTimeRangeService
+    private readonly dateAndTimeRangeService: DateAndTimeRangeService,
+    private route: ActivatedRoute
   ) {
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined),
@@ -54,6 +58,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy {
       selectedTimeTo: ['20:00'],
     });
   }
+
   ngOnDestroy(): void {
     this.subscriptionsToDisposeOnDestroy.forEach((sub) => sub?.unsubscribe());
   }
@@ -69,6 +74,16 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy {
         'selectedTimeTo'
       ),
     ];
+    this.listenToQueryParams();
+  }
+  
+  
+  listenToQueryParams() {
+    const routeListener = this.route.queryParamMap.subscribe(params => {
+      this.filtersForm.patchValue({ selectedRespondentName: params.get('respondent') });
+    });
+
+    this.subscriptionsToDisposeOnDestroy.push(routeListener);
   }
 
   loadSurveys(): void {
@@ -152,7 +167,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy {
       if (!control.value || this.respondents.some(r => r.username == control.value)){
         return null;
       }
-  
+      
       return { 'respondentDoesNotExist': true };
     }
 }

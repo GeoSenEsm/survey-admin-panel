@@ -1,6 +1,12 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { parseToTime } from '../../../../../core/utils/parsers';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
 import { catchError, Subscription, throwError } from 'rxjs';
 import { LocationFilters } from '../../../../../domain/models/location-filters';
@@ -9,11 +15,12 @@ import { SurveyService } from '../../../../../domain/external_services/survey.se
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-map-filters',
   templateUrl: './map-filters.component.html',
-  styleUrl: './map-filters.component.scss'
+  styleUrl: './map-filters.component.scss',
 })
 export class MapFiltersComponent {
   @Output()
@@ -30,52 +37,81 @@ export class MapFiltersComponent {
   respondents: RespondentData[] = [];
 
   constructor(
-  formBuilder: FormBuilder,
-  private readonly dateAndTimeRangeService: DateAndTimeRangeService){
+    formBuilder: FormBuilder,
+    private readonly dateAndTimeRangeService: DateAndTimeRangeService,
+    private readonly route: ActivatedRoute
+  ) {
     this.filtersForm = formBuilder.group({
-      selectedSurveyId: new FormControl<string | undefined>(undefined), 
-      selectedRespondentName: [undefined, this.validateSelectedRespondent.bind(this)],
+      selectedSurveyId: new FormControl<string | undefined>(undefined),
+      selectedRespondentName: [
+        undefined,
+        this.validateSelectedRespondent.bind(this),
+      ],
       onlyOutside: new FormControl<boolean>(false),
       selectedDateFrom: [new Date()],
       selectedTimeFrom: ['7:00'],
       selectedDateTo: [new Date()],
-      selectedTimeTo: ['20:00']
+      selectedTimeTo: ['20:00'],
     });
   }
   ngOnDestroy(): void {
-    this.subscriptionsToDisposeOnDestroy.forEach(sub => sub?.unsubscribe());
+    this.subscriptionsToDisposeOnDestroy.forEach((sub) => sub?.unsubscribe());
   }
-
 
   ngOnInit(): void {
     this.subscriptionsToDisposeOnDestroy = [
-      this.dateAndTimeRangeService.guardDates(this.filtersForm, 'selectedDateFrom', 'selectedTimeFrom', 'selectedDateTo', 'selectedTimeTo'),
+      this.dateAndTimeRangeService.guardDates(
+        this.filtersForm,
+        'selectedDateFrom',
+        'selectedTimeFrom',
+        'selectedDateTo',
+        'selectedTimeTo'
+      ),
     ];
+    this.listenToQueryParams();
   }
 
-  validateSelectedRespondent(control: AbstractControl): ValidationErrors | null{
-    if (!control.value || this.respondents.some(r => r.username == control.value)){
+  listenToQueryParams() {
+    const routeListener = this.route.queryParamMap.subscribe(params => {
+      this.filtersForm.patchValue({ selectedRespondentName: params.get('respondent') });
+    });
+
+    this.subscriptionsToDisposeOnDestroy.push(routeListener);
+  }
+
+  validateSelectedRespondent(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    if (
+      !control.value ||
+      this.respondents.some((r) => r.username == control.value)
+    ) {
       return null;
     }
 
-    return { 'respondentDoesNotExist': true };
+    return { respondentDoesNotExist: true };
   }
 
-  canLoad(): boolean{
-    return this.filtersForm.value.selectedDateFrom
-      && this.filtersForm.value.selectedTimeFrom && this.filtersForm.value.selectedDateTo
-      && this.filtersForm.value.selectedTimeTo
-      && this.filtersForm.valid;
+  canLoad(): boolean {
+    return (
+      this.filtersForm.value.selectedDateFrom &&
+      this.filtersForm.value.selectedTimeFrom &&
+      this.filtersForm.value.selectedDateTo &&
+      this.filtersForm.value.selectedTimeTo &&
+      this.filtersForm.valid
+    );
   }
 
-  loadData(): void{
-    if (this.canLoad()){
-      const timeFrom =  parseToTime(this.filtersForm.get('selectedTimeFrom')?.value);
-      const timeTo =  parseToTime(this.filtersForm.get('selectedTimeTo')?.value);
-      const dateFrom =  this.filtersForm.get('selectedDateFrom')?.value;
-      const dateTo =  this.filtersForm.get('selectedDateTo')?.value;
+  loadData(): void {
+    if (this.canLoad()) {
+      const timeFrom = parseToTime(
+        this.filtersForm.get('selectedTimeFrom')?.value
+      );
+      const timeTo = parseToTime(this.filtersForm.get('selectedTimeTo')?.value);
+      const dateFrom = this.filtersForm.get('selectedDateFrom')?.value;
+      const dateTo = this.filtersForm.get('selectedDateTo')?.value;
 
-      if (!timeFrom || !timeTo || !dateFrom || !dateTo){
+      if (!timeFrom || !timeTo || !dateFrom || !dateTo) {
         return;
       }
       dateFrom.setHours(timeFrom.hours, timeFrom.minutes);
@@ -86,7 +122,7 @@ export class MapFiltersComponent {
         onlyAutsideResearchArea: this.filtersForm.get('onlyOutside')?.value,
         respondentId: this.getSelectedRespondentId(),
         surveyId: this.filtersForm.get('selectedSurveyId')?.value,
-      }
+      };
       this.loadDataCallback.emit(filters);
     }
   }
@@ -94,16 +130,14 @@ export class MapFiltersComponent {
   private getSelectedRespondentId(): string | undefined {
     const selectedName = this.filtersForm.get('selectedRespondentName')?.value;
 
-    if (!selectedName){
+    if (!selectedName) {
       return undefined;
     }
 
-    return this.respondents.find(r => r.username == selectedName)?.id;
+    return this.respondents.find((r) => r.username == selectedName)?.id;
   }
 
-  exportData(): void{
+  exportData(): void {
     this.exportDataCallback.emit();
   }
 }
-
-
