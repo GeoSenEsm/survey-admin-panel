@@ -68,10 +68,10 @@ export class MapPinTooltipComponent {
   constructor(readonly datePipe: DatePipe) {}
 
   getSurveyName(): string | undefined {
-    if (this.respondents && this.location) {
-      return this.respondents.filter(
+    if (this.surveys && this.location) {
+      return this.surveys.filter(
         (e) => e.id === this.location!.respondentId
-      )[0].surveyName;
+      )[0].name;
     }
 
     return undefined;
