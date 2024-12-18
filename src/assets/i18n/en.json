@@ -111,7 +111,10 @@
       "contentNotEmptyError": "Field cannot be empty",
       "contentLenError": "Field cannot be longer than 250 characters",
       "number": "Number",
-      "image": "Image"
+      "image": "Image",
+      "deleteQuestion": "Delete question",
+      "moveQuestionUp": "Move question up",
+      "moveQuestionDown": "Move question down"
     },
     "createSection": {
       "section": "Section",
@@ -126,8 +129,11 @@
       "defaultQuestion": "Question",
       "nameLenError": "Field cannot be longer than 100 characters",
       "questionsNumError": "Section must contain a question",
-      "displayOnOneScreen": "Displayu on one page",
-      "displayOnOneScreenTooltip": "If checked, all questions in this section will be displayed on one page in the application."
+      "displayOnOneScreen": "Display on one page",
+      "displayOnOneScreenTooltip": "If checked, all questions in this section will be displayed on one page in the application.",
+      "deleteSection": "Delete section",
+      "moveSectionUp": "Move section up",
+      "moveSectionDown": "Move section down"
     },
     "createSurvey": {
       "addSection": "Add section",
