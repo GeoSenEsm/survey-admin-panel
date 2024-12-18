@@ -71,6 +71,10 @@
         color="primary"
         class="circle-button"
         (click)="down()"
+        *ngIf="!isReadOnly"
+        matTooltip="{{
+          'createSurvey.createQuestion.moveQuestionDown' | translate
+        }}"
       >
         <mat-icon>arrow_downward</mat-icon>
       </button>
@@ -79,10 +83,22 @@
         color="primary"
         class="circle-button"
         (click)="up()"
+        *ngIf="!isReadOnly"
+        matTooltip="{{
+          'createSurvey.createQuestion.moveQuestionUp' | translate
+        }}"
       >
         <mat-icon>arrow_upward</mat-icon>
       </button>
-      <button *ngIf="!isReadOnly" mat-button color="primary" (click)="remove()">
+      <button
+        *ngIf="!isReadOnly"
+        mat-button
+        color="primary"
+        (click)="remove()"
+        matTooltip="{{
+          'createSurvey.createQuestion.deleteQuestion' | translate
+        }}"
+      >
         <mat-icon>delete_outline</mat-icon>
       </button>
       <mat-slide-toggle

@@ -111,7 +111,10 @@
       "contentNotEmptyError": "Pole nie może być puste",
       "contentLenError": "Pole nie może być dłuższe niż 250 znaków",
       "number": "Liczba",
-      "image": "Obraz"
+      "image": "Obraz",
+      "deleteQuestion": "Usuń pytanie",
+      "moveQuestionUp": "Przesuń pytanie w górę",
+      "moveQuestionDown": "Przesuń pytanie w dół"
     },
     "createSection": {
       "section": "Sekcja",
@@ -127,7 +130,10 @@
       "nameLenError": "Pole nie może być dłuższe niż 100 znaków",
       "questionsNumError": "Sekcja musi zawierać pytanie",
       "displayOnOneScreen": "Wyświetl na jednej stronie",
-      "displayOnOneScreenTooltip": "Jeśli zaznaczone, wszystkie pytania z tej sekcji zostaną wyświetlone na jednej stronie w aplikacji."
+      "displayOnOneScreenTooltip": "Jeśli zaznaczone, wszystkie pytania z tej sekcji zostaną wyświetlone na jednej stronie w aplikacji.",
+      "deleteSection": "Usuń sekcję",
+      "moveSectionUp": "Przesuń sekcję w górę",
+      "moveSectionDown": "Przesuń sekcję w dół"
     },
     "createSurvey": {
       "addSection": "Dodaj sekcję",

@@ -1,104 +1,159 @@
 <div class="container">
-    <div>
-        <h4 class="header">
-            {{ 'createSurvey.createSection.section' | translate }} {{sectionNumber}}
-        </h4>
-        <div class="grid-container">
-            <div class="grid-item">
-                <mat-form-field appearance="fill">
-                    <input matInput maxlength="100" [(ngModel)]="name"
-                    [errorStateMatcher]="sectionNameErrorStateMatcher"
-                    [readonly]="isReadOnly"
-                    (blur)="validateName()"
-                    (change)="changed.emit()"/>
-                    <mat-error *ngIf="nameError != null">{{ nameError }}</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="grid-item">
-                <mat-form-field appearance="fill">
-                    <mat-label> {{ 'createSurvey.createSection.visibility' | translate  }} </mat-label>
-                    <mat-select [(value)]="visibility" [disabled]="isReadOnly" (selectionChange)="changed.emit()">
-                      <mat-option *ngFor="let visibility of selectableSectionVisibilities"
-                      [value]="visibility">
-                        {{ getVisibilityDisplay(visibility) }}
-                      </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <mat-form-field appearance="fill">
-                    <mat-label>
-                        {{ 'createSurvey.createSection.group' | translate  }}
-                    </mat-label>
-                    <mat-select [(value)]="section!.respondentsGroupId"
-                    [disabled]="visibility !== SectionVisibility.GROUP_SPECIFIC || isReadOnly"
-                    (selectionChange)="changed.emit()">
-                        <mat-option *ngFor="let group of respondentsGroups"
-                        [value]="group.id">
-                        {{ group.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item disp-on-on-screen-toggle">
-                <button mat-icon-button (click)="remove()" *ngIf="!isReadOnly">
-                    <mat-icon color="accent">delete</mat-icon>
-                </button>
-                <button mat-icon-button (click)="down()" *ngIf="!isReadOnly">
-                    <mat-icon color="accent">arrow_downward</mat-icon>
-                </button>
-                <button mat-icon-button (click)="up()" *ngIf="!isReadOnly">
-                    <mat-icon color="accent">arrow_upward</mat-icon>
-                </button>
-                <mat-slide-toggle color="accent" 
-                [(ngModel)]="section!.displayOnOneScreen"
-                labelPosition="before"
-                [disabled]="isReadOnly"
-                (change)="changed.emit()"
-                matTooltip="{{ 'createSurvey.createSection.displayOnOneScreenTooltip' | translate  }}">
-                    <span class="disp-on-on-screen-toggle-label">
-                        {{ 'createSurvey.createSection.displayOnOneScreen' | translate}}
-                    </span>
-                </mat-slide-toggle>
-            </div>
-        </div>
-        <div class="questions">
-            <button mat-button
-            color="primary"
-            class="create-question-button"
-            (click)="addQuestion(0)"
-            *ngIf="section!.questions.length === 0 && !isReadOnly">
-                {{ 'createSurvey.createSection.addFirstQuestion' | translate  }}
-            </button>
-            <mat-error *ngIf="questionsNumberError != null">
-                {{ questionsNumberError }}
-            </mat-error>
-            <app-create-question *ngFor="let question of section!.questions"
-            [isReadOnly]="isReadOnly"
-            (addQuestionBelowEvent)="addQuestionBelow($event)"
-            (removeEvent)="removeQuestion($event)"
-            [question]="question"
-            [sectionsToBeTriggered]="selectableSectionsToBeTriggered"
-            (upCallback)="questionUp($event)"
-            (downCallback)="questionDown($event)"
-            (changed)="changed.emit()"/>
-        </div>
-        <mat-error *ngIf="questionsNumberError != null">{{ questionsNumberError }}></mat-error>
-        <div class="wrap-panel">
-            <button *ngIf="!isReadOnly"
-            mat-flat-button color="primary" 
-            (click)="addQuestion(section!.questions.length)">
-                 {{ 'createSurvey.createSection.addQuestion' | translate  }}
-                <mat-icon>add</mat-icon>
-             </button>
-            <button *ngIf="!isReadOnly"
-            mat-stroked-button color="primar"
-            (click)="addSectionBelow()">
-                {{ 'createSurvey.createSection.addSection' | translate  }}
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
+  <div>
+    <h4 class="header">
+      {{ "createSurvey.createSection.section" | translate }} {{ sectionNumber }}
+    </h4>
+    <div class="grid-container">
+      <div class="grid-item">
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            maxlength="100"
+            [(ngModel)]="name"
+            [errorStateMatcher]="sectionNameErrorStateMatcher"
+            [readonly]="isReadOnly"
+            (blur)="validateName()"
+            (change)="changed.emit()"
+          />
+          <mat-error *ngIf="nameError != null">{{ nameError }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid-item">
+        <mat-form-field appearance="fill">
+          <mat-label>
+            {{ "createSurvey.createSection.visibility" | translate }}
+          </mat-label>
+          <mat-select
+            [(value)]="visibility"
+            [disabled]="isReadOnly"
+            (selectionChange)="changed.emit()"
+          >
+            <mat-option
+              *ngFor="let visibility of selectableSectionVisibilities"
+              [value]="visibility"
+            >
+              {{ getVisibilityDisplay(visibility) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="grid-item"></div>
+      <div class="grid-item">
+        <mat-form-field appearance="fill">
+          <mat-label>
+            {{ "createSurvey.createSection.group" | translate }}
+          </mat-label>
+          <mat-select
+            [(value)]="section!.respondentsGroupId"
+            [disabled]="
+              visibility !== SectionVisibility.GROUP_SPECIFIC || isReadOnly
+            "
+            (selectionChange)="changed.emit()"
+          >
+            <mat-option
+              *ngFor="let group of respondentsGroups"
+              [value]="group.id"
+            >
+              {{ group.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="grid-item"></div>
+      <div class="grid-item disp-on-on-screen-toggle">
+        <button
+          mat-icon-button
+          (click)="remove()"
+          *ngIf="!isReadOnly"
+          matTooltip="{{
+            'createSurvey.createSection.deleteSection' | translate
+          }}"
+        >
+          <mat-icon color="accent">delete</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="down()"
+          *ngIf="!isReadOnly"
+          matTooltip="{{
+            'createSurvey.createSection.moveSectionDown' | translate
+          }}"
+        >
+          <mat-icon color="accent">arrow_downward</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="up()"
+          *ngIf="!isReadOnly"
+          matTooltip="{{
+            'createSurvey.createSection.moveSectionUp' | translate
+          }}"
+        >
+          <mat-icon color="accent">arrow_upward</mat-icon>
+        </button>
+        <mat-slide-toggle
+          color="accent"
+          [(ngModel)]="section!.displayOnOneScreen"
+          labelPosition="before"
+          [disabled]="isReadOnly"
+          (change)="changed.emit()"
+          matTooltip="{{
+            'createSurvey.createSection.displayOnOneScreenTooltip' | translate
+          }}"
+        >
+          <span class="disp-on-on-screen-toggle-label">
+            {{ "createSurvey.createSection.displayOnOneScreen" | translate }}
+          </span>
+        </mat-slide-toggle>
+      </div>
     </div>
+    <div class="questions">
+      <button
+        mat-button
+        color="primary"
+        class="create-question-button"
+        (click)="addQuestion(0)"
+        *ngIf="section!.questions.length === 0 && !isReadOnly"
+      >
+        {{ "createSurvey.createSection.addFirstQuestion" | translate }}
+      </button>
+      <mat-error *ngIf="questionsNumberError != null">
+        {{ questionsNumberError }}
+      </mat-error>
+      <app-create-question
+        *ngFor="let question of section!.questions"
+        [isReadOnly]="isReadOnly"
+        (addQuestionBelowEvent)="addQuestionBelow($event)"
+        (removeEvent)="removeQuestion($event)"
+        [question]="question"
+        [sectionsToBeTriggered]="selectableSectionsToBeTriggered"
+        (upCallback)="questionUp($event)"
+        (downCallback)="questionDown($event)"
+        (changed)="changed.emit()"
+      />
+    </div>
+    <mat-error *ngIf="questionsNumberError != null"
+      >{{ questionsNumberError }}></mat-error
+    >
+    <div class="wrap-panel">
+      <button
+        *ngIf="!isReadOnly"
+        mat-flat-button
+        color="primary"
+        (click)="addQuestion(section!.questions.length)"
+      >
+        {{ "createSurvey.createSection.addQuestion" | translate }}
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        *ngIf="!isReadOnly"
+        mat-stroked-button
+        color="primar"
+        (click)="addSectionBelow()"
+      >
+        {{ "createSurvey.createSection.addSection" | translate }}
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
