@@ -18,9 +18,14 @@ implements TemperatureDataService{
         }
 
     getTemperatureData(filter: TemperatureDataFilter): Observable<TemperatureDataEntry[]> {
-        return this.get(`/api/sensordata`, {
+        const filterMap: any = {
             'from': filter.from.toISOString(),
             'to': filter.to.toISOString()
-        });
+        };
+
+        if (filter.respondentId){
+            filterMap['respondentId'] = filter.respondentId;
+        }
+        return this.get(`/api/sensordata`, filterMap);
     }
 }

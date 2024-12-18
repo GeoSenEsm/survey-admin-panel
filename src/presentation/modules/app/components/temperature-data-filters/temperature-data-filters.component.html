@@ -2,6 +2,15 @@
     <form (onsubmit)="loadData()" [formGroup]="filtersForm">
       <mat-form-field appearance="fill">
         <mat-label>
+          {{ "map.respondent" | translate }}
+        </mat-label>
+        <input matInput formControlName="selectedRespondentName"/>
+        <mat-error>
+          {{ "map.respondentDoesNotExist" | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>
           {{ "temperature.dateFrom" | translate }}
         </mat-label>
         <input matInput [matDatepicker]="dateFromPicker" readonly formControlName="selectedDateFrom"/>
