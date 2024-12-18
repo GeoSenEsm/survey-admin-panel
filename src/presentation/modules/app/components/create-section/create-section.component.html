@@ -43,10 +43,13 @@
             </div>
             <div class="grid-item"></div>
             <div class="grid-item disp-on-on-screen-toggle">
-                <button mat-icon-button (click)="down()">
+                <button mat-icon-button (click)="remove()" *ngIf="!isReadOnly">
+                    <mat-icon color="accent">delete</mat-icon>
+                </button>
+                <button mat-icon-button (click)="down()" *ngIf="!isReadOnly">
                     <mat-icon color="accent">arrow_downward</mat-icon>
                 </button>
-                <button mat-icon-button (click)="up()">
+                <button mat-icon-button (click)="up()" *ngIf="!isReadOnly">
                     <mat-icon color="accent">arrow_upward</mat-icon>
                 </button>
                 <mat-slide-toggle color="accent" 
