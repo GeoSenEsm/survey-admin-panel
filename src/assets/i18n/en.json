@@ -344,6 +344,20 @@
       "noResearchAreaDefined": "No research area defined.",
       "refresh": "Refresh"
     },
+    "changeAdminPassword": {
+      "title": "Change Administrator Account Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm Password",
+      "save": "Save",
+      "cancel": "Cancel",
+      "passwordChangedSuccessfully": "The password has been changed successfully.",
+      "invalidPassword": "The password is incorrect.",
+      "minPasswordLen": "The password must contain at least 12 characters.",
+      "maxPasswordLen": "The password must contain no more than 64 characters.",
+      "passwordsDontMatch": "The passwords do not match.",
+      "fieldIsRequired": "This field is required."
+    },
     "ok": "OK",
     "somethingWentWrong": "Something went wrong"
   }
