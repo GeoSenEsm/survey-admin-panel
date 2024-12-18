@@ -59,5 +59,6 @@ export class CreateTextSelectionOptionsComponent {
 
   removeOption(optoin: TextSelectionOption) : void {
     this.options.splice(this.options.indexOf(optoin), 1);
+    this.changed.emit();
   }
 }
