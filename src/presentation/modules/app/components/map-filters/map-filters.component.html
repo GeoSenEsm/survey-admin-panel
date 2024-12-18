@@ -14,14 +14,14 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
-        <mat-label>
-          {{ "map.respondent" | translate }}
-        </mat-label>
-        <input matInput formControlName="selectedRespondentName"/>
-        <mat-error>
-          {{ "map.respondentDoesNotExist" | translate }}
-        </mat-error>
-      </mat-form-field>
+      <mat-label>
+        {{ "map.respondent" | translate }}
+      </mat-label>
+      <input matInput formControlName="selectedRespondentName" />
+      <mat-error>
+        {{ "map.respondentDoesNotExist" | translate }}
+      </mat-error>
+    </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>
         {{ "map.dateFrom" | translate }}
@@ -75,7 +75,7 @@
       <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
     </mat-form-field>
     <mat-slide-toggle labelPosition="before" formControlName="onlyOutside">
-        {{ "map.onlyOutsideResearchArea" | translate }}
+      {{ "map.onlyOutsideResearchArea" | translate }}
     </mat-slide-toggle>
     <button
       type="submit"
