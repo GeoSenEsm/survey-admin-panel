@@ -79,6 +79,7 @@ import { EditRespondentDataComponent } from './components/edit-respondent-data/e
 import { RespondentsFiltersComponent } from './components/respondents-filters/respondents-filters.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { MatSortModule } from '@angular/material/sort';
+import { ChangeAdminPasswordComponent } from './components/change-admin-password/change-admin-password.component';
 
 
 export const routes: Routes = [
@@ -187,7 +188,8 @@ export function HttpLoaderFactory(http: HttpClient){
     CalendarEventCheckboxComponent,
     EditRespondentDataComponent,
     RespondentsFiltersComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ChangeAdminPasswordComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

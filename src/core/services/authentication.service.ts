@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../domain/external_services/authentica
 import { CreateRespondentsAccountsDto } from '../../domain/models/create.respondents.accounts.dto';
 import { LoginDto } from '../../domain/models/login.dto';
 import { ConfigService } from './config.service';
+import { ChangePasswordDto } from '../../domain/models/change-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,9 @@ export class AuthenticationServiceImpl  extends ApiService implements Authentica
 
   constructor(client: HttpClient, configService: ConfigService) {
     super(client, configService);
+  }
+  updateAdminPassword(dto: ChangePasswordDto): Observable<string> {
+    return this.patch('/api/authentication/password', dto);
   }
 
   public generateRespondents(dto: CreateRespondentsAccountsDto): Observable<LoginDto[]>{
