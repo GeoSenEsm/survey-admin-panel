@@ -4,7 +4,7 @@
     <input
       matInput
       [(ngModel)]="option.content"
-      maxlength="50"
+      maxlength="150"
       [errorStateMatcher]="optionErrorStateMatcher"
       (blur)="validate()"
       [readonly]="isReadOnly"
