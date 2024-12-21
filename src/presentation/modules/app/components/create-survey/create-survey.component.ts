@@ -164,7 +164,7 @@ export class CreateSurveyComponent implements OnInit {
           },
         },
       ],
-      displayOnOneScreen: true,
+      displayOnOneScreen: false,
     };
     this.model.sections.splice(index, 0, newSection);
     this.changed.emit();
