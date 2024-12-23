@@ -104,7 +104,9 @@ export function HttpLoaderFactory(http: HttpClient){
   imports: [
     BrowserModule,
     RouterOutlet,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'top',
+    }),
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -129,7 +131,9 @@ export function HttpLoaderFactory(http: HttpClient){
     MatTabsModule,
     MatGridListModule,
     FullCalendarModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({ 
+      echarts: () => import('echarts')
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

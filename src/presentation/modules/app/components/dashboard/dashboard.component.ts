@@ -1,10 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../../../../core/services/local-storage';
-import { STORAGE_SERVICE_TOKEN, TOKEN_HANDLER_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  STORAGE_SERVICE_TOKEN,
+  TOKEN_HANDLER_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import { TokenHandler } from '../../../../../core/services/token-handler';
 import { R } from '@fullcalendar/core/internal-common';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { MatDrawerContent } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
 
 interface NavListItem {
   display: string;
@@ -16,68 +21,90 @@ interface NavListItem {
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
+  private hideScrollViews = ['/respondents'];
+  @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
+  navigationSubscription?: Subscription;
 
   navListItems: NavListItem[] = [
     {
       display: 'app.dashboard.configuration',
       matIcon: 'settings',
-      link: 'configuration'
+      link: 'configuration',
     },
     {
       display: 'app.dashboard.startSurvey',
-      matIcon: "list",
-      link: 'startSurvey'
+      matIcon: 'list',
+      link: 'startSurvey',
     },
     {
       display: 'app.dashboard.respondents',
       matIcon: 'group',
-      link: 'respondents'
+      link: 'respondents',
     },
     {
       display: 'app.dashboard.surveys',
       matIcon: 'content_paste',
-      link: 'surveys'
+      link: 'surveys',
     },
     {
       display: 'app.dashboard.creatingSurveys',
       matIcon: 'build',
-      link: 'surveys/new'
+      link: 'surveys/new',
     },
     {
       display: 'app.dashboard.results',
       matIcon: 'bar_chart',
-      link: 'summaries'
+      link: 'summaries',
     },
     {
       display: 'app.dashboard.temepratureSensors',
       matIcon: 'device_thermostat',
-      link: 'temperature'
+      link: 'temperature',
     },
     {
       display: 'app.dashboard.map',
       matIcon: 'map',
-      link: 'map'
-    }
-  ]
+      link: 'map',
+    },
+  ];
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
-    ['pl']: 'Polski'
+    ['pl']: 'Polski',
   };
   avatarInitials: string = 'A';
 
-  constructor(private translateService: TranslateService,
-    @Inject(STORAGE_SERVICE_TOKEN) private readonly storage: LocalStorageService,
+  constructor(
+    private translateService: TranslateService,
+    @Inject(STORAGE_SERVICE_TOKEN)
+    private readonly storage: LocalStorageService,
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
-    private readonly router: Router) {}
-  
-    ngOnInit(): void {
+    private readonly router: Router
+  ) {}
+  ngOnDestroy(): void {
+    this.navigationSubscription?.unsubscribe();
+  }
+
+  ngOnInit(): void {
+    this.navigationSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.scrollToTop();
+      }
+    });
     this._language = this.translateService.currentLang;
     this.loadInitials();
+  }
+
+  private scrollToTop(): void {
+    if (this.drawerContent) {
+      this.drawerContent
+        .getElementRef()
+        .nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   get availableLanguages(): string[] {
@@ -100,7 +127,7 @@ export class DashboardComponent implements OnInit{
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
-  private loadInitials(): void{
+  private loadInitials(): void {
     const token = this.storage.get<string>('token');
 
     if (!token) {
@@ -113,8 +140,12 @@ export class DashboardComponent implements OnInit{
     }
   }
 
-  logout(): void{
+  logout(): void {
     this.storage.remove('token');
     this.router.navigate(['login']);
+  }
+
+  shouldHideOverflow(): boolean {
+    return this.hideScrollViews.includes(this.router.url);
   }
 }

@@ -24,9 +24,16 @@
 }
 
 mat-drawer-content{
-    overflow: auto;
     /* TODO change this not to be hardcoded!!!!*/
     background-color: #ffffff;
+}
+
+.auto-overflow{
+    overflow: auto;
+}
+
+.hide-overflow {
+    overflow: hidden;
 }
 
 mat-toolbar span{
