@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from '../../../../../domain/external_services/authentication.service';
+import { AUTHENTICATION_SERVICE } from '../../../../../core/services/registration-names';
 
 @Component({
   selector: 'app-change-password',
@@ -30,7 +32,7 @@ export class ChangePasswordComponent {
     private dialogRef: MatDialogRef<ChangePasswordComponent>,
     private readonly dialog: MatDialog,
     private readonly translate: TranslateService,
-    @Inject('respondentDataService')private readonly service: RespondentDataService,
+    @Inject(AUTHENTICATION_SERVICE) private readonly service: AuthenticationService,
     private readonly snackbar: MatSnackBar
   ){}
 
@@ -59,7 +61,7 @@ export class ChangePasswordComponent {
     if (this.formGroup.invalid){
       return;
     }
-    this.service.updatePassword(this.data.id,{
+    this.service.updateRespondentPassword(this.data.id,{
       newPassword: this.formGroup.get('newPassword')?.value!
     } ).subscribe({
       next: (res) => {
