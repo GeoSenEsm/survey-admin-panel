@@ -1,13 +1,7 @@
-.paginator-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
 .container{
     height: 100vh;
     width: 100%;
+    overflow: hidden;
 }
 
 .spacer{
@@ -17,6 +11,16 @@
 
 .table-container{
     text-align: center;
+    height: calc(100% - 264px); /* substract paginator height here */
+    overflow-y: auto;
+    display: block;
+}
+
+mat-header-row,
+mat-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .respondents-actions-cell{

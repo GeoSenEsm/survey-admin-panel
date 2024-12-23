@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
   Inject,
@@ -9,7 +10,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
 import {
@@ -38,12 +39,12 @@ import { InitialSurveyState } from '../../../../../core/models/start-survey-ques
   templateUrl: './respondents.component.html',
   styleUrl: './respondents.component.css',
 })
-export class RespondentsComponent implements AfterViewInit {
+export class RespondentsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
-  headers: string[] | undefined;
+  headers: string[] = [];
   directDisplayColumns = new Set<string>(['username', 'id']);
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
@@ -77,7 +78,8 @@ export class RespondentsComponent implements AfterViewInit {
     private readonly translate: TranslateService,
     private readonly exportService: CsvExportService,
     private readonly router: Router,
-    @Inject(START_SURVEY_SERVICE_TOKEN) private readonly initialSurveyService: StartSurveyService
+    @Inject(START_SURVEY_SERVICE_TOKEN)
+    private readonly initialSurveyService: StartSurveyService
   ) {
     const now = new Date();
     this.filters = {
@@ -91,18 +93,14 @@ export class RespondentsComponent implements AfterViewInit {
     };
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<RespondentData>([]);
     this.loadData();
-    this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
-    if (this.dataSource) {
-      if (this.sort) {
-        this.dataSource.sort = this.sort;
-      }
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-      }
-    }
-    this.dataSource = new MatTableDataSource<RespondentData>(this.respondents);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator!;
+    this.dataSource.sort = this.sort!;
   }
 
   loadData(): void {
@@ -112,6 +110,7 @@ export class RespondentsComponent implements AfterViewInit {
 
     this.isBusy = true;
     this.respondents.length = 0;
+    this.dataSource.data = [];
     const observables = [
       this.service.getRespondentInfoCollections().pipe(
         catchError((e) => {
@@ -122,7 +121,7 @@ export class RespondentsComponent implements AfterViewInit {
         })
       ),
       this.service.getRespondents(this.filters),
-      this.initialSurveyService.getState()
+      this.initialSurveyService.getState(),
     ];
 
     forkJoin(observables)
@@ -142,15 +141,17 @@ export class RespondentsComponent implements AfterViewInit {
         next: ([respondentInfos, respondents, initialSurveyState]) => {
           this.loadingErrorOccured = false;
           this.respondentInfos = respondentInfos as RespondentInfoCollections;
-          this.headers = ['id', 'username'].concat(
-            Object.keys(this.respondentInfos)
-          );
+          this.headers = ['username']
+            .concat(Object.keys(this.respondentInfos))
+            .concat(['id']);
           this.valueDisplayMappings = convertToValueDisplayMappings(
             this.respondentInfos
           );
           (respondents as RespondentData[]).forEach((r) =>
             this.respondents.push(r)
           );
+          this.respondents.sort((a, b) => a.username.localeCompare(b.username));
+          this.dataSource.data = this.respondents;
           this.initialSurveyState = initialSurveyState as InitialSurveyState;
         },
         error: () => {
@@ -243,14 +244,19 @@ export class RespondentsComponent implements AfterViewInit {
   }
 
   goToSurveryResults(respondent: RespondentData): void {
-    this.router.navigate([`/summaries`], this.respondentNavigationExtras(respondent));
+    this.router.navigate(
+      [`/summaries`],
+      this.respondentNavigationExtras(respondent)
+    );
   }
 
-  private respondentNavigationExtras(respondent: RespondentData): NavigationExtras {
+  private respondentNavigationExtras(
+    respondent: RespondentData
+  ): NavigationExtras {
     return {
       queryParams: {
-        respondent: respondent.username
-      }
+        respondent: respondent.username,
+      },
     };
   }
 
@@ -259,7 +265,10 @@ export class RespondentsComponent implements AfterViewInit {
   }
 
   goToSensorData(respondent: RespondentData): void {
-    this.router.navigate([`/temperature`], this.respondentNavigationExtras(respondent));
+    this.router.navigate(
+      [`/temperature`],
+      this.respondentNavigationExtras(respondent)
+    );
   }
 
   canEditRespondents(): boolean {

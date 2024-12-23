@@ -3,10 +3,10 @@
   <app-buttons-ribbon [buttons]="ribbonButtons"></app-buttons-ribbon>
   <div class="table-container">
     <mat-table
+      #table
       [dataSource]="dataSource!"
       matSort
       class="mat-elevation-z8"
-      *ngIf="respondents.length > 0"
     >
       <ng-container *ngFor="let column of headers" [matColumnDef]="column">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -80,9 +80,9 @@
         class="table-header"
       ></mat-header-row>
 
-      <mat-row
-        *matRowDef="let row; columns: headers!.concat(['actions'])"
-      ></mat-row>
+        <mat-row
+          *matRowDef="let row; columns: headers!.concat(['actions'])"
+        ></mat-row>
     </mat-table>
     <h3 *ngIf="!isBusy && respondents.length === 0 && !loadingErrorOccured">
       {{ "respondents.respondents.nothingToDisplay" | translate }}
@@ -98,7 +98,7 @@
 
   <div class="paginator-container">
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
+      [pageSizeOptions]="[30, 50, 100]"
       showFirstLastButtons
     ></mat-paginator>
   </div>
