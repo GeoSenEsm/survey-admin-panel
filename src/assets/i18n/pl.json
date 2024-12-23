@@ -53,7 +53,8 @@
       "respondentResults": "Wyniki respondenta",
       "sensorData": "Dane z czujników",
       "locationData": "Dane lokalizacyjne",
-      "surveyResponses": "Odpowiedzi na ankiety"
+      "surveyResponses": "Odpowiedzi na ankiety",
+      "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana."
     },
     "edit": {
       "title": "Edycja danych respondenta",
