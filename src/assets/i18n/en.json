@@ -53,7 +53,8 @@
       "respondentResults": "Respondent's results",
       "sensorData": "Sensor data",
       "locationData": "Geolication data",
-      "surveyResponses": "Surveys responses"
+      "surveyResponses": "Surveys responses",
+      "cannotEditRespondentData": "Cannot edit respondent's data, until the initial survey is published."
     },
     "edit": {
       "title": "Edit respondent data",

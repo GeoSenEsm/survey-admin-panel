@@ -23,13 +23,22 @@
         </mat-header-cell>
         <mat-cell *matCellDef="let respondent">
           <div class="respondents-actions-cell">
-            <button
-              mat-icon-button
-              (click)="edit(respondent)"
-              matTooltip="{{ 'respondents.respondents.edit' | translate }}"
+            <div
+              matTooltip="{{
+                (canEditRespondents()
+                  ? 'respondents.respondents.edit'
+                  : 'respondents.respondents.cannotEditRespondentData'
+                ) | translate
+              }}"
             >
-              <mat-icon>edit</mat-icon>
-            </button>
+              <button
+                [disabled]="!canEditRespondents()"
+                mat-icon-button
+                (click)="edit(respondent)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
             <button
               mat-icon-button
               (click)="changePassword(respondent)"
@@ -51,15 +60,15 @@
             <mat-menu #respontentResultsMenu="matMenu">
               <button mat-menu-item (click)="goToSurveryResults(respondent)">
                 <mat-icon>assignment</mat-icon>
-                {{ 'respondents.respondents.surveyResponses' | translate }}
+                {{ "respondents.respondents.surveyResponses" | translate }}
               </button>
               <button mat-menu-item (click)="goToMap(respondent)">
                 <mat-icon>pin_drop</mat-icon>
-                {{ 'respondents.respondents.locationData' | translate }}
+                {{ "respondents.respondents.locationData" | translate }}
               </button>
               <button mat-menu-item (click)="goToSensorData(respondent)">
                 <mat-icon>device_thermostat</mat-icon>
-                {{ 'respondents.respondents.sensorData' | translate }}
+                {{ "respondents.respondents.sensorData" | translate }}
               </button>
             </mat-menu>
           </div>

@@ -28,6 +28,9 @@ import { CsvExportService } from '../../../../../core/services/csv-export.servic
 import { EditRespondentDataComponent } from '../edit-respondent-data/edit-respondent-data.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { NavigationExtras, Router } from '@angular/router';
+import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
+import { InitialSurveyState } from '../../../../../core/models/start-survey-question';
 
 @Component({
   selector: 'app-respondents',
@@ -65,6 +68,7 @@ export class RespondentsComponent implements AfterViewInit {
   ];
   loadingErrorOccured = false;
   filters: RespondentFilters;
+  initialSurveyState: InitialSurveyState = 'not_created';
 
   constructor(
     @Inject('dialog') private readonly _dialog: MatDialog,
@@ -72,7 +76,8 @@ export class RespondentsComponent implements AfterViewInit {
     private readonly service: RespondentDataService,
     private readonly translate: TranslateService,
     private readonly exportService: CsvExportService,
-    private readonly router: Router
+    private readonly router: Router,
+    @Inject(START_SURVEY_SERVICE_TOKEN) private readonly initialSurveyService: StartSurveyService
   ) {
     const now = new Date();
     this.filters = {
@@ -117,6 +122,7 @@ export class RespondentsComponent implements AfterViewInit {
         })
       ),
       this.service.getRespondents(this.filters),
+      this.initialSurveyService.getState()
     ];
 
     forkJoin(observables)
@@ -133,7 +139,7 @@ export class RespondentsComponent implements AfterViewInit {
         })
       )
       .subscribe({
-        next: ([respondentInfos, respondents]) => {
+        next: ([respondentInfos, respondents, initialSurveyState]) => {
           this.loadingErrorOccured = false;
           this.respondentInfos = respondentInfos as RespondentInfoCollections;
           this.headers = ['id', 'username'].concat(
@@ -145,6 +151,7 @@ export class RespondentsComponent implements AfterViewInit {
           (respondents as RespondentData[]).forEach((r) =>
             this.respondents.push(r)
           );
+          this.initialSurveyState = initialSurveyState as InitialSurveyState;
         },
         error: () => {
           this.loadingErrorOccured = true;
@@ -253,5 +260,9 @@ export class RespondentsComponent implements AfterViewInit {
 
   goToSensorData(respondent: RespondentData): void {
     this.router.navigate([`/temperature`], this.respondentNavigationExtras(respondent));
+  }
+
+  canEditRespondents(): boolean {
+    return this.initialSurveyState == 'published';
   }
 }
