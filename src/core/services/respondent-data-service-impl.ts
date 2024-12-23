@@ -46,10 +46,5 @@ implements RespondentDataService{
             });
         }
         return this.get('/api/respondents/all');
-    }
-
-    updatePassword(redpondentId: string, dto: ChangePasswordDto): Observable<any> {
-        return this.patch(`/api/respondents/${redpondentId}/password`, dto);
-    }
-    
+    }  
 }

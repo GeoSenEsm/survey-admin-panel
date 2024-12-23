@@ -6,5 +6,4 @@ import { ChangePasswordDto } from "../models/change-password-dto";
 export interface RespondentDataService{
     getRespondentInfoCollections(): Observable<RespondentInfoCollections>;
     getRespondents(filters: RespondentFilters | undefined): Observable<RespondentData[]>;
-    updatePassword(redpondentId: string, dto: ChangePasswordDto): Observable<any>;
 }

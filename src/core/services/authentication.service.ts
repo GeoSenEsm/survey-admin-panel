@@ -16,6 +16,9 @@ export class AuthenticationServiceImpl  extends ApiService implements Authentica
   constructor(client: HttpClient, configService: ConfigService) {
     super(client, configService);
   }
+  updateRespondentPassword(redpondentId: string, dto: ChangePasswordDto): Observable<any> {
+    return this.patch(`/api/authentication/admin/${redpondentId}/password`, dto);
+  }
   updateAdminPassword(dto: ChangePasswordDto): Observable<string> {
     return this.patch('/api/authentication/password', dto);
   }

@@ -6,5 +6,6 @@ import { ChangePasswordDto } from "../models/change-password-dto";
 export interface AuthenticationService{
     generateRespondents(dto: CreateRespondentsAccountsDto): Observable<LoginDto[]>;
     login(dto: LoginDto): Observable<string>;
-    updateAdminPassword(dto: ChangePasswordDto): Observable<string>;
+    updateAdminPassword(dto: ChangePasswordDto): Observable<any>;
+    updateRespondentPassword(redpondentId: string, dto: ChangePasswordDto): Observable<any>;
 }
