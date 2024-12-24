@@ -21,7 +21,7 @@ import { RespondentDataService } from '../../../../../domain/external_services/r
 export class TempratureDataComponent implements OnInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
-  readonly headers = ['respondentId', 'dateTime', 'temperature', 'humidity'];
+  readonly headers = ['dateTime', 'temperature', 'humidity', 'respondentId'];
   isBusy: boolean = false;
   loadDataError: boolean = false;
   dataSource: MatTableDataSource<TemperatureDataEntry> = undefined!;

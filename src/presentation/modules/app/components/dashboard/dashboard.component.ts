@@ -24,7 +24,7 @@ import { getNavListItems, NavListItem } from './nav-list-items';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
-  private hideScrollViews = ['/respondents', '/map'];
+  private hideScrollViews = ['/respondents', '/map', '/temperature'];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
-    if (this.hideScrollViews.includes(this.router.url)) {
+    if (this.hideScrollViews.some(e => this.router.url.startsWith(e))) {
       return true;
     }
 
