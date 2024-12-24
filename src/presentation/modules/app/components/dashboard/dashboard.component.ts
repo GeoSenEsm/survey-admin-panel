@@ -6,15 +6,10 @@ import {
   TOKEN_HANDLER_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { TokenHandler } from '../../../../../core/services/token-handler';
-import {
-  NavigationEnd,
-  Router,
-} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import { getNavListItems, NavListItem } from './nav-list-items';
-
-
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +19,12 @@ import { getNavListItems, NavListItem } from './nav-list-items';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
-  private hideScrollViews = ['/respondents', '/map', '/temperature'];
+  private hideScrollViews = [
+    '/respondents',
+    '/map',
+    '/temperature',
+    '/summaries',
+  ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
@@ -42,8 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly storage: LocalStorageService,
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
     private readonly router: Router
-  ) {
-  }
+  ) {}
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
   }
@@ -105,11 +104,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
-    if (this.hideScrollViews.some(e => this.router.url.startsWith(e))) {
+    if (this.hideScrollViews.some((e) => this.router.url.startsWith(e))) {
       return true;
     }
 
-    const surveyDetailsRegex =  /\/surveys\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;;
+    const surveyDetailsRegex =
+      /\/surveys\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;
     return surveyDetailsRegex.test(this.router.url);
   }
 }

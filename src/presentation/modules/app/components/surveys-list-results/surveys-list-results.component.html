@@ -1,36 +1,50 @@
 <div class="container">
-  <app-results-filters (loadDataCallback)="loadTableData($event)" [canExport]="canExport"
-  (exportDataCallback)="exportToCsv()" [respondents]="respondents"/>
-  <mat-table [dataSource]="dataSource" matSort>
-    <ng-container *ngFor="let column of headers" [matColumnDef]="column">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "summary.resultsGrid." + column | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let answer"> 
-        {{ getActualColumnDisplay(answer[column], column) }}
-      </mat-cell>
-    </ng-container>
-    <mat-header-row
-      *matHeaderRowDef="headers"
-      class="table-header"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: headers"></mat-row>
-  </mat-table>
+  <app-results-filters
+    (loadDataCallback)="loadTableData($event)"
+    [canExport]="canExport"
+    (exportDataCallback)="exportToCsv()"
+    [respondents]="respondents"
+  />
+  <div class="table-container">
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container *ngFor="let column of headers" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "summary.resultsGrid." + column | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let answer">
+          {{ getActualColumnDisplay(answer[column], column) }}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="headers"
+        class="table-header"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: headers"></mat-row>
+    </mat-table>
+    <h3
+      *ngIf="
+        !isBusy &&
+        resultEntries.length === 0 &&
+        !loadDataError &&
+        loadedAtLeastOnce
+      "
+    >
+      {{ "summary.resultsGrid.nothingToDisplay" | translate }}
+    </h3>
+    <h3 *ngIf="!isBusy && loadDataError">
+      <mat-error>
+        {{ "summary.resultsGrid.loadingError" | translate }}
+      </mat-error>
+    </h3>
+    <div class="spinner-container" *ngIf="isBusy">
+      <mat-spinner />
+    </div>
+  </div>
+
   <div class="paginator-container">
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
+      [pageSizeOptions]="[30, 50, 100]"
       showFirstLastButtons
     ></mat-paginator>
-  </div>
-  <h3 *ngIf="!isBusy && resultEntries.length === 0 && !loadDataError && loadedAtLeastOnce">
-    {{ 'summary.resultsGrid.nothingToDisplay' | translate }}
-  </h3>
-  <h3 *ngIf="!isBusy && loadDataError">
-    <mat-error>
-      {{ 'summary.resultsGrid.loadingError' | translate }}
-    </mat-error>
-  </h3>
-  <div class="spinner-container" *ngIf="isBusy">
-    <mat-spinner/>
   </div>
 </div>

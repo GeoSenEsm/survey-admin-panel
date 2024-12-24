@@ -1,23 +1,37 @@
-.container{
-    padding: 10px;
-    height: 100vh;
-    margin: 0 auto;
-    margin-top: 20px;
+.container {
+  padding: 10px;
+  height: 100vh;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
-h3{
-    text-align: center;
+h3 {
+  text-align: center;
 }
 
 .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-container {
+  text-align: center;
+  height: calc(100% - 264px); /* substract paginator height here */
+  overflow-y: auto;
+  display: block;
+}
+
+mat-header-row,
+mat-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .paginator-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
