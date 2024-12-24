@@ -6,16 +6,15 @@ import {
   TOKEN_HANDLER_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { TokenHandler } from '../../../../../core/services/token-handler';
-import { R } from '@fullcalendar/core/internal-common';
-import { NavigationEnd, Router } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
+import { getNavListItems, NavListItem } from './nav-list-items';
 
-interface NavListItem {
-  display: string;
-  matIcon: string;
-  link: string;
-}
+
 
 @Component({
   selector: 'app-dashboard',
@@ -29,48 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
-  navListItems: NavListItem[] = [
-    {
-      display: 'app.dashboard.configuration',
-      matIcon: 'settings',
-      link: 'configuration',
-    },
-    {
-      display: 'app.dashboard.startSurvey',
-      matIcon: 'list',
-      link: 'startSurvey',
-    },
-    {
-      display: 'app.dashboard.respondents',
-      matIcon: 'group',
-      link: 'respondents',
-    },
-    {
-      display: 'app.dashboard.surveys',
-      matIcon: 'content_paste',
-      link: 'surveys',
-    },
-    {
-      display: 'app.dashboard.creatingSurveys',
-      matIcon: 'build',
-      link: 'surveys/new',
-    },
-    {
-      display: 'app.dashboard.results',
-      matIcon: 'bar_chart',
-      link: 'summaries',
-    },
-    {
-      display: 'app.dashboard.temepratureSensors',
-      matIcon: 'device_thermostat',
-      link: 'temperature',
-    },
-    {
-      display: 'app.dashboard.map',
-      matIcon: 'map',
-      link: 'map',
-    },
-  ];
+  navListItems: NavListItem[] = getNavListItems();
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
@@ -84,7 +42,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly storage: LocalStorageService,
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
     private readonly router: Router
-  ) {}
+  ) {
+  }
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
   }
@@ -146,6 +105,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
-    return this.hideScrollViews.includes(this.router.url);
+    if (this.hideScrollViews.includes(this.router.url)) {
+      return true;
+    }
+
+    const surveyDetailsRegex =  /\/surveys\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;;
+    return surveyDetailsRegex.test(this.router.url);
   }
 }
