@@ -8,5 +8,6 @@
 
 .container{
     padding: 10px;
-    overflow: hidden;
+    overflow: auto;
+    height: calc(100vh - 150px);
 }

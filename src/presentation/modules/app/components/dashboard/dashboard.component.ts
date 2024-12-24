@@ -6,16 +6,10 @@ import {
   TOKEN_HANDLER_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { TokenHandler } from '../../../../../core/services/token-handler';
-import { R } from '@fullcalendar/core/internal-common';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
-
-interface NavListItem {
-  display: string;
-  matIcon: string;
-  link: string;
-}
+import { getNavListItems, NavListItem } from './nav-list-items';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,52 +19,16 @@ interface NavListItem {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
-  private hideScrollViews = ['/respondents'];
+  private hideScrollViews = [
+    '/respondents',
+    '/map',
+    '/temperature',
+    '/summaries',
+  ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
-  navListItems: NavListItem[] = [
-    {
-      display: 'app.dashboard.configuration',
-      matIcon: 'settings',
-      link: 'configuration',
-    },
-    {
-      display: 'app.dashboard.startSurvey',
-      matIcon: 'list',
-      link: 'startSurvey',
-    },
-    {
-      display: 'app.dashboard.respondents',
-      matIcon: 'group',
-      link: 'respondents',
-    },
-    {
-      display: 'app.dashboard.surveys',
-      matIcon: 'content_paste',
-      link: 'surveys',
-    },
-    {
-      display: 'app.dashboard.creatingSurveys',
-      matIcon: 'build',
-      link: 'surveys/new',
-    },
-    {
-      display: 'app.dashboard.results',
-      matIcon: 'bar_chart',
-      link: 'summaries',
-    },
-    {
-      display: 'app.dashboard.temepratureSensors',
-      matIcon: 'device_thermostat',
-      link: 'temperature',
-    },
-    {
-      display: 'app.dashboard.map',
-      matIcon: 'map',
-      link: 'map',
-    },
-  ];
+  navListItems: NavListItem[] = getNavListItems();
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
@@ -146,6 +104,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
-    return this.hideScrollViews.includes(this.router.url);
+    if (this.hideScrollViews.some((e) => this.router.url.startsWith(e))) {
+      return true;
+    }
+
+    const surveyDetailsRegex =
+      /\/surveys\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;
+    return surveyDetailsRegex.test(this.router.url);
   }
 }

@@ -21,3 +21,17 @@ h3{
     left: 0;
     width: 100%;
 }
+
+.table-container{
+    text-align: center;
+    height: calc(100% - 280px); /* TODO: this breaks down when the user rescales the window horizontaly */
+    overflow-y: auto;
+    display: block;
+}
+
+mat-header-row,
+mat-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

@@ -1,5 +1,8 @@
 .container{
     padding: 20px;
+    display: block;
+    overflow-y: scroll;
+    height: calc(100vh - 150px);
 }
 
 
