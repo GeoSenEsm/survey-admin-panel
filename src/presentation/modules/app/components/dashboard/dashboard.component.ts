@@ -24,7 +24,7 @@ import { getNavListItems, NavListItem } from './nav-list-items';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
-  private hideScrollViews = ['/respondents'];
+  private hideScrollViews = ['/respondents', '/map'];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
