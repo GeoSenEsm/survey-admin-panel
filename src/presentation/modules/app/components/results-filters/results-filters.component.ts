@@ -26,7 +26,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './results-filters.component.html',
   styleUrl: './results-filters.component.scss',
 })
-export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy {
+export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, OnChanges {
   @Output()
   loadDataCallback = new EventEmitter<SurveyResultsFilter>();
   @Output()
@@ -57,6 +57,11 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy {
       selectedDateTo: [new Date()],
       selectedTimeTo: ['20:00'],
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['respondents']) {
+      this.filtersForm.get('selectedRespondentName')?.updateValueAndValidity();
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -20,7 +29,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './temperature-data-filters.component.html',
   styleUrl: './temperature-data-filters.component.scss',
 })
-export class TemperatureDataFiltersComponent implements OnInit, OnDestroy{
+export class TemperatureDataFiltersComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   @Output()
   loadDataCallback = new EventEmitter<TemperatureDataFilter>();
   @Output()
@@ -51,7 +62,12 @@ export class TemperatureDataFiltersComponent implements OnInit, OnDestroy{
       selectedTimeTo: ['20:00'],
     });
   }
-  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['respondents']) {
+      this.filtersForm.get('selectedRespondentName')?.updateValueAndValidity();
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscriptionsToDisposeOnDestroy.forEach((sub) => sub?.unsubscribe());
@@ -71,8 +87,10 @@ export class TemperatureDataFiltersComponent implements OnInit, OnDestroy{
   }
 
   listenToQueryParams() {
-    const routeListener = this.route.queryParamMap.subscribe(params => {
-      this.filtersForm.patchValue({ selectedRespondentName: params.get('respondent') });
+    const routeListener = this.route.queryParamMap.subscribe((params) => {
+      this.filtersForm.patchValue({
+        selectedRespondentName: params.get('respondent'),
+      });
     });
 
     this.subscriptionsToDisposeOnDestroy.push(routeListener);
@@ -100,7 +118,7 @@ export class TemperatureDataFiltersComponent implements OnInit, OnDestroy{
       this.loadDataCallback.emit({
         from: dateFrom,
         to: dateTo,
-        respondentId: this.getSelectedRespondentId()
+        respondentId: this.getSelectedRespondentId(),
       });
     }
   }
