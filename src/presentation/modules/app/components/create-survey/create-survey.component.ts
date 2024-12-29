@@ -35,7 +35,7 @@ export type SurveyEditorMode = 'create' | 'edit';
   templateUrl: './create-survey.component.html',
   styleUrl: './create-survey.component.scss',
 })
-export class CreateSurveyComponent implements OnInit {
+export class CreateSurveyComponent implements OnInit, OnDestroy {
   @Input()
   model: CreateSurveyModel = {
     name: this.translate.instant('createSurvey.createSurvey.defaultSurveyName'),
@@ -59,6 +59,7 @@ export class CreateSurveyComponent implements OnInit {
   saved = new EventEmitter<CreateSurveyModel>();
   @Input() id?: string | null;
   existingSurveyNames: string[] = [];
+  readonly langChangeSubscription: Subscription;
 
   constructor(
     @Inject('surveyMapper')
@@ -70,6 +71,16 @@ export class CreateSurveyComponent implements OnInit {
     private readonly respondentGroupsService: RespondentGroupsService,
     private readonly translate: TranslateService
   ) {
+    this.langChangeSubscription = this.translate.onLangChange.subscribe((_) => {
+      if (this.model.name == 'createSurvey.createSurvey.defaultSurveyName') {
+        this.model.name = this.translate.instant(
+          'createSurvey.createSurvey.defaultSurveyName'
+        );
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -87,7 +98,7 @@ export class CreateSurveyComponent implements OnInit {
     });
   }
 
-  private loadExistingSurveys(): void{
+  private loadExistingSurveys(): void {
     this.existingSurveyNames.length = 0;
     this.service.getAllShort().subscribe((res) => {
       res.forEach((s) => {
@@ -112,7 +123,10 @@ export class CreateSurveyComponent implements OnInit {
       );
     }
 
-    if (this.mode == 'create' && this.existingSurveyNames.includes(this.model.name!)) {
+    if (
+      this.mode == 'create' &&
+      this.existingSurveyNames.includes(this.model.name!)
+    ) {
       this.nameValidationError = this.translate.instant(
         'createSurvey.createSurvey.nameMustBeUnique'
       );
@@ -202,13 +216,14 @@ export class CreateSurveyComponent implements OnInit {
       );
       return;
     }
-    
+
     const observable = this.getSaveObservable();
 
-    if (!observable){
+    if (!observable) {
       return;
     }
-    observable.pipe(
+    observable
+      .pipe(
         catchError((error) => {
           this.snackbar.open(
             this.translate.instant(
@@ -255,10 +270,14 @@ export class CreateSurveyComponent implements OnInit {
 
     if (this.id) {
       const files = this.model.sections
-      .flatMap((s) =>
-        s.questions.flatMap((q) => q.imageOptions.map((io) => io.file == undefined ? io.src : io.file))
-      )
-      .filter((f) => f !== null) as (File | string)[];
+        .flatMap((s) =>
+          s.questions.flatMap((q) =>
+            q.imageOptions.map((io) =>
+              io.file == undefined ? io.src : io.file
+            )
+          )
+        )
+        .filter((f) => f !== null) as (File | string)[];
       return this.service.update(dto, files, this.id);
     }
 
