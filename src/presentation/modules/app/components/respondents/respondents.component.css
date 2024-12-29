@@ -29,3 +29,9 @@ mat-header-cell {
     justify-content: center;
     gap: 10px;
 }
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
