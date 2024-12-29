@@ -120,7 +120,8 @@
       "image": "Image",
       "deleteQuestion": "Delete question",
       "moveQuestionUp": "Move question up",
-      "moveQuestionDown": "Move question down"
+      "moveQuestionDown": "Move question down",
+      "textInput": "Text input"
     },
     "createSection": {
       "section": "Section",

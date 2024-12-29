@@ -4,5 +4,6 @@ export enum QuestionType{
     YES_NO_CHOICE = "yes_no_choice",
     MULTIPLE_CHOICE = "multiple_choice",
     NUMBER_INPUT = "number_input",
-    IMAGE_CHOICE = "image_choice"
+    IMAGE_CHOICE = "image_choice",
+    TEXT_INPUT = "text_input"
 }

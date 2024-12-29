@@ -120,7 +120,8 @@
       "image": "Obraz",
       "deleteQuestion": "Usuń pytanie",
       "moveQuestionUp": "Przesuń pytanie w górę",
-      "moveQuestionDown": "Przesuń pytanie w dół"
+      "moveQuestionDown": "Przesuń pytanie w dół",
+      "textInput": "Pole tekstowe"
     },
     "createSection": {
       "section": "Sekcja",

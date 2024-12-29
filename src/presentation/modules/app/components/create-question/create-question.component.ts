@@ -41,7 +41,8 @@ export class CreateQuestionComponent {
     QuestionType.YES_NO_CHOICE,
     QuestionType.MULTIPLE_CHOICE,
     QuestionType.NUMBER_INPUT,
-    QuestionType.IMAGE_CHOICE
+    QuestionType.IMAGE_CHOICE,
+    QuestionType.TEXT_INPUT
   ];
 
   questionTypeIconSelector = {
@@ -50,7 +51,8 @@ export class CreateQuestionComponent {
     [QuestionType.YES_NO_CHOICE]: 'check',
     [QuestionType.MULTIPLE_CHOICE]: 'check_box',
     [QuestionType.NUMBER_INPUT]: 'filter_5',
-    [QuestionType.IMAGE_CHOICE]: 'image'
+    [QuestionType.IMAGE_CHOICE]: 'image',
+    [QuestionType.TEXT_INPUT]: 'short_text'
   };
 
   questionTypeDisplay = {
@@ -59,7 +61,8 @@ export class CreateQuestionComponent {
     [QuestionType.YES_NO_CHOICE]: 'createSurvey.createQuestion.yesNo',
     [QuestionType.MULTIPLE_CHOICE]: 'createSurvey.createQuestion.multipleChoice',
     [QuestionType.NUMBER_INPUT]: 'createSurvey.createQuestion.number',
-    [QuestionType.IMAGE_CHOICE]: 'createSurvey.createQuestion.image'
+    [QuestionType.IMAGE_CHOICE]: 'createSurvey.createQuestion.image',
+    [QuestionType.TEXT_INPUT]: 'createSurvey.createQuestion.textInput'
   };
 
   constructor(readonly translate: TranslateService){}

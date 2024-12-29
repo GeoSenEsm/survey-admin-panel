@@ -15,7 +15,7 @@ export class OptionComponent {
   @Input() option!: TextSelectionOption;
   optionError: string | null = null;
   optionErrorStateMatcher: ErrorStateMatcher = new FormlessErrorStateMatcher(() => this.optionError);
-  readonly maxLen: number = 50;
+  readonly maxLen: number = 150;
   @Input()
   isReadOnly: boolean = false;
   @Output() changed = new EventEmitter<void>();
