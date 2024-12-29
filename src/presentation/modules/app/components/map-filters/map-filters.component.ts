@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { parseToTime } from '../../../../../core/utils/parsers';
 import {
   AbstractControl,
@@ -22,7 +22,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './map-filters.component.html',
   styleUrl: './map-filters.component.scss',
 })
-export class MapFiltersComponent {
+export class MapFiltersComponent implements OnChanges{
   @Output()
   loadDataCallback = new EventEmitter<LocationFilters>();
   @Output()
@@ -53,6 +53,11 @@ export class MapFiltersComponent {
       selectedDateTo: [new Date()],
       selectedTimeTo: ['20:00'],
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['respondents']) {
+      this.filtersForm.get('selectedRespondentName')?.updateValueAndValidity();
+    }
   }
   ngOnDestroy(): void {
     this.subscriptionsToDisposeOnDestroy.forEach((sub) => sub?.unsubscribe());
