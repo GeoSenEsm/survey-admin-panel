@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import { SurveyDetailsDto } from '../../../../../domain/models/survey.details.dtos';
 import { finalize, map } from 'rxjs';
@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
+import { CreateSurveyComponent } from '../create-survey/create-survey.component';
+import { SectionVisibility } from '../../../../../domain/models/section.visibility';
 
 @Component({
   selector: 'app-survey-preview',
@@ -17,7 +19,8 @@ import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-
   templateUrl: './survey-preview.component.html',
   styleUrl: './survey-preview.component.scss'
 })
-export class SurveyPreviewComponent implements OnChanges{
+export class SurveyPreviewComponent implements OnChanges, AfterViewInit{
+  @ViewChild(CreateSurveyComponent) createSurveyComponent?: CreateSurveyComponent;
   @Input()
   surveyId!: string | null;
   isLoadingSurvey: boolean = false;
@@ -39,6 +42,25 @@ export class SurveyPreviewComponent implements OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['surveyId'] && this.surveyId) {
       this.reloadSurvey();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.prepareSectionsToBeTriggered();
+  }
+
+  private prepareSectionsToBeTriggered(): void {
+    if (this.createSurveyComponent){
+      this.createSurveyComponent.sectionsToBeTriggered.length = 0;
+      this.createSurveyComponent.sectionComponents.forEach((component) => {
+        if (component.visibility == SectionVisibility.ANSWER_TRIGGERED) {
+          this.createSurveyComponent!.sectionsToBeTriggered.push({
+            sectionNumber: component.sectionNumber,
+            guid: component.guid,
+            name: component.name
+          });
+        }
+      });
     }
   }
 
@@ -65,8 +87,8 @@ export class SurveyPreviewComponent implements OnChanges{
         next: ([result, model]) => {
           this.model = model as CreateSurveyModel;
           this.detailsDto = result as SurveyDetailsDto;
-          console.log(model);
           this.loadingSurveyStatusCode = 200;
+          this.prepareSectionsToBeTriggered();
         },
         error: (error) => {
           this.loadingSurveyStatusCode = error.status || 500; 
