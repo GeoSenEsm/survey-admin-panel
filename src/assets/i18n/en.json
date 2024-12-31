@@ -162,7 +162,8 @@
       "none": "None",
       "addOption": "Add option",
       "questionMustContainOptions": "Question must contain options",
-      "optionsMustBeUnique": "All options must be unique"
+      "optionsMustBeUnique": "All options must be unique",
+      "showSectionTooltip": "WARNING! In this section, only the options with visibility set to \"Answer triggered\" are available for selection."
     },
     "option": {
       "notEmptyError": "Option cannot be empty",

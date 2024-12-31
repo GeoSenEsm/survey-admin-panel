@@ -162,7 +162,8 @@
       "none": "Brak",
       "addOption": "Dodaj opcję",
       "questionMustContainOptions": "Pytanie musi zawierać opcje",
-      "optionsMustBeUnique": "Wszystkie opcje musza być unikalne"
+      "optionsMustBeUnique": "Wszystkie opcje musza być unikalne",
+      "showSectionTooltip": "UWAGA! W tym miejscu możliwe są do wyboru wyłącznie sekcje, których widoczność została ustawiona na \"Po zaznaczeniu właściwej odpowiedzi\"."
     },
     "option": {
       "notEmptyError": "Opcja nie może być pusta",

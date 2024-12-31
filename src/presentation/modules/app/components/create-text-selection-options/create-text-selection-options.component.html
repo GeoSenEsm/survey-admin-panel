@@ -3,10 +3,20 @@
 </mat-error>
 <div *ngFor="let option of options; let i = index" class="row">
   <div class="row-item">
-    <app-option [option]="option" [isReadOnly]="isReadOnly" (changed)="changed.emit()"
-    (removeOptionCallback)="removeOption($event)"/>
+    <app-option
+      [option]="option"
+      [isReadOnly]="isReadOnly"
+      (changed)="changed.emit()"
+      (removeOptionCallback)="removeOption($event)"
+    />
   </div>
-  <mat-form-field appearance="outline" class="row-item">
+  <mat-form-field
+    appearance="outline"
+    class="row-item"
+    matTooltip="{{
+      'createSurvey.createTextSelectionOptions.showSectionTooltip' | translate
+    }}"
+  >
     <mat-label>
       {{ "createSurvey.createTextSelectionOptions.showSection" | translate }}
     </mat-label>
