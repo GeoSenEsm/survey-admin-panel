@@ -68,9 +68,9 @@
     },
     "filters": {
       "showRespondentsWho": "Pokazuj respondentów, którzy",
-      "hasNotSentAtLeastNumberOfSurveys": "Nie wypełnili przynajmniej tylu ankiet",
-      "hasNotSentAtLeastNumberOfLocationData": "Nie wysłali przynajmniej tylu danych lokalizacyjnych",
-      "hasNotSentAtLeastNumberOfSensorsData": "Nie wysłali przynajmniej tylu danych z czujników",
+      "hasNotSentAtLeastNumberOfSurveys": "Ominęli przynajmniej tyle ankiet",
+      "hasNotSentAtLeastNumberOfLocationData": "Wysłali mniej niż tyle danych lokalizacyjnych",
+      "hasNotSentAtLeastNumberOfSensorsData": "Wysłali mniej niż tyle danych z czujników",
       "amount": "Ilość",
       "dateFrom": "Data od",
       "dateTo": "Data do",

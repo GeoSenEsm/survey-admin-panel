@@ -68,9 +68,9 @@
     },
     "filters": {
       "showRespondentsWho": "Show respondents who",
-      "hasNotSentAtLeastNumberOfSurveys": "Have not completed at least this many surveys",
-      "hasNotSentAtLeastNumberOfLocationData": "Have not sent at least this many location data points",
-      "hasNotSentAtLeastNumberOfSensorsData": "Have not sent at least this much sensor data",
+      "hasNotSentAtLeastNumberOfSurveys": "Skipped at least this many surveys",
+      "hasNotSentAtLeastNumberOfLocationData": "Have sent less than this many location data points",
+      "hasNotSentAtLeastNumberOfSensorsData": "Have sent less than this much sensor data",
       "amount": "Amount",
       "dateFrom": "Date from",
       "dateTo": "Date to",
