@@ -1,49 +1,50 @@
-# Ankieta początkowa
+# Initial Survey
 
-Aby przejść do modułu `Ankieta początkowa`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Initial survey` module, select the appropriate tab in the left-side panel of the screen.
+
 ![alt text](imgs/turn_on.png)
 
-Ankieta początkowa różni się od standardowych ankiet. 
+The initial survey differs from standard surveys in the following ways:
 
-1. Respondenci wypełniają ją **tylko raz** (nie jest ona cyklicznie wysyłana)
-2. Zawiera ona **wyłącznie** pytanie wielokrotnego wyboru
+1. Respondents complete it **only once** (it is not sent periodically).
+2. It contains **only** multiple-choice questions.
 
-Ankieta ta służy pogrupowaniu respondentów. Możesz np. zebrać w tej ankiecie informacje o płci respondentów i tworzyć w standardowych ankietach sekcje tylko dla kobiet/mężczyzn. Więcej o tym w dokumencie poświęconym modułowi `Tworzenie ankiet`.
+The purpose of this survey is to group respondents. For example, you can use it to collect information about respondents' sex and create sections in standard surveys specifically for women or men. More details can be found in the `Creating Surveys` module documentation.
 
-### UWAGA
+### NOTE
 
-Opublikowanie ankiety początkowej jest możliwe w dowolnym momencie trwania badania, jednak zaleca się, aby zrobić to przed rozpoczęciem badania. 
+The initial survey can be published at any time during the study. However, it is recommended to publish it before the study begins.
 
-## Dodawanie pytań do ankiety początkowej
+## Adding Questions to the Initial Survey
 
-Jeśli w ankiecie początkowej nie ma jeszcze żadnych pytań, będziesz mógł je dodać za pomocą przycisku `Dodaj pytanie`:
+If the initial survey does not yet contain any questions, you can add them using the `Add Question` button:
 
 ![alt text](imgs/add_question.png)
 
-Podobnie taki przycisk znajdziesz poniżej już isteniejących pytań, jeśli chcesz dodać nowe.
+Similarly, you will find this button below the existing questions if you wish to add more.
 
-## Usuwanie i modyfikacja pytań
+## Deleting and Modifying Questions
 
-Pytania do czasu publikacji ankietyu można modyfikować i usuwać. Odpowiednie przyciski pozwolą ci
-- przesunąć pytanie/opcję w dół lub w górę
-- usunąć pytanie lub opcję
+Until the survey is published, questions can be modified and deleted. The appropriate buttons allow you to:
+- Move a question/option up or down.
+- Delete a question or option.
 
 ![alt text](imgs/edit_question.png)
 
-## Zapisywanie zmian
+## Saving Changes
 
-Jeśli chcesz zapisać zmiany w aniecie początkowej, wciścij przycisk `Zapisz zmiany`. 
+To save changes to the initial survey, press the `Save new questions` button.
 
-## Publikacja ankiety
+## Publishing the Survey
 
-Aby ankieta początkowa była możliwa do wypełnienia przez respondentów, musi zostać opublikowana. Po publikacji, ankieta zostanie wyświetlona respondentom, kiedy następnym razem uruchomią oni aplikację w trybie online. 
+For the initial survey to be available for respondents to complete, it must be published. Once published, the survey will be displayed to respondents the next time they launch the application in online mode.
 
-### UWAGA!
+### NOTE!
 
-Publikacja ankiety jest procesem **nieodwracalnym**. Nie można już później dodawać, usuwać, ani modyfikować pytań.
+Publishing a survey is an **irreversible** process. After publication, you cannot add, delete, or modify questions.
 
-Aby opublikować ankietę, wciśnij przycisk `Opublikuj` pod listą pytać. Następnie w oknie z ostrzeżeniem
+To publish the survey, press the `Publish` button below the list of questions. Then, in the warning window:
 
 ![alt text](imgs/publish_warning.png)
 
-wpisz `opublikuj` i wciśnij `Potwierdź` lub `Enter` na klawiaturze. 
+type `publish` and press `Confirm` or hit `Enter` on your keyboard.
