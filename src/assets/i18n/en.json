@@ -80,7 +80,7 @@
     },
     "changePassword": {
       "changePassword": "Change Password",
-      "newPassoword": "New Password",
+      "newPassword": "New Password",
       "confirmNewPassword": "Confirm New Password",
       "saveConfirmationDialogInformation": "Are you sure you want to save the new password?",
       "saveConfirmationInput": "save",

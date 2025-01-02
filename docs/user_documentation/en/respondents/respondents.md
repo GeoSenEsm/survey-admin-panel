@@ -1,19 +1,18 @@
-# Respondenci
+# Respondents
 
-Aby przejść do modułu `Respondenci`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Respondents` module, select the appropriate tab in the left-side panel of the screen.
+
 ![alt text](imgs/turn_on.png)
 
+In this module, you can view, filter, and export respondent data. By default, the view displays all respondents in a grid.
 
-W tym module możesz przeglądać, filtrować oraz eksportować dane o respondentach. Domyślnie widok pokazuje wszystkich respondentów w siatce. 
+## Creating Respondent Accounts
 
-
-## Tworzenie kont respondentów
-
-W celu utworzenia kont respondentów, wciśnij przycisk `Utwórz konta dla respondentów`. Następnie podaj ilość, wciśnij `Utwórz`, a potem `Skopiuj do schowka`. 
+To create respondent accounts, press the `Create accounts for respondents` button. Then, specify the number of accounts, press `Create`, and then `Copy to clipboard`.
 
 ![alt text](imgs/create_accounts.png)
 
-W schowku powinny znajdować się teraz dane logowania do kont respondentów w formacie csv. Przykładowe dane logowania:
+The clipboard should now contain the login credentials for respondent accounts in CSV format. Example login data:
 
 ```csv
 username,password
@@ -21,91 +20,86 @@ username,password
 00009,cynamon-kasownik32
 ```
 
+## Pagination
 
-## Paginacja 
-
-Na dole strony możesz nawigować pomiędzy stronami siatki z danymi oraz określić rozmiar strony. 
+At the bottom of the page, you can navigate between pages of the data grid and set the page size.  
 
 ![alt text](imgs/pagination.png)
 
-## Kolumny
+## Columns
 
-W siatce dostępne są zawsze przynajmniej następujące kolumny z danymi:
-- Nazwa użytkownika
-- ID
+The grid always includes at least the following columns with data:
+- Username  
+- ID  
 
-Jeśli zdefiniowałeś ankietę początkową, to dla każdego pytania w ankiecie początkowej, będzie tutaj utworzona kolumna. Nagłówek tej kolumny to treść pytania, a wartości w poszczególnych komórkach to odpowiedzi udzielone przez respondentów. W naszym przykładzie w ankiecie początkowej utworzyłem pytanie "Płeć". 
+If you have defined an initial survey, a column will be created for each question in the survey. The column header will display the question text, and the values in the individual cells will be the respondents’ answers. For example, in the initial survey, I created a question "Sex"  
 
 ![alt text](imgs/columns.png)
 
-## Akcje
+## Actions
 
-W siatce widoczna jest dodatkowa kolumna `Akcje`. Nie zawiera ona danych, a umożliwia wykonanie następujących czynności na respondencie:
+The grid includes an additional `Actions` column. This column does not contain data but allows you to perform the following actions on a respondent:
 
-- edycja,
-- zmiana hasła
-- przeglądanie wyników
+- Edit
+- Change password
+- View results
 
 ![alt text](imgs/actions.png)
 
-#### Edycja
+#### Edit
 
-Edycja danych respondenta polega na edycji odpowiedzi udzielonych przez niego w ankiecie początkowej. Z tego powodu, opcja ta jest dostępna **wyłącznie** jeśli ankieta początkowa została opublikowana. Po wciśnięciu ikony ołówka, wyświetli się formularz, który umoliwi edycję danych. 
+Editing a respondent's data involves modifying the answers they provided in the initial survey. Therefore, this option is available **only** if the initial survey has been published. Clicking the pencil icon will display a form that allows you to edit the data.
 
 ![alt text](imgs/edit.png)
 
-#### Zmiana hasła
+#### Change Password
 
-Po wciśnięciu ikony klucza wyświetli się formularz zmiany hasła dla respondenta
+Clicking the key icon will display a form for changing the respondent's password.
 
 ![alt text](imgs/change_password.png)
 
-#### Wyniki respondenta
+#### Respondent Results
 
-Po wciśnięciu ikony z lupą, będziesz mógł wybrać, czy chcesz wyświetlić:
-- odpowiedzi na ankiety
-- dane lokalizacyjne na mapie
-- dane z czujników
+Clicking the magnifying glass icon will allow you to choose whether to view:
+- Survey responses
+- Geolocation data
+- Sensor data
 
-Wybranie którejś z tych opcji przekieruje cię do odpowiedniego modułu i ustawi w nim filtry tak, abyś mógł przeglądać dane dla wybranego respondenta. Więcej informacji znajdziesz w dokumencie poświęconym modułom `Wyniki`, `Czujniki temperatury`, `Mapa`
+Selecting one of these options will redirect you to the appropriate module and apply filters so you can view data for the chosen respondent. For more information, see the documentation for the `Results`, `Temperature sensors`, and `Map` modules.
 
-## Filtrowanie
+## Filtering
 
-W górnej części widoku dostępne są filtry, które pozwolą ci monitorować przebied badania. 
+At the top of the view, there are filters that allow you to monitor the progress of the study.
 
 ![alt text](imgs/filters.png)
 
-Jeśli na liście wyboru `Pokazuj resopndentów, którzy` nie wybierzesz żadnej wartości, wyświetleni zostaną wszyscy respondenci. 
+If you do not select any value in the `Show respondents who` dropdown, all respondents will be displayed.
 
-Poniżej znajduje się opis działania pozostałych filtrów
+Below is a description of the other filter options:
 
-#### Ominęli przynajmniej tyle ankiet
+#### Skipped at least this many surveys
 
-Wyświetleni zostaną respondenci, którzy w wybranym okresie czasu ominęli ilość ankiet wskazaną w polu `Ilość`. Np. jeśli 31.12.2024 zostały zaplanowane 3 ankiety, do filtr ten pozwoli znaleźć respondentów, któzy wypełnili tylko jedną, lub tylko dwie z nich. 
+This filter displays respondents who missed the number of surveys specified in the `Amount` field during the selected time period. For example, if three surveys were scheduled on December 31, 2024, this filter can help identify respondents who completed only one or two of them.
 
+#### Have sent less than this many location data points
 
-#### Wysłali mniej niż tyle danych lokalizacyjnych
+This filter displays respondents who sent fewer location data points than the number specified in the `Amount` field during the selected time period.
 
-Wyświetleni zostaną respondenci, którzy w wybranych okresie czasu wysłali mniej danych lokalizacyjnych, niż liczba wskazana w polu `Ilość`.
+#### Have sent less than this many sensor data
 
+This filter displays respondents who sent fewer temperature sensor data points than the number specified in the `Amount` field during the selected time period.
 
-#### Wysłalio mniej niż tyle danych z czujników
+## Exporting Data to a File
 
-
-Wyświetleni zostaną respondenci, którzy w wybranych okresie czasu wysłali mniej danych z czujników temperatury, niż liczba wskazana w polu `Ilość`.
-
-
-## Eksport danych do pliku
-
-Widok umożliwia eksport danych do pliku csv. W tym celu wciśnij przycisk `Eksportuj`. Przeglądarka pobierze odpowiedni plik. Przykłądowy plik z danymi:
+This view allows you to export data to a CSV file. To do this, click the `Export` button. Your browser will download the file. Below is an example of a data file:
 
 ```csv
-username,Płeć,id
-00001,mężczyzna,51b9445a-6b57-4d37-a809-65d6fa18eecf
-00002,kobieta,fcba4efb-e4e6-4d85-a301-5bd79d1e66b2
-00003,mężczyzna,2ae37e63-bbc5-4e29-bd49-6fb07054ab0c
-00004,mężczyzna,cbabacd8-8da4-43a5-8f43-b195605541f2
-00005,mężczyzna,97cad41a-781b-4607-a9f3-c33e54d29ab0
-00006,mężczyzna,bb00cf05-40de-4053-859e-808a3ac82e8e
-00007,kobieta,488e4982-d298-4dbc-a6b0-75fea3737ffc
+username,Sex,id
+00001,man,51b9445a-6b57-4d37-a809-65d6fa18eecf
+00002,woman,fcba4efb-e4e6-4d85-a301-5bd79d1e66b2
+00003,man,2ae37e63-bbc5-4e29-bd49-6fb07054ab0c
+00004,man,cbabacd8-8da4-43a5-8f43-b195605541f2
+00005,man,97cad41a-781b-4607-a9f3-c33e54d29ab0
+00006,man,bb00cf05-40de-4053-859e-808a3ac82e8e
+00007,woman,488e4982-d298-4dbc-a6b0-75fea3737ffc
 ```
