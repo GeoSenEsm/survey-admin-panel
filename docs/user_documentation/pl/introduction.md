@@ -8,12 +8,12 @@ Ta dokumentacja użytkownika zakłada, że system został już z powodzeniem uru
 
 ## Spis treści
 
-1. Logowanie
-2. Konfiguracja
-3. Ankieta początkowa
-4. Respondenci
-5. Ankiety
-6. Tworzenie ankiet
-7. Wyniki
-8. Czujniki temperatury
-9. Mapa
+1. [Logowanie](signing_in/signing_in.md)
+2. [Konfiguracja](configuration/configuration.md)
+3. [Ankieta początkowa](initial_survey/initial_survey.md)
+4. [Respondenci](respondents/respondents.md)
+5. [Ankiety](surveys/surveys.md)
+6. [Tworzenie ankiet](creating_survey/creating_survey.md)
+7. [Wyniki](results/results.md)
+8. [Czujniki temperatury](sensors/sensors.md)
+9. [Mapa](map/map.md)
