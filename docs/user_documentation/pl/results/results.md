@@ -4,6 +4,8 @@ Aby przejść do modułu `Wyniki`, wybierz odpowiednią zakładkę w bocznym pan
 
 ![alt text](imgs/turn_on.png)
 
+W tym module możesz przeglądać i eksportować odpowiedzi udzielane przez respondentów na ankiety.
+
 ## Filtry 
 
 Możesz ustawić teraz następujące filtry:
@@ -17,7 +19,7 @@ Po wciśnięciu przycisku `Załaduj`, zostaną wczytane wyniki
 
 ## Eksport wyników
 
-Po wczytaniu danych możesz je eksportować do pliku `/csv` za pomocą przycisku `Eksportuj`
+Po wczytaniu danych możesz je eksportować do pliku `.csv` za pomocą przycisku `Eksportuj`
 
 ![alt text](imgs/export.png)
 
