@@ -1,5 +1,16 @@
 # SurveyAdminPanel
 
+## Build docker image
+
+You are able to build a docker image with this application simply by runnning 
+
+```bash
+docker build -t your_image_name:your_tag .
+```
+
+The interenal docker image port, the applicatoin is listening on, is `80`.
+
+
 ## Packages to be installed 
 
 ```
