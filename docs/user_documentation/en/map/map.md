@@ -1,32 +1,32 @@
-# Mapa
+# Map
 
-Aby przejść do modułu `Mapa`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Map` module, select the appropriate tab in the sidebar on the left side of the screen.
 
 ![alt text](imgs/turn_on.png)
 
-W tym module możesz przeglądać i eksportować dane lokalizacyjne
+In this module, you can view and export location data.
 
-## Filtry 
+## Filters
 
-Możesz ustawić teraz następujące filtry:
+You can now set the following filters:
 
-- ankieta
-- respondent
-- data i godzina od
-- data i godzina do
-- tylko poza obszarem badania (wyświetlone zostaną tylko pomiary spoza obszaru badania ustawionego w konfiguracji)
+- Survey
+- Respondent
+- Date and time from
+- Date and time to
+- Only outside the study area (only measurements outside the study area defined in the configuration will be displayed)
 
-## Przeglądanie wyników na mapie
+## Viewing Results on the Map
 
-Po wciśnięciu przycisku `Załaduj`, zostaną wczytane wyniki, a na mapie pokażą się odpowiednie punkty. Po najechaniu myszą na punkt, zostaną wyświetlone szczegóły związane z danym pomiarem
+After clicking the `Load` button, the results will be loaded, and the corresponding points will appear on the map. Hovering over a point with the mouse will display details related to that measurement.
 
 ![alt text](imgs/result.png)
 
-## Eksport wyników
+## Exporting Results
 
-Po wczytaniu danych możesz je eksportować do pliku `.csv` za pomocą przycisku `Eksportuj`.
+After loading the data, you can export it to a `.csv` file using the `Export` button.
 
-Przykładowy plik z wynikami:
+Sample file with results:
 ```csv
 latitude,longitude,respondentId,dateTime,surveyId,outsideResearchArea
 37.785834,-122.406417,fcba4efb-e4e6-4d85-a301-5bd79d1e66b2,2024-12-17T18:35:06Z,8e8ed522-b7dd-42cd-97a2-0bd50002d992,
