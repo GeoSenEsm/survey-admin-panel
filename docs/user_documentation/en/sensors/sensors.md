@@ -1,28 +1,29 @@
-# Czujniki temperatury
+# Temperature sensors
 
-Aby przejść do modułu `Czujniki temperatury`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Temperature sensors` module, select the appropriate tab in the sidebar on the left side of the screen.
 
 ![alt text](imgs/turn_on.png)
 
-W tym module możesz przeglądać i eksportować dane z czujników temperatury i wilgotności powietrza.
+In this module, you can view and export data from temperature and air humidity sensors.
 
-## Filtry 
+## Filters
 
-Możesz ustawić teraz następujące filtry:
+You can now set the following filters:
 
-- respondent
-- data i godzina od
-- data i godzina do
+- Respondent
+- Date and time from
+- Date and time to
 
-Po wciśnięciu przycisku `Załaduj`, zostaną wczytane wyniki
+After clicking the `Load` button, the results will be loaded.
 
-## Eksport wyników
+## Exporting Results
 
-Po wczytaniu danych możesz je eksportować do pliku `.csv` za pomocą przycisku `Eksportuj`
+After loading the data, you can export it to a `.csv` file using the `Export` button.
 
 ![alt text](imgs/export.png)
 
-Przykładowy plik z wynikami:
+Sample file with results:
+
 
 ```csv
 dateTime,temperature,humidity,respondentId
