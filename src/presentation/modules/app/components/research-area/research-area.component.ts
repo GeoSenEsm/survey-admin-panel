@@ -90,7 +90,6 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-
       this.papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -109,23 +108,27 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private drawPolygon(vertices: LatLong[]): void {
-    if (this.nodes && !this.rememberedNodes){
-      this.rememberedNodes = this.nodes;
+    try {
+      if (this.nodes && !this.rememberedNodes){
+        this.rememberedNodes = this.nodes;
+      }
+      this.removePolygon();
+      this.nodes = vertices;
+      if (vertices.length === 0){
+        return;
+      }
+      const latLngs = vertices.map(vertex => new LatLng(vertex.latitude, vertex.longitude));
+      this.researchAreaPolygon = L.polygon(latLngs, {
+        color: 'darkblue',
+        fillColor: 'blue',
+        fillOpacity: 0.5
+      });
+  
+      this.researchAreaPolygon.addTo(this.map!);
+      this.map?.fitBounds(this.researchAreaPolygon.getBounds());
+    } finally {
+      this.fileInput.nativeElement.value = '';
     }
-    this.removePolygon();
-    this.nodes = vertices;
-    if (vertices.length === 0){
-      return;
-    }
-    const latLngs = vertices.map(vertex => new LatLng(vertex.latitude, vertex.longitude));
-    this.researchAreaPolygon = L.polygon(latLngs, {
-      color: 'darkblue',
-      fillColor: 'blue',
-      fillOpacity: 0.5
-    });
-
-    this.researchAreaPolygon.addTo(this.map!);
-    this.map?.fitBounds(this.researchAreaPolygon.getBounds());
   }
 
   private removePolygon(): void {
@@ -184,7 +187,7 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   canDelete(): boolean{
-    return (this.rememberedNodes ?? false) && this.rememberedNodes?.length !== 0;
+    return this.areaDefined() &&  (this.rememberedNodes ?? true) && this.rememberedNodes?.length !== 0;
   }
 
   areaDefined(): boolean{
