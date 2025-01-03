@@ -1,29 +1,30 @@
-# Wyniki
+# Results
 
-Aby przejść do modułu `Wyniki`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Results` module, select the appropriate tab in the sidebar on the left side of the screen.
 
 ![alt text](imgs/turn_on.png)
 
-W tym module możesz przeglądać i eksportować odpowiedzi udzielane przez respondentów na ankiety.
+In this module, you can view and export responses provided by respondents to surveys.
 
-## Filtry 
+## Filters
 
-Możesz ustawić teraz następujące filtry:
+You can now set the following filters:
 
-- ankieta (**obowiązkowe**)
-- respondent
-- data i godzina od
-- data i godzina do
+- Survey (**required**)
+- Respondent
+- Date and time from
+- Date and time to
 
-Po wciśnięciu przycisku `Załaduj`, zostaną wczytane wyniki
+After clicking the `Load` button, the results will be loaded.
 
-## Eksport wyników
+## Exporting Results
 
-Po wczytaniu danych możesz je eksportować do pliku `.csv` za pomocą przycisku `Eksportuj`
+After loading the data, you can export it to a `.csv` file using the `Export` button.
 
 ![alt text](imgs/export.png)
 
-Przykładowy plik z wynikami:
+Sample file with results:
+
 
 ```csv
 surveyName,question,responseDate,answers,respondentId
