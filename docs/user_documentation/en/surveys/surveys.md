@@ -1,52 +1,51 @@
-# Ankiety
+# Surveys
 
-Aby przejść do modułu `Ankiety`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+To access the `Surveys` module, select the appropriate tab in the sidebar on the left side of the screen.
 
 ![alt text](imgs/turn_on.png)
 
-Wyświetlona zostanie lista ankiet. Aby przejść do szczegółów wybranej ankiety, wciśnij `Szczegóły ankiety` na kafelku z wybraną ankietą.
+A list of surveys will be displayed. To view the details of a selected survey, click `Survey details` on the tile of the chosen survey.
 
-## Polityka wysyłania
+## Sending Policy
 
-W szczegółach ankiety znajduje się zakładka `Polityka wysyłania`. W tym widoku możesz zdefiniować dni i godziny, w których ankieta ma zostać wysłana do wypełnienia.
+In the survey details, there is a tab called `Sending policy`. In this view, you can define the days and times during which the survey should be sent out for completion.
 
-#### Dodawania polityki wysyłania
+#### Adding a Sending Policy
 
-Wciśnij przycisk `Dodaj politykę wysyłania`, aby zdefiniować nowe przedziały czasu, w których ankieta będzie dsotępna do wysłania.
+Press the `Add sending policy` button to define new time intervals during which the survey will be available for sending.
 
 ![alt text](imgs/sending_policy_btn.png)
 
 ![alt text](imgs/sending_policy_form.png)
 
+#### Removing a Sending Policy
 
-#### Usuwanie polityki wysyłania
-Aby usunąć przedziały czasu, włącz tryb usuwania wciskając przycisk `Edytuj polityki wysyłania`. Następnie zaznacz na kalendarzu przedziały czasu, które chcesz usunąć i wciśnij `Usuń`.
+To remove time intervals, enable delete mode by pressing the `Edit sending policies` button. Then select the time intervals on the calendar that you want to delete and press `Delete`.
 
 ![alt text](imgs/remove_sending_policy.png)
 
-Pojawi się okno dialogowe z prośbą o potwierdzenie
+A confirmation dialog box will appear.
 
-![alt text](imgs/remove_sending_poilcy_confirmation.png)
+![alt text](imgs/remove_sending_policy_confirmation.png)
 
-## Podgląd 
+## Preview
 
-W szczegółach zadania znajduje się zakładka `Podgląd`. Pozwala ona zarządzać stanem ankiety, edutować ją, oraz przeglądać.
+In the task details, there is a tab called `Preview`. This tab allows you to manage the survey's state, edit it, and view it.
 
-#### Stany ankiety
+#### Survey States
 
-Ankieta może znajdować się w jednym z dwóch stanów:
-- utworzona
-- opublikowana
+A survey can be in one of two states:
+- Created
+- Published
 
-Jeśli ankieta jest opublikowana, nie można już jej edytować ani usunąć. Stanem ankiety możesz zarządzać za pomocą przycisków:
+If the survey is published, it can no longer be edited or deleted. You can manage the survey's state using the buttons:
 
 ![alt text](imgs/manage_state.png)
 
-- Tryb edycji: umożliwia edycję ankiety (więcej szczegółów o edytorze ankiet znajdziesz w dokumencie poświęconym modułowi `Tworzenie ankiet`)
-- Opublikuj: wyświetla okno dialogowe z prośbą o potwierdzenie, po potwierdzeinu publikuje ankietę
-- Usuń: usuwa ankietę
+- Edit Mode: Allows you to edit the survey (for more details about the survey editor, refer to the document dedicated to the `Creating surveys` module).
+- Publish: Displays a confirmation dialog box. Upon confirmation, the survey is published.
+- Delete: Deletes the survey.
 
-#### UWAGA
+#### NOTE
 
-Jeśli ankieta jest już opublikowana, nie można jej usunąć. Wciąż możesz jednak ją wycofać, usuwając wszystkie polityki wysyłania dla tej ankiety. 
-
+If the survey is already published, it cannot be deleted. However, you can still withdraw it by removing all sending policies for that survey.
