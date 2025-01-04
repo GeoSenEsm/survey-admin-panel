@@ -6,16 +6,7 @@ Aby przejść do modułu `Konfiguracja`, wybierz odpowiednią zakładkę w boczn
 
 W module `Konfiguracja` możesz skonfigurować następujące elementy systemu:
 
-1. Hasło do konta administratora
-2. Obszar badania
-
-## Hasło do konta administratora
-
-Aby zmienić hasło to konta administratora, wypełnij odpowiednie pola w obszarze zatytułowanym `Zmień hasło do konta administratora`, a następnie klinij `Zapisz`
-
-![alt text](imgs/change_password.png)
-
-Jeśli wpisane dane były poprawne, hasło do konta administratora zoztanie zmienione.
+1. Obszar badania
 
 ## Obszar badania
 

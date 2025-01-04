@@ -10,6 +10,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import { getNavListItems, NavListItem } from './nav-list-items';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeAdminPasswordComponent } from '../change-admin-password/change-admin-password.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,7 +43,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storage: LocalStorageService,
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog
   ) {}
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
@@ -111,5 +114,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const surveyDetailsRegex =
       /\/surveys\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;
     return surveyDetailsRegex.test(this.router.url);
+  }
+
+  changePassword(): void {
+    this.dialog.open(ChangeAdminPasswordComponent);
   }
 }

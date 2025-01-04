@@ -29,7 +29,8 @@
       "startSurvey": "Ankieta początkowa",
       "temepratureSensors": "Czujniki temperatury",
       "map": "Mapa",
-      "configuration": "Konfiguracja"
+      "configuration": "Konfiguracja",
+      "changeAdminPassword": "Zmiana hasła"
     }
   },
   "respondents": {
@@ -347,20 +348,22 @@
       "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
       "refresh": "Odśwież"
     },
-    "changeAdminPassword":{
-      "title": "Zmień hasło do konta administratora",
-      "currentPassword": "Aktualne hasło",
-      "newPassword": "Nowe hasło",
-      "confirmNewPassword": "Powtorz hasło",
-      "save": "Zapisz",
-      "cancel": "Anuluj",
-      "passwordChangedSuccessfully": "Hasło zostało zmienione pomyślnie.",
-      "invalidPassword": "Hasło jest niepoprawne",
-      "minPasswordLen": "Hasło musi zawierać conajmniej 12 znaków.",
-      "maxPasswordLen": "Hasło musi zawierać najwyżej 64 znaki.",
-      "passwordsDontMatch": "Podane hasła nie zgadzają się.",
-      "fieldIsRequired": "Pole jest wymagane"
-    },
+    "ok": "OK",
+    "somethingWentWrong": "Coś poszło nie tak"
+  },
+  "changeAdminPassword": {
+    "title": "Zmień hasło do konta administratora",
+    "currentPassword": "Aktualne hasło",
+    "newPassword": "Nowe hasło",
+    "confirmNewPassword": "Powtorz hasło",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "passwordChangedSuccessfully": "Hasło zostało zmienione pomyślnie.",
+    "invalidPassword": "Hasło jest niepoprawne",
+    "minPasswordLen": "Hasło musi zawierać conajmniej 12 znaków.",
+    "maxPasswordLen": "Hasło musi zawierać najwyżej 64 znaki.",
+    "passwordsDontMatch": "Podane hasła nie zgadzają się.",
+    "fieldIsRequired": "Pole jest wymagane",
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
   }
