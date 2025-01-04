@@ -346,7 +346,8 @@
       "delete": "Delete",
       "errorOnLoading": "An error occurred while loading the research area. Please try again later.",
       "noResearchAreaDefined": "No research area defined.",
-      "refresh": "Refresh"
+      "refresh": "Refresh",
+      "invalidFormat": "File format is incorrect."
     },
     "ok": "OK",
     "somethingWentWrong": "Something went wrong"
