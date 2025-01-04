@@ -15,10 +15,11 @@ import { AUTHENTICATION_SERVICE } from '../../../../../core/services/registratio
   styleUrl: './change-password.component.scss'
 })
 export class ChangePasswordComponent {
+  readonly minLength = 12;
   formGroup = this.formBuilder.group({
     newPassword: [
       '', 
-      [Validators.required, Validators.minLength(8)]
+      [Validators.required, Validators.minLength(this.minLength)]
     ],
     confirmNewPassword: [
       '', 
@@ -95,7 +96,7 @@ export class ChangePasswordComponent {
     }
 
     if (control?.hasError('minlength')) {
-      return this.translate.instant('respondents.changePassword.passwordMinLenError');
+      return this.translate.instant('respondents.changePassword.passwordMinLenError', { minLen: this.minLength });
     }
 
     if (control?.hasError('passwordsDoNotMatch')) {

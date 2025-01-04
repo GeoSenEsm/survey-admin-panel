@@ -88,7 +88,7 @@
       "save": "Save",
       "cancel": "Cancel",
       "fieldIsRequired": "This field is required",
-      "passwordMinLenError": "Password must be at least 8 characters long.",
+      "passwordMinLenError": "Password must be at least {{minLen}} characters long.",
       "passwordsDoNotMatch": "Passwords do not match.",
       "ok": "OK",
       "somethingWentWrong": "Something went wrong"

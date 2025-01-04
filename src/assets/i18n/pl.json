@@ -88,7 +88,7 @@
       "save": "Zapisz",
       "cancel": "Anuluj",
       "fieldIsRequired": "Pole jest wymagane",
-      "passwordMinLenError": "Hasło musi mieć przynajmniej 8 znaków.",
+      "passwordMinLenError": "Hasło musi mieć przynajmniej {{minLen}} znaków.",
       "passwordsDoNotMatch": "Hasła nie są takie same.",
       "ok": "OK",
       "somethingWentWrong": "Coś poszło nie tak"
