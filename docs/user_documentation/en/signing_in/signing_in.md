@@ -21,3 +21,14 @@ If you wish to log out, click on the profile icon in the top-right corner, then 
 ## Note
 
 The administrative panel will remember your identity for the current device and browser, so you won’t need to log in again next time. If you want to avoid this, log out of the system after completing your tasks. Additionally, the system may request your login credentials again after some time.
+
+
+## Administrator Account Password
+
+To change the administrator account password press `Change password` button in the right top corner of the screen, fill in the appropriate fields, and then click `Save`.
+
+![alt text](imgs/change_password_btn.png)
+
+![alt text](imgs/change_password.png)
+
+If the entered data is correct, the administrator account password will be updated.

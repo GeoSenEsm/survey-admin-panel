@@ -6,16 +6,7 @@ To access the `Configuration` module, select the appropriate tab in the left-sid
 
 In the `Configuration` module, you can configure the following system elements:
 
-1. The administrator account password
-2. The research area
-
-## Administrator Account Password
-
-To change the administrator account password, fill in the appropriate fields in the section titled `Change Administrator Account Password`, and then click `Save`.
-
-![alt text](imgs/change_password.png)
-
-If the entered data is correct, the administrator account password will be updated.
+1. The research area
 
 ## Research Area
 

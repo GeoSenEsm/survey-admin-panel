@@ -20,3 +20,13 @@ Jeśli chcesz się wylogować, kliknij w ikonę profilu w prawym górnym rogu, n
 ## Uwaga
 
 Panel administreacyjny zapamięta Twoją tożsamość dla bieżącego urządzenia i przeglądarki, więc następnym razem nie będziesz musiał się logować. Jeśli chcesz tego uniknąć, wyloguj się z stystemu po zakończonej pracy. Ponadto, po jakimś czasie system może ponownie poprosić Cię o dane logowania.  
+
+## Hasło do konta administratora
+
+Aby zmienić hasło to konta administratora wybierz opcję `Zmień hasło w prawym górnym rogu ekranu`, wypełnij odpowiednie pola w obszarze, a następnie klinij `Zapisz`
+
+![alt text](imgs/change_password_btn.png)
+
+![alt text](imgs/change_password.png)
+
+Jeśli wpisane dane były poprawne, hasło do konta administratora zoztanie zmienione.

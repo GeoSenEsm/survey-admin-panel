@@ -11,6 +11,7 @@ import { ChangePasswordDto } from '../../../../../domain/models/change-password-
 import { finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-change-admin-password',
@@ -49,7 +50,8 @@ export class ChangeAdminPasswordComponent {
     @Inject(AUTHENTICATION_SERVICE)
     private readonly service: AuthenticationService,
     private readonly snackbar: MatSnackBar,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly dialogRef: MatDialogRef<ChangeAdminPasswordComponent>
   ) {}
 
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -77,15 +79,15 @@ export class ChangeAdminPasswordComponent {
     }
 
     if (control.hasError('required')) {
-      return 'configuration.changeAdminPassword.fieldIsRequired';
+      return 'changeAdminPassword.fieldIsRequired';
     } else if (control.hasError('minlength')) {
-      return 'configuration.changeAdminPassword.minPasswordLen';
+      return 'changeAdminPassword.minPasswordLen';
     } else if (control.hasError('passwordsDoNotMatch')) {
-      return 'configuration.changeAdminPassword.passwordsDontMatch';
+      return 'changeAdminPassword.passwordsDontMatch';
     } else if (control.hasError('maxlength')) {
-      return 'configuration.changeAdminPassword.maxPasswordLen';
+      return 'changeAdminPassword.maxPasswordLen';
     } else if (control.hasError('invalidPassword')) {
-      return 'configuration.changeAdminPassword.invalidPassword';
+      return 'changeAdminPassword.invalidPassword';
     }
     return '';
   }
@@ -98,11 +100,11 @@ export class ChangeAdminPasswordComponent {
       control?.markAsUntouched();
     });
     this.formGroup.reset();
+    this.dialogRef.close();
   }
 
   submit(): void {
     if (this.isBusy || this.formGroup.invalid) {
-      alert('chujnia');
       return;
     }
     this.isBusy = true;
@@ -122,16 +124,16 @@ export class ChangeAdminPasswordComponent {
           this.cancel();
           this.snackbar.open(
             this.translate.instant(
-              'configuration.changeAdminPassword.passwordChangedSuccessfully'
+              'changeAdminPassword.passwordChangedSuccessfully'
             ),
-            this.translate.instant('configuration.ok'),
+            this.translate.instant('changeAdminPassword.ok'),
             {
               duration: 3000,
             }
           );
         },
         error: (error) => {
-          let msg = this.translate.instant('configuration.somethingWentWrong');
+          let msg = this.translate.instant('changeAdminPassword.somethingWentWrong');
           if (
             error.status === 400 ||
             error.status == 401 ||
@@ -139,10 +141,10 @@ export class ChangeAdminPasswordComponent {
           ) {
             this.showInvalidOldPassword();
             msg = this.translate.instant(
-              'configuration.changeAdminPassword.invalidPassword'
+              'changeAdminPassword.invalidPassword'
             );
           }
-          this.snackbar.open(msg, this.translate.instant('configuration.ok'), {
+          this.snackbar.open(msg, this.translate.instant('changeAdminPassword.ok'), {
             duration: 3000,
           });
         },

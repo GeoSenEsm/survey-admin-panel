@@ -39,6 +39,10 @@
       <mat-icon>exit_to_app</mat-icon>
       {{ "app.dashboard.logout" | translate }}
     </button>
+    <button mat-menu-item (click)="changePassword()">
+      <mat-icon>lock</mat-icon>
+      {{ "app.dashboard.changeAdminPassword" | translate }}
+    </button>
   </mat-menu>
 </mat-toolbar>
 <mat-drawer-container class="container">
