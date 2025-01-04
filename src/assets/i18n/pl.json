@@ -346,7 +346,8 @@
       "delete": "Usuń",
       "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
       "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
-      "refresh": "Odśwież"
+      "refresh": "Odśwież",
+      "invalidFormat": "Format pliku jest niepoprawny."
     },
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
