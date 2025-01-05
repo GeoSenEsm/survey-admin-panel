@@ -27,10 +27,11 @@
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
-      "temepratureSensors": "Czujniki temperatury",
+      "temepratureSensors": "Dane z czujników",
       "map": "Mapa",
       "configuration": "Konfiguracja",
-      "changeAdminPassword": "Zmiana hasła"
+      "changeAdminPassword": "Zmiana hasła",
+      "sensorDevices": "Urządzenia sensoryczne"
     }
   },
   "respondents": {

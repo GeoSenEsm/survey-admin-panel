@@ -27,10 +27,11 @@
       "results": "Results",
       "logout": "Logout",
       "startSurvey": "Initial survey",
-      "temepratureSensors": "Temperature sensors",
+      "temepratureSensors": "Sensors data",
       "map": "Map",
       "configuration": "Configuration",
-      "changeAdminPassword": "Change password"
+      "changeAdminPassword": "Change password",
+      "sensorDevices": "Sensor devices"
     }
   },
   "respondents": {
