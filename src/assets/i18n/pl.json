@@ -377,6 +377,7 @@
     "update": "Aktualizuj",
     "delete": "Usuń",
     "success": "Sukces",
-    "ok": "OK"
+    "ok": "OK",
+    "couldNotDelete": "Nie udało się usunąć czujnika"
   }
 }
