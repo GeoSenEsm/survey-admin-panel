@@ -1,0 +1,21 @@
+@import "../../../../../styles/variables.scss";
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 150px;
+    padding: 10px;
+    flex-direction: column;
+    gap: 5px;
+    color: $success-color;
+}
+
+mat-icon{
+    color: $success-color;
+}
+
+button {
+    width: 100%;
+}

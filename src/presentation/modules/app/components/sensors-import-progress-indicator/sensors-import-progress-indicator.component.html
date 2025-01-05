@@ -1,0 +1,11 @@
+<div class="container">
+  <mat-spinner *ngIf="componentState == 'IN_PROGRESS'" />
+
+  <ng-container *ngIf="componentState == 'COMPLETED'">
+    <mat-icon>task_alt</mat-icon>
+    <h3>{{ "sensorDevices.success" | translate }}</h3>
+    <button mat-flat-button color="primary" (click)="close()">
+      {{ "sensorDevices.ok" | translate }}
+    </button>
+  </ng-container>
+</div>

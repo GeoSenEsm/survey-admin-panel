@@ -4,6 +4,13 @@
   </h3>
 
   <div class="top-ribbon">
+    <input 
+    type="file" 
+    #fileInput 
+    (change)="onImport($event)" 
+    accept=".csv" 
+    style="display: none;" 
+    />
     <button mat-flat-button color="primary" (click)="import()">
       <mat-icon> publish </mat-icon>
       {{ "sensorDevices.import" | translate }}

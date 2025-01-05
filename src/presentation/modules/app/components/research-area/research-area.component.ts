@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import L, { LatLng } from 'leaflet';
-import { Papa, ParseResult } from 'ngx-papaparse';
+import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
 import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';

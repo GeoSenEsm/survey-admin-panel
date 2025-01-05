@@ -375,6 +375,8 @@
     "sensorId": "ID",
     "sensorMac": "Adres MAC",
     "update": "Aktualizuj",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "success": "Sukces",
+    "ok": "OK"
   }
 }
