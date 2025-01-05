@@ -1,0 +1,29 @@
+.container {
+  padding: 10px;
+  height: 100%;
+}
+
+h3 {
+  text-align: center;
+}
+
+.top-ribbon {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 10px;
+}
+
+.table-container{
+  text-align: center;
+  height: calc(100% - 160px); /* substract paginator height here */
+  overflow-y: auto;
+  display: block;
+}
+
+mat-header-row,
+mat-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

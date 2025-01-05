@@ -31,7 +31,7 @@
       "map": "Mapa",
       "configuration": "Konfiguracja",
       "changeAdminPassword": "Zmiana hasła",
-      "sensorDevices": "Urządzenia sensoryczne"
+      "sensorDevices": "Czujniki"
     }
   },
   "respondents": {
@@ -368,5 +368,13 @@
     "fieldIsRequired": "Pole jest wymagane",
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
+  },
+  "sensorDevices": {
+    "description": "W tym miejscu możesz skonfigurować adresy MAC czujników, dzięki czemu respondenci będą mogli łatwiej zsynchronizować je z aplikacją.",
+    "import": "Importuj",
+    "sensorId": "ID",
+    "sensorMac": "Adres MAC",
+    "update": "Aktualizuj",
+    "delete": "Usuń"
   }
 }
