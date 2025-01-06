@@ -35,6 +35,7 @@ export interface SensorsImportDialogArgs {
 export class SensorsImportProgressIndicatorComponent implements OnInit {
   OnRepetition = OnRepetition;
   componentState: SensorsImportState = 'UNKNOWN';
+  validationError?: string;
   readonly macRegex =
     /^[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}$/;
 
@@ -107,7 +108,25 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     onRepetition: OnRepetition,
     newEntries: CreateSensorDto[]
   ): boolean {
-    //todo: validate mac uniqueness
+    if (newEntries.some((e) => !this.macRegex.test(e.sensorMac))) {
+      this.componentState = 'VALIDATION_FAILED';
+      this.validationError = 'sensorDevices.someOfTheRowsHasInvalidMacFormat';
+      return false;
+    }
+
+    if (
+      newEntries.some((newEntry) =>
+        this.data.currentData.some(
+          (e) =>
+            e.sensorMac === newEntry.sensorMac &&
+            e.sensorId !== newEntry.sensorId
+        )
+      )
+    ) {
+      this.componentState = 'VALIDATION_FAILED';
+      this.validationError = 'sensorDevices.macsNotUnique';
+      return false;
+    }
 
     if (onRepetition === OnRepetition.FORCE) {
       return true;

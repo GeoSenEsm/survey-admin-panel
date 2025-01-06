@@ -380,7 +380,7 @@
     "ok": "OK",
     "couldNotDelete": "Nie udało się usunąć czujnika",
     "editSensorMac": "Edytuj adres MAC czujnika",
-    "fieldIsRequired":"Pole jest wymagane",
+    "fieldIsRequired": "Pole jest wymagane",
     "notValidMacAddress": "To nie jest poprawny adres MAC",
     "cancel": "Anuluj",
     "save": "Zapisz",
@@ -390,6 +390,10 @@
     "search": "Szukaj",
     "repetitionDecisionRequired": "Niektóre identyfikatory już istnieją, co chesz z nimi zrobić?",
     "override": "Nadpisz",
-    "skip": "Pomiń"
+    "skip": "Pomiń",
+    "macsNotUnique": "Niektóre adresy MAC nie są unikalne",
+    "couldNotImport": "Import nie powiódł się, spróuj ponownie później",
+    "close": "Zamknij",
+    "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
   }
 }

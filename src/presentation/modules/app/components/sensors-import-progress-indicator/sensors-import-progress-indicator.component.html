@@ -28,4 +28,26 @@
       {{ "sensorDevices.skip" | translate }}
     </button>
   </ng-container>
+
+  <ng-container *ngIf="componentState == 'ERROR'">
+    <mat-error>
+      <h3>
+        {{ "sensorDevices.couldNotImport" | translate }}
+      </h3>
+    </mat-error>
+    <button mat-stroked-button color="warn" (click)="close()">
+      {{ "sensorDevices.close" | translate }}
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="componentState == 'VALIDATION_FAILED'">
+    <mat-error>
+      <h3>
+        {{ validationError ?? "" | translate }}
+      </h3>
+    </mat-error>
+    <button mat-stroked-button color="warn" (click)="close()">
+      {{ "sensorDevices.close" | translate }}
+    </button>
+  </ng-container>
 </div>
