@@ -15,7 +15,7 @@ type SensorsImportState =
   | 'ERROR'
   | 'REPETITIONS_DECISION_REQUIRED'
   | 'VALIDATION_FAILED';
-enum OnRepetition {
+export enum OnRepetition {
   FORCE,
   SKIP,
   ALLOW_TO_DECIDE,
@@ -33,8 +33,10 @@ export interface SensorsImportDialogArgs {
   styleUrl: './sensors-import-progress-indicator.component.scss',
 })
 export class SensorsImportProgressIndicatorComponent implements OnInit {
+  OnRepetition = OnRepetition;
   componentState: SensorsImportState = 'UNKNOWN';
-  readonly macRegex = /^[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}$/;
+  readonly macRegex =
+    /^[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}$/;
 
   constructor(
     @Inject(SENSORS_SERVICE_TOKEN)
@@ -48,7 +50,7 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     this.submitToServer(OnRepetition.ALLOW_TO_DECIDE);
   }
 
-  private async submitToServer(onRepetition: OnRepetition): Promise<void> {
+  public async submitToServer(onRepetition: OnRepetition): Promise<void> {
     if (this.componentState === 'IN_PROGRESS') {
       return;
     }
@@ -61,24 +63,21 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
       if (!this.validate(onRepetition, dataToSubmit)) {
         return;
       }
-  
-      this.sensorsService
-        .addSensors(dataToSubmit)
-        .subscribe({
-          next: () => {
-            this.componentState = 'COMPLETED';
-            this.data.reloadCallback();
-          },
-          error: (e) => {
-            console.log(e);
-            this.componentState = 'ERROR';
-          }
-        })
+
+      this.sensorsService.addSensors(dataToSubmit).subscribe({
+        next: () => {
+          this.componentState = 'COMPLETED';
+          this.data.reloadCallback();
+        },
+        error: (e) => {
+          console.log(e);
+          this.componentState = 'ERROR';
+        },
+      });
     } catch (e: any) {
       console.log(e);
       this.componentState = 'ERROR';
     }
-    
   }
 
   readDataToSubmit(fileSelectionEvent: Event): Promise<CreateSensorDto[]> {
@@ -104,7 +103,10 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     return Promise.resolve([]);
   }
 
-  private validate(onRepetition: OnRepetition, newEntries: CreateSensorDto[]): boolean {
+  private validate(
+    onRepetition: OnRepetition,
+    newEntries: CreateSensorDto[]
+  ): boolean {
     //todo: validate mac uniqueness
 
     if (onRepetition === OnRepetition.FORCE) {
@@ -112,17 +114,22 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     }
 
     const newSensorIds = newEntries.map((e) => e.sensorId);
+    const oldSensorIds = this.data.currentData.map((e) => e.sensorId);
     if (!this.data.currentData.some((e) => newSensorIds.includes(e.sensorId))) {
       return true;
     }
 
-    if (onRepetition == OnRepetition.ALLOW_TO_DECIDE){
+    if (onRepetition == OnRepetition.ALLOW_TO_DECIDE) {
       this.componentState = 'REPETITIONS_DECISION_REQUIRED';
       return false;
     }
-    
+
     if (onRepetition == OnRepetition.SKIP) {
-      newEntries = newEntries.filter((e) => !newSensorIds.includes(e.sensorId));
+      for (let i = newEntries.length - 1; i >= 0; i--) {
+        if (oldSensorIds.includes(newEntries[i].sensorId)) {
+          newEntries.splice(i, 1);
+        }
+      }
       return true;
     }
 

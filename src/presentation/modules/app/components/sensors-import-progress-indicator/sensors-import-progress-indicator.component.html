@@ -3,9 +3,29 @@
 
   <ng-container *ngIf="componentState == 'COMPLETED'">
     <mat-icon>task_alt</mat-icon>
-    <h3>{{ "sensorDevices.success" | translate }}</h3>
+    <h3 class="success-text">{{ "sensorDevices.success" | translate }}</h3>
     <button mat-flat-button color="primary" (click)="close()">
       {{ "sensorDevices.ok" | translate }}
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="componentState == 'REPETITIONS_DECISION_REQUIRED'">
+    <h3>
+      {{ "sensorDevices.repetitionDecisionRequired" | translate }}
+    </h3>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="submitToServer(OnRepetition.FORCE)"
+    >
+      {{ "sensorDevices.override" | translate }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submitToServer(OnRepetition.SKIP)"
+    >
+      {{ "sensorDevices.skip" | translate }}
     </button>
   </ng-container>
 </div>

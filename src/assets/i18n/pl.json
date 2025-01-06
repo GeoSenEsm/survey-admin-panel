@@ -387,6 +387,9 @@
     "couldNotUpdate": "Nie udało się zapisać zmian",
     "macAlreadyExists": "Ten adres MAC jest już zajęty",
     "refresh": "Odśwież",
-    "search": "Szukaj"
+    "search": "Szukaj",
+    "repetitionDecisionRequired": "Niektóre identyfikatory już istnieją, co chesz z nimi zrobić?",
+    "override": "Nadpisz",
+    "skip": "Pomiń"
   }
 }
