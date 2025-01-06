@@ -402,5 +402,11 @@
     "createNewSensor": "Add a new sensor",
     "couldNotCreate": "Failed to add the sensor",
     "uniqueError": "This field must be unique"
+  },
+  "surveys": {
+    "loadingError": "An error occurred while loading.",
+    "retry": "Try again",
+    "noSurveys": "No surveys",
+    "refresh": "Refresh"
   }
 }

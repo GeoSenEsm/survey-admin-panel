@@ -402,5 +402,11 @@
     "createNewSensor": "Dodaj nowy czujnik",
     "couldNotCreate": "Nie udało się dodać czujnika",
     "uniqueError": "Pole musi być unikalne"
+  },
+  "surveys": {
+    "loadingError": "Wystąpił bład podczas ładowania.",
+    "retry": "Spróbuj ponownie",
+    "noSurveys": "Brak ankiet",
+    "refresh": "Odśwież"
   }
 }
