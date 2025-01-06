@@ -8,13 +8,10 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
-import { catchError, Subscription, throwError } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LocationFilters } from '../../../../../domain/models/location-filters';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
-import { SurveyService } from '../../../../../domain/external_services/survey.service';
-import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
-import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -47,7 +44,7 @@ export class MapFiltersComponent implements OnChanges{
         undefined,
         this.validateSelectedRespondent.bind(this),
       ],
-      onlyOutside: new FormControl<boolean>(false),
+      onlyOutside: new FormControl<boolean | undefined>(undefined),
       selectedDateFrom: [new Date()],
       selectedTimeFrom: ['7:00'],
       selectedDateTo: [new Date()],
@@ -124,7 +121,7 @@ export class MapFiltersComponent implements OnChanges{
       const filters = {
         from: dateFrom,
         to: dateTo,
-        onlyAutsideResearchArea: this.filtersForm.get('onlyOutside')?.value,
+        outsideResearchArea: this.filtersForm.get('onlyOutside')?.value,
         respondentId: this.getSelectedRespondentId(),
         surveyId: this.filtersForm.get('selectedSurveyId')?.value,
       };

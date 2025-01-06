@@ -3,5 +3,5 @@ export interface LocationFilters{
     respondentId?: string,
     from: Date,
     to: Date,
-    onlyAutsideResearchArea: boolean
+    outsideResearchArea?: boolean
 }

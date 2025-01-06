@@ -333,7 +333,9 @@
     "noData": "No data, please try changing the filters.",
     "somethingWentWrong": "Something went wrong. Please try again later.",
     "ok": "OK",
-    "respondentDoesNotExist": "Respondent does not exist"
+    "respondentDoesNotExist": "Respondent does not exist",
+    "researchArea": "Research area",
+    "onlyInsideResearchArea": "Only inside research area"
   },
   "configuration": {
     "researchArea": {

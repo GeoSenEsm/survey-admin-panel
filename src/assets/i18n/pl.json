@@ -333,7 +333,9 @@
     "noData": "Brak danych, spróbuj zmienić filtry",
     "somethingWentWrong": "Cos poszło nie tak. Spróbuj ponownie później.",
     "ok": "OK",
-    "respondentDoesNotExist": "Respondent nie istnieje"
+    "respondentDoesNotExist": "Respondent nie istnieje",
+    "researchArea": "Obszar badania",
+    "onlyInsideResearchArea": "Tylko w obszarze badania"
   },
   "configuration": {
     "researchArea": {
