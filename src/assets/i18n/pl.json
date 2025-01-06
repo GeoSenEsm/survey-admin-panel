@@ -395,5 +395,7 @@
     "couldNotImport": "Import nie powiódł się, spróuj ponownie później",
     "close": "Zamknij",
     "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
-  }
+    "export": "Eksportuj",
+    "csvExportFilename": "sensory.csv"
+    }
 }

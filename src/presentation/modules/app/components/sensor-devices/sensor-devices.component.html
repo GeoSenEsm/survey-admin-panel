@@ -15,6 +15,11 @@
       <mat-icon> refresh </mat-icon>
       {{ "sensorDevices.refresh" | translate }}
     </button>
+    <button mat-flat-button color="primary" (click)="export()">
+      <mat-icon> file_download </mat-icon>
+      {{ "sensorDevices.export" | translate }}
+    </button>
+
     <input
       type="file"
       #fileInput

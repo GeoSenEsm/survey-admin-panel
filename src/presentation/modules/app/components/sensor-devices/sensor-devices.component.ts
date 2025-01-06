@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { EditSensorComponent } from '../edit-sensor/edit-sensor.component';
 import { MatSort } from '@angular/material/sort';
+import { CsvExportService } from '../../../../../core/services/csv-export.service';
 
 @Component({
   selector: 'app-devices',
@@ -35,7 +36,8 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
     private readonly sensorsService: SensorsService,
     private readonly matDialog: MatDialog,
     private readonly snackbar: MatSnackBar,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly csvEportService: CsvExportService
   ) {}
 
   ngOnInit(): void {
@@ -113,5 +115,9 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
           );
         },
       });
+  }
+
+  public export(): void {
+    this.csvEportService.exportTableToCSV(this.dataSource.data, this.headers, this.translate.instant('sensorDevices.csvExportFilename'));
   }
 }
