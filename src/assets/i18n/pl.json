@@ -378,6 +378,13 @@
     "delete": "Usuń",
     "success": "Sukces",
     "ok": "OK",
-    "couldNotDelete": "Nie udało się usunąć czujnika"
+    "couldNotDelete": "Nie udało się usunąć czujnika",
+    "editSensorMac": "Edytuj adres MAC czujnika",
+    "fieldIsRequired":"Pole jest wymagane",
+    "notValidMacAddress": "To nie jest poprawny adres MAC",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "couldNotUpdate": "Nie udało się zapisać zmian",
+    "macAlreadyExists": "Ten adres MAC jest już zajęty"
   }
 }

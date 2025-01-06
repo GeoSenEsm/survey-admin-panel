@@ -1,0 +1,30 @@
+<form class="container" [formGroup]="formGroup" (submit)="save()">
+  <h3>
+    {{ "sensorDevices.editSensorMac" | translate }}
+  </h3>
+
+  <mat-form-field>
+    <mat-label>
+      {{ "sensorDevices.sensorId" | translate }}
+    </mat-label>
+    <input matInput formControlName="sensorId" [readonly]="true" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      {{ "sensorDevices.sensorMac" | translate }}
+    </mat-label>
+    <input matInput formControlName="sensorMac" maxlength="17" />
+    <mat-error>
+      {{ getMacError() | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    {{ "sensorDevices.save" | translate }}
+  </button>
+
+  <button mat-stroked-button color="warn" type="button" (click)="close()">
+    {{ "sensorDevices.cancel" | translate }}
+  </button>
+</form>

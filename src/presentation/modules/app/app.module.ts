@@ -82,6 +82,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { ChangeAdminPasswordComponent } from './components/change-admin-password/change-admin-password.component';
 import { SensorDevicesComponent } from './components/sensor-devices/sensor-devices.component';
 import { SensorsImportProgressIndicatorComponent } from './components/sensors-import-progress-indicator/sensors-import-progress-indicator.component';
+import { EditSensorComponent } from './components/edit-sensor/edit-sensor.component';
 
 
 export const routes: Routes = [
@@ -198,7 +199,8 @@ export function HttpLoaderFactory(http: HttpClient){
     ChangePasswordComponent,
     ChangeAdminPasswordComponent,
     SensorDevicesComponent,
-    SensorsImportProgressIndicatorComponent
+    SensorsImportProgressIndicatorComponent,
+    EditSensorComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

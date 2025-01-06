@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SensorsImportProgressIndicatorComponent } from '../sensors-import-progress-indicator/sensors-import-progress-indicator.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { EditSensorComponent } from '../edit-sensor/edit-sensor.component';
 
 @Component({
   selector: 'app-devices',
@@ -65,7 +66,18 @@ export class SensorDevicesComponent implements OnInit {
     });
   }
 
-  public edit(sensor: SensorDto): void {}
+  public edit(sensor: SensorDto): void {
+    if (this.isBusy){
+      return;
+    }
+
+    this.matDialog.open(EditSensorComponent, {
+      data: {
+        sensor: sensor,
+        allSensors: this.dataSource.data
+      }
+    });
+  }
 
   public delete(sensor: SensorDto): void {
     if (this.isBusy) {
