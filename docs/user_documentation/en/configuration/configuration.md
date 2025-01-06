@@ -31,7 +31,7 @@ longitude,latitude
 116.3910,39.9050
 ```
 
-This file contains geographic coordinates listed in a clockwise order. The coordinates should represent the vertices of a polygon.
+This file contains geographic coordinates. The coordinates should represent the vertices of a polygon.
 
 Then click `Save` to save the changes or `Revert changes` to undo them.
 

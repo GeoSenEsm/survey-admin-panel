@@ -31,7 +31,7 @@ longitude,latitude
 116.3910,39.9050
 ```
 
-Zawiera on współrzędne geograficzne w kolejności **zgodnej z ruchem wskazówek zegara**. Współrzędne powinny być wierzchołkami wielokąta. 
+Zawiera on współrzędne geograficzne. Współrzędne powinny być wierzchołkami wielokąta. 
 
 Potem wciśnij `Zapisz`, aby zapisać, lub `Wycofaj zmiany`, aby cofnąć zmiany. 
 
