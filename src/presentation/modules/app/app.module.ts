@@ -80,6 +80,10 @@ import { RespondentsFiltersComponent } from './components/respondents-filters/re
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { MatSortModule } from '@angular/material/sort';
 import { ChangeAdminPasswordComponent } from './components/change-admin-password/change-admin-password.component';
+import { SensorDevicesComponent } from './components/sensor-devices/sensor-devices.component';
+import { SensorsImportProgressIndicatorComponent } from './components/sensors-import-progress-indicator/sensors-import-progress-indicator.component';
+import { EditSensorComponent } from './components/edit-sensor/edit-sensor.component';
+import { CreateSensorComponent } from './components/create-sensor/create-sensor.component';
 
 
 export const routes: Routes = [
@@ -94,6 +98,7 @@ export const routes: Routes = [
     {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -193,7 +198,11 @@ export function HttpLoaderFactory(http: HttpClient){
     EditRespondentDataComponent,
     RespondentsFiltersComponent,
     ChangePasswordComponent,
-    ChangeAdminPasswordComponent
+    ChangeAdminPasswordComponent,
+    SensorDevicesComponent,
+    SensorsImportProgressIndicatorComponent,
+    EditSensorComponent,
+    CreateSensorComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

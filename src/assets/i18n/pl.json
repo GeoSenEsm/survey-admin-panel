@@ -27,10 +27,11 @@
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
-      "temepratureSensors": "Czujniki temperatury",
+      "temepratureSensors": "Dane z czujników",
       "map": "Mapa",
       "configuration": "Konfiguracja",
-      "changeAdminPassword": "Zmiana hasła"
+      "changeAdminPassword": "Zmiana hasła",
+      "sensorDevices": "Czujniki"
     }
   },
   "respondents": {
@@ -367,5 +368,39 @@
     "fieldIsRequired": "Pole jest wymagane",
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
+  },
+  "sensorDevices": {
+    "description": "W tym miejscu możesz skonfigurować adresy MAC czujników, dzięki czemu respondenci będą mogli łatwiej zsynchronizować je z aplikacją.",
+    "import": "Importuj",
+    "sensorId": "ID",
+    "sensorMac": "Adres MAC",
+    "update": "Aktualizuj",
+    "delete": "Usuń",
+    "success": "Sukces",
+    "ok": "OK",
+    "couldNotDelete": "Nie udało się usunąć czujnika",
+    "editSensorMac": "Edytuj adres MAC czujnika",
+    "fieldIsRequired": "Pole jest wymagane",
+    "notValidMacAddress": "To nie jest poprawny adres MAC",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "couldNotUpdate": "Nie udało się zapisać zmian",
+    "macAlreadyExists": "Ten adres MAC jest już zajęty",
+    "refresh": "Odśwież",
+    "search": "Szukaj",
+    "repetitionDecisionRequired": "Niektóre identyfikatory już istnieją, co chesz z nimi zrobić?",
+    "override": "Nadpisz",
+    "skip": "Pomiń",
+    "macsNotUnique": "Niektóre adresy MAC nie są unikalne",
+    "couldNotImport": "Import nie powiódł się, spróuj ponownie później",
+    "close": "Zamknij",
+    "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
+    "export": "Eksportuj",
+    "csvExportFilename": "sensory.csv",
+    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac.",
+    "createNew": "Dodaj",
+    "createNewSensor": "Dodaj nowy czujnik",
+    "couldNotCreate": "Nie udało się dodać czujnika",
+    "uniqueError": "Pole musi być unikalne"
   }
 }

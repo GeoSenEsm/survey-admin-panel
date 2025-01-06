@@ -42,6 +42,11 @@ export function getNavListItems(): NavListItem[] {
       link: 'temperature',
     },
     {
+      display: 'app.dashboard.sensorDevices',
+      matIcon: 'bluetooth',
+      link: 'sensorDevices'
+    },
+    {
       display: 'app.dashboard.map',
       matIcon: 'map',
       link: 'map',

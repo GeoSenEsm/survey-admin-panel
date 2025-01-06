@@ -1,0 +1,94 @@
+<div class="container">
+  <h3>
+    {{ "sensorDevices.description" | translate }}
+  </h3>
+
+  <div class="top-ribbon">
+    <input
+      matInput
+      [(ngModel)]="dataSource.filter"
+      placeholder="{{ 'sensorDevices.search' | translate }}"
+      class="search-input"
+    />
+
+    <button mat-flat-button color="primary" (click)="createManually()">
+      <mat-icon> add </mat-icon>
+      {{ "sensorDevices.createNew" | translate }}
+    </button>
+
+    <button mat-flat-button color="primary" (click)="loadData()">
+      <mat-icon> refresh </mat-icon>
+      {{ "sensorDevices.refresh" | translate }}
+    </button>
+    <button mat-flat-button color="primary" (click)="export()">
+      <mat-icon> file_download </mat-icon>
+      {{ "sensorDevices.export" | translate }}
+    </button>
+
+    <input
+      type="file"
+      #fileInput
+      (change)="onImport($event)"
+      accept=".csv"
+      style="display: none"
+    />
+    <button mat-flat-button color="primary" (click)="import()">
+      <mat-icon> publish </mat-icon>
+      {{ "sensorDevices.import" | translate }}
+    </button>
+
+    <mat-icon matTooltip="{{ 'sensorDevices.importTooltip' | translate }}">
+      help_outlined
+    </mat-icon>
+  </div>
+
+  <div class="table-container">
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-cintainer *ngFor="let column of headers" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "sensorDevices." + column | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          {{ sensor[column] }}
+        </mat-cell>
+      </ng-cintainer>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "sensorDevices.update" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          <button mat-icon-button color="primary" (click)="edit(sensor)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "sensorDevices.delete" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          <button mat-icon-button color="primary" (click)="delete(sensor)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="headers.concat(['edit', 'delete'])"
+        class="table-header"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: headers.concat(['edit', 'delete'])"
+      ></mat-row>
+    </mat-table>
+  </div>
+
+  <div class="paginator-container">
+    <mat-paginator
+      [pageSizeOptions]="[30, 50, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

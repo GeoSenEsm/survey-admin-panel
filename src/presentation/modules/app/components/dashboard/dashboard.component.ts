@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/map',
     '/temperature',
     '/summaries',
+    '/sensorDevices'
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
