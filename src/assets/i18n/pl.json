@@ -396,6 +396,7 @@
     "close": "Zamknij",
     "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
     "export": "Eksportuj",
-    "csvExportFilename": "sensory.csv"
+    "csvExportFilename": "sensory.csv",
+    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac."
     }
 }
