@@ -11,6 +11,11 @@
       class="search-input"
     />
 
+    <button mat-flat-button color="primary" (click)="createManually()">
+      <mat-icon> add </mat-icon>
+      {{ "sensorDevices.createNew" | translate }}
+    </button>
+
     <button mat-flat-button color="primary" (click)="loadData()">
       <mat-icon> refresh </mat-icon>
       {{ "sensorDevices.refresh" | translate }}

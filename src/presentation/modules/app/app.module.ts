@@ -83,6 +83,7 @@ import { ChangeAdminPasswordComponent } from './components/change-admin-password
 import { SensorDevicesComponent } from './components/sensor-devices/sensor-devices.component';
 import { SensorsImportProgressIndicatorComponent } from './components/sensors-import-progress-indicator/sensors-import-progress-indicator.component';
 import { EditSensorComponent } from './components/edit-sensor/edit-sensor.component';
+import { CreateSensorComponent } from './components/create-sensor/create-sensor.component';
 
 
 export const routes: Routes = [
@@ -200,7 +201,8 @@ export function HttpLoaderFactory(http: HttpClient){
     ChangeAdminPasswordComponent,
     SensorDevicesComponent,
     SensorsImportProgressIndicatorComponent,
-    EditSensorComponent
+    EditSensorComponent,
+    CreateSensorComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

@@ -6,6 +6,7 @@ import { SensorsService } from '../../../../../domain/external_services/sensors.
 import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { macPattern } from '../../../../../core/utils/validators';
 
 
 export interface EditSensorComponentDialogParameter {
@@ -34,9 +35,7 @@ export class EditSensorComponent {
       sensorId: new FormControl(this.data.sensor.sensorId),
       sensorMac: new FormControl(this.data.sensor.sensorMac, [
         Validators.required,
-        Validators.pattern(
-          /^[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}$/
-        ),
+        macPattern(),
         this.validateUniqueness.bind(this),
       ]),
     });

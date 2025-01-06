@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EditSensorComponent } from '../edit-sensor/edit-sensor.component';
 import { MatSort } from '@angular/material/sort';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
+import { CreateSensorComponent } from '../create-sensor/create-sensor.component';
 
 @Component({
   selector: 'app-devices',
@@ -76,15 +77,15 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
   }
 
   public edit(sensor: SensorDto): void {
-    if (this.isBusy){
+    if (this.isBusy) {
       return;
     }
 
     this.matDialog.open(EditSensorComponent, {
       data: {
         sensor: sensor,
-        allSensors: this.dataSource.data
-      }
+        allSensors: this.dataSource.data,
+      },
     });
   }
 
@@ -118,6 +119,19 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
   }
 
   public export(): void {
-    this.csvEportService.exportTableToCSV(this.dataSource.data, this.headers, this.translate.instant('sensorDevices.csvExportFilename'));
+    this.csvEportService.exportTableToCSV(
+      this.dataSource.data,
+      this.headers,
+      this.translate.instant('sensorDevices.csvExportFilename')
+    );
+  }
+
+  public createManually(): void {
+    this.matDialog.open(CreateSensorComponent, {
+      data: {
+        allSensors: this.dataSource.data,
+        refreshCallback: () => this.loadData()
+      },
+    });
   }
 }

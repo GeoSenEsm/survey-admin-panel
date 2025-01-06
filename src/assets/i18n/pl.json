@@ -397,6 +397,10 @@
     "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
     "export": "Eksportuj",
     "csvExportFilename": "sensory.csv",
-    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac."
-    }
+    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac.",
+    "createNew": "Dodaj",
+    "createNewSensor": "Dodaj nowy czujnik",
+    "couldNotCreate": "Nie udało się dodać czujnika",
+    "uniqueError": "Pole musi być unikalne"
+  }
 }
