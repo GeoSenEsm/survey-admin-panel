@@ -385,6 +385,7 @@
     "cancel": "Anuluj",
     "save": "Zapisz",
     "couldNotUpdate": "Nie udało się zapisać zmian",
-    "macAlreadyExists": "Ten adres MAC jest już zajęty"
+    "macAlreadyExists": "Ten adres MAC jest już zajęty",
+    "refresh": "Odśwież"
   }
 }

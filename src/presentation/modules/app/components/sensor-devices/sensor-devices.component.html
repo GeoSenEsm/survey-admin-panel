@@ -4,6 +4,10 @@
   </h3>
 
   <div class="top-ribbon">
+    <button mat-flat-button color="primary" (click)="import()">
+      <mat-icon> refresh </mat-icon>
+      {{ "sensorDevices.refresh" | translate }}
+    </button>
     <input 
     type="file" 
     #fileInput 
