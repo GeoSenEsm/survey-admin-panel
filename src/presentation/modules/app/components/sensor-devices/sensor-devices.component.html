@@ -4,19 +4,23 @@
   </h3>
 
   <div class="top-ribbon">
-    <input matInput [(ngModel)]="dataSource.filter" placeholder="Search" 
-    class="search-input">
+    <input
+      matInput
+      [(ngModel)]="dataSource.filter"
+      placeholder="{{ 'sensorDevices.search' | translate }}"
+      class="search-input"
+    />
 
-    <button mat-flat-button color="primary" (click)="import()">
+    <button mat-flat-button color="primary" (click)="loadData()">
       <mat-icon> refresh </mat-icon>
       {{ "sensorDevices.refresh" | translate }}
     </button>
-    <input 
-    type="file" 
-    #fileInput 
-    (change)="onImport($event)" 
-    accept=".csv" 
-    style="display: none;" 
+    <input
+      type="file"
+      #fileInput
+      (change)="onImport($event)"
+      accept=".csv"
+      style="display: none"
     />
     <button mat-flat-button color="primary" (click)="import()">
       <mat-icon> publish </mat-icon>
@@ -37,23 +41,23 @@
 
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef>
-            {{ "sensorDevices.update" | translate }}
+          {{ "sensorDevices.update" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let sensor">
-            <button mat-icon-button color="primary" (click)="edit(sensor)">
-                <mat-icon>edit</mat-icon>
-            </button>
+          <button mat-icon-button color="primary" (click)="edit(sensor)">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef>
-            {{ "sensorDevices.delete" | translate }}
+          {{ "sensorDevices.delete" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let sensor">
-            <button mat-icon-button color="primary" (click)="delete(sensor)">
-                <mat-icon>delete</mat-icon>
-            </button>
+          <button mat-icon-button color="primary" (click)="delete(sensor)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </mat-cell>
       </ng-container>
 
@@ -61,7 +65,9 @@
         *matHeaderRowDef="headers.concat(['edit', 'delete'])"
         class="table-header"
       ></mat-header-row>
-      <mat-row *matRowDef="let row; columns: headers.concat(['edit', 'delete'])"></mat-row>
+      <mat-row
+        *matRowDef="let row; columns: headers.concat(['edit', 'delete'])"
+      ></mat-row>
     </mat-table>
   </div>
 
