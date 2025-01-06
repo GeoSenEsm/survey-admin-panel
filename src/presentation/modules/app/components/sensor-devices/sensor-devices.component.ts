@@ -19,6 +19,7 @@ import { EditSensorComponent } from '../edit-sensor/edit-sensor.component';
 import { MatSort } from '@angular/material/sort';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { CreateSensorComponent } from '../create-sensor/create-sensor.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-devices',
@@ -28,6 +29,7 @@ import { CreateSensorComponent } from '../create-sensor/create-sensor.component'
 export class SensorDevicesComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild(MatSort) sort?: MatSort;
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
   readonly dataSource = new MatTableDataSource<SensorDto>([]);
   readonly headers = ['sensorId', 'sensorMac'];
   isBusy = false;
@@ -47,6 +49,7 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort ?? null;
+    this.dataSource.paginator = this.paginator ?? null;
   }
 
   public loadData(): void {
