@@ -19,8 +19,7 @@ export class LocationServiceImpl extends ApiService implements LocationService{
     getLocationData(filters: LocationFilters): Observable<LocationData[]> {
         const actualFilters: any = {
             'from': filters.from.toISOString(),
-            'to': filters.to.toISOString(),
-            'onlyAutsideResearchArea': filters.onlyAutsideResearchArea
+            'to': filters.to.toISOString()
         };
 
         if (filters.respondentId){
@@ -29,6 +28,10 @@ export class LocationServiceImpl extends ApiService implements LocationService{
 
         if (filters.surveyId){
             actualFilters['surveyId'] = filters.surveyId
+        }
+
+        if (filters.outsideResearchArea != undefined){
+            actualFilters['outsideResearchArea'] = filters.outsideResearchArea
         }
 
         return this.get('/api/localization', actualFilters)
