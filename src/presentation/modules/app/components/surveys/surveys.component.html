@@ -4,4 +4,28 @@
       *ngFor="let survey of surveys"
       [survey]="survey"/>
     </div>
+    
+    <ng-container *ngIf="!isBusy && surveys.length === 0 && !loadingErrorOccured">
+      <h3 >
+        {{ "surveys.noSurveys" | translate }}
+      </h3>
+      <button mat-flat-button color="primary" (click)="loadSurveys()">
+        <mat-icon>refresh</mat-icon>
+        {{'surveys.refresh' | translate}}
+      </button>
+    </ng-container>
+    
+    <ng-container *ngIf="loadingErrorOccured">
+      <h3>
+        <mat-error>
+          {{ "surveys.loadingError" | translate }}
+        </mat-error>
+      </h3>
+      <button mat-flat-button color="primary" (click)="loadSurveys()">
+        <mat-icon>refresh</mat-icon>
+        {{'surveys.retry' | translate}}
+      </button>
+    </ng-container>
+
+    <mat-spinner *ngIf="isBusy"/>
 </div>
