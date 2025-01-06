@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -15,14 +16,16 @@ import { SensorsImportProgressIndicatorComponent } from '../sensors-import-progr
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { EditSensorComponent } from '../edit-sensor/edit-sensor.component';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-devices',
   templateUrl: './sensor-devices.component.html',
   styleUrl: './sensor-devices.component.scss',
 })
-export class SensorDevicesComponent implements OnInit {
+export class SensorDevicesComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild(MatSort) sort?: MatSort;
   readonly dataSource = new MatTableDataSource<SensorDto>([]);
   readonly headers = ['sensorId', 'sensorMac'];
   isBusy = false;
@@ -37,6 +40,10 @@ export class SensorDevicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort ?? null;
   }
 
   public loadData(): void {
