@@ -15,6 +15,7 @@ import { ResearchAreaService } from '../../../../../domain/external_services/res
 import { catchError, of, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import isClockwise from '../../../../../core/utils/coords';
 
 @Component({
   selector: 'app-research-area',
@@ -112,10 +113,15 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
-          const data: LatLong[] = (result.data as LatLong[]).map((row) => ({
+          let data: LatLong[] = (result.data as LatLong[]).map((row) => ({
             latitude: this.withPrecision(row.latitude, 6),
             longitude: this.withPrecision(row.longitude, 6),
           }));
+
+          if (isClockwise(data)){
+            data = data.reverse();
+          }
+
           this.drawPolygon(data);
           this.changesMade = true;
         },

@@ -3,17 +3,19 @@ import { SectionVisibility } from "../../domain/models/section.visibility";
 import { SurveyDetailsDto } from "../../domain/models/survey.details.dtos";
 import { CreateSurveyModel } from "../models/create.survey.model";
 import { getDefaultNumberRange } from "../models/number.range.model";
+import { TestBed } from '@angular/core/testing';
 import { SurveyDetailsMapper } from "./survey-details-mapper";
 
 describe('SurveyDetailsMapper', () => {
   let mapper: SurveyDetailsMapper;
 
   beforeEach(() => {
-    mapper = new SurveyDetailsMapper();
+    mapper = TestBed.inject(SurveyDetailsMapper);
   });
 
   it('should map SurveyDetailsDto to CreateSurveyModel correctly', () => {
     const surveyDto: SurveyDetailsDto = {
+      state: 'craeted',
       id: 'survey-id',
       name: 'Test survey name',
       rowVersion: 1,
