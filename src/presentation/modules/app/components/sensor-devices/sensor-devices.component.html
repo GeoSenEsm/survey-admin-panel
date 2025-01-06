@@ -4,6 +4,9 @@
   </h3>
 
   <div class="top-ribbon">
+    <input matInput [(ngModel)]="dataSource.filter" placeholder="Search" 
+    class="search-input">
+
     <button mat-flat-button color="primary" (click)="import()">
       <mat-icon> refresh </mat-icon>
       {{ "sensorDevices.refresh" | translate }}
