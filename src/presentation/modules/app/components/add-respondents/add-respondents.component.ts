@@ -6,9 +6,14 @@ import { CreateRespondentsAccountsDto } from '../../../../../domain/models/creat
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../../domain/external_services/authentication.service';
 import { AUTHENTICATION_SERVICE } from '../../../../../core/services/registration-names';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface FormGroupType{
   amount: FormControl<number | null>
+}
+
+interface AddRespondentsComponentDialogParameter {
+  onRespondentsCreated?: () => void;
 }
 
 @Component({
@@ -28,6 +33,7 @@ export class AddRespondentsComponent implements OnInit{
   constructor(private formBuilder: FormBuilder,
     @Inject(AUTHENTICATION_SERVICE)private readonly _service: AuthenticationService,
     private readonly _clipboard: Clipboard,
+    @Inject(MAT_DIALOG_DATA) private readonly data: AddRespondentsComponentDialogParameter,
     readonly translate: TranslateService){
   }
 
@@ -47,6 +53,9 @@ export class AddRespondentsComponent implements OnInit{
     .subscribe(result =>{
       result.forEach(account =>{
         this.accounts.push(account);
+        if (this.data.onRespondentsCreated){
+          this.data.onRespondentsCreated();
+        }
       });
     });
   }
