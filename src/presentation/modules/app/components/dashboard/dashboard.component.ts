@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { getNavListItems, NavListItem } from './nav-list-items';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeAdminPasswordComponent } from '../change-admin-password/change-admin-password.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/map',
     '/temperature',
     '/summaries',
-    '/sensorDevices'
+    '/sensorDevices',
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly storage: LocalStorageService,
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly snackbar: MatSnackBar
   ) {}
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
@@ -81,7 +83,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   set language(value: string) {
     this._language = value;
-    this.translateService.use(value);
+    this.translateService.use(value).subscribe(() => {
+      this.snackbar.open(
+        this.translateService.instant(
+          'app.dashboard.someElementsNeedRefreshing'
+        ),
+        this.translateService.instant('app.dashboard.ok'),
+        {
+          duration: 6000,
+        }
+      );
+    });
     this.storage.save('lang', value);
   }
 
