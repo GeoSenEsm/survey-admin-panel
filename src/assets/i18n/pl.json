@@ -411,5 +411,13 @@
     "retry": "Spróbuj ponownie",
     "noSurveys": "Brak ankiet",
     "refresh": "Odśwież"
+  },
+  "matPaginator": {
+    "itemsPerPageLabel": "Elementów na stronie:",
+    "firstPageLabel": "Pierwsza strona",
+    "lastPageLabel": "Ostatnia strona",
+    "previousPageLabel": "Poprzednia strona",
+    "nextPageLabel": "Następna strona",
+    "of": "z"
   }
 }
