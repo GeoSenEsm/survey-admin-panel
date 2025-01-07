@@ -129,4 +129,15 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     },
     deps: [CookieStorageService, TranslateService],
   },
+  {
+    provide: MAT_DATE_LOCALE,
+    useFactory: (
+      storage: LocalStorageService,
+      translateService: TranslateService
+    ) => {
+      const lang = storage.get('lang') ?? translateService.getBrowserLang();
+      return lang == 'pl' ? 'pl-PL' : 'en-US';
+    },
+    deps: [CookieStorageService, TranslateService]
+  }
 ];

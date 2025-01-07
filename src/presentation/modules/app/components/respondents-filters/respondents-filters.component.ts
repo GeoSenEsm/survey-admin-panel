@@ -6,6 +6,7 @@ import {
 import { parseToTime } from '../../../../../core/utils/parsers';
 import { TimeScale } from 'chart.js/dist';
 import { adjustDateRange } from '../../../../../core/utils/adjust-date-range';
+import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
   selector: 'app-respondents-filters',
@@ -15,6 +16,8 @@ import { adjustDateRange } from '../../../../../core/utils/adjust-date-range';
 export class RespondentsFiltersComponent implements OnChanges {
   @Input()
   filtersModel: RespondentFilters | undefined;
+
+  constructor(public readonly timeFormatService: TimeFormatService){}
 
   allFilterOptions: RespondentFilterOption[] = [
     RespondentFilterOption.SKIPPED_SURVEYS,

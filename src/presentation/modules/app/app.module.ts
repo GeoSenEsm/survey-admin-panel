@@ -148,7 +148,7 @@ export function HttpLoaderFactory(http: HttpClient){
     }),
     MatProgressSpinnerModule,
     MatMenuModule,
-    NgxMatTimepickerModule,
+    NgxMatTimepickerModule.setLocale('pl-PL'),
     CommonModule,
     MatExpansionModule,
     MatTooltipModule,
