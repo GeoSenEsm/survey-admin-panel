@@ -152,6 +152,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           );
           this.respondents.sort((a, b) => a.username.localeCompare(b.username));
           this.dataSource.data = this.respondents;
+          console.log(this.dataSource.data);
           this.initialSurveyState = initialSurveyState as InitialSurveyState;
         },
         error: () => {
@@ -166,7 +167,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     }
     this.isBusy = true;
     this.respondents.length = 0;
-    console.log(this.filters);
+    this.dataSource.data = [];
     this.service
       .getRespondents(this.filters)
       .pipe(
@@ -176,6 +177,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         (res as RespondentData[]).forEach((r) => this.respondents.push(r));
+        this.dataSource.data = this.respondents;
       });
   }
 
@@ -183,6 +185,9 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     this._dialog.open(AddRespondentsComponent, {
       hasBackdrop: true,
       closeOnNavigation: false,
+      data: {
+        onRespondentsCreated: () => this.reloadRespondents(),
+      },
     });
   }
 
