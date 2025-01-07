@@ -350,7 +350,8 @@
       "errorOnLoading": "Wystąpił błąd podczas ładowania obszaru badania. Spróbuj ponownie później.",
       "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
       "refresh": "Odśwież",
-      "invalidFormat": "Format pliku jest niepoprawny."
+      "invalidFormat": "Format pliku jest niepoprawny.",
+      "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: latidute i longitude."
     },
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"

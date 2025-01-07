@@ -30,6 +30,9 @@
         accept=".csv" 
         style="display: none;" 
         />
+        <mat-icon matTooltip="{{ 'configuration.researchArea.importTooltip' | translate }}">
+            help_outlined
+          </mat-icon>
         <button mat-stroked-button color="warn" [disabled]="!canDelete()" (click)="deleteResearchArea()">
             <mat-icon>
                 delete
