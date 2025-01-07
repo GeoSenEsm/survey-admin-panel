@@ -30,7 +30,7 @@ export class TempratureDataComponent implements OnInit {
   loadedAtLeastOnce: boolean = false;
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     dateTime: (property: any) => {
-      return this.datePipe.transform(new Date(property), 'short', 'UTC');
+      return this.datePipe.transform(new Date(property), 'short');
     },
   };
 

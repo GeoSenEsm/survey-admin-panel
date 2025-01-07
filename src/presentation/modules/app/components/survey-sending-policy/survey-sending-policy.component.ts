@@ -160,8 +160,8 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
         title: this.translate.instant(
           'surveyDetails.surveySendingPolicy.completingSurvey',
           {
-            from: this.datePipe.transform(from, 'shortTime', 'UTC'),
-            to: this.datePipe.transform(to, 'shortTime', 'UTC'),
+            from: this.datePipe.transform(from, 'shortTime'),
+            to: this.getToCalendarDisplay(from, to),
           }
         ),
         start: from,
@@ -171,6 +171,15 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     });
 
     return output;
+  }
+
+  private getToCalendarDisplay(from: Date, to: Date): string | null{
+    if (from.getFullYear() == to.getFullYear() && from.getMonth() == to.getMonth() && from.getDate() == to.getDate()){
+      return this.datePipe.transform(to, 'shortTime');
+    }
+
+    //edge case, when the event finishes in another day is handled here
+    return this.datePipe.transform(to, 'short');;
   }
 
   deleteSelected(): void {

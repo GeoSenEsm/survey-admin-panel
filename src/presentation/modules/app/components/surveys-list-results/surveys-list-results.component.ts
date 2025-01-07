@@ -49,7 +49,7 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
   }
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     responseDate: (property: any) => {
-      return this.datePipe.transform(new Date(property), 'short', 'UTC');
+      return this.datePipe.transform(new Date(property), 'short');
     },
   };
 
@@ -126,6 +126,7 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     const filename = this.translate.instant(
       'summary.surveySummary.gridExportFilename'
     );
+    console.log(this.dataSource.data);
     this.exportService.exportTableToCSV(
       this.dataSource.data,
       this.headers,
