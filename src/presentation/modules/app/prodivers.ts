@@ -14,7 +14,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { SurveySendingPolicyServiceImpl } from '../../../core/services/survey.sending.policy.service.impl';
 import { SummariesServiceImpl } from '../../../core/services/summaries.service.impl';
 import { RespondentDataServiceImpl } from '../../../core/services/respondent-data-service-impl';
-import { CookieStorageService } from '../../../core/services/local-storage';
+import {
+  CookieStorageService,
+  LocalStorageService,
+} from '../../../core/services/local-storage';
 import {
   LOCATION_SERVICE_TOKEN,
   RESEARCH_AREA_SERVICE_TOKEN,
@@ -44,6 +47,7 @@ import { ResearchAreaServiceImpl } from '../../../core/services/research_area_se
 import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl';
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { TranslateService } from '@ngx-translate/core';
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
   return () => configService.loadConfig();
@@ -115,4 +119,25 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     useClass: SensorsServiceImpl,
   },
   { provide: MatPaginatorIntl, useClass: GeoSenEsmMatPaginatorIntl },
+  {
+    provide: LOCALE_ID,
+    useFactory: (
+      storage: LocalStorageService,
+      translateService: TranslateService
+    ) => {
+      return storage.get('lang') ?? translateService.getBrowserLang();
+    },
+    deps: [CookieStorageService, TranslateService],
+  },
+  {
+    provide: MAT_DATE_LOCALE,
+    useFactory: (
+      storage: LocalStorageService,
+      translateService: TranslateService
+    ) => {
+      const lang = storage.get('lang') ?? translateService.getBrowserLang();
+      return lang == 'pl' ? 'pl-PL' : 'en-US';
+    },
+    deps: [CookieStorageService, TranslateService]
+  }
 ];

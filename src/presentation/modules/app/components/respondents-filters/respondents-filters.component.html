@@ -41,6 +41,7 @@
       matInput
       [ngxMatTimepicker]="timeFromPicker"
       readonly
+      [format]="timeFormatService.format"
       [(ngModel)]="timeFrom"
       [disabled]="!filtersModel.filterOption"
     />
@@ -69,6 +70,7 @@
       matInput
       [ngxMatTimepicker]="timeToPicker"
       readonly
+      [format]="timeFormatService.format"
       [(ngModel)]="timeTo"
       [disabled]="!filtersModel.filterOption"
     />

@@ -13,6 +13,7 @@ import { LocationFilters } from '../../../../../domain/models/location-filters';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { ActivatedRoute } from '@angular/router';
+import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
   selector: 'app-map-filters',
@@ -36,7 +37,8 @@ export class MapFiltersComponent implements OnChanges{
   constructor(
     formBuilder: FormBuilder,
     private readonly dateAndTimeRangeService: DateAndTimeRangeService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    public readonly timeFormatService: TimeFormatService
   ) {
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined),

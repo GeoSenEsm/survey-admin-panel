@@ -40,6 +40,7 @@
         matInput
         [ngxMatTimepicker]="timeFromPicker"
         readonly
+        [format]="timeFormatService.format"
         formControlName="selectedTimeFrom"
       />
       <ngx-mat-timepicker-toggle matSuffix [for]="timeFromPicker" />
@@ -66,6 +67,7 @@
         matInput
         [ngxMatTimepicker]="timeToPicker"
         readonly
+        [format]="timeFormatService.format"
         formControlName="selectedTimeTo"
       />
       <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />

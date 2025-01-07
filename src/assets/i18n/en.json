@@ -31,7 +31,9 @@
       "map": "Map",
       "configuration": "Configuration",
       "changeAdminPassword": "Change password",
-      "sensorDevices": "Sensor devices"
+      "sensorDevices": "Sensor devices",
+      "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
+      "ok": "OK"
     }
   },
   "respondents": {

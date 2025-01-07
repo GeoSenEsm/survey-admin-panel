@@ -23,6 +23,7 @@ import { parseToTime } from '../../../../../core/utils/parsers';
 import { TemperatureDataFilter } from '../../../../../domain/models/temperature-data-filter';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { ActivatedRoute } from '@angular/router';
+import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
   selector: 'app-temperature-data-filters',
@@ -48,7 +49,8 @@ export class TemperatureDataFiltersComponent
     private readonly translate: TranslateService,
     formBuilder: FormBuilder,
     private readonly dateAndTimeRangeService: DateAndTimeRangeService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    public readonly timeFormatService: TimeFormatService
   ) {
     this.filtersForm = formBuilder.group({
       selectedRespondentName: [

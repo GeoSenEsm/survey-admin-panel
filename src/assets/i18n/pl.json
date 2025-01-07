@@ -31,7 +31,9 @@
       "map": "Mapa",
       "configuration": "Konfiguracja",
       "changeAdminPassword": "Zmiana hasła",
-      "sensorDevices": "Czujniki"
+      "sensorDevices": "Czujniki",
+      "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
+      "ok": "OK"
     }
   },
   "respondents": {

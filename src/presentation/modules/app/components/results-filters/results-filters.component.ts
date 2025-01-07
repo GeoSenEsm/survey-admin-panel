@@ -20,6 +20,7 @@ import { parseToTime } from '../../../../../core/utils/parsers';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { ActivatedRoute } from '@angular/router';
+import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
   selector: 'app-results-filters',
@@ -47,7 +48,8 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
     private readonly translate: TranslateService,
     formBuilder: FormBuilder,
     private readonly dateAndTimeRangeService: DateAndTimeRangeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public readonly timeFormatService: TimeFormatService
   ) {
     this.filtersForm = formBuilder.group({
       selectedSurveyId: new FormControl<string | undefined>(undefined),
