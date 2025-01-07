@@ -350,7 +350,8 @@
       "errorOnLoading": "An error occurred while loading the research area. Please try again later.",
       "noResearchAreaDefined": "No research area defined.",
       "refresh": "Refresh",
-      "invalidFormat": "File format is incorrect."
+      "invalidFormat": "File format is incorrect.",
+      "importTooltip": "The file to import must be in CSV format and contain two columns: latitude and longitude."
     },
     "ok": "OK",
     "somethingWentWrong": "Something went wrong"
