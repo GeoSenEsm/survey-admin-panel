@@ -87,6 +87,6 @@ export class MapPinTooltipComponent {
   }
 
   getActualDateDisplay(): string | undefined | null{
-    return this.location?.dateTime ? this.datePipe.transform(new Date(this.location!.dateTime), 'short', 'UTC') : undefined;
+    return this.location?.dateTime ? this.datePipe.transform(new Date(this.location!.dateTime), 'short') : undefined;
   }
 }

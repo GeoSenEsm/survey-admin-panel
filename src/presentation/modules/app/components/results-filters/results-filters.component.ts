@@ -97,10 +97,18 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
     }
 
     this.isBusy = true;
+
     this.service
       .getAllSummaryShort()
       .pipe(
-        catchError((error) => {
+        finalize(() => (this.isBusy = false))
+      )
+      .subscribe({
+        next: (res) => {
+          this.surveys = res;
+          console.log(this.surveys);
+        },
+        error: (err) => {
           this.snackbar.open(
             this.translate.instant(
               'surveyDetails.surveysList.couldNotLoadSurveys'
@@ -108,14 +116,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
             this.translate.instant('surveyDetails.surveysList.ok'),
             { duration: 3000 }
           );
-          return throwError(() => new Error(error));
-        }),
-        finalize(() => (this.isBusy = false))
-      )
-      .subscribe({
-        next: (res) => {
-          this.surveys = res;
-        },
+        }
       });
   }
 
