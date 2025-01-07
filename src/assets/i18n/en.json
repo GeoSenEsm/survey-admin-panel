@@ -411,5 +411,13 @@
     "retry": "Try again",
     "noSurveys": "No surveys",
     "refresh": "Refresh"
+  },
+  "matPaginator": {
+    "itemsPerPageLabel": "Items per page:",
+    "firstPageLabel": "First page",
+    "lastPageLabel": "Last page",
+    "previousPageLabel": "Previous page",
+    "nextPageLabel": "Next page",
+    "of": "of"
   }
 }
