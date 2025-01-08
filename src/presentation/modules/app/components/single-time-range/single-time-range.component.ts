@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StringTimeRange } from '../../../../../core/models/time-range';
+import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
   selector: 'app-single-time-range',
   templateUrl: './single-time-range.component.html',
-  styleUrl: './single-time-range.component.scss'
+  styleUrl: './single-time-range.component.scss',
 })
 export class SingleTimeRangeComponent {
   @Input()
@@ -12,10 +13,13 @@ export class SingleTimeRangeComponent {
   @Input()
   canRemove: boolean = true;
   @Output()
-  removeCallback: EventEmitter<StringTimeRange> = new EventEmitter<StringTimeRange>();
+  removeCallback: EventEmitter<StringTimeRange> =
+    new EventEmitter<StringTimeRange>();
 
-  remove(): void{
-    if (this.timeRange && this.canRemove){
+  constructor(public readonly timeFormatService: TimeFormatService) {}
+
+  remove(): void {
+    if (this.timeRange && this.canRemove) {
       this.removeCallback.emit(this.timeRange);
     }
   }
