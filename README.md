@@ -10,11 +10,15 @@ docker build -t your_image_name:your_tag .
 
 The interenal docker image port, the applicatoin is listening on, is `80`.
 
+### Environmental variables
 
-## Packages to be installed 
+In the docker container, you can configure an `API_URL` environmental variable. It is responsible for configuring a URL of the backend server.
+By default it is set to `http://localhost:8080`.
+
+## Install dependencies 
 
 ```
-npm install @angular/material @angular/cdk @angular/animations --force
+npm install --force
 ```
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
