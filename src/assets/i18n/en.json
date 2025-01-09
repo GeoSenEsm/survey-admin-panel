@@ -248,7 +248,11 @@
       "dateTo": "Date to",
       "timeTo": "Time to",
       "load": "Load",
-      "export": "Export"
+      "export": "Export",
+      "researchArea": "Research area",
+      "onlyOutsideResearchArea": "Only outside research area",
+      "none": "None",
+      "onlyInsideResearchArea": "Only inside research area"
     },
     "resultsGrid": {
       "surveyName": "Survey name",
@@ -257,7 +261,13 @@
       "answers": "Answers",
       "respondentId": "Respondent ID",
       "nothingToDisplay": "No results to display. Try changing filters.",
-      "loadingError": "An error occured when loading the results. Please try again later."
+      "loadingError": "An error occured when loading the results. Please try again later.",
+      "respondentName": "Respondent Name",
+      "longitude": "Longitude",
+      "latitude": "Latitude",
+      "outsideResearchArea": "Outside Research Area",
+      "temperature": "Temperature (°C)",
+      "humidity": "Humidity (%)"
     }
   },
   "startSurvey": {

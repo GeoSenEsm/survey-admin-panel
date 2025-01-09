@@ -73,6 +73,24 @@
       <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
       <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>
+        {{ "summary.resultsFilters.researchArea" | translate }}
+      </mat-label>
+      <mat-select formControlName="outsideResearchArea">
+        <mat-option [value]="undefined">
+          {{ "summary.resultsFilters.none" | translate }}
+        </mat-option>
+        <mat-option [value]="true">
+          {{ "summary.resultsFilters.onlyOutsideResearchArea" | translate }}
+        </mat-option>
+        <mat-option [value]="false">
+          {{ "summary.resultsFilters.onlyInsideResearchArea" | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <button
       type="submit"
       mat-flat-button

@@ -248,7 +248,11 @@
       "dateTo": "Data do",
       "timeTo": "Godzina do",
       "load": "Załaduj",
-      "export": "Exportuj"
+      "export": "Exportuj",
+      "researchArea": "Obszar badania",
+      "onlyOutsideResearchArea": "Tylko poza obszarem badania",
+      "none": "Brak",
+      "onlyInsideResearchArea": "Tylko w obszarze badania"
     },
     "resultsGrid": {
       "surveyName": "Nazwa ankiety",
@@ -257,7 +261,13 @@
       "answers": "Udzielone odpowiedzi",
       "respondentId": "ID respondenta",
       "nothingToDisplay": "Brak wyników do wyswietlenia. Spróbuj zmienić filtry.",
-      "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie."
+      "loadingError": "Wystąpił błąd. Sproboj ponownie po jakims czasie.",
+      "respondentName": "Nazwa respondenta",
+      "longitude": "Długość geograficzna",
+      "latitude": "Szerokość geograficzna",
+      "outsideResearchArea": "Poza obszarem badania",
+      "temperature": "Temperatura (°C)",
+      "humidity": "Wilgotność (%)"
     }
   },
   "startSurvey": {

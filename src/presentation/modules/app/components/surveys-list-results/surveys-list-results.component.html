@@ -12,7 +12,7 @@
           {{ "summary.resultsGrid." + column | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let answer">
-          {{ getActualColumnDisplay(answer[column], column) }}
+          {{ getActualColumnDisplay(answer, answer[column], column) }}
         </mat-cell>
       </ng-container>
       <mat-header-row
