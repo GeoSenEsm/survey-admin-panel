@@ -249,7 +249,10 @@
       "timeTo": "Time to",
       "load": "Load",
       "export": "Export",
-      "researchArea": "Research area"
+      "researchArea": "Research area",
+      "onlyOutsideResearchArea": "Only outside research area",
+      "none": "None",
+      "onlyInsideResearchArea": "Only inside research area"
     },
     "resultsGrid": {
       "surveyName": "Survey name",

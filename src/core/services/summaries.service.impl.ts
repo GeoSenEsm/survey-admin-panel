@@ -26,6 +26,10 @@ implements SummariesService {
             filterMap['respondentId'] = filter.respondentId;
         }
 
+        if (filter.outsideResearchArea !== undefined) {
+            filterMap['outsideResearchArea'] = filter.outsideResearchArea
+        }
+
         return this.get<any>(`/api/surveyresponses/results`, filterMap)
         .pipe<SurveyResultEntry[]>(map(res => res.map((single: any) => ({
             surveyName: single.surveyName,

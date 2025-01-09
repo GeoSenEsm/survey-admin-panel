@@ -249,7 +249,10 @@
       "timeTo": "Godzina do",
       "load": "Załaduj",
       "export": "Exportuj",
-      "researchArea": "Obszar badania"
+      "researchArea": "Obszar badania",
+      "onlyOutsideResearchArea": "Tylko poza obszarem badania",
+      "none": "Brak",
+      "onlyInsideResearchArea": "Tylko w obszarze badania"
     },
     "resultsGrid": {
       "surveyName": "Nazwa ankiety",

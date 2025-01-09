@@ -52,6 +52,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
     public readonly timeFormatService: TimeFormatService
   ) {
     this.filtersForm = formBuilder.group({
+      outsideResearchArea: new FormControl<boolean | undefined>(undefined),
       selectedSurveyId: new FormControl<string | undefined>(undefined),
       selectedRespondentName: [undefined, this.validateSelectedRespondent.bind(this)],
       selectedDateFrom: [new Date()],
@@ -153,6 +154,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
         fromDate: dateFrom,
         toDate: dateTo,
         respondentId: this.getSelectedRespondentId(),
+        outsideResearchArea: this.filtersForm.value.outsideResearchArea,
       });
     }
   }
