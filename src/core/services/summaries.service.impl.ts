@@ -1,4 +1,4 @@
-import { delay, Observable, of, throwError } from "rxjs";
+import { delay, map, Observable, of, throwError } from "rxjs";
 import { SummariesService } from "../../domain/external_services/summaries.service";
 import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
@@ -26,6 +26,18 @@ implements SummariesService {
             filterMap['respondentId'] = filter.respondentId;
         }
 
-        return this.get(`/api/surveyresponses/results`, filterMap);
+        return this.get<any>(`/api/surveyresponses/results`, filterMap)
+        .pipe<SurveyResultEntry[]>(map(res => res.map((single: any) => ({
+            surveyName: single.surveyName,
+            question: single.question,
+            responseDate: single.responseDate,
+            answers: single.answers,
+            respondentId: single.respondentId,
+            longitude: single.localization?.longitude,
+            latitude: single.localization?.latitude,
+            outsideResearchArea: single.localization?.outsideResearchArea,
+            temperature: single.sensorData?.temperature,
+            humidity: single.sensorData?.humidity
+        }))));
     }
 }

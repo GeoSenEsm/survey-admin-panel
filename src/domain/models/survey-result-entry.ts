@@ -4,4 +4,9 @@ export interface SurveyResultEntry {
     responseDate: string;
     answers: any[];
     respondentId: string;
+    longitude?: number;
+    latitude?: number;
+    outsideResearchArea?: boolean;
+    temperature?: number;
+    humidity?: number;
 }

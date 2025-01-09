@@ -35,7 +35,13 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     'question',
     'responseDate',
     'answers',
-    'respondentId',
+    'respondentName',
+    'longitude',
+    'latitude',
+    'outsideResearchArea',
+    'temperature',
+    'humidity',
+    'respondentId'
   ];
   isBusy: boolean = false;
   loadDataError: boolean = false;
@@ -134,7 +140,13 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     );
   }
 
-  getActualColumnDisplay(propertyValue: any, columnName: string): any {
+  getActualColumnDisplay(answer: SurveyResultEntry, propertyValue: any, columnName: string): any {
+    if (columnName == 'respondentName') {
+      return this.respondents.find(
+        (r) => r.id == answer.respondentId
+      )?.username;
+    }
+
     if (this.valuesTransformers[columnName]) {
       return this.valuesTransformers[columnName](propertyValue);
     }
