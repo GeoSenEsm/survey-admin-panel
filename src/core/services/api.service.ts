@@ -31,7 +31,7 @@ export class ApiService {
   private toHttpParams(params?: QureyParams): HttpParams {
     let queryParams = new HttpParams();
     if (params) {
-      Object.keys(params).forEach(key => {
+      Object.keys(params).filter((k) => params[k] != null).forEach(key => {
         queryParams = queryParams.append(key, params[key].toString());
       });
     }
