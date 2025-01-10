@@ -146,7 +146,6 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
       if (!timeFrom || !timeTo || !dateFrom || !dateTo) {
         return;
       }
-
       dateFrom.setHours(timeFrom.hours, timeFrom.minutes);
       dateTo.setHours(timeTo.hours, timeTo.minutes);
       this.loadDataCallback.emit({
@@ -154,7 +153,7 @@ export class ResultsFiltersComponent implements OnInit, OnDestroy, OnDestroy, On
         fromDate: dateFrom,
         toDate: dateTo,
         respondentId: this.getSelectedRespondentId(),
-        outsideResearchArea: this.filtersForm.value.outsideResearchArea,
+        outsideResearchArea: this.filtersForm.get('outsideResearchArea')?.value ?? undefined,
       });
     }
   }
