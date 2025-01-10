@@ -6,7 +6,8 @@ import { Injectable } from "@angular/core";
 export class CsvExportService{
     exportTableToCSV(data: any, columns: string[], filename = 'export.csv') {
         const csvData = this.convertToCSV(data, columns);
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const bom = '\uFEFF';
+        const blob = new Blob([bom + csvData], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
