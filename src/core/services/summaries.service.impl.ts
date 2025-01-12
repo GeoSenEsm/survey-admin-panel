@@ -37,9 +37,9 @@ implements SummariesService {
             responseDate: single.responseDate,
             answers: single.answers,
             respondentId: single.respondentId,
-            longitude: single.localization?.longitude,
-            latitude: single.localization?.latitude,
-            outsideResearchArea: single.localization?.outsideResearchArea,
+            longitude: single.localizationData?.longitude,
+            latitude: single.localizationData?.latitude,
+            outsideResearchArea: single.localizationData?.outsideResearchArea,
             temperature: single.sensorData?.temperature,
             humidity: single.sensorData?.humidity
         }))));
