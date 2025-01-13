@@ -244,7 +244,9 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
         this.isLocked = false;
         this.snackbar.open(
           this.translate.instant(
-            'createSurvey.createSurvey.successfullyCreatedSurvey'
+            this.mode == 'create'
+              ? 'createSurvey.createSurvey.successfullyCreatedSurvey'
+              : 'createSurvey.createSurvey.successfullyUpdatedSurvey'
           ),
           this.translate.instant('createSurvey.createSurvey.ok'),
           { duration: 3000 }

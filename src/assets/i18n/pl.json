@@ -158,6 +158,7 @@
       "somethingWentWrong": "Cos poszło nie tak",
       "ok": "OK",
       "successfullyCreatedSurvey": "Pomyślnie utworzono ankietę",
+      "successfullyUpdatedSurvey": "Pomyślnie zaktualizowano ankietę",
       "nameMustBeUnique": "Nazwa ankiety musi być unikalna.",
       "fixValidationErrorsFirst": "Popraw błędy walidacji, aby utworzyć ankietę."
     },
