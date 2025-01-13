@@ -38,7 +38,7 @@ implements RespondentDataService{
 
     getRespondents(filters: RespondentFilters | undefined): Observable<RespondentData[]> {
         if (filters && filters.filterOption){
-            this.get('/api/respondents/all', {
+            return this.get('/api/respondents/all', {
                 'filterOption': filters.filterOption,
                 'amount': filters.amount,
                 'from': filters.from.toISOString(),
