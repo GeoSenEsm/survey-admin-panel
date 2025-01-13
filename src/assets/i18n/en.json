@@ -158,6 +158,7 @@
       "somethingWentWrong": "Something went wrong",
       "ok": "OK",
       "successfullyCreatedSurvey": "Successfully created survey",
+      "successfullyUpdatedSurvey": "Successfuly updated survey",
       "nameMustBeUnique": "Name must be unique.",
       "fixValidationErrorsFirst": "Fix validation errors first."
     },
