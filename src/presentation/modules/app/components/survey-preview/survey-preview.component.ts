@@ -183,4 +183,8 @@ export class SurveyPreviewComponent implements OnChanges, AfterViewInit{
   setChangesMade(): void{
     this.changesMade = true;
   }
+
+  onSaved(): void {
+    this.reloadSurvey();
+  }
 }
