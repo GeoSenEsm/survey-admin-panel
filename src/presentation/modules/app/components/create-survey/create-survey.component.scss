@@ -32,3 +32,10 @@ mat-card-footer{
     align-items: center;
     padding-right: 10px;
 }
+
+.buttons-ribbon{
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 10px;
+}

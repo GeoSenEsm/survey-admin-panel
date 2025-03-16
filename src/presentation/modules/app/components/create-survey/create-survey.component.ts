@@ -307,4 +307,29 @@ export class CreateSurveyComponent implements OnInit, OnDestroy {
       this.changed.emit();
     }
   }
+
+  async copyToClipboard(): Promise<void> {
+    const json = JSON.stringify(this.model);
+    await navigator.clipboard.writeText(json);
+    this.snackbar.open(
+      this.translate.instant('createSurvey.copiedToClipboard'),
+      this.translate.instant('createSurvey.ok'),
+      { duration: 3000 }
+    );
+  }
+
+  async paste(): Promise<void> {
+    try {
+      const clipboardContent = await navigator.clipboard.readText();
+      const parsedModel: CreateSurveyModel = JSON.parse(clipboardContent!);
+      this.model = parsedModel;
+      this.changed.emit();
+    } catch (error) {
+      this.snackbar.open(
+        this.translate.instant('createSurvey.invalidClipboardContent'),
+        this.translate.instant('createSurvey.ok'),
+        { duration: 3000 }
+      );
+    }
+  }
 }
