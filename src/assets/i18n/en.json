@@ -98,6 +98,11 @@
     }
   },
   "createSurvey": {
+    "copyToClipboardTooltip": "Copy survey to clipboard",
+    "pasteFromClipboardTooltip": "Paste survey from clipboard",
+    "copiedToClipboard": "Survey has been copied to clipboard",
+    "invalidClipboardContent": "Clipboard content could not be read as a survey",
+    "ok": "OK",
     "createNumberRange": {
       "labelOptional": "Label (optional)"
     },

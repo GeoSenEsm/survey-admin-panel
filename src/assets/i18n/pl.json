@@ -98,6 +98,11 @@
     }
   },
   "createSurvey": {
+    "copyToClipboardTooltip": "Skopiuj ankietę do schowka",
+    "pasteFromClipboardTooltip": "Wklej ankietę ze schowka",
+    "copiedToClipboard": "Ankieta została skopiowana do schowka",
+    "invalidClipboardContent": "Zawartość schowka nie mogła zostać odczytana jako ankieta",
+    "ok": "OK",
     "createNumberRange": {
       "labelOptional": "Etykieta (opcjonalna)"
     },
