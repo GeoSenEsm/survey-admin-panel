@@ -4,5 +4,6 @@ export interface LocationData{
     longitude: number
     dateTime: string,
     surveyId?: string,
-    outsideResearchArea?: boolean
+    outsideResearchArea?: boolean,
+    accuracyMeters?: number
 }

@@ -38,6 +38,7 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     'respondentName',
     'longitude',
     'latitude',
+    'accuracyMeters',
     'outsideResearchArea',
     'temperature',
     'humidity',

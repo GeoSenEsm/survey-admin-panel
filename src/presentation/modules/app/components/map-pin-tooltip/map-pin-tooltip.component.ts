@@ -35,6 +35,9 @@ import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summa
       <span *ngIf="location.surveyId">{{
         'map.tooltipSurvey' | translate : { survey: getSurveyName() }
       }}</span>
+      <span *ngIf="location.accuracyMeters">{{
+        'map.tooltipAccuracy' | translate : { accuracy: location.accuracyMeters}
+      }}</span>
     </div>
   `,
   styles: `
@@ -70,7 +73,7 @@ export class MapPinTooltipComponent {
   getSurveyName(): string | undefined {
     if (this.surveys && this.location) {
       return this.surveys.filter(
-        (e) => e.id === this.location!.respondentId
+        (e) => e.id === this.location!.surveyId
       )[0].name;
     }
 
@@ -78,6 +81,7 @@ export class MapPinTooltipComponent {
   }
 
   getRespondentName(): string | undefined {
+    console.log(this.location);
     if (this.respondents && this.location) {
       return this.respondents.filter(
         (e) => e.id === this.location!.respondentId
