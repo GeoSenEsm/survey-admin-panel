@@ -41,7 +41,8 @@ implements SummariesService {
             latitude: single.localizationData?.latitude,
             outsideResearchArea: single.localizationData?.outsideResearchArea,
             temperature: single.sensorData?.temperature,
-            humidity: single.sensorData?.humidity
+            humidity: single.sensorData?.humidity,
+            accuracyMeters: single.localizationData?.accuracyMeters
         }))));
     }
 }

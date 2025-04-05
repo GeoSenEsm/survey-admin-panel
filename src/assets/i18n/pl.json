@@ -271,6 +271,7 @@
       "respondentName": "Nazwa respondenta",
       "longitude": "Długość geograficzna",
       "latitude": "Szerokość geograficzna",
+      "accuracyMeters": "Precyzja (m)",
       "outsideResearchArea": "Poza obszarem badania",
       "temperature": "Temperatura (°C)",
       "humidity": "Wilgotność (%)"
@@ -353,7 +354,8 @@
     "ok": "OK",
     "respondentDoesNotExist": "Respondent nie istnieje",
     "researchArea": "Obszar badania",
-    "onlyInsideResearchArea": "Tylko w obszarze badania"
+    "onlyInsideResearchArea": "Tylko w obszarze badania",
+    "tooltipAccuracy": "Precyzja: {{accuracy}} m"
   },
   "configuration": {
     "researchArea": {

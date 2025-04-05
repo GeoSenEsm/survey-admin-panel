@@ -271,6 +271,7 @@
       "respondentName": "Respondent Name",
       "longitude": "Longitude",
       "latitude": "Latitude",
+      "accuracyMeters": "Accuracy (m)",
       "outsideResearchArea": "Outside Research Area",
       "temperature": "Temperature (°C)",
       "humidity": "Humidity (%)"
@@ -353,7 +354,8 @@
     "ok": "OK",
     "respondentDoesNotExist": "Respondent does not exist",
     "researchArea": "Research area",
-    "onlyInsideResearchArea": "Only inside research area"
+    "onlyInsideResearchArea": "Only inside research area",
+    "tooltipAccuracy": "Accuracy: {{accuracy}} m"
   },
   "configuration": {
     "researchArea": {

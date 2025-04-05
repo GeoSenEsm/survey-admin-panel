@@ -9,4 +9,5 @@ export interface SurveyResultEntry {
     outsideResearchArea?: boolean;
     temperature?: number;
     humidity?: number;
+    accuracyMeters?: number;
 }
