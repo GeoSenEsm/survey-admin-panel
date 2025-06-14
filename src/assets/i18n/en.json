@@ -33,7 +33,8 @@
       "changeAdminPassword": "Change password",
       "sensorDevices": "Sensor devices",
       "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
-      "ok": "OK"
+      "ok": "OK",
+      "contactPhoneNumbers": "Contact numbers"
     }
   },
   "respondents": {
@@ -439,5 +440,34 @@
     "previousPageLabel": "Previous page",
     "nextPageLabel": "Next page",
     "of": "of"
+  },
+  "contactPhoneNumbers": {
+    "description": "Here you can configure phone numbers that respondents can call for help.",
+    "createNew": "Add",
+    "createNewDialogTitle": "Add phone number",
+    "createNewNameLabel": "Name",
+    "createNewPhoneNumberLabel": "Phone number",
+    "save": "Save",
+    "cancel": "Cancel",
+    "valueIsRequired": "This field is required",
+    "maxLengthError": "The field should contain a maximum of {{maxLen}} characters.",
+    "notValidPhoneNumber": "This is not a valid phone number",
+    "creatingPhoneNumberFailed": "Failed to create phone number. Please try again later",
+    "successfulyCreatedPhoneNumber": "Phone number has been created",
+    "ok": "Ok",
+    "name": "Name",
+    "number": "Number",
+    "id": "Id",
+    "actions": "Actions",
+    "loadingFailed": "An error occurred while loading. Please try again later",
+    "edit": "Edit",
+    "delete": "Delete",
+    "refresh": "Refresh",
+    "doYouWantToDelete": "Are you sure you want to delete this phone number?",
+    "deleteingFailed": "Deleting the phone number failed. Please try again later",
+    "valueMustBeUnique": "The field must contain unique values",
+    "editDialogTitle": "Edit contact",
+    "editedSuccessfuly": "Contact has been successfully updated",
+    "editingFailed": "Updating the contact failed. Please try again later"
   }
 }

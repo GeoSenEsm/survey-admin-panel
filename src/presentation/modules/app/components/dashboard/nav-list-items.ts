@@ -12,6 +12,11 @@ export function getNavListItems(): NavListItem[] {
       link: 'configuration',
     },
     {
+      display: 'app.dashboard.contactPhoneNumbers',
+      matIcon: 'phone',
+      link: 'contactPhoneNumbers',
+    },
+    {
       display: 'app.dashboard.startSurvey',
       matIcon: 'list',
       link: 'startSurvey',

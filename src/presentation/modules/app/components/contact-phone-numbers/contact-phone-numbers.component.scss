@@ -1,0 +1,22 @@
+.container{
+    padding: 10px;
+}
+
+h3{
+    width: 100%;
+    text-align: center
+}
+
+.table-container{
+  text-align: center;
+  overflow-y: auto;
+  display: block;
+}
+
+.wrap-panel{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
