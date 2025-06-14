@@ -1,0 +1,56 @@
+<div class="container">
+  <h3>{{ "contactPhoneNumbers.description" | translate }}</h3>
+  <div class="wrap-panel">
+    <button mat-flat-button color="primary" (click)="createNew()">
+      {{ "contactPhoneNumbers.createNew" | translate }}
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-flat-button color="refresh" (click)="loadData()">
+      {{ "contactPhoneNumbers.refresh" | translate }}
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <div class="table-container">
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-cintainer *ngFor="let column of headers" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "contactPhoneNumbers." + column | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          {{ sensor[column] }}
+        </mat-cell>
+      </ng-cintainer>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "contactPhoneNumbers.edit" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          <button mat-icon-button color="primary" (click)="edit(sensor)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "contactPhoneNumbers.delete" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let sensor">
+          <button mat-icon-button color="primary" (click)="delete(sensor)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="headers.concat(['edit', 'delete'])"
+        class="table-header"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: headers.concat(['edit', 'delete'])"
+      ></mat-row>
+    </mat-table>
+  </div>
+</div>

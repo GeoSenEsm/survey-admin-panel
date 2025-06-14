@@ -33,7 +33,8 @@
       "changeAdminPassword": "Zmiana hasła",
       "sensorDevices": "Czujniki",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
-      "ok": "OK"
+      "ok": "OK",
+      "contactPhoneNumbers": "Numery kontaktowe"
     }
   },
   "respondents": {
@@ -439,5 +440,34 @@
     "previousPageLabel": "Poprzednia strona",
     "nextPageLabel": "Następna strona",
     "of": "z"
+  },
+  "contactPhoneNumbers": {
+    "description": "W tym miejscu możesz skonfigurować numery telefonów, na które będą mogli dzwonić respondenci z prośbą o pomoc.",
+    "createNew": "Dodaj",
+    "createNewDialogTitle": "Dodaj numer telefonu",
+    "createNewNameLabel": "Nazwa",
+    "createNewPhoneNumberLabel": "Numer telefonu",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "valueIsRequired": "Pole jest wymagane",
+    "maxLengthError": "Pole powinno zawierać maksymalnie {{maxLen}} znaków.",
+    "notValidPhoneNumber": "To nie jest poprawny numer telefonu",
+    "creatingPhoneNumberFailed": "Nie udało się utworzyć numeru telefonu. Spróbuj ponownie później",
+    "successfulyCreatedPhoneNumber": "Numer telefonu został utworzony",
+    "ok": "Ok",
+    "name": "Nazwa",
+    "number": "Numer",
+    "id": "Id",
+    "actions": "Akcje",
+    "loadingFailed": "Wystąpił bład podczas ładowania. Spróbuj ponownie później",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "refresh": "Odśwież",
+    "doYouWantToDelete": "Czy na pewno chcesz usunąć ten numer telefonu?",
+    "deleteingFailed": "Usuwanie numeru telefonu nie powiodło. Spróbuj ponownie później",
+    "valueMustBeUnique": "Pole powinno zawierać unikalne wartości",
+    "editDialogTitle": "Edytuj kontakt",
+    "editedSuccessfuly": "Kontakt został pomyślnie zaktualizowany",
+    "editingFailed": "Zaktualizowanie kontaktu nie powiodło. Spróbuj ponownie później"
   }
 }
