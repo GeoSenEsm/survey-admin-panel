@@ -118,6 +118,11 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
             longitude: this.withPrecision(row.longitude, 6),
           }));
 
+          if (data.length < 3 || data.length > 250) {
+            this.showInvalidLength();
+            return;
+          }
+
           if (isClockwise(data)){
             data = data.reverse();
           }
@@ -134,6 +139,13 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       });
     }
+  }
+
+  showInvalidLength(): void {
+    const message = this.translate.instant(
+      'configuration.researchArea.lengthError', {min: 3, max: 250}
+    );
+    this.showOkMessage(message);
   }
 
   showInvalidFormat(): void {

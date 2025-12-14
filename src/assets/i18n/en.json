@@ -372,7 +372,8 @@
       "noResearchAreaDefined": "No research area defined.",
       "refresh": "Refresh",
       "invalidFormat": "File format is incorrect.",
-      "importTooltip": "The file to import must be in CSV format and contain two columns: latitude and longitude."
+      "importTooltip": "The file to import must be in CSV format and contain two columns: latitude and longitude.",
+      "lengthError": "The research area must contain between {{min}} and {{max}} points."
     },
     "ok": "OK",
     "somethingWentWrong": "Something went wrong"

@@ -372,7 +372,8 @@
       "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
       "refresh": "Odśwież",
       "invalidFormat": "Format pliku jest niepoprawny.",
-      "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: latidute i longitude."
+      "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: latidute i longitude.",
+      "lengthError": "Obszar badania musi zawierać od {{min}} do {{max}} punktów."
     },
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
