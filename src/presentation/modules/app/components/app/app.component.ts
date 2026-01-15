@@ -28,22 +28,31 @@ export class AppComponent implements OnDestroy {
     @Inject(MAT_DATE_FORMATS) matDateFormats: any,
     @Inject(STORAGE_SERVICE_TOKEN) storage: LocalStorageService,
     @Inject(LOCALE_ID) locale: string) {
-      translateService.addLangs(['en', 'pl']);
+      translateService.addLangs(['en', 'pl', 'fr', 'es', 'de']);
       const lang = storage.get<string>('lang') ?? translateService.getBrowserLang();
-      translateService.use(lang?.match(/en|pl/) ? lang : 'en');
+      translateService.use(lang?.match(/en|pl|fr|es|de/) ? lang : 'en');
 
       this.langChangeSubscription = translateService.onLangChange.subscribe((event) => {
         const lang = event.lang;
         if (lang === 'pl'){
           dateLocale = 'pl-PL';
           matDateFormats = POLISH_DATE_FORMATS
+        } else if (lang === 'fr'){
+          dateLocale = 'fr-FR';
+          matDateFormats = ENGLISH_DATE_FORMATS; // Use English format for now, can be customized
+        } else if (lang === 'es'){
+          dateLocale = 'es-ES';
+          matDateFormats = ENGLISH_DATE_FORMATS; // Use English format for now, can be customized
+        } else if (lang === 'de'){
+          dateLocale = 'de-DE';
+          matDateFormats = ENGLISH_DATE_FORMATS; // Use English format for now, can be customized
         } else{
           dateLocale = 'en-US';
           matDateFormats = ENGLISH_DATE_FORMATS;
         }
       });
   }
-  
+
   ngOnDestroy(): void {
     this.langChangeSubscription.unsubscribe();
   }

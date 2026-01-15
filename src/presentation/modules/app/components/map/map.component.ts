@@ -16,13 +16,14 @@ import { LocationData } from '../../../../../domain/models/location_data';
 import { MapPinTooltipComponent } from '../map-pin-tooltip/map-pin-tooltip.component';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
-import { catchError, throwError } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-map',
@@ -36,6 +37,8 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   private tooltipRef: ComponentRef<MapPinTooltipComponent> | null = null;
   respondents: RespondentData[] = [];
   surveys: SurveySummaryShortDto[] = [];
+  isBusy: boolean = false;
+  downloadedBytes: number = 0;
 
   constructor(
     @Inject(LOCATION_SERVICE_TOKEN)
@@ -49,11 +52,11 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar
   ) {}
-  
+
   ngAfterViewInit(): void {
     this.initMap();
   }
-  
+
   ngOnDestroy(): void {
     if (this.map){
       this.map.remove();
@@ -78,30 +81,57 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadData(filters: LocationFilters): void {
-    this.locationService.getLocationData(filters).subscribe({
-      next: (data) => {
-        if (data.length == 0) {
+    if (this.isBusy) {
+      return;
+    }
+
+    this.isBusy = true;
+    this.downloadedBytes = 0;
+
+    // Clear previous data immediately
+    this.locationData = [];
+    this.refreshPins();
+
+    this.locationService
+      .getLocationDataWithProgress(filters)
+      .pipe(
+        finalize(() => {
+          this.isBusy = false;
+          this.downloadedBytes = 0;
+        }),
+        catchError((error) => {
           this.snackbar.open(
-            this.translate.instant('map.noData'),
+            this.translate.instant('map.somethingWentWrong'),
             this.translate.instant('map.ok'),
             {
               duration: 3000,
             }
           );
-        }
-        this.locationData = data;
-        this.refreshPins();
-      },
-      error: () => {
-        this.snackbar.open(
-          this.translate.instant('map.somethingWentWrong'),
-          this.translate.instant('map.ok'),
-          {
-            duration: 3000,
+          return throwError(() => error);
+        })
+      )
+      .subscribe((event) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          // Update downloaded bytes
+          this.downloadedBytes = event.loaded;
+        } else if (event.type === HttpEventType.Response) {
+          // Data fully loaded
+          const data = event.body;
+          if (data && Array.isArray(data)) {
+            if (data.length === 0) {
+              this.snackbar.open(
+                this.translate.instant('map.noData'),
+                this.translate.instant('map.ok'),
+                {
+                  duration: 3000,
+                }
+              );
+            }
+            this.locationData = data;
+            this.refreshPins();
           }
-        );
-      },
-    });
+        }
+      });
   }
 
   refreshPins(): void {
@@ -203,5 +233,13 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
       ],
       this.translate.instant('map.csvExportFilename')
     );
+  }
+
+  formatBytes(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   }
 }

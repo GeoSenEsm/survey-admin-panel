@@ -3,7 +3,7 @@ import { LocationService } from "../../domain/external_services/location.service
 import { LocationData } from "../../domain/models/location_data";
 import { ApiService } from "./api.service";
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpEvent } from "@angular/common/http";
 import { ConfigService } from "./config.service";
 import { LocationFilters } from "../../domain/models/location-filters";
 
@@ -16,7 +16,7 @@ export class LocationServiceImpl extends ApiService implements LocationService{
         super(client, configService);
     }
 
-    getLocationData(filters: LocationFilters): Observable<LocationData[]> {
+    getLocationDataWithProgress(filters: LocationFilters): Observable<HttpEvent<any>> {
         const actualFilters: any = {
             'from': filters.from.toISOString(),
             'to': filters.to.toISOString()
@@ -34,6 +34,6 @@ export class LocationServiceImpl extends ApiService implements LocationService{
             actualFilters['outsideResearchArea'] = filters.outsideResearchArea
         }
 
-        return this.get('/api/localization', actualFilters)
+        return this.getWithProgress('/api/localization', actualFilters)
     }
 }

@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-temprature-data',
@@ -28,6 +29,7 @@ export class TempratureDataComponent implements OnInit {
   resultEntries: TemperatureDataEntry[] = [];
   respondents: RespondentData[] = [];
   loadedAtLeastOnce: boolean = false;
+  downloadedBytes: number = 0;
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     dateTime: (property: any) => {
       return this.datePipe.transform(new Date(property), 'short');
@@ -75,28 +77,51 @@ export class TempratureDataComponent implements OnInit {
     this.loadedAtLeastOnce = true;
     this.isBusy = true;
     this.loadDataError = false;
-    this.resultEntries.length = 0;
+    this.downloadedBytes = 0;
+
+    // Clear previous results immediately
+    this.resultEntries = [];
+    this.dataSource = new MatTableDataSource<TemperatureDataEntry>(this.resultEntries);
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+
     this.service
-      .getTemperatureData(filters)
+      .getTemperatureDataWithProgress(filters)
       .pipe(
-        finalize(() => (this.isBusy = false)),
+        finalize(() => {
+          this.isBusy = false;
+          this.downloadedBytes = 0;
+        }),
         catchError((error) => {
           this.loadDataError = true;
           return throwError(() => error);
         })
       )
-      .subscribe((result) => {
-        result.forEach((e) => {
-          this.resultEntries.push(e);
-        });
-        this.dataSource = new MatTableDataSource<TemperatureDataEntry>(
-          this.resultEntries
-        );
-        if (this.paginator) {
-          this.dataSource.paginator = this.paginator;
-        }
-        if (this.sort) {
-          this.dataSource.sort = this.sort;
+      .subscribe((event) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          // Update downloaded bytes
+          this.downloadedBytes = event.loaded;
+        } else if (event.type === HttpEventType.Response) {
+          // Data fully loaded
+          const result = event.body;
+          if (result && Array.isArray(result)) {
+            result.forEach((e) => {
+              this.resultEntries.push(e);
+            });
+            this.dataSource = new MatTableDataSource<TemperatureDataEntry>(
+              this.resultEntries
+            );
+            if (this.paginator) {
+              this.dataSource.paginator = this.paginator;
+            }
+            if (this.sort) {
+              this.dataSource.sort = this.sort;
+            }
+          }
         }
       });
   }
@@ -114,5 +139,13 @@ export class TempratureDataComponent implements OnInit {
           this.respondents = res;
         },
       });
+  }
+
+  formatBytes(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   }
 }

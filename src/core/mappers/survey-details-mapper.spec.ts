@@ -5,11 +5,25 @@ import { CreateSurveyModel } from "../models/create.survey.model";
 import { getDefaultNumberRange } from "../models/number.range.model";
 import { TestBed } from '@angular/core/testing';
 import { SurveyDetailsMapper } from "./survey-details-mapper";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ConfigService } from "../services/config.service";
 
 describe('SurveyDetailsMapper', () => {
   let mapper: SurveyDetailsMapper;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        SurveyDetailsMapper,
+        {
+          provide: ConfigService,
+          useValue: {
+            apiUrl: 'http://test-api.com'
+          }
+        }
+      ]
+    });
     mapper = TestBed.inject(SurveyDetailsMapper);
   });
 

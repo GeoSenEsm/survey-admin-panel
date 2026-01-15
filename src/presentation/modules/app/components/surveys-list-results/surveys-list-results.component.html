@@ -37,7 +37,15 @@
       </mat-error>
     </h3>
     <div class="spinner-container" *ngIf="isBusy">
-      <mat-spinner />
+      <div class="loading-content">
+        <mat-spinner diameter="50" />
+        <div class="progress-info">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <div class="progress-text">
+            <span>Downloaded: {{ formatBytes(downloadedBytes) }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
-import { LocationData } from "../models/location_data";
 import { LocationFilters } from "../models/location-filters";
+import { HttpEvent } from "@angular/common/http";
 
 export interface LocationService{
-    getLocationData(filters: LocationFilters): Observable<LocationData[]>;
+    getLocationDataWithProgress(filters: LocationFilters): Observable<HttpEvent<any>>;
 }

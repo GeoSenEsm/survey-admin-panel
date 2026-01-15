@@ -37,6 +37,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
     ['pl']: 'Polski',
+    ['fr']: 'Français',
+    ['es']: 'Español',
+    ['de']: 'Deutsch',
   };
   avatarInitials: string = 'A';
 
