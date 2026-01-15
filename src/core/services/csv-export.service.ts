@@ -17,12 +17,12 @@ export class CsvExportService{
         link.click();
         document.body.removeChild(link);
       }
-    
+
       convertToCSV(data: any[], columns: string[]): string {
         const header = columns.join(',');
         const rows = data.map(row => columns.map(col => {
             if (Array.isArray(row[col])) {
-              return `"[${row[col].join(',')}]"`;
+              return `"[${row[col].join('$')}]"`;
             }
 
             return row[col];

@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-surveys-list-results',
@@ -50,6 +51,7 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
   resultEntries: SurveyResultEntry[] = [];
   loadedAtLeastOnce: boolean = false;
   respondents: RespondentData[] = [];
+  downloadedBytes: number = 0;
 
   get canExport(): boolean {
     return this.resultEntries.length > 0;
@@ -96,21 +98,50 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     this.loadedAtLeastOnce = true;
     this.isBusy = true;
     this.loadDataError = false;
-    this.resultEntries.length = 0;
+    this.downloadedBytes = 0;
+
+    // Clear previous results immediately
+    this.resultEntries = [];
+    this.assignDataDource();
+
     this.summariesService
-      .getTableResults(filters)
+      .getTableResultsWithProgress(filters)
       .pipe(
-        finalize(() => (this.isBusy = false)),
+        finalize(() => {
+          this.isBusy = false;
+          this.downloadedBytes = 0;
+        }),
         catchError((error) => {
           this.loadDataError = true;
           return throwError(() => error);
         })
       )
-      .subscribe((result) => {
-        result.forEach((e) => {
-          this.resultEntries.push(e);
-        });
-        this.assignDataDource();
+      .subscribe((event) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          // Update downloaded bytes
+          this.downloadedBytes = event.loaded;
+        } else if (event.type === HttpEventType.Response) {
+          // Data fully loaded
+          const result = event.body;
+          if (result && Array.isArray(result)) {
+            result.forEach((single: any) => {
+              this.resultEntries.push({
+                surveyName: single.surveyName,
+                question: single.question,
+                responseDate: single.responseDate,
+                answers: single.answers,
+                respondentId: single.respondentId,
+                longitude: single.localizationData?.longitude,
+                latitude: single.localizationData?.latitude,
+                outsideResearchArea: single.localizationData?.outsideResearchArea,
+                temperature: single.sensorData?.temperature,
+                humidity: single.sensorData?.humidity,
+                accuracyMeters: single.localizationData?.accuracyMeters
+              });
+            });
+          }
+          this.assignDataDource();
+        }
       });
   }
 
@@ -152,5 +183,13 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
       return this.valuesTransformers[columnName](propertyValue);
     }
     return propertyValue;
+  }
+
+  formatBytes(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   }
 }

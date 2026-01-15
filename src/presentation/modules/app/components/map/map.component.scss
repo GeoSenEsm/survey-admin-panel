@@ -6,3 +6,35 @@
     width: 100%;
     height: calc(100vh - 250px);
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 20px;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.progress-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}

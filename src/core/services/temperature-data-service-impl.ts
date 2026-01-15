@@ -3,12 +3,12 @@ import { TemperatureDataService } from "../../domain/external_services/temperatu
 import { TemperatureDataEntry } from "../../domain/models/temperature-data-entry";
 import { TemperatureDataFilter } from "../../domain/models/temperature-data-filter";
 import { ApiService } from "./api.service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpEvent } from "@angular/common/http";
 import { ConfigService } from "./config.service";
 import { Injectable } from "@angular/core";
 
 @Injectable()
-export class TemperatureDataServiceImpl 
+export class TemperatureDataServiceImpl
 extends ApiService
 implements TemperatureDataService{
 
@@ -17,7 +17,7 @@ implements TemperatureDataService{
             super(httpClient, configService);
         }
 
-    getTemperatureData(filter: TemperatureDataFilter): Observable<TemperatureDataEntry[]> {
+        getTemperatureDataWithProgress(filter: TemperatureDataFilter): Observable<HttpEvent<any>> {
         const filterMap: any = {
             'from': filter.from.toISOString(),
             'to': filter.to.toISOString()
@@ -26,6 +26,6 @@ implements TemperatureDataService{
         if (filter.respondentId){
             filterMap['respondentId'] = filter.respondentId;
         }
-        return this.get(`/api/sensordata`, filterMap);
+        return this.getWithProgress(`/api/sensordata`, filterMap);
     }
 }

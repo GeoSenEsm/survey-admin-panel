@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 
@@ -8,7 +8,7 @@ export class ApiService {
   private readonly baseUrl: string;
 
   constructor(private readonly httpClient: HttpClient,
-    configService: ConfigService) { 
+    configService: ConfigService) {
       this.baseUrl = configService.apiUrl;
     }
 
@@ -23,9 +23,17 @@ export class ApiService {
       responseType: responseType as 'json'
     });
   }
-  
+
   protected get<T>(url: string, params?: QureyParams): Observable<T> {
     return this.httpClient.get<T>(this.baseUrl + url, { params: this.toHttpParams(params) });
+  }
+
+  protected getWithProgress<T>(url: string, params?: QureyParams): Observable<HttpEvent<T>> {
+    return this.httpClient.get<T>(this.baseUrl + url, {
+      params: this.toHttpParams(params),
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
   private toHttpParams(params?: QureyParams): HttpParams {
