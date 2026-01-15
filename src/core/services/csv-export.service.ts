@@ -19,14 +19,14 @@ export class CsvExportService{
       }
 
       convertToCSV(data: any[], columns: string[]): string {
-        const header = columns.join(',');
+        const header = columns.join('&');
         const rows = data.map(row => columns.map(col => {
             if (Array.isArray(row[col])) {
-              return `"[${row[col].join('$')}]"`;
+              return `"[${row[col].join(':')}]"`;
             }
 
             return row[col];
-        }).join(','));
+        }).join('&'));
         return [header, ...rows].join('\r\n');
       }
 }
