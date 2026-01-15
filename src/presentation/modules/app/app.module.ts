@@ -48,6 +48,7 @@ import { SurveySummaryTileComponent } from './components/survey-summary-tile/sur
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoadingComponent } from './components/loading/loading.component';
 import { laodingComponentGuard, tokenAvailableGuard } from '../../../core/guards/auth-guard';
 import { MatMenuModule } from '@angular/material/menu';
@@ -140,7 +141,7 @@ export function HttpLoaderFactory(http: HttpClient){
     MatTabsModule,
     MatGridListModule,
     FullCalendarModule,
-    NgxEchartsModule.forRoot({ 
+    NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
     TranslateModule.forRoot({
@@ -151,6 +152,7 @@ export function HttpLoaderFactory(http: HttpClient){
       }
     }),
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatMenuModule,
     NgxMatTimepickerModule.setLocale('pl-PL'),
     CommonModule,
@@ -160,10 +162,10 @@ export function HttpLoaderFactory(http: HttpClient){
     MatSortModule
   ],
   declarations: [
-    AppComponent, 
-    LoginComponent, 
+    AppComponent,
+    LoginComponent,
     DashboardComponent,
-    RespondentsComponent, 
+    RespondentsComponent,
     AddRespondentsComponent,
     SurveysComponent,
     ButtonsRibbonComponent,
