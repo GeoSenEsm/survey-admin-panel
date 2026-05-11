@@ -58,7 +58,10 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
   }
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     responseDate: (property: any) => {
-      return this.datePipe.transform(new Date(property), 'short');
+      const responseDate = this.parseResponseDate(property);
+      return responseDate
+        ? this.datePipe.transform(responseDate, 'short') ?? property
+        : property;
     },
   };
 
@@ -183,6 +186,54 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
       return this.valuesTransformers[columnName](propertyValue);
     }
     return propertyValue;
+  }
+
+  private parseResponseDate(property: any): Date | null {
+    if (property instanceof Date) {
+      return Number.isNaN(property.getTime()) ? null : property;
+    }
+
+    if (typeof property !== 'string' && typeof property !== 'number') {
+      return null;
+    }
+
+    const directDate = new Date(property);
+    if (!Number.isNaN(directDate.getTime())) {
+      return directDate;
+    }
+
+    if (typeof property !== 'string') {
+      return null;
+    }
+
+    const normalizedIsoLikeDate = property.trim().replace(
+      /^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2}(?:\.\d+)?)$/,
+      '$1T$2'
+    );
+    const isoLikeDate = new Date(normalizedIsoLikeDate);
+    if (!Number.isNaN(isoLikeDate.getTime())) {
+      return isoLikeDate;
+    }
+
+    const europeanDate = property.trim().match(
+      /^(\d{1,2})[.\-/\s](\d{1,2})[.\-/\s](\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?$/
+    );
+    if (!europeanDate) {
+      return null;
+    }
+
+    const [, day, month, year, hours, minutes, seconds = '0', milliseconds = '0'] = europeanDate;
+    const parsedDate = new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hours),
+      Number(minutes),
+      Number(seconds),
+      Number(milliseconds.padEnd(3, '0').slice(0, 3))
+    );
+
+    return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   formatBytes(bytes: number): string {
