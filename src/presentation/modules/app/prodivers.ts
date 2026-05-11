@@ -48,6 +48,7 @@ import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl'
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
+import { getConfiguredLanguage, getMaterialDateLocale } from './supported-languages';
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
   return () => configService.loadConfig();
@@ -61,7 +62,6 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   { provide: 'respondentGroupsService', useClass: RespondentGroupsServiceImpl },
   { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
   { provide: MAT_DATE_FORMATS, useValue: ENGLISH_DATE_FORMATS },
-  { provide: LOCALE_ID, useValue: 'en' },
   {
     provide: 'surveySendingPolicyService',
     useClass: SurveySendingPolicyServiceImpl,
@@ -125,7 +125,7 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
       storage: LocalStorageService,
       translateService: TranslateService
     ) => {
-      return storage.get('lang') ?? translateService.getBrowserLang();
+      return getConfiguredLanguage(storage.get('lang'), translateService.getBrowserLang());
     },
     deps: [CookieStorageService, TranslateService],
   },
@@ -135,8 +135,8 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
       storage: LocalStorageService,
       translateService: TranslateService
     ) => {
-      const lang = storage.get('lang') ?? translateService.getBrowserLang();
-      return lang == 'pl' ? 'pl-PL' : 'en-US';
+      const lang = getConfiguredLanguage(storage.get('lang'), translateService.getBrowserLang());
+      return getMaterialDateLocale(lang);
     },
     deps: [CookieStorageService, TranslateService]
   }
