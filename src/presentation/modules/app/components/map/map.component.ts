@@ -23,7 +23,7 @@ import { CsvExportService } from '../../../../../core/services/csv-export.servic
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType } from '@angular/common/http';
-import { MapProviderService } from '../../../../../core/services/map-provider.service';
+import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-map',
@@ -34,6 +34,7 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
   private tileLayer: L.TileLayer | undefined;
   private mapProviderSubscription: Subscription | undefined;
+  private activeMapProvider: MapProvider | undefined;
   locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
   private tooltipRef: ComponentRef<MapPinTooltipComponent> | null = null;
@@ -73,18 +74,28 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initMap(): void {
-    this.map = L.map('map', {
-      center: [52.2297, 21.0122],
-      zoom: 13,
-    });
-
-    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe(() => {
-      this.applyTileLayer();
+    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe((provider) => {
+      this.createMap(provider);
       this.refreshPins();
     });
   }
 
-  private applyTileLayer(): void {
+  private createMap(provider: MapProvider): void {
+    if (this.map) {
+      this.markers.forEach((marker) => this.map?.removeLayer(marker));
+      this.markers.length = 0;
+      this.hideCustomTooltip();
+      this.map.remove();
+      this.map = undefined;
+      this.tileLayer = undefined;
+    }
+
+    this.activeMapProvider = provider;
+    this.map = L.map('map', this.mapProviderService.createMapOptions([52.2297, 21.0122], 13, provider));
+    this.applyTileLayer(provider);
+  }
+
+  private applyTileLayer(provider: MapProvider = this.activeMapProvider ?? this.mapProviderService.selectedProvider): void {
     if (!this.map) {
       return;
     }
@@ -93,7 +104,7 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
       this.map.removeLayer(this.tileLayer);
     }
 
-    this.tileLayer = this.mapProviderService.createTileLayer();
+    this.tileLayer = this.mapProviderService.createTileLayer(provider);
     this.tileLayer.addTo(this.map);
   }
 
