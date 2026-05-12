@@ -12,10 +12,11 @@ import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
 import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import isClockwise from '../../../../../core/utils/coords';
+import { MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-research-area',
@@ -24,6 +25,8 @@ import isClockwise from '../../../../../core/utils/coords';
 })
 export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
+  private tileLayer: L.TileLayer | undefined;
+  private mapProviderSubscription: Subscription | undefined;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   changesMade: boolean = false;
   private researchAreaPolygon: L.Polygon | undefined;
@@ -36,7 +39,8 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(RESEARCH_AREA_SERVICE_TOKEN)
     private readonly researchAreaService: ResearchAreaService,
     private readonly translate: TranslateService,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly mapProviderService: MapProviderService
   ) {}
 
   ngAfterViewInit(): void {
@@ -47,6 +51,7 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.map) {
       this.map.remove();
     }
+    this.mapProviderSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -59,10 +64,23 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
       zoom: 13,
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe(() => {
+      this.applyTileLayer();
+      this.renderPolygon(this.nodes ?? []);
+    });
+  }
+
+  private applyTileLayer(): void {
+    if (!this.map) {
+      return;
+    }
+
+    if (this.tileLayer) {
+      this.map.removeLayer(this.tileLayer);
+    }
+
+    this.tileLayer = this.mapProviderService.createTileLayer();
+    this.tileLayer.addTo(this.map);
   }
 
   loadCurrentResearchArea(): void {
@@ -165,25 +183,32 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.nodes && !this.rememberedNodes) {
         this.rememberedNodes = this.nodes;
       }
-      this.removePolygon();
       this.nodes = vertices;
-      if (vertices.length === 0) {
-        return;
-      }
-      const latLngs = vertices.map(
-        (vertex) => new LatLng(vertex.latitude, vertex.longitude)
-      );
-      this.researchAreaPolygon = L.polygon(latLngs, {
-        color: 'darkblue',
-        fillColor: 'blue',
-        fillOpacity: 0.5,
-      });
-
-      this.researchAreaPolygon.addTo(this.map!);
-      this.map?.fitBounds(this.researchAreaPolygon.getBounds());
+      this.renderPolygon(vertices);
     } finally {
-      this.fileInput.nativeElement.value = '';
+      if (this.fileInput?.nativeElement) {
+        this.fileInput.nativeElement.value = '';
+      }
     }
+  }
+
+  private renderPolygon(vertices: LatLong[]): void {
+    this.removePolygon();
+    if (!this.map || vertices.length === 0) {
+      return;
+    }
+
+    const latLngs = vertices.map(
+      (vertex) => this.mapProviderService.toDisplayLatLng(vertex.latitude, vertex.longitude)
+    );
+    this.researchAreaPolygon = L.polygon(latLngs, {
+      color: 'darkblue',
+      fillColor: 'blue',
+      fillOpacity: 0.5,
+    });
+
+    this.researchAreaPolygon.addTo(this.map);
+    this.map.fitBounds(this.researchAreaPolygon.getBounds());
   }
 
   private removePolygon(): void {

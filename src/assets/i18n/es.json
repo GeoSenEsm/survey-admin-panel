@@ -375,6 +375,13 @@
       "importTooltip": "El archivo a importar debe estar en formato CSV y contener dos columnas: latitud y longitud.",
       "lengthError": "El área de investigación debe contener entre {{min}} y {{max}} puntos."
     },
+    "mapProvider": {
+      "title": "Proveedor de mapas",
+      "description": "Elija el mapa utilizado en el mapa de ubicaciones y en la configuración del área de investigación.",
+      "label": "Proveedor de mapas",
+      "openStreetMap": "OpenStreetMap",
+      "baidu": "Baidu"
+    },
     "ok": "OK",
     "somethingWentWrong": "Algo salió mal"
   },

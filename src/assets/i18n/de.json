@@ -375,6 +375,13 @@
       "importTooltip": "Die zu importierende Datei muss im CSV-Format vorliegen und zwei Spalten enthalten: Breiten- und Längengrad.",
       "lengthError": "Das Forschungsgebiet muss zwischen {{min}} und {{max}} Punkte enthalten."
     },
+    "mapProvider": {
+      "title": "Kartenanbieter",
+      "description": "Wählen Sie die Karte für die Standortkarte und die Konfiguration des Forschungsgebiets aus.",
+      "label": "Kartenanbieter",
+      "openStreetMap": "OpenStreetMap",
+      "baidu": "Baidu"
+    },
     "ok": "OK",
     "somethingWentWrong": "Etwas ist schief gelaufen"
   },

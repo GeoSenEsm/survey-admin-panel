@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import type { MapProvider } from './map-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class ConfigService {
 
   get apiUrl(): string {
     return this.config?.apiUrl;
+  }
+
+  get mapProvider(): MapProvider {
+    return this.config?.mapProvider === 'baidu' ? 'baidu' : 'openstreetmap';
   }
 }

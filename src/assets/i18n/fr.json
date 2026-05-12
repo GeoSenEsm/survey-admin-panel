@@ -375,6 +375,13 @@
       "importTooltip": "Le fichier à importer doit être au format CSV et contenir deux colonnes : latitude et longitude.",
       "lengthError": "La zone de recherche doit contenir entre {{min}} et {{max}} points."
     },
+    "mapProvider": {
+      "title": "Fournisseur de carte",
+      "description": "Choisissez la carte utilisée pour la carte des localisations et la configuration de la zone de recherche.",
+      "label": "Fournisseur de carte",
+      "openStreetMap": "OpenStreetMap",
+      "baidu": "Baidu"
+    },
     "ok": "OK",
     "somethingWentWrong": "Quelque chose s'est mal passé"
   },

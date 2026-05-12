@@ -16,14 +16,14 @@ import { LocationData } from '../../../../../domain/models/location_data';
 import { MapPinTooltipComponent } from '../map-pin-tooltip/map-pin-tooltip.component';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
-import { catchError, finalize, throwError } from 'rxjs';
+import { catchError, finalize, Subscription, throwError } from 'rxjs';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { SurveySummaryShortDto } from '../../../../../domain/models/survey.summary.short.dto';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
-import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType } from '@angular/common/http';
+import { MAP_PROVIDER_OPTIONS, MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-map',
@@ -32,6 +32,8 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
+  private tileLayer: L.TileLayer | undefined;
+  private mapProviderSubscription: Subscription | undefined;
   locationData: LocationData[] = [];
   markers: L.CircleMarker[] = [];
   private tooltipRef: ComponentRef<MapPinTooltipComponent> | null = null;
@@ -39,6 +41,11 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   surveys: SurveySummaryShortDto[] = [];
   isBusy: boolean = false;
   downloadedBytes: number = 0;
+  readonly mapProviders = MAP_PROVIDER_OPTIONS;
+
+  get selectedMapProvider(): MapProvider {
+    return this.mapProviderService.selectedProvider;
+  }
 
   constructor(
     @Inject(LOCATION_SERVICE_TOKEN)
@@ -50,7 +57,8 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly respondentsService: RespondentDataService,
     private readonly exportService: CsvExportService,
     private readonly translate: TranslateService,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly mapProviderService: MapProviderService
   ) {}
 
   ngAfterViewInit(): void {
@@ -61,6 +69,7 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.map){
       this.map.remove();
     }
+    this.mapProviderSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -74,10 +83,23 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
       zoom: 13,
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe(() => {
+      this.applyTileLayer();
+      this.refreshPins();
+    });
+  }
+
+  private applyTileLayer(): void {
+    if (!this.map) {
+      return;
+    }
+
+    if (this.tileLayer) {
+      this.map.removeLayer(this.tileLayer);
+    }
+
+    this.tileLayer = this.mapProviderService.createTileLayer();
+    this.tileLayer.addTo(this.map);
   }
 
   loadData(filters: LocationFilters): void {
@@ -134,6 +156,10 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  changeMapProvider(provider: MapProvider): void {
+    this.mapProviderService.setProvider(provider);
+  }
+
   refreshPins(): void {
     if (!this.map) {
       return;
@@ -145,7 +171,8 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
     const bounds = L.latLngBounds([]);
     let any = false;
     this.locationData.forEach((location) => {
-      const marker = L.circleMarker([location.latitude, location.longitude], {
+      const displayLatLng = this.mapProviderService.toDisplayLatLng(location.latitude, location.longitude);
+      const marker = L.circleMarker(displayLatLng, {
         radius: 5,
         color: location.outsideResearchArea ? 'red' : 'blue',
         fillOpacity: 1,
@@ -153,7 +180,7 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
 
       marker.on('mouseover', (e) => this.showCustomTooltip(e, location));
       marker.on('mouseout', () => this.hideCustomTooltip());
-      bounds.extend([location.latitude, location.longitude]);
+      bounds.extend(displayLatLng);
       any = true;
       this.markers.push(marker);
     });
