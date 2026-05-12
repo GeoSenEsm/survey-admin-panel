@@ -1,3 +1,15 @@
 <div class="container">
+    <section class="map-provider-card">
+        <h2>{{ 'configuration.mapProvider.title' | translate }}</h2>
+        <h4>{{ 'configuration.mapProvider.description' | translate }}</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>{{ 'configuration.mapProvider.label' | translate }}</mat-label>
+            <mat-select [value]="selectedMapProvider" (selectionChange)="changeMapProvider($event.value)">
+                <mat-option *ngFor="let provider of mapProviders" [value]="provider.value">
+                    {{ provider.labelKey | translate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </section>
     <app-research-area/>
 </div>

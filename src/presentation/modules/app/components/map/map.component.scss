@@ -7,6 +7,15 @@
     height: calc(100vh - 250px);
 }
 
+.map-provider-selector {
+    display: flex;
+    justify-content: flex-end;
+
+    mat-form-field {
+        width: 260px;
+    }
+}
+
 .spinner-container {
   display: flex;
   justify-content: center;
