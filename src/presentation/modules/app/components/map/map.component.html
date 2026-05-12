@@ -8,17 +8,6 @@
   />
   <div style="height: 10px"></div>
 
-  <div class="map-provider-selector">
-    <mat-form-field appearance="fill">
-      <mat-label>{{ 'configuration.mapProvider.label' | translate }}</mat-label>
-      <mat-select [value]="selectedMapProvider" (selectionChange)="changeMapProvider($event.value)">
-        <mat-option *ngFor="let provider of mapProviders" [value]="provider.value">
-          {{ provider.labelKey | translate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
   <div class="spinner-container" *ngIf="isBusy">
     <div class="loading-content">
       <mat-spinner diameter="50" />

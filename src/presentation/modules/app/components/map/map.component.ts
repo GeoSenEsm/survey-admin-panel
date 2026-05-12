@@ -23,7 +23,7 @@ import { CsvExportService } from '../../../../../core/services/csv-export.servic
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType } from '@angular/common/http';
-import { MAP_PROVIDER_OPTIONS, MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
+import { MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-map',
@@ -41,11 +41,6 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
   surveys: SurveySummaryShortDto[] = [];
   isBusy: boolean = false;
   downloadedBytes: number = 0;
-  readonly mapProviders = MAP_PROVIDER_OPTIONS;
-
-  get selectedMapProvider(): MapProvider {
-    return this.mapProviderService.selectedProvider;
-  }
 
   constructor(
     @Inject(LOCATION_SERVICE_TOKEN)
@@ -154,10 +149,6 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       });
-  }
-
-  changeMapProvider(provider: MapProvider): void {
-    this.mapProviderService.setProvider(provider);
   }
 
   refreshPins(): void {

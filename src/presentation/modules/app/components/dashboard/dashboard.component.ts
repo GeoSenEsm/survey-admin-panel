@@ -13,6 +13,7 @@ import { getNavListItems, NavListItem } from './nav-list-items';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeAdminPasswordComponent } from '../change-admin-password/change-admin-password.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +34,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   navigationSubscription?: Subscription;
 
   navListItems: NavListItem[] = getNavListItems();
+  readonly toolbarMapProviders: { value: MapProvider; name: string }[] = [
+    { value: 'openstreetmap', name: 'OpenStreetMap' },
+    { value: 'baidu', name: 'Baidu' },
+  ];
 
   readonly langageDisplayMappings: Record<string, string> = {
     ['en']: 'English',
@@ -50,7 +55,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     @Inject(TOKEN_HANDLER_TOKEN) private readonly tokenHandler: TokenHandler,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly mapProviderService: MapProviderService
   ) {}
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
@@ -98,6 +104,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
     });
     this.storage.save('lang', value);
+  }
+
+  get selectedMapProvider(): MapProvider {
+    return this.mapProviderService.selectedProvider;
+  }
+
+  set selectedMapProvider(provider: MapProvider) {
+    this.mapProviderService.setProvider(provider);
   }
 
   toggleDrawer(): void {

@@ -4,7 +4,20 @@
   </button>
   <span>GeoSenEsm</span>
   <span class="spacer"></span>
-  <mat-form-field appearance="fill">
+  <mat-form-field class="toolbar-select map-provider-select" appearance="outline" subscriptSizing="dynamic">
+    <mat-select [(value)]="selectedMapProvider" aria-label="Map provider">
+      <mat-select-trigger>
+        <span class="toolbar-select-trigger">
+          <mat-icon class="toolbar-select-icon">map</mat-icon>
+          <span class="toolbar-select-text">{{ selectedMapProvider === 'baidu' ? 'Baidu' : 'OpenStreetMap' }}</span>
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let provider of toolbarMapProviders" [value]="provider.value">
+        {{ provider.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="toolbar-select language-select" appearance="outline" subscriptSizing="dynamic">
     <mat-select [(value)]="language">
       <mat-select-trigger>
         <span class="flag-and-text">
