@@ -16,7 +16,7 @@ import { catchError, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import isClockwise from '../../../../../core/utils/coords';
-import { MapProviderService } from '../../../../../core/services/map-provider.service';
+import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
 @Component({
   selector: 'app-research-area',
@@ -27,6 +27,7 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   private map: L.Map | undefined;
   private tileLayer: L.TileLayer | undefined;
   private mapProviderSubscription: Subscription | undefined;
+  private activeMapProvider: MapProvider | undefined;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   changesMade: boolean = false;
   private researchAreaPolygon: L.Polygon | undefined;
@@ -59,18 +60,26 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initMap(): void {
-    this.map = L.map('research-area-map', {
-      center: [52.2297, 21.0122],
-      zoom: 13,
-    });
-
-    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe(() => {
-      this.applyTileLayer();
+    this.mapProviderSubscription = this.mapProviderService.selectedProvider$.subscribe((provider) => {
+      this.createMap(provider);
       this.renderPolygon(this.nodes ?? []);
     });
   }
 
-  private applyTileLayer(): void {
+  private createMap(provider: MapProvider): void {
+    if (this.map) {
+      this.removePolygon();
+      this.map.remove();
+      this.map = undefined;
+      this.tileLayer = undefined;
+    }
+
+    this.activeMapProvider = provider;
+    this.map = L.map('research-area-map', this.mapProviderService.createMapOptions([52.2297, 21.0122], 13, provider));
+    this.applyTileLayer(provider);
+  }
+
+  private applyTileLayer(provider: MapProvider = this.activeMapProvider ?? this.mapProviderService.selectedProvider): void {
     if (!this.map) {
       return;
     }
@@ -79,7 +88,7 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
       this.map.removeLayer(this.tileLayer);
     }
 
-    this.tileLayer = this.mapProviderService.createTileLayer();
+    this.tileLayer = this.mapProviderService.createTileLayer(provider);
     this.tileLayer.addTo(this.map);
   }
 
