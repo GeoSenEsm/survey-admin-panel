@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ['fr']: 'Français',
     ['es']: 'Español',
     ['de']: 'Deutsch',
+    ['zh']: '简体中文',
   };
   avatarInitials: string = 'A';
 

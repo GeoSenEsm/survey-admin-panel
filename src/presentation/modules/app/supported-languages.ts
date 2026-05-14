@@ -1,4 +1,4 @@
-export const SUPPORTED_LANGUAGES = ['en', 'pl', 'fr', 'es', 'de'] as const;
+export const SUPPORTED_LANGUAGES = ['en', 'pl', 'fr', 'es', 'de', 'zh'] as const;
 
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
 
@@ -8,6 +8,7 @@ const MATERIAL_DATE_LOCALES: Record<SupportedLanguage, string> = {
   fr: 'fr-FR',
   es: 'es-ES',
   de: 'de-DE',
+  zh: 'zh-CN',
 };
 
 export function normalizeLanguage(language: string | null | undefined): SupportedLanguage {
