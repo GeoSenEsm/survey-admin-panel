@@ -45,6 +45,9 @@ export class AppComponent implements OnDestroy {
         } else if (lang === 'de'){
           dateLocale = 'de-DE';
           matDateFormats = ENGLISH_DATE_FORMATS; // Use English format for now, can be customized
+        } else if (lang === 'zh'){
+          dateLocale = 'zh-CN';
+          matDateFormats = ENGLISH_DATE_FORMATS; // Use English format for now, can be customized
         } else{
           dateLocale = 'en-US';
           matDateFormats = ENGLISH_DATE_FORMATS;

@@ -6,10 +6,12 @@ import localeEn from '@angular/common/locales/en';
 import localeFr from '@angular/common/locales/fr';
 import localeEs from '@angular/common/locales/es';
 import localeDe from '@angular/common/locales/de';
+import localeZh from '@angular/common/locales/zh';
 
 registerLocaleData(localePl, 'pl');
 registerLocaleData(localeEn, 'en');
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeDe, 'de');
+registerLocaleData(localeZh, 'zh');
 platformBrowserDynamic().bootstrapModule(AppModule)
