@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.app-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.app-footer {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #666;
+  background: #fafafa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.app-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-footer a:hover,
+.app-footer a:focus-visible {
+  text-decoration: underline;
+}
+
+.app-footer__separator {
+  margin: 0 8px;
+  color: #aaa;
+}

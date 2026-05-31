@@ -1,2 +1,12 @@
-<router-outlet *ngIf="!shouldDisplayDashboard()"/>
-<app-dashboard *ngIf="shouldDisplayDashboard()">
+<div class="app-shell">
+  <main class="app-content">
+    <router-outlet *ngIf="!shouldDisplayDashboard()"/>
+    <app-dashboard *ngIf="shouldDisplayDashboard()"></app-dashboard>
+  </main>
+
+  <footer class="app-footer" aria-label="ICP registration information">
+    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">您的备案号</a>
+    <span class="app-footer__separator" aria-hidden="true">|</span>
+    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">北京ICP備案號：2026028772-1</a>
+  </footer>
+</div>
