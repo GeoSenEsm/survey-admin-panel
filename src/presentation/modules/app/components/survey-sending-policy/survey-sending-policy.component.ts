@@ -22,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { CalendarEventCheckboxComponent } from '../calendar-event-checkbox/calendar-event-checkbox.component';
 import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
+import { parseUtcDateTime } from '../../../../../core/utils/utc-date-time';
 
 interface Selectable {
   selected: boolean;
@@ -45,7 +46,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   calendarEvents: (EventInput & Selectable)[] = [];
   private readonly langChangeSubscription: Subscription;
   policies: SurveySendingPolicyDto[] = [];
-  
+
   _deleteMode = false;
 
   get deleteMode(): boolean {
@@ -153,14 +154,14 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     const output: (EventInput & Selectable)[] = [];
 
     policy.timeSlots.filter(e => !e.deleted).forEach((slot) => {
-      const from = new Date(slot.start);
-      const to = new Date(slot.finish);
+      const from = parseUtcDateTime(slot.start);
+      const to = parseUtcDateTime(slot.finish);
       output.push({
         id: slot.id,
         title: this.translate.instant(
           'surveyDetails.surveySendingPolicy.completingSurvey',
           {
-            from: this.datePipe.transform(from, 'shortTime'),
+            from: this.datePipe.transform(from, 'shortTime', 'UTC'),
             to: this.getToCalendarDisplay(from, to),
           }
         ),
@@ -174,12 +175,12 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   }
 
   private getToCalendarDisplay(from: Date, to: Date): string | null{
-    if (from.getFullYear() == to.getFullYear() && from.getMonth() == to.getMonth() && from.getDate() == to.getDate()){
-      return this.datePipe.transform(to, 'shortTime');
+    if (from.getUTCFullYear() == to.getUTCFullYear() && from.getUTCMonth() == to.getUTCMonth() && from.getUTCDate() == to.getUTCDate()){
+      return this.datePipe.transform(to, 'shortTime', 'UTC');
     }
 
     //edge case, when the event finishes in another day is handled here
-    return this.datePipe.transform(to, 'short');;
+    return this.datePipe.transform(to, 'short', 'UTC');
   }
 
   deleteSelected(): void {

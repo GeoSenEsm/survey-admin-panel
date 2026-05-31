@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Mapper } from '../../../../../core/mappers/mapper';
 import { CreateSurveySendingPolicyDto, crossDatesAndTimes } from '../../../../../domain/models/create-survey-sending-policy-dto';
 import { SurveySendingPolicyService } from '../../../../../domain/external_services/survey-sending-policy-service';
 import { catchError, finalize, throwError } from 'rxjs';
@@ -11,6 +10,8 @@ import { stringTimeRangesOverlapping } from '../../../../../core/utils/time-func
 import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.sending.policy.dto';
 import { parseToTime } from '../../../../../core/utils/parsers';
 import { overlap } from '../../../../../domain/models/create-survey-participation-time-slot-dto';
+import { HttpErrorResponse } from '@angular/common/http';
+import { parseUtcDateTime } from '../../../../../core/utils/utc-date-time';
 
 @Component({
   selector: 'app-create-survey-sending-policy',
@@ -64,10 +65,11 @@ export class CreateSurveySendingPolicyComponent {
     }));
 
     const existing = this.existingPolicies.map(e => e.timeSlots).flat()
+    .filter(e => !e.deleted)
     .map(e => {
       return {
-        start: new Date(e.start),
-        finish: new Date(e.finish)
+        start: parseUtcDateTime(e.start),
+        finish: parseUtcDateTime(e.finish)
       }
     });
 
@@ -84,15 +86,16 @@ export class CreateSurveySendingPolicyComponent {
     if (!this.isValid() || this.isBusy || !this.model) {
       return;
     }
-  
+
     this.isBusy = true;
     this.service
       .createPolicy(this.model)
       .pipe(
         catchError((error) => {
+          const message = this.getCreateErrorMessage(error);
           this.snackbar.open(
-            this.translate.instant('surveyDetails.createSurveySendingPolicy.somethingWentWrong'), 
-            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'), 
+            message,
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'),
             { duration: 3000 }
           );
           return throwError(() => error);
@@ -104,8 +107,8 @@ export class CreateSurveySendingPolicyComponent {
       .subscribe({
         next: newPolicy => {
           this.snackbar.open(
-            this.translate.instant('surveyDetails.createSurveySendingPolicy.createdSurveySendingPolicy'), 
-            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'),  
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.createdSurveySendingPolicy'),
+            this.translate.instant('surveyDetails.createSurveySendingPolicy.ok'),
             { duration: 3000 }
           );
           this.dialogRef.close(newPolicy);
@@ -114,5 +117,32 @@ export class CreateSurveySendingPolicyComponent {
           console.error('Error:', err);
         }
       });
+  }
+
+  private getCreateErrorMessage(error: HttpErrorResponse): string {
+    if (this.isBackendOverlapValidationError(error)) {
+      const message = this.translate.instant('surveyDetails.createSurveySendingPolicy.overlapWithExisting');
+      this.overlapWithExistingError = message;
+      return message;
+    }
+
+    return this.translate.instant('surveyDetails.createSurveySendingPolicy.somethingWentWrong');
+  }
+
+  private isBackendOverlapValidationError(error: HttpErrorResponse): boolean {
+    if (error.status === 409) {
+      return true;
+    }
+
+    if (error.status !== 400 && error.status !== 422) {
+      return false;
+    }
+
+    const errorPayload = JSON.stringify(error.error ?? '').toLowerCase();
+    return errorPayload.includes('overlap')
+      || errorPayload.includes('intersect')
+      || errorPayload.includes('intersection')
+      || errorPayload.includes('surveyparticipationtimeslots')
+      || errorPayload.includes('time slot');
   }
 }
