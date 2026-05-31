@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { CalendarEventCheckboxComponent } from '../calendar-event-checkbox/calendar-event-checkbox.component';
 import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
-import { parseUtcDateTime } from '../../../../../core/utils/utc-date-time';
+import { parseUtcDateTime } from '../../../../../core/utils/parsers';
 
 interface Selectable {
   selected: boolean;

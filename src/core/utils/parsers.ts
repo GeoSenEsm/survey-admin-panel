@@ -33,3 +33,20 @@ export function parseToTime(timeString: string): Time | undefined {
     return undefined;
   }
 }
+
+export const parseUtcDateTime = (value: string): Date => {
+  if (hasTimezoneOffset(value) || isDateOnly(value)) {
+    return new Date(value);
+  }
+
+  return new Date(`${value}Z`);
+};
+
+function hasTimezoneOffset(value: string): boolean {
+  return /(?:Z|[+-]\d{2}:?\d{2})$/i.test(value);
+}
+
+function isDateOnly(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+

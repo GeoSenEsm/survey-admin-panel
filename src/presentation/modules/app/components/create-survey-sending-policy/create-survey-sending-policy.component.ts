@@ -8,10 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { StringTimeRange } from '../../../../../core/models/time-range';
 import { stringTimeRangesOverlapping } from '../../../../../core/utils/time-functions';
 import { SurveySendingPolicyDto } from '../../../../../domain/models/survey.sending.policy.dto';
-import { parseToTime } from '../../../../../core/utils/parsers';
+import { parseToTime, parseUtcDateTime } from '../../../../../core/utils/parsers';
 import { overlap } from '../../../../../domain/models/create-survey-participation-time-slot-dto';
 import { HttpErrorResponse } from '@angular/common/http';
-import { parseUtcDateTime } from '../../../../../core/utils/utc-date-time';
 
 @Component({
   selector: 'app-create-survey-sending-policy',
