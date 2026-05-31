@@ -40,7 +40,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     locale: plLocale,
-    timeZone: 'UTC',
+    timeZone: 'local',
     eventContent: this.renderEventContent.bind(this),
   };
   calendarEvents: (EventInput & Selectable)[] = [];
@@ -161,7 +161,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
         title: this.translate.instant(
           'surveyDetails.surveySendingPolicy.completingSurvey',
           {
-            from: this.datePipe.transform(from, 'shortTime', 'UTC'),
+            from: this.datePipe.transform(from, 'shortTime'),
             to: this.getToCalendarDisplay(from, to),
           }
         ),
@@ -175,12 +175,12 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   }
 
   private getToCalendarDisplay(from: Date, to: Date): string | null{
-    if (from.getUTCFullYear() == to.getUTCFullYear() && from.getUTCMonth() == to.getUTCMonth() && from.getUTCDate() == to.getUTCDate()){
-      return this.datePipe.transform(to, 'shortTime', 'UTC');
+    if (from.getFullYear() == to.getFullYear() && from.getMonth() == to.getMonth() && from.getDate() == to.getDate()){
+      return this.datePipe.transform(to, 'shortTime');
     }
 
     //edge case, when the event finishes in another day is handled here
-    return this.datePipe.transform(to, 'short', 'UTC');
+    return this.datePipe.transform(to, 'short');
   }
 
   deleteSelected(): void {

@@ -1,5 +1,5 @@
 import { TimeRange } from "../../core/models/time-range";
-import { combineToUTCDate } from "../../core/utils/combine-date-and-time";
+import { combineToLocalDate } from "../../core/utils/combine-date-and-time";
 import { CreateSurveyParticipationTimeSlotDto } from "./create-survey-participation-time-slot-dto";
 
 export interface CreateSurveySendingPolicyDto{
@@ -16,8 +16,8 @@ export const crossDatesAndTimes = (surveyId: string, dates: Date[], timeRanges: 
 
         dates.forEach(date => {
             timeRanges.forEach(range => {
-                const dateFrom = combineToUTCDate(date, range.from);
-                const dateTo = combineToUTCDate(date, range.to);
+                const dateFrom = combineToLocalDate(date, range.from);
+                const dateTo = combineToLocalDate(date, range.to);
 
                 model.surveyParticipationTimeSlots.push({
                     start: dateFrom,
