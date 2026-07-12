@@ -162,6 +162,16 @@
 
 /* --- Responsive ------------------------------------------------------ */
 
+@media (max-width: 1024px) {
+  :host { height: auto; }
+  .container {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 100%;
+    overflow-y: visible;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 16px;

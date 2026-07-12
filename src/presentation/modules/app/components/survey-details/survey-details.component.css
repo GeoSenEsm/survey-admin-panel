@@ -27,6 +27,19 @@ mat-tab {
   margin-right: 8px;
 }
 
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .container mat-tab-group { flex: 0 0 auto; }
+
+  mat-tab { overflow: visible; }
+}
+
 @media (max-width: 768px) {
   .container { padding: 8px; }
 }

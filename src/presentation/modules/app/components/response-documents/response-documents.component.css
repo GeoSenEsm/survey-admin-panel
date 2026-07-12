@@ -84,17 +84,21 @@ mat-paginator {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
-  :host,
-  .container { height: auto; }
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
   .container {
-    padding: 12px;
-    overflow-y: auto;
+    height: auto;
     min-height: 100%;
   }
-  .filters > * { flex: 1 1 100%; }
+
   .table-container {
     flex: 0 0 auto;
     overflow-x: auto;
   }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
+  .filters > * { flex: 1 1 100%; }
 }

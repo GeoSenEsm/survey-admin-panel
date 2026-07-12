@@ -82,6 +82,20 @@ mat-header-cell {
   overflow: hidden;
 }
 
+@media (max-width: $tablet-breakpoint) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .table-container {
+    flex: 0 0 auto;
+    overflow-x: auto;
+  }
+}
+
 @media (max-width: $mobile-breakpoint) {
   .container { padding: $space-3; }
 }

@@ -60,6 +60,21 @@
   margin-top: $space-1;
 }
 
+@media (max-width: $tablet-breakpoint) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  #map {
+    flex: 0 0 auto;
+    height: 60vh;
+    min-height: 320px;
+  }
+}
+
 @media (max-width: $mobile-breakpoint) {
   .container { padding: $space-3; }
 }

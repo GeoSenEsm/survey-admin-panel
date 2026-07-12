@@ -55,6 +55,20 @@ mat-header-cell {
   overflow: hidden;
 }
 
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .table-container {
+    flex: 0 0 auto;
+    overflow-x: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 12px;

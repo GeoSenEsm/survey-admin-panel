@@ -82,24 +82,20 @@ mat-header-cell {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
-  /*
-   * The dashboard shell locks /summaries with overflow: hidden so the table
-   * can behave like an app-shell view on desktop. On phone-sized viewports the
-   * filter form stacks into ~9 rows (7 fields + 2 buttons) and no longer fits
-   * beside the table, so we swap to a single scrollable column: the whole page
-   * scrolls, the table renders at its natural height, and the Load / Export
-   * buttons remain reachable.
-   */
-  :host,
-  .container { height: auto; }
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
   .container {
-    padding: 12px;
-    overflow-y: auto;
+    height: auto;
     min-height: 100%;
   }
+
   .table-container {
     flex: 0 0 auto;
     overflow-x: auto;
   }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
 }

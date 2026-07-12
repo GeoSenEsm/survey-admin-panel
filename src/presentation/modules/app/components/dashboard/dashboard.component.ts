@@ -17,6 +17,10 @@ import { MapProvider, MapProviderService } from '../../../../../core/services/ma
 
 // Below this viewport width the drawer switches to overlay mode and starts closed.
 const MOBILE_BREAKPOINT_PX = 768;
+// Below this viewport width the app shell stops locking overflow so tables,
+// tabs and maps can grow vertically and the page scrolls top-to-bottom. Kept
+// in sync with $tablet-breakpoint in styles/variables.scss.
+const COMPACT_BREAKPOINT_PX = 1024;
 
 const USER_GUIDE_URL =
   'https://github.com/GeoSenEsm/.github/blob/main/profile/GeoSenEsm__User_Guide.pdf';
@@ -30,6 +34,7 @@ const USER_GUIDE_URL =
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
   isMobile = false;
+  isCompact = false;
 
   private hideScrollViews = [
     '/respondents',
@@ -91,7 +96,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private updateResponsiveState(): void {
-    const nextIsMobile = window.innerWidth < MOBILE_BREAKPOINT_PX;
+    const width = window.innerWidth;
+    const nextIsMobile = width < MOBILE_BREAKPOINT_PX;
+    this.isCompact = width < COMPACT_BREAKPOINT_PX;
     if (nextIsMobile !== this.isMobile) {
       this.isMobile = nextIsMobile;
       this.isDrawerOpen = !nextIsMobile;
@@ -171,6 +178,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
+    // On compact viewports (phones and tablets) every route must be top-to-bottom
+    // scrollable: filters, tables and tabs stack vertically and routinely exceed
+    // the viewport height. Keeping the shell scrollable lets those pages grow
+    // naturally instead of being clipped by an app-shell overflow: hidden.
+    if (this.isCompact) {
+      return false;
+    }
+
     if (this.hideScrollViews.some((e) => this.router.url.startsWith(e))) {
       return true;
     }
