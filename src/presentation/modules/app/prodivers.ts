@@ -32,6 +32,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LanguageInterceptor } from '../../../core/services/language-interceptor';
 import {
   AUTHENTICATION_SERVICE,
+  RESPONSE_DOCUMENTS_SERVICE,
+  STATISTICS_SERVICE,
   SUMMARIES_SERVICE,
   SURVEY_DETAILS_MAPPER,
 } from '../../../core/services/registration-names';
@@ -45,6 +47,8 @@ import { TemperatureDataServiceImpl } from '../../../core/services/temperature-d
 import { LocationServiceImpl } from '../../../core/services/location-service-impl';
 import { ResearchAreaServiceImpl } from '../../../core/services/research_area_service_impl';
 import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl';
+import { ResponseDocumentsServiceImpl } from '../../../core/services/response-documents.service.impl';
+import { StatisticsServiceImpl } from '../../../core/services/statistics.service.impl';
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
@@ -67,6 +71,8 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     useClass: SurveySendingPolicyServiceImpl,
   },
   { provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl },
+  { provide: RESPONSE_DOCUMENTS_SERVICE, useClass: ResponseDocumentsServiceImpl },
+  { provide: STATISTICS_SERVICE, useClass: StatisticsServiceImpl },
   { provide: 'respondentDataService', useClass: RespondentDataServiceImpl },
   { provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService },
   {

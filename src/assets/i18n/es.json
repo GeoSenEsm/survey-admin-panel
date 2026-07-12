@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "Encuestados",
       "surveys": "Encuestas",
-      "creatingSurveys": "Creación de encuestas",
+      "createSurvey": "Crear encuesta",
       "results": "Resultados",
       "logout": "Cerrar sesión",
       "startSurvey": "Encuesta inicial",
@@ -31,11 +31,36 @@
       "map": "Mapa",
       "configuration": "Configuración",
       "changeAdminPassword": "Cambiar contraseña",
+      "userGuide": "Guía del usuario",
       "sensorDevices": "Dispositivos sensores",
       "someElementsNeedRefreshing": "Algunos elementos requieren actualizar la página para aplicar el cambio de idioma.",
       "ok": "OK",
-      "contactPhoneNumbers": "Números de contacto"
+      "contactPhoneNumbers": "Números de contacto",
+      "responseDocuments": "Documentos de respuesta",
+      "statistics": "Estadísticas"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Encuesta",
+      "anySurvey": "Cualquier encuesta",
+      "dateFrom": "Desde",
+      "dateTo": "Hasta",
+      "apply": "Aplicar",
+      "clear": "Limpiar"
+    },
+    "columns": {
+      "participationDate": "Fecha de participación",
+      "surveyName": "Encuesta",
+      "respondent": "Encuestado",
+      "answers": "Respuestas",
+      "actions": "Acciones"
+    },
+    "download": "Descargar JSON",
+    "exportZip": "Exportar ZIP",
+    "nothingToDisplay": "Ningún documento coincide con el filtro.",
+    "loadError": "No se pudieron cargar los documentos de respuesta.",
+    "exportError": "No se pudieron exportar los documentos de respuesta."
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "Ocurrió un error al cargar.",
     "retry": "Intentar de nuevo",
     "noSurveys": "No hay encuestas",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "createNew": "Crear encuesta"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "participant": "Por participante"
+    },
+    "selectParticipant": "Seleccionar participante",
+    "loadError": "No se pudieron cargar las estadísticas.",
+    "kpi": {
+      "studyWindow": "Ventana del estudio",
+      "participants": "Participantes",
+      "filledVsAvailable": "Completadas / Disponibles",
+      "locationData": "Datos de ubicación",
+      "sensorData": "Lecturas de sensores",
+      "username": "Participante"
+    },
+    "charts": {
+      "participations": "Respuestas por día",
+      "locationData": "Datos de ubicación por día",
+      "sensorData": "Lecturas de sensores por día",
+      "filledVsAvailable": "Encuestas completadas vs. disponibles",
+      "filledVsAvailableTop": "Participantes principales: completadas vs. disponibles"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementos por página:",

@@ -4,115 +4,406 @@
 
 @include mat.core();
 
-
-$my-palette: (
-  50: #e8eaf6,
-  100: #ffffff,
-  200: #f4f4f4,
-  300: #39424F,
-  400: #333A4B,
+// ---------------------------------------------------------------------------
+// Angular Material theme – modern indigo palette, generated to match
+// the design tokens declared in variables.scss.
+// ---------------------------------------------------------------------------
+$brand-palette: (
+  50:  #eef2ff,
+  100: #e0e7ff,
+  200: #c7d2fe,
+  300: #a5b4fc,
+  400: #818cf8,
   500: $primary-color,
-  600: #39424F,
-  700: #333A4B,
-  800: #2D3146,
-  900: #262B3C,
-  A100: #C5CAE9,
-  A200: #39424F,
-  A400: #333A4B,
-  A700: #2D3146,
+  600: $primary-color-dark,
+  700: #3730a3,
+  800: #312e81,
+  900: #1e1b4b,
+  A100: #c7d2fe,
+  A200: #a5b4fc,
+  A400: $primary-color,
+  A700: $primary-color-dark,
   contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: rgba(black, 0.87),
-    A400: white,
-    A700: white,
+    50:  $neutral-800,
+    100: $neutral-800,
+    200: $neutral-800,
+    300: $neutral-900,
+    400: $primary-contrast,
+    500: $primary-contrast,
+    600: $primary-contrast,
+    700: $primary-contrast,
+    800: $primary-contrast,
+    900: $primary-contrast,
+    A100: $neutral-800,
+    A200: $neutral-800,
+    A400: $primary-contrast,
+    A700: $primary-contrast,
   )
 );
 
+$accent-palette: (
+  50:  #f0f9ff,
+  100: #e0f2fe,
+  200: #bae6fd,
+  300: #7dd3fc,
+  400: #38bdf8,
+  500: $secondary-color,
+  600: $secondary-color-dark,
+  700: #0369a1,
+  800: #075985,
+  900: #0c4a6e,
+  A100: #bae6fd,
+  A200: #7dd3fc,
+  A400: $secondary-color,
+  A700: $secondary-color-dark,
+  contrast: (
+    50:  $neutral-800,
+    100: $neutral-800,
+    200: $neutral-800,
+    300: $neutral-900,
+    400: $primary-contrast,
+    500: $primary-contrast,
+    600: $primary-contrast,
+    700: $primary-contrast,
+    800: $primary-contrast,
+    900: $primary-contrast,
+    A100: $neutral-800,
+    A200: $neutral-800,
+    A400: $primary-contrast,
+    A700: $primary-contrast,
+  )
+);
 
-$primary: mat.define-palette($my-palette, 500);
-$accent: mat.define-palette($my-palette, 200);
+$primary: mat.define-palette($brand-palette, 500);
+$accent:  mat.define-palette($accent-palette, 500);
+$warn:    mat.define-palette(mat.$red-palette, 500);
+
+$app-typography: mat.define-typography-config(
+  $font-family: "'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif",
+);
 
 $my-theme: mat.define-light-theme((
- color: (
-   primary: $primary,
-   accent: $accent,
- )
+  color: (
+    primary: $primary,
+    accent:  $accent,
+    warn:    $warn,
+  ),
+  typography: $app-typography,
+  density: 0,
 ));
 
 @include mat.all-component-themes($my-theme);
-@include ngxMultipleDates.multiple-dates-theme($my-theme); 
+@include ngxMultipleDates.multiple-dates-theme($my-theme);
 
+// ---------------------------------------------------------------------------
+// Design tokens exposed as CSS variables so component styles that can't
+// import SCSS can still consume them.
+// ---------------------------------------------------------------------------
 :root {
-    --primary: $primary;
-    --accent: $accent;
+  --primary: #{$primary-color};
+  --primary-dark: #{$primary-color-dark};
+  --primary-light: #{$primary-color-light};
+  --accent: #{$secondary-color};
+  --success: #{$success-color};
+  --warning: #{$warning-color};
+  --danger: #{$danger-color};
+
+  --surface: #{$surface};
+  --surface-muted: #{$surface-muted};
+  --app-background: #{$app-background};
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --border-color: #{$border-color};
+
+  --toolbar-height: #{$toolbar-height};
+  --drawer-width: #{$drawer-width};
+
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+  --radius-xl: #{$radius-xl};
+  --radius-pill: #{$radius-pill};
+
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+
+  --transition: #{$transition};
+
+  color-scheme: light;
+}
+
+// ---------------------------------------------------------------------------
+// Global reset & base typography
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html, body {
-    height: 100%; 
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
+  margin: 0;
+  min-height: 100%;
+  font-family: 'Inter', Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: $text-primary;
+  background: linear-gradient(180deg, $app-background 0%, $neutral-50 100%);
 }
 
-
-button { 
-    border-radius: 50px !important; 
+h1, h2, h3, h4, h5, h6 {
+  color: $text-primary;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 $space-3;
 }
 
+h1 { font-size: 1.875rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.0625rem; }
 
+p { margin: 0 0 $space-3; }
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover { color: $primary-color-dark; }
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+// ---------------------------------------------------------------------------
+// Material overrides – pill buttons, softer form fields, elevated dialogs
+// ---------------------------------------------------------------------------
+
+// Only round labelled/flat/stroked/raised buttons; do NOT touch mat-icon-button
+// (it must stay circular).
+button.mat-mdc-button,
+button.mat-mdc-raised-button,
+button.mat-mdc-unelevated-button,
+button.mat-mdc-outlined-button,
+a.mat-mdc-button,
+a.mat-mdc-raised-button,
+a.mat-mdc-unelevated-button,
+a.mat-mdc-outlined-button {
+  border-radius: $radius-pill !important;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+  transition: transform $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
+
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:not(:disabled):active { transform: translateY(0); }
+}
+
+button.mat-mdc-icon-button {
+  transition: background-color $transition-fast;
+}
+
+// Toolbar – flat, bordered, no default elevation
+.mat-toolbar.mat-primary {
+  background: $surface;
+  color: $text-primary;
+  border-bottom: 1px solid $border-color;
+  box-shadow: $shadow-xs;
+}
+
+// Cards – softer edges & modern elevation
+.mat-mdc-card {
+  border-radius: $radius-lg !important;
+  box-shadow: $shadow-sm !important;
+  border: 1px solid $border-color;
+  background: $surface;
+}
+
+// Dialogs
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: $radius-lg !important;
+  box-shadow: $shadow-lg !important;
+}
+
+// Menus
+.mat-mdc-menu-panel {
+  border-radius: $radius-md !important;
+  box-shadow: $shadow-md !important;
+}
+
+// Snackbar
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  border-radius: $radius-md !important;
+}
+
+// Tables – modern, borderless look with subtle row separators
+.mat-mdc-table {
+  background: transparent;
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  .mat-mdc-header-row {
+    background: $surface-muted;
+    min-height: 48px;
+  }
+
+  .mat-mdc-header-cell {
+    color: $text-secondary;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .mat-mdc-row {
+    transition: background-color $transition-fast;
+
+    &:hover { background: $surface-muted; }
+  }
+
+  .mat-mdc-cell {
+    color: $text-primary;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
+  }
+}
+
+// Elevation utility used on tables – flatten it, we style ourselves
+.mat-mdc-table.mat-elevation-z8 {
+  box-shadow: $shadow-sm !important;
+  border: 1px solid $border-color;
+  background: $surface;
+}
+
+// Tabs
+.mat-mdc-tab-header {
+  border-bottom: 1px solid $border-color;
+}
+
+// Form fields – tighter, modern padding
+.mat-mdc-form-field {
+  font-family: inherit;
+}
+
+// Chips
+.mat-mdc-chip {
+  border-radius: $radius-pill !important;
+}
+
+// Paginator
+.mat-mdc-paginator {
+  background: transparent;
+  color: $text-secondary;
+}
+
+// Progress bar
+.mat-mdc-progress-bar {
+  border-radius: $radius-pill;
+  overflow: hidden;
+}
+
+// mat-error consistent size
+mat-error {
+  font-size: 0.8125rem;
+}
+
+// Fix historical selectors that referenced legacy form-field internals
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
-    padding: 0;
+  padding: 0;
 }
 
-::ng-deep .mat-form-field-appearance-fill .mat-input-element {
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-}
-
-::ng-deep .mat-form-field-appearance-fill .mat-select {
-    padding: 0;
-    background-color: transparent;
-}
-
-::ng-deep .mat-form-field-appearance-fill .mat-select .mat-select-value {
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-}
-
-::ng-deep .mat-form-field-appearance-fill .mat-select-trigger {
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-}
-
-mat-error{
-    font-size: 14px;
+// ---------------------------------------------------------------------------
+// Scrollbars
+// ---------------------------------------------------------------------------
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $neutral-300 transparent;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
-  margin: 2px;
+  width: 10px;
+  height: 10px;
 }
-  
+
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background-color: $neutral-300;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: $radius-pill;
+  transition: background-color $transition-fast;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: $neutral-400;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+// ---------------------------------------------------------------------------
+// Utility classes
+// ---------------------------------------------------------------------------
+.page {
+  padding: $space-6;
+  min-height: 100%;
+
+  @media (max-width: $mobile-breakpoint) {
+    padding: $space-4;
+  }
+}
+
+.page-title {
+  margin: 0 0 $space-2;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  color: $text-secondary;
+  margin: 0 0 $space-5;
+}
+
+.stack { display: flex; flex-direction: column; gap: $space-4; }
+.row   { display: flex; flex-direction: row; gap: $space-3; align-items: center; }
+.wrap  { flex-wrap: wrap; }
+.spacer-flex { flex: 1 1 auto; }
+.text-center { text-align: center; }
+.text-secondary { color: $text-secondary; }
+
+.card-surface {
+  background: $surface;
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: $space-5;
+}
+
+// Selection highlight
+::selection {
+  background: rgba(79, 70, 229, 0.18);
+  color: inherit;
+}
+
+// Focus ring for keyboard users on our own interactive elements
+:focus-visible {
+  outline: none;
+  box-shadow: $shadow-focus;
+  border-radius: $radius-sm;
 }

@@ -88,6 +88,9 @@ import { CreateSensorComponent } from './components/create-sensor/create-sensor.
 import { ContactPhoneNumbersComponent } from './components/contact-phone-numbers/contact-phone-numbers.component';
 import { CreateNewContactPhoneNumberComponent } from './components/create-new-contact-phone-number/create-new-contact-phone-number.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
+import { ResponseDocumentsComponent } from './components/response-documents/response-documents.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 export const routes: Routes = [
@@ -103,7 +106,9 @@ export const routes: Routes = [
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -159,7 +164,8 @@ export function HttpLoaderFactory(http: HttpClient){
     MatExpansionModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonToggleModule
   ],
   declarations: [
     AppComponent,
@@ -211,7 +217,9 @@ export function HttpLoaderFactory(http: HttpClient){
     CreateSensorComponent,
     ContactPhoneNumbersComponent,
     CreateNewContactPhoneNumberComponent,
-    EditContactComponent
+    EditContactComponent,
+    ResponseDocumentsComponent,
+    StatisticsComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

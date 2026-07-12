@@ -1,8 +1,10 @@
 .container {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 400px;
-    min-width: 400px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-width: min(360px, 90vw);
+  max-width: 480px;
+  box-sizing: border-box;
 }

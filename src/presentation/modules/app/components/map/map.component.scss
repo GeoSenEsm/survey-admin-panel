@@ -1,10 +1,31 @@
-.container{
-    padding: 10px;
+@import "../../../../../styles/variables.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.container {
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
 #map {
-    width: 100%;
-    height: calc(100vh - 250px);
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 320px;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-xs;
+  background: $surface;
 }
 
 .spinner-container {
@@ -12,29 +33,33 @@
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  padding: 20px;
+  padding: $space-5;
 }
 
 .loading-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: $space-5;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .progress-info {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $space-2;
 }
 
 .progress-text {
   display: flex;
   justify-content: center;
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
+  font-size: 0.875rem;
+  color: $text-secondary;
+  margin-top: $space-1;
+}
+
+@media (max-width: $mobile-breakpoint) {
+  .container { padding: $space-3; }
 }

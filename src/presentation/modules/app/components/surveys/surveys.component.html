@@ -1,4 +1,15 @@
 <div class="container">
+    <div class="header">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="createNew()"
+      >
+        <mat-icon>add</mat-icon>
+        {{ 'surveys.createNew' | translate }}
+      </button>
+    </div>
+
     <div class="surveys-container">
       <app-survey-tile
       *ngFor="let survey of surveys"

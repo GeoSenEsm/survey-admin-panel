@@ -1,19 +1,40 @@
-.container{
-    height: 100vh;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 10px;
-    text-align: center;
+.container {
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
 
 .surveys-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 1300px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+  color: var(--text-secondary);
 }
 
 mat-spinner {
-    margin: 0 auto;
+  margin: 40px auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .surveys-container {
+    grid-template-columns: 1fr;
+  }
 }

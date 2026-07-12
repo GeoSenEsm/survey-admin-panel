@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "Befragte",
       "surveys": "Umfragen",
-      "creatingSurveys": "Umfragen erstellen",
+      "createSurvey": "Umfrage erstellen",
       "results": "Ergebnisse",
       "logout": "Abmelden",
       "startSurvey": "Erstumfrage",
@@ -31,11 +31,36 @@
       "map": "Karte",
       "configuration": "Konfiguration",
       "changeAdminPassword": "Passwort ändern",
+      "userGuide": "Benutzerhandbuch",
       "sensorDevices": "Sensorgeräte",
       "someElementsNeedRefreshing": "Einige Elemente erfordern ein Neuladen der Seite, um die Sprachänderung anzuwenden.",
       "ok": "OK",
-      "contactPhoneNumbers": "Kontaktnummern"
+      "contactPhoneNumbers": "Kontaktnummern",
+      "responseDocuments": "Antwortdokumente",
+      "statistics": "Statistiken"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Umfrage",
+      "anySurvey": "Beliebige Umfrage",
+      "dateFrom": "Von",
+      "dateTo": "Bis",
+      "apply": "Anwenden",
+      "clear": "Löschen"
+    },
+    "columns": {
+      "participationDate": "Teilnahmedatum",
+      "surveyName": "Umfrage",
+      "respondent": "Befragter",
+      "answers": "Antworten",
+      "actions": "Aktionen"
+    },
+    "download": "JSON herunterladen",
+    "exportZip": "ZIP exportieren",
+    "nothingToDisplay": "Keine passenden Antwortdokumente.",
+    "loadError": "Antwortdokumente konnten nicht geladen werden.",
+    "exportError": "Antwortdokumente konnten nicht exportiert werden."
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "Beim Laden ist ein Fehler aufgetreten.",
     "retry": "Erneut versuchen",
     "noSurveys": "Keine Umfragen",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "createNew": "Umfrage erstellen"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "participant": "Pro Teilnehmer"
+    },
+    "selectParticipant": "Teilnehmer auswählen",
+    "loadError": "Statistiken konnten nicht geladen werden.",
+    "kpi": {
+      "studyWindow": "Studienzeitraum",
+      "participants": "Teilnehmer",
+      "filledVsAvailable": "Ausgefüllt / Verfügbar",
+      "locationData": "Standortdaten",
+      "sensorData": "Sensormesswerte",
+      "username": "Teilnehmer"
+    },
+    "charts": {
+      "participations": "Umfrageantworten pro Tag",
+      "locationData": "Standortdaten pro Tag",
+      "sensorData": "Sensormesswerte pro Tag",
+      "filledVsAvailable": "Ausgefüllte vs. verfügbare Umfragen",
+      "filledVsAvailableTop": "Top-Teilnehmer: ausgefüllt vs. verfügbar"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elemente pro Seite:",

@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "Répondants",
       "surveys": "Enquêtes",
-      "creatingSurveys": "Création d'enquêtes",
+      "createSurvey": "Créer une enquête",
       "results": "Résultats",
       "logout": "Déconnexion",
       "startSurvey": "Enquête initiale",
@@ -31,11 +31,36 @@
       "map": "Carte",
       "configuration": "Configuration",
       "changeAdminPassword": "Changer le mot de passe",
+      "userGuide": "Guide de l'utilisateur",
       "sensorDevices": "Capteurs",
       "someElementsNeedRefreshing": "Certains éléments nécessitent un rafraîchissement de la page pour appliquer le changement de langue.",
       "ok": "OK",
-      "contactPhoneNumbers": "Numéros de contact"
+      "contactPhoneNumbers": "Numéros de contact",
+      "responseDocuments": "Documents de réponse",
+      "statistics": "Statistiques"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Sondage",
+      "anySurvey": "N'importe quel sondage",
+      "dateFrom": "Du",
+      "dateTo": "Au",
+      "apply": "Appliquer",
+      "clear": "Effacer"
+    },
+    "columns": {
+      "participationDate": "Date de participation",
+      "surveyName": "Sondage",
+      "respondent": "Répondant",
+      "answers": "Réponses",
+      "actions": "Actions"
+    },
+    "download": "Télécharger le JSON",
+    "exportZip": "Exporter en ZIP",
+    "nothingToDisplay": "Aucun document ne correspond au filtre.",
+    "loadError": "Impossible de charger les documents de réponse.",
+    "exportError": "Impossible d'exporter les documents de réponse."
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "Une erreur s'est produite lors du chargement.",
     "retry": "Réessayer",
     "noSurveys": "Aucune enquête",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "createNew": "Créer une enquête"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "participant": "Par participant"
+    },
+    "selectParticipant": "Sélectionner un participant",
+    "loadError": "Impossible de charger les statistiques.",
+    "kpi": {
+      "studyWindow": "Fenêtre d'étude",
+      "participants": "Participants",
+      "filledVsAvailable": "Remplies / Disponibles",
+      "locationData": "Données de localisation",
+      "sensorData": "Mesures des capteurs",
+      "username": "Participant"
+    },
+    "charts": {
+      "participations": "Réponses par jour",
+      "locationData": "Données de localisation par jour",
+      "sensorData": "Mesures des capteurs par jour",
+      "filledVsAvailable": "Enquêtes remplies vs disponibles",
+      "filledVsAvailableTop": "Participants les plus actifs : remplies vs disponibles"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Éléments par page :",

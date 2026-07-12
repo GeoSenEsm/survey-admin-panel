@@ -1,13 +1,27 @@
-mat-card{
-    width: 1000px;
+:host { display: block; width: 100%; }
+
+mat-card {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.question-field{
-    width: 50%;
+mat-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
-mat-card-footer{
-    padding: 10px;
-    display: flex;
-    gap: 10px;
+.question-field {
+  flex: 1 1 320px;
+  min-width: 0;
+  width: 100%;
+}
+
+mat-card-footer {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }

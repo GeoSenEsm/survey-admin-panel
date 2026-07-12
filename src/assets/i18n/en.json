@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "Respondents",
       "surveys": "Surveys",
-      "creatingSurveys": "Creating surveys",
+      "createSurvey": "Create survey",
       "results": "Results",
       "logout": "Logout",
       "startSurvey": "Initial survey",
@@ -31,11 +31,36 @@
       "map": "Map",
       "configuration": "Configuration",
       "changeAdminPassword": "Change password",
+      "userGuide": "User guide",
       "sensorDevices": "Sensor devices",
       "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
       "ok": "OK",
-      "contactPhoneNumbers": "Contact numbers"
+      "contactPhoneNumbers": "Contact numbers",
+      "responseDocuments": "Response documents",
+      "statistics": "Statistics"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Survey",
+      "anySurvey": "Any survey",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "apply": "Apply",
+      "clear": "Clear"
+    },
+    "columns": {
+      "participationDate": "Participation date",
+      "surveyName": "Survey",
+      "respondent": "Respondent",
+      "answers": "Answers",
+      "actions": "Actions"
+    },
+    "download": "Download JSON",
+    "exportZip": "Export ZIP",
+    "nothingToDisplay": "No response documents match the current filter.",
+    "loadError": "Could not load response documents.",
+    "exportError": "Could not export response documents."
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "An error occurred while loading.",
     "retry": "Try again",
     "noSurveys": "No surveys",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "createNew": "Create survey"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "participant": "Per participant"
+    },
+    "selectParticipant": "Select participant",
+    "loadError": "Could not load statistics.",
+    "kpi": {
+      "studyWindow": "Study window",
+      "participants": "Participants",
+      "filledVsAvailable": "Filled / Available",
+      "locationData": "Location data",
+      "sensorData": "Sensor readings",
+      "username": "Participant"
+    },
+    "charts": {
+      "participations": "Survey responses per day",
+      "locationData": "Location data per day",
+      "sensorData": "Sensor readings per day",
+      "filledVsAvailable": "Surveys filled vs available",
+      "filledVsAvailableTop": "Top participants: filled vs available"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Items per page:",

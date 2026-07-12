@@ -28,6 +28,13 @@ export class ApiService {
     return this.httpClient.get<T>(this.baseUrl + url, { params: this.toHttpParams(params) });
   }
 
+  protected getBlob(url: string, params?: QureyParams): Observable<Blob> {
+    return this.httpClient.get(this.baseUrl + url, {
+      params: this.toHttpParams(params),
+      responseType: 'blob',
+    });
+  }
+
   protected getWithProgress<T>(url: string, params?: QureyParams): Observable<HttpEvent<T>> {
     return this.httpClient.get<T>(this.baseUrl + url, {
       params: this.toHttpParams(params),

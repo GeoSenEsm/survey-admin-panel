@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "Respondenci",
       "surveys": "Ankiety",
-      "creatingSurveys": "Tworzenie ankiet",
+      "createSurvey": "Utwórz ankietę",
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
@@ -31,11 +31,36 @@
       "map": "Mapa",
       "configuration": "Konfiguracja",
       "changeAdminPassword": "Zmiana hasła",
+      "userGuide": "Podręcznik użytkownika",
       "sensorDevices": "Czujniki",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
       "ok": "OK",
-      "contactPhoneNumbers": "Numery kontaktowe"
+      "contactPhoneNumbers": "Numery kontaktowe",
+      "responseDocuments": "Dokumenty odpowiedzi",
+      "statistics": "Statystyki"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Ankieta",
+      "anySurvey": "Dowolna ankieta",
+      "dateFrom": "Od",
+      "dateTo": "Do",
+      "apply": "Zastosuj",
+      "clear": "Wyczyść"
+    },
+    "columns": {
+      "participationDate": "Data uczestnictwa",
+      "surveyName": "Ankieta",
+      "respondent": "Respondent",
+      "answers": "Odpowiedzi",
+      "actions": "Akcje"
+    },
+    "download": "Pobierz JSON",
+    "exportZip": "Eksportuj ZIP",
+    "nothingToDisplay": "Brak dokumentów pasujących do filtrów.",
+    "loadError": "Nie udało się pobrać dokumentów odpowiedzi.",
+    "exportError": "Nie udało się wyeksportować dokumentów odpowiedzi."
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "Wystąpił bład podczas ładowania.",
     "retry": "Spróbuj ponownie",
     "noSurveys": "Brak ankiet",
-    "refresh": "Odśwież"
+    "refresh": "Odśwież",
+    "createNew": "Utwórz ankietę"
+  },
+  "statistics": {
+    "view": {
+      "global": "Globalnie",
+      "participant": "Uczestnik"
+    },
+    "selectParticipant": "Wybierz uczestnika",
+    "loadError": "Nie udało się załadować statystyk.",
+    "kpi": {
+      "studyWindow": "Okres badania",
+      "participants": "Uczestnicy",
+      "filledVsAvailable": "Wypełnione / Dostępne",
+      "locationData": "Dane lokalizacyjne",
+      "sensorData": "Odczyty czujników",
+      "username": "Uczestnik"
+    },
+    "charts": {
+      "participations": "Wypełnione ankiety dziennie",
+      "locationData": "Dane lokalizacyjne dziennie",
+      "sensorData": "Odczyty czujników dziennie",
+      "filledVsAvailable": "Wypełnione vs dostępne ankiety",
+      "filledVsAvailableTop": "Najaktywniejsi uczestnicy: wypełnione vs dostępne"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementów na stronie:",

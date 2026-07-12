@@ -1,10 +1,96 @@
-$primary-color: #3E434F;
-$backgrouod-primary: #ffffff;
-$background-secondary: #f4f4f4;
-$color-on-backgroung: #f4f4f4;
-$background-thetriary: #49454F;
-$background-quaternary: #79747E;
-$text-on-backgroung-secondary: #ffffff;
-$text-on-background-thetrairy: #f4f4f4;
+// ===========================================================================
+// Design tokens
+// A single source of truth for colors, spacing, radii, shadows and typography.
+// All values are exposed both as SCSS variables and as CSS custom properties
+// (see styles.scss :root block) so component styles can pick either up.
+// ===========================================================================
 
-$success-color: #4CAF50;
+// Brand palette --------------------------------------------------------------
+$primary-color: #4f46e5;          // Indigo 600 – modern brand accent
+$primary-color-dark: #4338ca;     // Hover / pressed
+$primary-color-light: #eef2ff;    // Tinted surface
+$primary-contrast: #ffffff;
+
+$secondary-color: #0ea5e9;        // Sky 500 – accent
+$secondary-color-dark: #0284c7;
+
+// Neutral scale --------------------------------------------------------------
+$neutral-0:  #ffffff;
+$neutral-50: #f8fafc;
+$neutral-100: #f1f5f9;
+$neutral-200: #e2e8f0;
+$neutral-300: #cbd5e1;
+$neutral-400: #94a3b8;
+$neutral-500: #64748b;
+$neutral-600: #475569;
+$neutral-700: #334155;
+$neutral-800: #1e293b;
+$neutral-900: #0f172a;
+
+// Semantic colors ------------------------------------------------------------
+$success-color: #10b981;
+$success-bg:    #ecfdf5;
+$warning-color: #f59e0b;
+$warning-bg:    #fffbeb;
+$danger-color:  #ef4444;
+$danger-bg:     #fef2f2;
+$info-color:    #3b82f6;
+$info-bg:       #eff6ff;
+
+// Surfaces -------------------------------------------------------------------
+$surface:              $neutral-0;
+$surface-muted:        $neutral-50;
+$surface-elevated:     $neutral-0;
+$app-background:       $neutral-100;
+$text-primary:         $neutral-800;
+$text-secondary:       $neutral-500;
+$text-on-primary:      $primary-contrast;
+$border-color:         $neutral-200;
+
+// Legacy aliases (kept so existing imports keep working) --------------------
+$backgrouod-primary:            $surface;
+$background-secondary:          $surface-muted;
+$color-on-backgroung:           $neutral-100;
+$background-thetriary:          $neutral-700;
+$background-quaternary:         $neutral-500;
+$text-on-backgroung-secondary:  $primary-contrast;
+$text-on-background-thetrairy:  $neutral-100;
+
+// Layout ---------------------------------------------------------------------
+$toolbar-height: 64px;
+$toolbar-height-compact: 56px;
+$drawer-width: 264px;
+$drawer-width-compact: 240px;
+
+$mobile-breakpoint: 768px;
+$tablet-breakpoint: 1024px;
+
+// Spacing scale (rem, 4px base) ---------------------------------------------
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+
+// Radii ----------------------------------------------------------------------
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$radius-xl: 22px;
+$radius-pill: 999px;
+
+// Shadows --------------------------------------------------------------------
+$shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+$shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+$shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.04);
+$shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12), 0 4px 8px rgba(15, 23, 42, 0.05);
+$shadow-focus: 0 0 0 3px rgba(79, 70, 229, 0.25);
+
+// Motion ---------------------------------------------------------------------
+$transition-fast: 120ms cubic-bezier(.2, .8, .2, 1);
+$transition: 180ms cubic-bezier(.2, .8, .2, 1);
+$transition-slow: 260ms cubic-bezier(.2, .8, .2, 1);

@@ -23,7 +23,7 @@
     "dashboard": {
       "respondents": "受访者",
       "surveys": "问卷",
-      "creatingSurveys": "创建问卷",
+      "createSurvey": "创建问卷",
       "results": "结果",
       "logout": "退出登录",
       "startSurvey": "初始问卷",
@@ -31,11 +31,36 @@
       "map": "地图",
       "configuration": "配置",
       "changeAdminPassword": "修改密码",
+      "userGuide": "用户指南",
       "sensorDevices": "传感器设备",
       "someElementsNeedRefreshing": "部分元素需要刷新页面后才能应用语言更改。",
       "ok": "确定",
-      "contactPhoneNumbers": "联系电话"
+      "contactPhoneNumbers": "联系电话",
+      "responseDocuments": "回答文档",
+      "statistics": "统计"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "调查",
+      "anySurvey": "全部调查",
+      "dateFrom": "从",
+      "dateTo": "到",
+      "apply": "应用",
+      "clear": "清除"
+    },
+    "columns": {
+      "participationDate": "参与日期",
+      "surveyName": "调查",
+      "respondent": "受访者",
+      "answers": "回答",
+      "actions": "操作"
+    },
+    "download": "下载 JSON",
+    "exportZip": "导出 ZIP",
+    "nothingToDisplay": "没有符合筛选条件的文档。",
+    "loadError": "无法加载回答文档。",
+    "exportError": "无法导出回答文档。"
   },
   "respondents": {
     "addRespondents": {
@@ -439,7 +464,31 @@
     "loadingError": "加载时发生错误。",
     "retry": "重试",
     "noSurveys": "无问卷",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "createNew": "创建问卷"
+  },
+  "statistics": {
+    "view": {
+      "global": "全局",
+      "participant": "按参与者"
+    },
+    "selectParticipant": "选择参与者",
+    "loadError": "无法加载统计数据。",
+    "kpi": {
+      "studyWindow": "研究时段",
+      "participants": "参与者",
+      "filledVsAvailable": "已填写 / 可用",
+      "locationData": "位置数据",
+      "sensorData": "传感器数据",
+      "username": "参与者"
+    },
+    "charts": {
+      "participations": "每日问卷回答数",
+      "locationData": "每日位置数据",
+      "sensorData": "每日传感器数据",
+      "filledVsAvailable": "已填写 vs 可用问卷",
+      "filledVsAvailableTop": "最活跃参与者：已填写 vs 可用"
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "每页项目数：",

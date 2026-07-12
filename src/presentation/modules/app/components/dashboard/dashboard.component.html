@@ -1,84 +1,130 @@
-<mat-toolbar color="primary" class="toolbar">
-  <button mat-icon-button class="hamburger" (click)="toggleDrawer()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>GeoSenEsm</span>
-  <span class="spacer"></span>
-  <mat-form-field class="toolbar-select map-provider-select" appearance="outline" subscriptSizing="dynamic">
-    <mat-select [(value)]="selectedMapProvider" aria-label="Map provider">
-      <mat-select-trigger>
-        <span class="toolbar-select-trigger">
-          <mat-icon class="toolbar-select-icon">map</mat-icon>
-          <span class="toolbar-select-text">{{ selectedMapProvider === 'baidu' ? 'Baidu' : 'OpenStreetMap' }}</span>
-        </span>
-      </mat-select-trigger>
-      <mat-option *ngFor="let provider of toolbarMapProviders" [value]="provider.value">
-        {{ provider.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="toolbar-select language-select" appearance="outline" subscriptSizing="dynamic">
-    <mat-select [(value)]="language">
-      <mat-select-trigger>
-        <span class="flag-and-text">
-          <img
-            class="flag"
-            src="assets/imgs/flags/{{ language }}.svg"
-            alt="{{ language }} flag"
-          />
-          <span class="lang-span">{{ langageDisplayMappings[language] }}</span>
-        </span>
-      </mat-select-trigger>
-      <mat-option *ngFor="let lang of availableLanguages" [value]="lang">
-        <span class="flag-and-text">
-          <img
-            class="flag"
-            src="assets/imgs/flags/{{ lang }}.svg"
-            alt="{{ lang }} flag"
-          />
-          <span>{{ langageDisplayMappings[lang] }}</span>
-        </span>
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div class="avatar-chip">
-    <span class="avatar-initials">{{ avatarInitials }}</span>
-  </div>
-  <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-    <mat-icon> arrow_drop_down </mat-icon>
-  </button>
-  <mat-menu #profileMenu="matMenu">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      {{ "app.dashboard.logout" | translate }}
+<div class="app-shell" [class.is-mobile]="isMobile" [class.drawer-collapsed]="!isDrawerOpen && !isMobile">
+  <mat-toolbar class="toolbar" color="primary">
+    <button
+      mat-icon-button
+      class="menu-button"
+      (click)="toggleDrawer()"
+      aria-label="Toggle navigation"
+    >
+      <mat-icon>menu</mat-icon>
     </button>
-    <button mat-menu-item (click)="changePassword()">
-      <mat-icon>lock</mat-icon>
-      {{ "app.dashboard.changeAdminPassword" | translate }}
+
+    <div class="brand">
+      <img class="brand-logo" src="assets/imgs/logo.png" alt="GeoSenEsm logo" />
+      <span class="brand-name">GeoSenEsm</span>
+    </div>
+
+    <span class="spacer"></span>
+
+    <mat-form-field
+      class="toolbar-select map-provider-select hide-on-mobile"
+      appearance="outline"
+      subscriptSizing="dynamic"
+    >
+      <mat-select [(value)]="selectedMapProvider" aria-label="Map provider">
+        <mat-select-trigger>
+          <span class="toolbar-select-trigger">
+            <mat-icon class="toolbar-select-icon">map</mat-icon>
+            <span class="toolbar-select-text">{{
+              selectedMapProvider === "baidu" ? "Baidu" : "OpenStreetMap"
+            }}</span>
+          </span>
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let provider of toolbarMapProviders"
+          [value]="provider.value"
+        >
+          {{ provider.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field
+      class="toolbar-select language-select"
+      appearance="outline"
+      subscriptSizing="dynamic"
+    >
+      <mat-select [(value)]="language">
+        <mat-select-trigger>
+          <span class="flag-and-text">
+            <img
+              class="flag"
+              src="assets/imgs/flags/{{ language }}.svg"
+              alt="{{ language }} flag"
+            />
+            <span class="lang-span">{{ langageDisplayMappings[language] }}</span>
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let lang of availableLanguages" [value]="lang">
+          <span class="flag-and-text">
+            <img
+              class="flag"
+              src="assets/imgs/flags/{{ lang }}.svg"
+              alt="{{ lang }} flag"
+            />
+            <span>{{ langageDisplayMappings[lang] }}</span>
+          </span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-button
+      class="profile-button"
+      [matMenuTriggerFor]="profileMenu"
+      aria-label="Profile menu"
+    >
+      <span class="avatar-chip">
+        <span class="avatar-initials">{{ avatarInitials }}</span>
+      </span>
+      <mat-icon class="profile-caret">arrow_drop_down</mat-icon>
     </button>
-  </mat-menu>
-</mat-toolbar>
-<mat-drawer-container class="container">
-  <mat-drawer mode="side" [opened]="isDrawerOpen">
-    <mat-nav-list>
-      <mat-list-item
-        *ngFor="let navListItem of navListItems"
-        class="vertical-middle"
-        routerLink="{{ navListItem.link }}"
-      >
-        <mat-icon class="vertical-middle">{{ navListItem.matIcon }}</mat-icon>
-        <span class="vertical-middle">{{
-          navListItem.display | translate
-        }}</span>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content
-    [ngClass]="{
-      'hide-overflow': shouldHideOverflow(),
-      'auto-overflow': !shouldHideOverflow()
-    }"
-  >
-    <router-outlet />
-  </mat-drawer-content>
-</mat-drawer-container>
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        {{ "app.dashboard.logout" | translate }}
+      </button>
+      <button mat-menu-item (click)="changePassword()">
+        <mat-icon>lock</mat-icon>
+        {{ "app.dashboard.changeAdminPassword" | translate }}
+      </button>
+      <button mat-menu-item (click)="openUserGuide()">
+        <mat-icon>menu_book</mat-icon>
+        {{ "app.dashboard.userGuide" | translate }}
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-drawer-container class="container" [hasBackdrop]="isMobile">
+    <mat-drawer
+      class="side-drawer"
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="isDrawerOpen"
+      (closedStart)="isDrawerOpen = false"
+    >
+      <nav class="nav">
+        <a
+          *ngFor="let navListItem of navListItems"
+          class="nav-item"
+          [routerLink]="navListItem.link"
+          routerLinkActive="active"
+          (click)="onNavItemClick()"
+        >
+          <mat-icon class="nav-item-icon">{{ navListItem.matIcon }}</mat-icon>
+          <span class="nav-item-label">{{
+            navListItem.display | translate
+          }}</span>
+        </a>
+      </nav>
+    </mat-drawer>
+    <mat-drawer-content
+      class="content"
+      [ngClass]="{
+        'hide-overflow': shouldHideOverflow(),
+        'auto-overflow': !shouldHideOverflow()
+      }"
+    >
+      <router-outlet />
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

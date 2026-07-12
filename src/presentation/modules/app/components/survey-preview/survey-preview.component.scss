@@ -1,13 +1,20 @@
-.wrap-panel{
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
+.wrap-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.container{
-    padding: 10px;
-    overflow: auto;
-    height: calc(100vh - 150px);
+.container {
+  padding: 16px;
+  overflow: auto;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../../../../core/services/local-storage';
 import {
@@ -15,6 +15,12 @@ import { ChangeAdminPasswordComponent } from '../change-admin-password/change-ad
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
+// Below this viewport width the drawer switches to overlay mode and starts closed.
+const MOBILE_BREAKPOINT_PX = 768;
+
+const USER_GUIDE_URL =
+  'https://github.com/GeoSenEsm/.github/blob/main/profile/GeoSenEsm__User_Guide.pdf';
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -23,12 +29,16 @@ import { MapProvider, MapProviderService } from '../../../../../core/services/ma
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
+  isMobile = false;
+
   private hideScrollViews = [
     '/respondents',
     '/map',
     '/temperature',
     '/summaries',
     '/sensorDevices',
+    '/responseDocuments',
+    '/statistics',
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
@@ -59,11 +69,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly mapProviderService: MapProviderService
   ) {}
+
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.updateResponsiveState();
     this.navigationSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.scrollToTop();
@@ -71,6 +83,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this._language = this.translateService.currentLang;
     this.loadInitials();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.updateResponsiveState();
+  }
+
+  private updateResponsiveState(): void {
+    const nextIsMobile = window.innerWidth < MOBILE_BREAKPOINT_PX;
+    if (nextIsMobile !== this.isMobile) {
+      this.isMobile = nextIsMobile;
+      this.isDrawerOpen = !nextIsMobile;
+    } else if (!this.isMobile) {
+      this.isDrawerOpen = true;
+    }
   }
 
   private scrollToTop(): void {
@@ -119,6 +146,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
+  onNavItemClick(): void {
+    if (this.isMobile) {
+      this.isDrawerOpen = false;
+    }
+  }
+
   private loadInitials(): void {
     const token = this.storage.get<string>('token');
 
@@ -149,5 +182,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   changePassword(): void {
     this.dialog.open(ChangeAdminPasswordComponent);
+  }
+
+  openUserGuide(): void {
+    window.open(USER_GUIDE_URL, '_blank', 'noopener,noreferrer');
   }
 }

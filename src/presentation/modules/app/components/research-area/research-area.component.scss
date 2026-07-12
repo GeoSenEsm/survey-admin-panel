@@ -1,17 +1,47 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;   
+@import "../../../../../styles/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-5;
+  background: $surface;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}
+
+.container h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.container h4 {
+  margin: 0;
+  color: $text-secondary;
+  font-weight: 500;
 }
 
 #research-area-map {
-    width: 100%;
-    height:400px;
+  width: 100%;
+  height: 420px;
+  min-height: 300px;
+  border-radius: $radius-md;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  background: $surface-muted;
 }
 
-.buttons{
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    align-items: center;
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: $space-2;
+  align-items: center;
+}
+
+@media (max-width: $mobile-breakpoint) {
+  .container { padding: $space-3; }
+  #research-area-map { height: 320px; }
 }

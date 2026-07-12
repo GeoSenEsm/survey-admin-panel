@@ -32,14 +32,24 @@ export function getNavListItems(): NavListItem[] {
       link: 'surveys',
     },
     {
-      display: 'app.dashboard.creatingSurveys',
-      matIcon: 'build',
+      display: 'app.dashboard.createSurvey',
+      matIcon: 'add_box',
       link: 'surveys/new',
     },
     {
       display: 'app.dashboard.results',
       matIcon: 'bar_chart',
       link: 'summaries',
+    },
+    {
+      display: 'app.dashboard.responseDocuments',
+      matIcon: 'description',
+      link: 'responseDocuments',
+    },
+    {
+      display: 'app.dashboard.statistics',
+      matIcon: 'insights',
+      link: 'statistics',
     },
     {
       display: 'app.dashboard.temepratureSensors',
