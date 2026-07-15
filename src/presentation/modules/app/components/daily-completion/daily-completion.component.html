@@ -1,0 +1,147 @@
+<div class="container">
+  <section class="toolbar" [formGroup]="filters">
+    <mat-form-field appearance="fill" class="date-field">
+      <mat-label>{{ 'dailyCompletion.filters.date' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dayPicker"
+        readonly
+        formControlName="date"
+        (dateChange)="onDateChange()"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dayPicker" />
+      <mat-datepicker #dayPicker />
+    </mat-form-field>
+
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="goToToday()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>today</mat-icon>
+      {{ 'dailyCompletion.filters.today' | translate }}
+    </button>
+
+    <mat-form-field appearance="fill" class="count-field">
+      <mat-label>{{ 'dailyCompletion.filters.minFilled' | translate }}</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="minFilled"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="count-field">
+      <mat-label>{{ 'dailyCompletion.filters.maxFilled' | translate }}</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="maxFilled"
+      />
+    </mat-form-field>
+
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="clearFilters()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>clear</mat-icon>
+      {{ 'dailyCompletion.filters.clear' | translate }}
+    </button>
+
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="reload()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>refresh</mat-icon>
+      {{ 'dailyCompletion.filters.refresh' | translate }}
+    </button>
+  </section>
+
+  <mat-error *ngIf="loadError" class="load-error">
+    {{ 'dailyCompletion.loadError' | translate }}
+  </mat-error>
+
+  <div class="spinner-row" *ngIf="isLoading">
+    <mat-spinner diameter="40" />
+  </div>
+
+  <ng-container *ngIf="!isLoading && overview as data">
+    <section class="summary">
+      <span class="summary-item">
+        <mat-icon>event</mat-icon>
+        {{ data.date | date: 'longDate' }}
+      </span>
+      <span class="summary-item">
+        <mat-icon>assignment</mat-icon>
+        {{ 'dailyCompletion.summary.slots' | translate: { count: totalSlots() } }}
+      </span>
+      <span class="summary-item">
+        <mat-icon>group</mat-icon>
+        {{
+          'dailyCompletion.summary.respondents'
+            | translate: { visible: filteredRespondents.length, total: data.respondents.length }
+        }}
+      </span>
+    </section>
+
+    <section class="legend">
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed"></span>
+        {{ 'dailyCompletion.legend.completed' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--missed"></span>
+        {{ 'dailyCompletion.legend.missed' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--pending"></span>
+        {{ 'dailyCompletion.legend.pending' | translate }}
+      </span>
+    </section>
+
+    <div class="empty-hint" *ngIf="totalSlots() === 0">
+      <mat-icon>info</mat-icon>
+      <span>{{ 'dailyCompletion.noSlots' | translate }}</span>
+    </div>
+
+    <div class="empty-hint" *ngIf="totalSlots() > 0 && filteredRespondents.length === 0">
+      <mat-icon>filter_alt_off</mat-icon>
+      <span>{{ 'dailyCompletion.noRespondentsMatch' | translate }}</span>
+    </div>
+
+    <div class="grid" *ngIf="totalSlots() > 0 && filteredRespondents.length > 0">
+      <article
+        class="card"
+        *ngFor="let view of filteredRespondents; trackBy: respondentTrackBy"
+      >
+        <header class="card-header">
+          <span class="card-title" [title]="view.respondent.username">
+            {{ view.respondent.username }}
+          </span>
+          <span class="card-count">
+            {{ view.respondent.completedCount }} / {{ totalSlots() }}
+          </span>
+        </header>
+        <div class="stripes">
+          <span
+            *ngFor="let slotView of view.slots; trackBy: slotTrackBy"
+            class="stripe"
+            [class.stripe--completed]="slotView.status === 'completed'"
+            [class.stripe--missed]="slotView.status === 'missed'"
+            [class.stripe--pending]="slotView.status === 'pending'"
+            [matTooltip]="slotView.tooltip"
+            [attr.aria-label]="slotView.tooltip"
+          ></span>
+        </div>
+      </article>
+    </div>
+  </ng-container>
+</div>
