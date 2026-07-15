@@ -37,7 +37,8 @@
       "ok": "OK",
       "contactPhoneNumbers": "Kontaktnummern",
       "responseDocuments": "Antwortdokumente",
-      "statistics": "Statistiken"
+      "statistics": "Statistiken",
+      "dailyCompletion": "Tagesübersicht"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "Ausgefüllte vs. verfügbare Umfragen",
       "filledVsAvailableTop": "Top-Teilnehmer: ausgefüllt vs. verfügbar"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Tag",
+      "today": "Heute",
+      "minFilled": "Min. ausgefüllt",
+      "maxFilled": "Max. ausgefüllt",
+      "clear": "Zurücksetzen",
+      "refresh": "Aktualisieren"
+    },
+    "summary": {
+      "slots": "{{count}} geplante Umfragen",
+      "respondents": "{{visible}} von {{total}} Teilnehmern angezeigt"
+    },
+    "legend": {
+      "completed": "Ausgefüllt",
+      "missed": "Verpasst",
+      "pending": "Ausstehend"
+    },
+    "loadError": "Die Tagesübersicht konnte nicht geladen werden.",
+    "noSlots": "An diesem Tag sind keine Umfragen geplant.",
+    "noRespondentsMatch": "Kein Teilnehmer entspricht den aktuellen Filtern."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elemente pro Seite:",

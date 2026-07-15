@@ -90,6 +90,7 @@ import { CreateNewContactPhoneNumberComponent } from './components/create-new-co
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
 import { ResponseDocumentsComponent } from './components/response-documents/response-documents.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+import { DailyCompletionComponent } from './components/daily-completion/daily-completion.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
@@ -108,7 +109,8 @@ export const routes: Routes = [
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
     {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
     {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'dailyCompletion', component: DailyCompletionComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -219,7 +221,8 @@ export function HttpLoaderFactory(http: HttpClient){
     CreateNewContactPhoneNumberComponent,
     EditContactComponent,
     ResponseDocumentsComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    DailyCompletionComponent
     ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

@@ -38,3 +38,24 @@ export interface GlobalStatsDetail {
   sensorDataPerDay: TimeSeriesPoint[];
   topParticipants: ParticipantStats[];
 }
+
+export interface DailyCompletionTimeSlot {
+  id: string;
+  surveyId: string;
+  surveyName: string;
+  start: string;
+  finish: string;
+}
+
+export interface DailyCompletionRespondent {
+  respondentId: string;
+  username: string;
+  completedTimeSlotIds: string[];
+  completedCount: number;
+}
+
+export interface DailyCompletionOverview {
+  date: string;
+  timeSlots: DailyCompletionTimeSlot[];
+  respondents: DailyCompletionRespondent[];
+}

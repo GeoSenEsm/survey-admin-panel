@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StatisticsService } from '../../domain/external_services/statistics.service';
 import {
+  DailyCompletionOverview,
   GlobalStatsDetail,
   ParticipantStats,
   ParticipantStatsDetail,
@@ -30,5 +31,11 @@ export class StatisticsServiceImpl
 
   getGlobalDetail(): Observable<GlobalStatsDetail> {
     return this.get<GlobalStatsDetail>('/api/statistics/global');
+  }
+
+  getDailyCompletion(isoDate: string): Observable<DailyCompletionOverview> {
+    return this.get<DailyCompletionOverview>('/api/statistics/daily-completion', {
+      date: isoDate,
+    });
   }
 }

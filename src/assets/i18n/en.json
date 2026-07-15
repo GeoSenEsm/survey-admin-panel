@@ -37,7 +37,8 @@
       "ok": "OK",
       "contactPhoneNumbers": "Contact numbers",
       "responseDocuments": "Response documents",
-      "statistics": "Statistics"
+      "statistics": "Statistics",
+      "dailyCompletion": "Daily completion"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "Surveys filled vs available",
       "filledVsAvailableTop": "Top participants: filled vs available"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Day",
+      "today": "Today",
+      "minFilled": "Min filled",
+      "maxFilled": "Max filled",
+      "clear": "Clear",
+      "refresh": "Refresh"
+    },
+    "summary": {
+      "slots": "{{count}} surveys scheduled",
+      "respondents": "Showing {{visible}} of {{total}} respondents"
+    },
+    "legend": {
+      "completed": "Completed",
+      "missed": "Missed",
+      "pending": "Pending"
+    },
+    "loadError": "Could not load the daily overview.",
+    "noSlots": "No surveys were scheduled for this day.",
+    "noRespondentsMatch": "No respondents match the current filters."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Items per page:",

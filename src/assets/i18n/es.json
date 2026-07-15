@@ -37,7 +37,8 @@
       "ok": "OK",
       "contactPhoneNumbers": "Números de contacto",
       "responseDocuments": "Documentos de respuesta",
-      "statistics": "Estadísticas"
+      "statistics": "Estadísticas",
+      "dailyCompletion": "Cumplimiento diario"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "Encuestas completadas vs. disponibles",
       "filledVsAvailableTop": "Participantes principales: completadas vs. disponibles"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Día",
+      "today": "Hoy",
+      "minFilled": "Mín. completadas",
+      "maxFilled": "Máx. completadas",
+      "clear": "Limpiar",
+      "refresh": "Actualizar"
+    },
+    "summary": {
+      "slots": "{{count}} encuestas programadas",
+      "respondents": "Mostrando {{visible}} de {{total}} participantes"
+    },
+    "legend": {
+      "completed": "Completada",
+      "missed": "Perdida",
+      "pending": "Pendiente"
+    },
+    "loadError": "No se pudo cargar la vista diaria.",
+    "noSlots": "No hay encuestas programadas para este día.",
+    "noRespondentsMatch": "Ningún participante coincide con los filtros actuales."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementos por página:",

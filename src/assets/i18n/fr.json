@@ -37,7 +37,8 @@
       "ok": "OK",
       "contactPhoneNumbers": "Numéros de contact",
       "responseDocuments": "Documents de réponse",
-      "statistics": "Statistiques"
+      "statistics": "Statistiques",
+      "dailyCompletion": "Suivi quotidien"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "Enquêtes remplies vs disponibles",
       "filledVsAvailableTop": "Participants les plus actifs : remplies vs disponibles"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Jour",
+      "today": "Aujourd'hui",
+      "minFilled": "Min. remplies",
+      "maxFilled": "Max. remplies",
+      "clear": "Effacer",
+      "refresh": "Actualiser"
+    },
+    "summary": {
+      "slots": "{{count}} enquêtes prévues",
+      "respondents": "{{visible}} sur {{total}} participants affichés"
+    },
+    "legend": {
+      "completed": "Remplie",
+      "missed": "Manquée",
+      "pending": "En attente"
+    },
+    "loadError": "Impossible de charger la vue quotidienne.",
+    "noSlots": "Aucune enquête n'est prévue pour cette journée.",
+    "noRespondentsMatch": "Aucun participant ne correspond aux filtres actuels."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Éléments par page :",

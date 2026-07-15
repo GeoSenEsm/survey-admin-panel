@@ -37,7 +37,8 @@
       "ok": "确定",
       "contactPhoneNumbers": "联系电话",
       "responseDocuments": "回答文档",
-      "statistics": "统计"
+      "statistics": "统计",
+      "dailyCompletion": "每日完成情况"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "已填写 vs 可用问卷",
       "filledVsAvailableTop": "最活跃参与者：已填写 vs 可用"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "日期",
+      "today": "今天",
+      "minFilled": "最少已填",
+      "maxFilled": "最多已填",
+      "clear": "清除",
+      "refresh": "刷新"
+    },
+    "summary": {
+      "slots": "已安排 {{count}} 份问卷",
+      "respondents": "显示 {{visible}} / {{total}} 位参与者"
+    },
+    "legend": {
+      "completed": "已完成",
+      "missed": "已错过",
+      "pending": "待填写"
+    },
+    "loadError": "无法加载当日概览。",
+    "noSlots": "这一天没有安排问卷。",
+    "noRespondentsMatch": "没有参与者符合当前筛选条件。"
   },
   "matPaginator": {
     "itemsPerPageLabel": "每页项目数：",

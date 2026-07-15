@@ -37,7 +37,8 @@
       "ok": "OK",
       "contactPhoneNumbers": "Numery kontaktowe",
       "responseDocuments": "Dokumenty odpowiedzi",
-      "statistics": "Statystyki"
+      "statistics": "Statystyki",
+      "dailyCompletion": "Wypełnienia dzienne"
     }
   },
   "responseDocuments": {
@@ -489,6 +490,28 @@
       "filledVsAvailable": "Wypełnione vs dostępne ankiety",
       "filledVsAvailableTop": "Najaktywniejsi uczestnicy: wypełnione vs dostępne"
     }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Dzień",
+      "today": "Dziś",
+      "minFilled": "Min wypełnionych",
+      "maxFilled": "Maks wypełnionych",
+      "clear": "Wyczyść",
+      "refresh": "Odśwież"
+    },
+    "summary": {
+      "slots": "Zaplanowano ankiet: {{count}}",
+      "respondents": "Widocznych respondentów: {{visible}} z {{total}}"
+    },
+    "legend": {
+      "completed": "Wypełniona",
+      "missed": "Nie wypełniona (minęła)",
+      "pending": "Oczekująca"
+    },
+    "loadError": "Nie udało się załadować podsumowania dnia.",
+    "noSlots": "Na ten dzień nie zaplanowano żadnych ankiet.",
+    "noRespondentsMatch": "Żaden respondent nie spełnia bieżących filtrów."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementów na stronie:",

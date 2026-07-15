@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/sensorDevices',
     '/responseDocuments',
     '/statistics',
+    '/dailyCompletion',
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;

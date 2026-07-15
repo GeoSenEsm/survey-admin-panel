@@ -52,6 +52,11 @@ export function getNavListItems(): NavListItem[] {
       link: 'statistics',
     },
     {
+      display: 'app.dashboard.dailyCompletion',
+      matIcon: 'view_module',
+      link: 'dailyCompletion',
+    },
+    {
       display: 'app.dashboard.temepratureSensors',
       matIcon: 'device_thermostat',
       link: 'temperature',
