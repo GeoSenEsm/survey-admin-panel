@@ -18,7 +18,7 @@
       "passwordRequiredError": "Hasło jest wymagane.",
       "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
       "welcome": "Witamy w panelu administracyjnym GeoSenEsm!",
-      "loginToContinue": "Zaloguj się, aby kontynuować"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Respondenci",
@@ -471,24 +471,38 @@
   "statistics": {
     "view": {
       "global": "Globalnie",
+      "daily": "Dziennie",
       "participant": "Uczestnik"
     },
     "selectParticipant": "Wybierz uczestnika",
+    "selectParticipantHint": "Wpisz nazwę użytkownika…",
+    "noParticipantsMatch": "Brak uczestników pasujących do wyszukiwania",
+    "clearSearch": "Wyczyść wyszukiwanie",
     "loadError": "Nie udało się załadować statystyk.",
+    "dailyDate": "Dzień",
+    "today": "Dziś",
     "kpi": {
       "studyWindow": "Okres badania",
       "participants": "Uczestnicy",
+      "participantsWithSubmissions": "Aktywni uczestnicy",
       "filledVsAvailable": "Wypełnione / Dostępne",
+      "filledVsAvailableActive": "Wypełnione / Dostępne (aktywni)",
+      "filledVsAvailableActiveTooltip": "Aktywni respondenci: {{count}} — tacy, którzy przesłali co najmniej jedną ankietę w ciągu ostatnich {{days}} dni kończących się w wybranym dniu.",
       "locationData": "Dane lokalizacyjne",
       "sensorData": "Odczyty czujników",
-      "username": "Uczestnik"
+      "outsideResearchArea": "Poza obszarem badań",
+      "username": "Uczestnik",
+      "day": "Dzień"
     },
     "charts": {
       "participations": "Wypełnione ankiety dziennie",
       "locationData": "Dane lokalizacyjne dziennie",
       "sensorData": "Odczyty czujników dziennie",
-      "filledVsAvailable": "Wypełnione vs dostępne ankiety",
-      "filledVsAvailableTop": "Najaktywniejsi uczestnicy: wypełnione vs dostępne"
+      "participationsHourly": "Wypełnione ankiety w każdej godzinie",
+      "locationDataHourly": "Dane lokalizacyjne w każdej godzinie",
+      "sensorDataHourly": "Odczyty czujników w każdej godzinie",
+      "outsideResearchArea": "Odpowiedzi poza obszarem badań dziennie",
+      "outsideResearchAreaHourly": "Odpowiedzi poza obszarem badań na godzinę"
     }
   },
   "dailyCompletion": {
@@ -497,15 +511,26 @@
       "today": "Dziś",
       "minFilled": "Min wypełnionych",
       "maxFilled": "Maks wypełnionych",
+      "onlyActive": "Tylko aktywni",
+      "activeWindowDays": "w ciągu (dni)",
       "clear": "Wyczyść",
       "refresh": "Odśwież"
+    },
+    "size": {
+      "title": "Rozmiar kafelka",
+      "width": "Szerokość",
+      "height": "Wysokość",
+      "reset": "Reset"
     },
     "summary": {
       "slots": "Zaplanowano ankiet: {{count}}",
       "respondents": "Widocznych respondentów: {{visible}} z {{total}}"
     },
     "legend": {
-      "completed": "Wypełniona",
+      "completedFull": "Wypełniona + GPS + czujnik",
+      "completedGpsOnly": "Wypełniona + tylko GPS",
+      "completedSensorOnly": "Wypełniona + tylko czujnik",
+      "completedNone": "Wypełniona (bez GPS i czujnika)",
       "missed": "Nie wypełniona (minęła)",
       "pending": "Oczekująca"
     },

@@ -44,6 +44,29 @@
   margin-bottom: -1.25em; /* absorb mat-form-field's built-in wrapper padding */
 }
 
+.autocomplete-primary {
+  font-weight: 500;
+}
+
+.autocomplete-secondary {
+  margin-left: 8px;
+  color: var(--text-secondary, #64748b);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.autocomplete-empty {
+  color: var(--text-secondary, #64748b);
+  font-style: italic;
+}
+
+.daily-date-picker {
+  flex: 0 1 220px;
+  min-width: 200px;
+  max-width: 260px;
+  margin-bottom: -1.25em;
+}
+
 .load-error {
   padding: 8px 16px;
   color: #b3261e;
@@ -82,11 +105,26 @@
 }
 
 .kpi-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-secondary, #64748b);
+}
+
+.kpi-info-icon {
+  font-size: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--text-secondary, #94a3b8);
+  cursor: help;
+}
+
+.kpi--info {
+  cursor: help;
 }
 
 .kpi-value {
@@ -134,10 +172,6 @@
   min-width: 0;
 }
 
-.chart-card--wide {
-  grid-column: 1 / -1;
-}
-
 .chart-title {
   margin: 0;
   font-size: 1rem;
@@ -148,10 +182,6 @@
 .echart {
   width: 100%;
   height: 260px;
-}
-
-.echart--tall {
-  height: 420px;
 }
 
 .spinner-row {
@@ -184,6 +214,10 @@
     flex: 1 1 100%;
     max-width: none;
   }
+  .daily-date-picker {
+    flex: 1 1 100%;
+    max-width: none;
+  }
   .kpi {
     padding: 14px 16px;
   }
@@ -192,8 +226,5 @@
   }
   .echart {
     height: 220px;
-  }
-  .echart--tall {
-    height: 360px;
   }
 }

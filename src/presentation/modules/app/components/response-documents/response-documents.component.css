@@ -12,10 +12,12 @@
   gap: 12px;
   height: 100%;
   min-height: 0;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
 .filters {
+  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -78,6 +80,7 @@ h3 {
 }
 
 mat-paginator {
+  flex: 0 0 auto;
   background: var(--surface, #ffffff);
   border: 1px solid var(--border-color, #e2e8f0);
   border-radius: var(--radius-lg, 16px);
@@ -90,6 +93,7 @@ mat-paginator {
   .container {
     height: auto;
     min-height: 100%;
+    overflow: visible;
   }
 
   .table-container {

@@ -43,6 +43,22 @@
       />
     </mat-form-field>
 
+    <div class="active-filter">
+      <mat-checkbox formControlName="onlyActive">
+        {{ 'dailyCompletion.filters.onlyActive' | translate }}
+      </mat-checkbox>
+      <mat-form-field appearance="fill" class="active-days-field">
+        <mat-label>{{ 'dailyCompletion.filters.activeWindowDays' | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [min]="activeWindowRange.min"
+          [max]="activeWindowRange.max"
+          formControlName="activeWindowDays"
+        />
+      </mat-form-field>
+    </div>
+
     <button
       type="button"
       mat-stroked-button
@@ -62,6 +78,51 @@
     >
       <mat-icon>refresh</mat-icon>
       {{ 'dailyCompletion.filters.refresh' | translate }}
+    </button>
+  </section>
+
+  <section class="size-toolbar">
+    <span class="size-toolbar-title">
+      <mat-icon>photo_size_select_large</mat-icon>
+      {{ 'dailyCompletion.size.title' | translate }}
+    </span>
+    <label class="size-slider">
+      <span class="size-slider-label">
+        {{ 'dailyCompletion.size.width' | translate }}
+        <span class="size-slider-value">{{ cardSize.width }}px</span>
+      </span>
+      <input
+        type="range"
+        [min]="cardWidthRange.min"
+        [max]="cardWidthRange.max"
+        step="5"
+        [value]="cardSize.width"
+        (input)="onCardWidthChange(+$any($event.target).value)"
+        [attr.aria-label]="'dailyCompletion.size.width' | translate"
+      />
+    </label>
+    <label class="size-slider">
+      <span class="size-slider-label">
+        {{ 'dailyCompletion.size.height' | translate }}
+        <span class="size-slider-value">{{ cardSize.height }}px</span>
+      </span>
+      <input
+        type="range"
+        [min]="cardHeightRange.min"
+        [max]="cardHeightRange.max"
+        step="5"
+        [value]="cardSize.height"
+        (input)="onCardHeightChange(+$any($event.target).value)"
+        [attr.aria-label]="'dailyCompletion.size.height' | translate"
+      />
+    </label>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="resetCardSize()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+      {{ 'dailyCompletion.size.reset' | translate }}
     </button>
   </section>
 
@@ -94,8 +155,20 @@
 
     <section class="legend">
       <span class="legend-item">
-        <span class="legend-swatch legend-swatch--completed"></span>
-        {{ 'dailyCompletion.legend.completed' | translate }}
+        <span class="legend-swatch legend-swatch--completed-full"></span>
+        {{ 'dailyCompletion.legend.completedFull' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-gps"></span>
+        {{ 'dailyCompletion.legend.completedGpsOnly' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-sensor"></span>
+        {{ 'dailyCompletion.legend.completedSensorOnly' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-none"></span>
+        {{ 'dailyCompletion.legend.completedNone' | translate }}
       </span>
       <span class="legend-item">
         <span class="legend-swatch legend-swatch--missed"></span>
@@ -117,10 +190,15 @@
       <span>{{ 'dailyCompletion.noRespondentsMatch' | translate }}</span>
     </div>
 
-    <div class="grid" *ngIf="totalSlots() > 0 && filteredRespondents.length > 0">
+    <div
+      class="grid"
+      *ngIf="totalSlots() > 0 && filteredRespondents.length > 0"
+      [style.grid-template-columns]="'repeat(auto-fill, minmax(' + cardSize.width + 'px, 1fr))'"
+    >
       <article
         class="card"
         *ngFor="let view of filteredRespondents; trackBy: respondentTrackBy"
+        [style.height.px]="cardSize.height"
       >
         <header class="card-header">
           <span class="card-title" [title]="view.respondent.username">
@@ -134,7 +212,10 @@
           <span
             *ngFor="let slotView of view.slots; trackBy: slotTrackBy"
             class="stripe"
-            [class.stripe--completed]="slotView.status === 'completed'"
+            [class.stripe--completed-full]="slotView.status === 'completed-full'"
+            [class.stripe--completed-gps]="slotView.status === 'completed-gps'"
+            [class.stripe--completed-sensor]="slotView.status === 'completed-sensor'"
+            [class.stripe--completed-none]="slotView.status === 'completed-none'"
             [class.stripe--missed]="slotView.status === 'missed'"
             [class.stripe--pending]="slotView.status === 'pending'"
             [matTooltip]="slotView.tooltip"

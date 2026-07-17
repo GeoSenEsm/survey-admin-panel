@@ -18,7 +18,7 @@
       "passwordRequiredError": "Password is required.",
       "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters.",
       "welcome": "Welcome to the GeoSenEsm admin panel!",
-      "loginToContinue": "Log in to continue"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Respondents",
@@ -471,24 +471,38 @@
   "statistics": {
     "view": {
       "global": "Global",
+      "daily": "Daily",
       "participant": "Per participant"
     },
     "selectParticipant": "Select participant",
+    "selectParticipantHint": "Type username…",
+    "noParticipantsMatch": "No participants match your search",
+    "clearSearch": "Clear search",
     "loadError": "Could not load statistics.",
+    "dailyDate": "Day",
+    "today": "Today",
     "kpi": {
       "studyWindow": "Study window",
       "participants": "Participants",
+      "participantsWithSubmissions": "Participants active",
       "filledVsAvailable": "Filled / Available",
+      "filledVsAvailableActive": "Filled / Available (active)",
+      "filledVsAvailableActiveTooltip": "Active respondents: {{count}} — those who submitted at least one survey in the last {{days}} days ending on the selected day.",
       "locationData": "Location data",
       "sensorData": "Sensor readings",
-      "username": "Participant"
+      "outsideResearchArea": "Outside research area",
+      "username": "Participant",
+      "day": "Day"
     },
     "charts": {
       "participations": "Survey responses per day",
       "locationData": "Location data per day",
       "sensorData": "Sensor readings per day",
-      "filledVsAvailable": "Surveys filled vs available",
-      "filledVsAvailableTop": "Top participants: filled vs available"
+      "outsideResearchArea": "Responses outside research area per day",
+      "participationsHourly": "Survey responses per hour",
+      "locationDataHourly": "Location data per hour",
+      "sensorDataHourly": "Sensor readings per hour",
+      "outsideResearchAreaHourly": "Responses outside research area per hour"
     }
   },
   "dailyCompletion": {
@@ -497,15 +511,26 @@
       "today": "Today",
       "minFilled": "Min filled",
       "maxFilled": "Max filled",
+      "onlyActive": "Only active",
+      "activeWindowDays": "in last (days)",
       "clear": "Clear",
       "refresh": "Refresh"
+    },
+    "size": {
+      "title": "Box size",
+      "width": "Width",
+      "height": "Height",
+      "reset": "Reset"
     },
     "summary": {
       "slots": "{{count}} surveys scheduled",
       "respondents": "Showing {{visible}} of {{total}} respondents"
     },
     "legend": {
-      "completed": "Completed",
+      "completedFull": "Completed + GPS + sensor",
+      "completedGpsOnly": "Completed + GPS only",
+      "completedSensorOnly": "Completed + sensor only",
+      "completedNone": "Completed (no GPS or sensor)",
       "missed": "Missed",
       "pending": "Pending"
     },

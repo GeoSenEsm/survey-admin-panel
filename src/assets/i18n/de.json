@@ -18,7 +18,7 @@
       "passwordRequiredError": "Passwort ist erforderlich.",
       "passwordMinLenError": "Passwort darf nicht länger als {{maxLen}} Zeichen sein.",
       "welcome": "Willkommen im GeoSenEsm Admin-Panel!",
-      "loginToContinue": "Melden Sie sich an, um fortzufahren"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Befragte",
@@ -471,24 +471,38 @@
   "statistics": {
     "view": {
       "global": "Global",
+      "daily": "Täglich",
       "participant": "Pro Teilnehmer"
     },
     "selectParticipant": "Teilnehmer auswählen",
+    "selectParticipantHint": "Benutzername eingeben…",
+    "noParticipantsMatch": "Keine Teilnehmer entsprechen deiner Suche",
+    "clearSearch": "Suche leeren",
     "loadError": "Statistiken konnten nicht geladen werden.",
+    "dailyDate": "Tag",
+    "today": "Heute",
     "kpi": {
       "studyWindow": "Studienzeitraum",
       "participants": "Teilnehmer",
+      "participantsWithSubmissions": "Aktive Teilnehmer",
       "filledVsAvailable": "Ausgefüllt / Verfügbar",
+      "filledVsAvailableActive": "Ausgefüllt / Verfügbar (aktiv)",
+      "filledVsAvailableActiveTooltip": "Aktive Teilnehmer: {{count}} — jene, die in den letzten {{days}} Tagen bis einschließlich des ausgewählten Tages mindestens eine Umfrage abgeschickt haben.",
       "locationData": "Standortdaten",
       "sensorData": "Sensormesswerte",
-      "username": "Teilnehmer"
+      "outsideResearchArea": "Außerhalb des Untersuchungsgebiets",
+      "username": "Teilnehmer",
+      "day": "Tag"
     },
     "charts": {
       "participations": "Umfrageantworten pro Tag",
       "locationData": "Standortdaten pro Tag",
       "sensorData": "Sensormesswerte pro Tag",
-      "filledVsAvailable": "Ausgefüllte vs. verfügbare Umfragen",
-      "filledVsAvailableTop": "Top-Teilnehmer: ausgefüllt vs. verfügbar"
+      "participationsHourly": "Umfrageantworten pro Stunde",
+      "locationDataHourly": "Standortdaten pro Stunde",
+      "sensorDataHourly": "Sensormesswerte pro Stunde",
+      "outsideResearchArea": "Antworten außerhalb des Untersuchungsgebiets pro Tag",
+      "outsideResearchAreaHourly": "Antworten außerhalb des Untersuchungsgebiets pro Stunde"
     }
   },
   "dailyCompletion": {
@@ -497,15 +511,26 @@
       "today": "Heute",
       "minFilled": "Min. ausgefüllt",
       "maxFilled": "Max. ausgefüllt",
+      "onlyActive": "Nur aktive",
+      "activeWindowDays": "in den letzten (Tagen)",
       "clear": "Zurücksetzen",
       "refresh": "Aktualisieren"
+    },
+    "size": {
+      "title": "Kachelgröße",
+      "width": "Breite",
+      "height": "Höhe",
+      "reset": "Zurücksetzen"
     },
     "summary": {
       "slots": "{{count}} geplante Umfragen",
       "respondents": "{{visible}} von {{total}} Teilnehmern angezeigt"
     },
     "legend": {
-      "completed": "Ausgefüllt",
+      "completedFull": "Ausgefüllt + GPS + Sensor",
+      "completedGpsOnly": "Ausgefüllt + nur GPS",
+      "completedSensorOnly": "Ausgefüllt + nur Sensor",
+      "completedNone": "Ausgefüllt (ohne GPS und Sensor)",
       "missed": "Verpasst",
       "pending": "Ausstehend"
     },

@@ -10,12 +10,19 @@ import { Subject, catchError, finalize, of, takeUntil, timer } from 'rxjs';
 import { STATISTICS_SERVICE } from '../../../../../core/services/registration-names';
 import { StatisticsService } from '../../../../../domain/external_services/statistics.service';
 import {
+  DailyCompletionCompletedSlot,
   DailyCompletionOverview,
   DailyCompletionRespondent,
   DailyCompletionTimeSlot,
 } from '../../../../../domain/models/statistics';
 
-type SlotStatus = 'completed' | 'missed' | 'pending';
+type SlotStatus =
+  | 'completed-full'
+  | 'completed-gps'
+  | 'completed-sensor'
+  | 'completed-none'
+  | 'missed'
+  | 'pending';
 
 interface SlotView {
   slot: DailyCompletionTimeSlot;
@@ -28,12 +35,24 @@ interface RespondentView {
   slots: SlotView[];
 }
 
+interface CardSizeSettings {
+  width: number;
+  height: number;
+}
+
 /**
  * Refresh the "missed vs pending" split once a minute so a slot that
  * just crossed its finish time flips from white to red without a manual
  * reload. Every minute is plenty — slot boundaries are minute-precise.
  */
 const REFRESH_INTERVAL_MS = 60_000;
+
+const CARD_SIZE_STORAGE_KEY = 'admin.dailyCompletion.cardSize.v4';
+const DEFAULT_CARD_SIZE: CardSizeSettings = { width: 140, height: 110 };
+const CARD_WIDTH_RANGE = { min: 110, max: 220 };
+const CARD_HEIGHT_RANGE = { min: 90, max: 160 };
+const DEFAULT_ACTIVE_WINDOW_DAYS = 7;
+const ACTIVE_WINDOW_RANGE = { min: 1, max: 365 };
 
 @Component({
   selector: 'app-daily-completion',
@@ -46,7 +65,14 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
     date: new FormControl<Date>(new Date(), { nonNullable: true }),
     minFilled: new FormControl<number | null>(null),
     maxFilled: new FormControl<number | null>(null),
+    onlyActive: new FormControl<boolean>(false, { nonNullable: true }),
+    activeWindowDays: new FormControl<number>(DEFAULT_ACTIVE_WINDOW_DAYS, { nonNullable: true }),
   });
+
+  readonly cardWidthRange = CARD_WIDTH_RANGE;
+  readonly cardHeightRange = CARD_HEIGHT_RANGE;
+  readonly activeWindowRange = ACTIVE_WINDOW_RANGE;
+  cardSize: CardSizeSettings = { ...DEFAULT_CARD_SIZE };
 
   overview: DailyCompletionOverview | null = null;
   respondentViews: RespondentView[] = [];
@@ -64,12 +90,19 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.cardSize = readStoredCardSize();
     this.load();
 
     this.filters.controls.minFilled.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.applyRespondentFilter());
     this.filters.controls.maxFilled.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.applyRespondentFilter());
+    this.filters.controls.onlyActive.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.applyRespondentFilter());
+    this.filters.controls.activeWindowDays.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.applyRespondentFilter());
 
@@ -97,7 +130,27 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.filters.patchValue({ minFilled: null, maxFilled: null });
+    this.filters.patchValue({
+      minFilled: null,
+      maxFilled: null,
+      onlyActive: false,
+      activeWindowDays: DEFAULT_ACTIVE_WINDOW_DAYS,
+    });
+  }
+
+  onCardWidthChange(value: number): void {
+    this.cardSize = { ...this.cardSize, width: clamp(value, CARD_WIDTH_RANGE) };
+    persistCardSize(this.cardSize);
+  }
+
+  onCardHeightChange(value: number): void {
+    this.cardSize = { ...this.cardSize, height: clamp(value, CARD_HEIGHT_RANGE) };
+    persistCardSize(this.cardSize);
+  }
+
+  resetCardSize(): void {
+    this.cardSize = { ...DEFAULT_CARD_SIZE };
+    persistCardSize(this.cardSize);
   }
 
   slotTrackBy(_index: number, view: SlotView): string {
@@ -144,13 +197,13 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
     const now = Date.now();
     const slots = this.overview.timeSlots;
     this.respondentViews = this.overview.respondents.map((respondent) => {
-      const completed = new Set(respondent.completedTimeSlotIds);
+      const bySlotId = indexCompletedSlots(respondent.completedSlots);
       return {
         respondent,
         slots: slots.map((slot) => ({
           slot,
-          status: computeStatus(slot, completed, now),
-          tooltip: buildTooltip(slot),
+          status: computeStatus(slot, bySlotId, now),
+          tooltip: buildTooltip(slot, bySlotId.get(slot.id)),
         })),
       };
     });
@@ -160,29 +213,64 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
   private applyRespondentFilter(): void {
     const min = this.filters.controls.minFilled.value;
     const max = this.filters.controls.maxFilled.value;
+    const onlyActive = this.filters.controls.onlyActive.value;
+    const windowDays = clamp(
+      this.filters.controls.activeWindowDays.value ?? DEFAULT_ACTIVE_WINDOW_DAYS,
+      ACTIVE_WINDOW_RANGE
+    );
+    const activeCutoffMs = onlyActive ? Date.now() - windowDays * 24 * 60 * 60 * 1000 : null;
+
     this.filteredRespondents = this.respondentViews.filter((view) => {
       const count = view.respondent.completedCount;
       if (typeof min === 'number' && count < min) return false;
       if (typeof max === 'number' && count > max) return false;
+      if (activeCutoffMs !== null) {
+        const last = view.respondent.lastSubmissionAt;
+        if (!last || Date.parse(last) < activeCutoffMs) return false;
+      }
       return true;
     });
     this.cdr.markForCheck();
   }
 }
 
+function indexCompletedSlots(
+  completedSlots: DailyCompletionCompletedSlot[]
+): Map<string, DailyCompletionCompletedSlot> {
+  const map = new Map<string, DailyCompletionCompletedSlot>();
+  for (const slot of completedSlots) {
+    map.set(slot.slotId, slot);
+  }
+  return map;
+}
+
 function computeStatus(
   slot: DailyCompletionTimeSlot,
-  completedIds: Set<string>,
+  completedById: Map<string, DailyCompletionCompletedSlot>,
   nowMs: number
 ): SlotStatus {
-  if (completedIds.has(slot.id)) return 'completed';
+  const completed = completedById.get(slot.id);
+  if (completed) {
+    if (completed.hasLocationData && completed.hasSensorData) return 'completed-full';
+    if (completed.hasLocationData) return 'completed-gps';
+    if (completed.hasSensorData) return 'completed-sensor';
+    return 'completed-none';
+  }
   return Date.parse(slot.finish) < nowMs ? 'missed' : 'pending';
 }
 
-function buildTooltip(slot: DailyCompletionTimeSlot): string {
+function buildTooltip(
+  slot: DailyCompletionTimeSlot,
+  completed: DailyCompletionCompletedSlot | undefined
+): string {
   const start = formatTime(slot.start);
   const finish = formatTime(slot.finish);
-  return `${slot.surveyName} · ${start} – ${finish}`;
+  const base = `${slot.surveyName} · ${start} – ${finish}`;
+  if (!completed) return base;
+  const extras: string[] = [];
+  if (completed.hasLocationData) extras.push('GPS');
+  if (completed.hasSensorData) extras.push('sensor');
+  return extras.length ? `${base} · ${extras.join(' + ')}` : base;
 }
 
 function formatTime(iso: string): string {
@@ -198,4 +286,32 @@ function toIsoDate(date: Date): string {
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
+}
+
+function clamp(value: number, range: { min: number; max: number }): number {
+  if (!Number.isFinite(value)) return range.min;
+  return Math.max(range.min, Math.min(range.max, Math.round(value)));
+}
+
+function readStoredCardSize(): CardSizeSettings {
+  try {
+    const raw = localStorage.getItem(CARD_SIZE_STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_CARD_SIZE };
+    const parsed = JSON.parse(raw) as Partial<CardSizeSettings>;
+    return {
+      width: clamp(parsed?.width ?? DEFAULT_CARD_SIZE.width, CARD_WIDTH_RANGE),
+      height: clamp(parsed?.height ?? DEFAULT_CARD_SIZE.height, CARD_HEIGHT_RANGE),
+    };
+  } catch {
+    return { ...DEFAULT_CARD_SIZE };
+  }
+}
+
+function persistCardSize(size: CardSizeSettings): void {
+  try {
+    localStorage.setItem(CARD_SIZE_STORAGE_KEY, JSON.stringify(size));
+  } catch {
+    // Storage may be full or disabled — degrade silently, the in-memory
+    // value still applies for the current session.
+  }
 }

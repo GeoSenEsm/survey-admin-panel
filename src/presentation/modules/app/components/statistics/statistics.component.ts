@@ -5,18 +5,22 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { EChartsOption } from 'echarts';
 import { Subject, catchError, of, takeUntil } from 'rxjs';
 import { STATISTICS_SERVICE } from '../../../../../core/services/registration-names';
 import { StatisticsService } from '../../../../../domain/external_services/statistics.service';
 import {
+  DailyStatsDetail,
   GlobalStatsDetail,
+  HourlySeriesPoint,
   ParticipantStats,
   ParticipantStatsDetail,
   TimeSeriesPoint,
 } from '../../../../../domain/models/statistics';
 
-type ViewMode = 'global' | 'participant';
+
+type ViewMode = 'global' | 'daily' | 'participant';
 
 @Component({
   selector: 'app-statistics',
@@ -26,19 +30,29 @@ type ViewMode = 'global' | 'participant';
 export class StatisticsComponent implements OnInit, OnDestroy {
   viewMode: ViewMode = 'global';
 
+  readonly dailyDateControl = new FormControl<Date>(new Date(), { nonNullable: true });
+  // Autocomplete writes the selected option value (a ParticipantStats object)
+  // into this control on selection; during typing it holds the raw string.
+  readonly participantSearchControl = new FormControl<string | ParticipantStats>('', {
+    nonNullable: true,
+  });
+
   participants: ParticipantStats[] = [];
+  filteredParticipants: ParticipantStats[] = [];
   globalDetail: GlobalStatsDetail | null = null;
   participantDetail: ParticipantStatsDetail | null = null;
+  dailyDetail: DailyStatsDetail | null = null;
   selectedParticipantId: string | null = null;
 
   isLoadingGlobal = false;
   isLoadingParticipant = false;
+  isLoadingDaily = false;
   loadError = false;
 
   participationsChart: EChartsOption | null = null;
   locationChart: EChartsOption | null = null;
   sensorChart: EChartsOption | null = null;
-  filledVsAvailableChart: EChartsOption | null = null;
+  outsideAreaChart: EChartsOption | null = null;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -51,6 +65,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadParticipantsList();
     this.loadGlobal();
+
+    this.participantSearchControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => this.applyParticipantFilter(value));
   }
 
   ngOnDestroy(): void {
@@ -60,14 +78,79 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   onViewModeChange(mode: ViewMode): void {
     this.viewMode = mode;
-    if (mode === 'participant' && this.selectedParticipantId) {
-      this.loadParticipant(this.selectedParticipantId);
+    if (mode === 'participant') {
+      if (this.participantDetail) {
+        this.rebuildParticipantCharts();
+      } else if (this.selectedParticipantId) {
+        this.loadParticipant(this.selectedParticipantId);
+      } else {
+        this.clearCharts();
+      }
+    } else if (mode === 'daily') {
+      if (this.dailyDetail) {
+        this.rebuildDailyCharts();
+      } else {
+        this.loadDaily();
+      }
+    } else {
+      if (this.globalDetail) {
+        this.rebuildGlobalCharts();
+      } else {
+        this.loadGlobal();
+      }
     }
+    this.cdr.markForCheck();
   }
 
   onParticipantChange(respondentId: string): void {
     this.selectedParticipantId = respondentId;
     this.loadParticipant(respondentId);
+  }
+
+  onParticipantSelected(participant: ParticipantStats): void {
+    this.selectedParticipantId = participant.respondentId;
+    // Show the current filtered list rather than reapplying the "search"
+    // against the selected participant's username (which would collapse
+    // the panel to a single entry the next time the user opens it).
+    this.filteredParticipants = this.participants.slice();
+    this.loadParticipant(participant.respondentId);
+  }
+
+  displayParticipant = (value: string | ParticipantStats | null): string => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    return value.username;
+  };
+
+  participantTrackBy(_index: number, participant: ParticipantStats): string {
+    return participant.respondentId;
+  }
+
+  clearParticipantSearch(): void {
+    this.participantSearchControl.setValue('');
+  }
+
+  private applyParticipantFilter(query: string | ParticipantStats | null): void {
+    // When the user picks an option the control briefly holds the whole
+    // participant object; treat that as "no active search" so the panel
+    // keeps showing the full list next time it opens.
+    const needle = (typeof query === 'string' ? query : '').trim().toLowerCase();
+    if (!needle) {
+      this.filteredParticipants = this.participants.slice();
+      return;
+    }
+    this.filteredParticipants = this.participants.filter((p) =>
+      p.username.toLowerCase().includes(needle)
+    );
+  }
+
+  onDailyDateChange(): void {
+    this.loadDaily();
+  }
+
+  goToToday(): void {
+    this.dailyDateControl.setValue(new Date());
+    this.loadDaily();
   }
 
   fillRatio(filled: number, available: number): number {
@@ -87,8 +170,17 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       )
       .subscribe((list) => {
         this.participants = list;
+        this.applyParticipantFilter(this.participantSearchControl.value);
         if (list.length && !this.selectedParticipantId) {
           this.selectedParticipantId = list[0].respondentId;
+        }
+        // Reflect any pre-selected participant in the search input so users
+        // see who's currently selected when they land on the tab.
+        const selected =
+          this.selectedParticipantId &&
+          list.find((p) => p.respondentId === this.selectedParticipantId);
+        if (selected) {
+          this.participantSearchControl.setValue(selected, { emitEvent: false });
         }
       });
   }
@@ -97,6 +189,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     if (this.isLoadingGlobal) return;
     this.isLoadingGlobal = true;
     this.loadError = false;
+    this.globalDetail = null;
+    this.clearCharts();
+    this.cdr.markForCheck();
 
     this.statisticsService
       .getGlobalDetail()
@@ -119,6 +214,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     if (this.isLoadingParticipant) return;
     this.isLoadingParticipant = true;
     this.loadError = false;
+    this.participantDetail = null;
+    this.clearCharts();
+    this.cdr.markForCheck();
 
     this.statisticsService
       .getParticipantDetail(respondentId)
@@ -137,52 +235,104 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       });
   }
 
+  private loadDaily(): void {
+    if (this.isLoadingDaily) return;
+    this.isLoadingDaily = true;
+    this.loadError = false;
+    this.dailyDetail = null;
+    this.clearCharts();
+    this.cdr.markForCheck();
+
+    const isoDate = toIsoDate(this.dailyDateControl.value);
+    this.statisticsService
+      .getDailyDetail(isoDate)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(() => {
+          this.loadError = true;
+          return of<DailyStatsDetail | null>(null);
+        })
+      )
+      .subscribe((detail) => {
+        this.isLoadingDaily = false;
+        this.dailyDetail = detail;
+        this.rebuildDailyCharts();
+        this.cdr.markForCheck();
+      });
+  }
+
   private rebuildGlobalCharts(): void {
     if (!this.globalDetail) {
-      this.participationsChart = null;
-      this.locationChart = null;
-      this.sensorChart = null;
-      this.filledVsAvailableChart = null;
+      this.clearCharts();
       return;
     }
-    this.participationsChart = lineChart(
+    this.participationsChart = dailyLineChart(
       this.globalDetail.participationsPerDay,
       '#3f51b5'
     );
-    this.locationChart = lineChart(this.globalDetail.locationDataPerDay, '#009688');
-    this.sensorChart = lineChart(this.globalDetail.sensorDataPerDay, '#ff9800');
-    this.filledVsAvailableChart = filledVsAvailableChart(
-      this.globalDetail.topParticipants
+    this.locationChart = dailyLineChart(this.globalDetail.locationDataPerDay, '#009688');
+    this.sensorChart = dailyLineChart(this.globalDetail.sensorDataPerDay, '#ff9800');
+    this.outsideAreaChart = dailyLineChart(
+      this.globalDetail.participationsOutsideAreaPerDay,
+      '#d93025'
     );
   }
 
   private rebuildParticipantCharts(): void {
     if (!this.participantDetail) {
-      this.participationsChart = null;
-      this.locationChart = null;
-      this.sensorChart = null;
-      this.filledVsAvailableChart = null;
+      this.clearCharts();
       return;
     }
-    this.participationsChart = lineChart(
+    this.participationsChart = dailyLineChart(
       this.participantDetail.participationsPerDay,
       '#3f51b5'
     );
-    this.locationChart = lineChart(
+    this.locationChart = dailyLineChart(
       this.participantDetail.locationDataPerDay,
       '#009688'
     );
-    this.sensorChart = lineChart(
+    this.sensorChart = dailyLineChart(
       this.participantDetail.sensorDataPerDay,
       '#ff9800'
     );
-    this.filledVsAvailableChart = filledVsAvailableChart([
-      this.participantDetail.stats,
-    ]);
+    this.outsideAreaChart = dailyLineChart(
+      this.participantDetail.participationsOutsideAreaPerDay,
+      '#d93025'
+    );
+  }
+
+  private rebuildDailyCharts(): void {
+    if (!this.dailyDetail) {
+      this.clearCharts();
+      return;
+    }
+    this.participationsChart = hourlyLineChart(
+      this.dailyDetail.participationsPerHour,
+      '#3f51b5'
+    );
+    this.locationChart = hourlyLineChart(
+      this.dailyDetail.locationDataPerHour,
+      '#009688'
+    );
+    this.sensorChart = hourlyLineChart(
+      this.dailyDetail.sensorDataPerHour,
+      '#ff9800'
+    );
+    this.outsideAreaChart = hourlyLineChart(
+      this.dailyDetail.participationsOutsideAreaPerHour,
+      '#d93025'
+    );
+  }
+
+  private clearCharts(): void {
+    this.participationsChart = null;
+    this.locationChart = null;
+    this.sensorChart = null;
+    this.outsideAreaChart = null;
   }
 }
 
-function lineChart(series: TimeSeriesPoint[], color: string): EChartsOption {
+function dailyLineChart(series: TimeSeriesPoint[], color: string): EChartsOption {
   const dates = series.map((p) => p.date);
   const values = series.map((p) => p.count);
   return {
@@ -204,29 +354,31 @@ function lineChart(series: TimeSeriesPoint[], color: string): EChartsOption {
   };
 }
 
-function filledVsAvailableChart(participants: ParticipantStats[]): EChartsOption {
-  const usernames = participants.map((p) => p.username);
-  const filled = participants.map((p) => p.surveysFilled);
-  const available = participants.map((p) => p.surveysAvailable);
+function hourlyLineChart(series: HourlySeriesPoint[], color: string): EChartsOption {
+  const hours = series.map((p) => `${String(p.hour).padStart(2, '0')}:00`);
+  const values = series.map((p) => p.count);
   return {
     tooltip: { trigger: 'axis' },
-    legend: { top: 0 },
-    grid: { left: 100, right: 20, top: 30, bottom: 30 },
-    xAxis: { type: 'value', minInterval: 1 },
-    yAxis: { type: 'category', data: usernames, inverse: true },
+    grid: { left: 40, right: 20, top: 20, bottom: 30 },
+    xAxis: { type: 'category', data: hours, boundaryGap: false },
+    yAxis: { type: 'value', minInterval: 1 },
     series: [
       {
-        name: 'Filled',
-        type: 'bar',
-        data: filled,
-        itemStyle: { color: '#3f51b5' },
-      },
-      {
-        name: 'Available',
-        type: 'bar',
-        data: available,
-        itemStyle: { color: '#c5cae9' },
+        type: 'line',
+        data: values,
+        smooth: true,
+        showSymbol: false,
+        areaStyle: { opacity: 0.15 },
+        lineStyle: { color },
+        itemStyle: { color },
       },
     ],
   };
+}
+
+function toIsoDate(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }

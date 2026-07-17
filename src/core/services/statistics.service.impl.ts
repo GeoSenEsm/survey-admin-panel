@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { StatisticsService } from '../../domain/external_services/statistics.service';
 import {
   DailyCompletionOverview,
+  DailyStatsDetail,
   GlobalStatsDetail,
   ParticipantStats,
   ParticipantStatsDetail,
@@ -37,5 +38,9 @@ export class StatisticsServiceImpl
     return this.get<DailyCompletionOverview>('/api/statistics/daily-completion', {
       date: isoDate,
     });
+  }
+
+  getDailyDetail(isoDate: string): Observable<DailyStatsDetail> {
+    return this.get<DailyStatsDetail>('/api/statistics/daily', { date: isoDate });
   }
 }

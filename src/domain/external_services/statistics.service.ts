@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import {
   DailyCompletionOverview,
+  DailyStatsDetail,
   GlobalStatsDetail,
   ParticipantStats,
   ParticipantStatsDetail,
@@ -15,4 +16,8 @@ export interface StatisticsService {
    * The backend interprets it as a UTC calendar day.
    */
   getDailyCompletion(isoDate: string): Observable<DailyCompletionOverview>;
+  /**
+   * Aggregates + hourly time series for the given ISO date (YYYY-MM-DD).
+   */
+  getDailyDetail(isoDate: string): Observable<DailyStatsDetail>;
 }

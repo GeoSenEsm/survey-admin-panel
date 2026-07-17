@@ -18,7 +18,7 @@
       "passwordRequiredError": "La contraseña es obligatoria.",
       "passwordMinLenError": "La contraseña no puede tener más de {{maxLen}} caracteres.",
       "welcome": "¡Bienvenido al panel de administración de GeoSenEsm!",
-      "loginToContinue": "Inicie sesión para continuar"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Encuestados",
@@ -471,24 +471,38 @@
   "statistics": {
     "view": {
       "global": "Global",
+      "daily": "Diario",
       "participant": "Por participante"
     },
     "selectParticipant": "Seleccionar participante",
+    "selectParticipantHint": "Escribe el nombre de usuario…",
+    "noParticipantsMatch": "Ningún participante coincide con tu búsqueda",
+    "clearSearch": "Borrar búsqueda",
     "loadError": "No se pudieron cargar las estadísticas.",
+    "dailyDate": "Día",
+    "today": "Hoy",
     "kpi": {
       "studyWindow": "Ventana del estudio",
       "participants": "Participantes",
+      "participantsWithSubmissions": "Participantes activos",
       "filledVsAvailable": "Completadas / Disponibles",
+      "filledVsAvailableActive": "Completadas / Disponibles (activos)",
+      "filledVsAvailableActiveTooltip": "Encuestados activos: {{count}} — aquellos que enviaron al menos una encuesta en los últimos {{days}} días que terminan en el día seleccionado.",
       "locationData": "Datos de ubicación",
       "sensorData": "Lecturas de sensores",
-      "username": "Participante"
+      "outsideResearchArea": "Fuera del área de investigación",
+      "username": "Participante",
+      "day": "Día"
     },
     "charts": {
       "participations": "Respuestas por día",
       "locationData": "Datos de ubicación por día",
       "sensorData": "Lecturas de sensores por día",
-      "filledVsAvailable": "Encuestas completadas vs. disponibles",
-      "filledVsAvailableTop": "Participantes principales: completadas vs. disponibles"
+      "participationsHourly": "Respuestas por hora",
+      "locationDataHourly": "Datos de ubicación por hora",
+      "sensorDataHourly": "Lecturas de sensores por hora",
+      "outsideResearchArea": "Respuestas fuera del área de investigación por día",
+      "outsideResearchAreaHourly": "Respuestas fuera del área de investigación por hora"
     }
   },
   "dailyCompletion": {
@@ -497,15 +511,26 @@
       "today": "Hoy",
       "minFilled": "Mín. completadas",
       "maxFilled": "Máx. completadas",
+      "onlyActive": "Solo activos",
+      "activeWindowDays": "en los últimos (días)",
       "clear": "Limpiar",
       "refresh": "Actualizar"
+    },
+    "size": {
+      "title": "Tamaño de las tarjetas",
+      "width": "Ancho",
+      "height": "Alto",
+      "reset": "Restablecer"
     },
     "summary": {
       "slots": "{{count}} encuestas programadas",
       "respondents": "Mostrando {{visible}} de {{total}} participantes"
     },
     "legend": {
-      "completed": "Completada",
+      "completedFull": "Completada + GPS + sensor",
+      "completedGpsOnly": "Completada + solo GPS",
+      "completedSensorOnly": "Completada + solo sensor",
+      "completedNone": "Completada (sin GPS ni sensor)",
       "missed": "Perdida",
       "pending": "Pendiente"
     },

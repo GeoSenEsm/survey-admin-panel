@@ -7,6 +7,7 @@ export interface ParticipantStats {
   surveysAvailable: number;
   locationDataCount: number;
   sensorDataCount: number;
+  outsideResearchAreaCount: number;
 }
 
 export interface TimeSeriesPoint {
@@ -19,6 +20,7 @@ export interface ParticipantStatsDetail {
   participationsPerDay: TimeSeriesPoint[];
   locationDataPerDay: TimeSeriesPoint[];
   sensorDataPerDay: TimeSeriesPoint[];
+  participationsOutsideAreaPerDay: TimeSeriesPoint[];
 }
 
 export interface GlobalStats {
@@ -29,6 +31,7 @@ export interface GlobalStats {
   surveysAvailable: number;
   locationDataCount: number;
   sensorDataCount: number;
+  outsideResearchAreaCount: number;
 }
 
 export interface GlobalStatsDetail {
@@ -36,7 +39,7 @@ export interface GlobalStatsDetail {
   participationsPerDay: TimeSeriesPoint[];
   locationDataPerDay: TimeSeriesPoint[];
   sensorDataPerDay: TimeSeriesPoint[];
-  topParticipants: ParticipantStats[];
+  participationsOutsideAreaPerDay: TimeSeriesPoint[];
 }
 
 export interface DailyCompletionTimeSlot {
@@ -47,15 +50,45 @@ export interface DailyCompletionTimeSlot {
   finish: string;
 }
 
+export interface DailyCompletionCompletedSlot {
+  slotId: string;
+  hasLocationData: boolean;
+  hasSensorData: boolean;
+}
+
 export interface DailyCompletionRespondent {
   respondentId: string;
   username: string;
-  completedTimeSlotIds: string[];
+  completedSlots: DailyCompletionCompletedSlot[];
   completedCount: number;
+  lastSubmissionAt: string | null;
 }
 
 export interface DailyCompletionOverview {
   date: string;
   timeSlots: DailyCompletionTimeSlot[];
   respondents: DailyCompletionRespondent[];
+}
+
+export interface HourlySeriesPoint {
+  hour: number;
+  count: number;
+}
+
+export interface DailyStatsDetail {
+  date: string;
+  totalParticipants: number;
+  surveysFilled: number;
+  surveysAvailable: number;
+  surveysFilledActive: number;
+  surveysAvailableActive: number;
+  activeRespondentCount: number;
+  activeWindowDays: number;
+  locationDataCount: number;
+  sensorDataCount: number;
+  participationsOutsideAreaCount: number;
+  participationsPerHour: HourlySeriesPoint[];
+  locationDataPerHour: HourlySeriesPoint[];
+  sensorDataPerHour: HourlySeriesPoint[];
+  participationsOutsideAreaPerHour: HourlySeriesPoint[];
 }

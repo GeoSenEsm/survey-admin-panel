@@ -58,10 +58,13 @@ export class ResponseDocumentsComponent
     private readonly responseDocumentsService: ResponseDocumentsService,
     @Inject('surveyService') private readonly surveyService: SurveyService
   ) {
+    const today = startOfLocalDay(new Date());
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     this.filtersForm = this.formBuilder.group({
       surveyId: [''],
-      dateFrom: [null],
-      dateTo: [null],
+      dateFrom: [today],
+      dateTo: [tomorrow],
     });
   }
 
@@ -85,7 +88,10 @@ export class ResponseDocumentsComponent
   }
 
   clearFilters(): void {
-    this.filtersForm.reset({ surveyId: '', dateFrom: null, dateTo: null });
+    const today = startOfLocalDay(new Date());
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.filtersForm.reset({ surveyId: '', dateFrom: today, dateTo: tomorrow });
     this.applyFilters();
   }
 
@@ -201,6 +207,12 @@ function triggerJsonDownload(payload: unknown, filename: string): void {
     type: 'application/json',
   });
   triggerBlobDownload(blob, filename);
+}
+
+function startOfLocalDay(date: Date): Date {
+  const copy = new Date(date);
+  copy.setHours(0, 0, 0, 0);
+  return copy;
 }
 
 function triggerBlobDownload(blob: Blob, filename: string): void {
