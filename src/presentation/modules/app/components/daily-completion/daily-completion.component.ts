@@ -218,29 +218,26 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
       this.filters.controls.activeWindowDays.value ?? DEFAULT_ACTIVE_WINDOW_DAYS,
       ACTIVE_WINDOW_RANGE
     );
-    // "Active in the last X days" is evaluated relative to the day the
-    // admin picked in the toolbar, not the wall clock: the window is
-    // [end-of-selected-day - X days, end-of-selected-day]. When viewing
-    // today this still behaves as "the last X days up to now"; when
-    // viewing a past day we exclude submissions that happened after it.
+    // "Active in the last X days" is anchored to the day the admin picked
+    // in the toolbar, not the wall clock. The backend already returns
+    // `lastSubmissionAt` clipped to that day, so the lower bound alone
+    // ("did the respondent submit anything in the trailing window?") is
+    // the correct predicate here.
     let activeCutoffMs: number | null = null;
-    let activeReferenceMs: number | null = null;
     if (onlyActive) {
       const endOfSelectedDay = new Date(this.filters.controls.date.value);
       endOfSelectedDay.setHours(23, 59, 59, 999);
-      activeReferenceMs = endOfSelectedDay.getTime();
-      activeCutoffMs = activeReferenceMs - windowDays * 24 * 60 * 60 * 1000;
+      activeCutoffMs = endOfSelectedDay.getTime() - windowDays * 24 * 60 * 60 * 1000;
     }
 
     this.filteredRespondents = this.respondentViews.filter((view) => {
       const count = view.respondent.completedCount;
       if (typeof min === 'number' && count < min) return false;
       if (typeof max === 'number' && count > max) return false;
-      if (activeCutoffMs !== null && activeReferenceMs !== null) {
+      if (activeCutoffMs !== null) {
         const last = view.respondent.lastSubmissionAt;
         if (!last) return false;
-        const lastMs = Date.parse(last);
-        if (lastMs < activeCutoffMs || lastMs > activeReferenceMs) return false;
+        if (Date.parse(last) < activeCutoffMs) return false;
       }
       return true;
     });
