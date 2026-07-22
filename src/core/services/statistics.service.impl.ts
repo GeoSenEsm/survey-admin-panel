@@ -5,6 +5,7 @@ import { StatisticsService } from '../../domain/external_services/statistics.ser
 import {
   DailyCompletionOverview,
   DailyStatsDetail,
+  DailyStatsRow,
   GlobalStatsDetail,
   ParticipantStats,
   ParticipantStatsDetail,
@@ -42,5 +43,9 @@ export class StatisticsServiceImpl
 
   getDailyDetail(isoDate: string): Observable<DailyStatsDetail> {
     return this.get<DailyStatsDetail>('/api/statistics/daily', { date: isoDate });
+  }
+
+  listDailyStatsRows(): Observable<DailyStatsRow[]> {
+    return this.get<DailyStatsRow[]>('/api/statistics/daily/rows');
   }
 }

@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "Numéros de contact",
       "responseDocuments": "Documents de réponse",
       "statistics": "Statistiques",
-      "dailyCompletion": "Suivi quotidien"
+      "dailyCompletion": "Suivi quotidien",
+      "surveyWindow": "Dates d'enquête"
     }
   },
   "responseDocuments": {
@@ -85,7 +86,9 @@
       "sensorData": "Données des capteurs",
       "locationData": "Données de géolocalisation",
       "surveyResponses": "Réponses aux enquêtes",
-      "cannotEditRespondentData": "Impossible de modifier les données du répondant tant que l'enquête initiale n'est pas publiée."
+      "cannotEditRespondentData": "Impossible de modifier les données du répondant tant que l'enquête initiale n'est pas publiée.",
+      "surveyStartDate": "Début d'enquête",
+      "surveyEndDate": "Fin d'enquête"
     },
     "edit": {
       "title": "Modifier les données du répondant",
@@ -107,7 +110,15 @@
       "dateTo": "Date de fin",
       "timeFrom": "Heure de début",
       "timeTo": "Heure de fin",
-      "none": "Aucun"
+      "none": "Aucun",
+      "surveyWindow": "Fenêtre d'enquête",
+      "surveyWindowAny": "Toutes",
+      "surveyWindowSet": "Dates définies",
+      "surveyWindowUnset": "Dates non définies",
+      "surveyStartFrom": "Début depuis",
+      "surveyStartTo": "Début jusqu'à",
+      "surveyEndFrom": "Fin depuis",
+      "surveyEndTo": "Fin jusqu'à"
     },
     "changePassword": {
       "changePassword": "Changer le mot de passe",
@@ -481,13 +492,18 @@
     "loadError": "Impossible de charger les statistiques.",
     "dailyDate": "Jour",
     "today": "Aujourd'hui",
+    "export": {
+      "csv": "Exporter CSV",
+      "dailyFilename": "statistiques-quotidiennes.csv",
+      "participantsFilename": "statistiques-participants.csv"
+    },
     "kpi": {
       "studyWindow": "Fenêtre d'étude",
       "participants": "Participants",
       "participantsWithSubmissions": "Participants actifs",
       "filledVsAvailable": "Remplies / Disponibles",
-      "filledVsAvailableActive": "Remplies / Disponibles (actifs)",
-      "filledVsAvailableActiveTooltip": "Participants actifs : {{count}} — ceux ayant envoyé au moins une enquête au cours des {{days}} derniers jours se terminant le jour sélectionné.",
+      "filledVsAvailableActive": "Remplies / Disponibles (dates définies)",
+      "filledVsAvailableActiveTooltip": "Participants dont les dates assignées couvrent le jour sélectionné : {{count}}.",
       "locationData": "Données de localisation",
       "sensorData": "Mesures des capteurs",
       "outsideResearchArea": "Hors zone d'étude",
@@ -511,8 +527,7 @@
       "today": "Aujourd'hui",
       "minFilled": "Min. remplies",
       "maxFilled": "Max. remplies",
-      "onlyActive": "Actifs uniquement",
-      "activeWindowDays": "sur les derniers (jours)",
+      "onlyActive": "Uniquement les participants avec dates définies",
       "clear": "Effacer",
       "refresh": "Actualiser"
     },
@@ -574,5 +589,39 @@
     "editDialogTitle": "Modifier le contact",
     "editedSuccessfuly": "Le contact a été mis à jour avec succès",
     "editingFailed": "La mise à jour du contact a échoué. Veuillez réessayer plus tard"
+  },
+  "surveyWindow": {
+    "title": "Dates d'enquête",
+    "subtitle": "Attribuez des dates de début et de fin par lots et consultez le nombre de participants actifs dans le temps.",
+    "batch": {
+      "title": "Attribution par lots",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "assign": "Attribuer à la sélection",
+      "clearDates": "Effacer les dates"
+    },
+    "chart": {
+      "title": "Participants actifs dans le temps",
+      "subtitle": "Nombre de participants dont la fenêtre couvre chaque jour."
+    },
+    "list": {
+      "searchUsername": "Filtrer par nom",
+      "selectAll": "Sélectionner les filtrés",
+      "clearSelection": "Effacer la sélection",
+      "refresh": "Actualiser",
+      "username": "Nom d'utilisateur",
+      "startDate": "Début",
+      "endDate": "Fin",
+      "id": "ID",
+      "empty": "Aucun participant ne correspond au filtre."
+    },
+    "messages": {
+      "saved": "Dates d'enquête mises à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les participants.",
+      "saveFailed": "Impossible d'enregistrer les dates.",
+      "endBeforeStart": "La date de fin doit être postérieure ou égale à la date de début."
+    }
   }
 }

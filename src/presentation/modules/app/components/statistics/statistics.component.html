@@ -88,7 +88,27 @@
         <mat-icon>today</mat-icon>
         {{ 'statistics.today' | translate }}
       </button>
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="exportDailyCsv()"
+        [disabled]="isExportingDaily"
+      >
+        <mat-icon>file_download</mat-icon>
+        {{ 'statistics.export.csv' | translate }}
+      </button>
     </ng-container>
+
+    <button
+      *ngIf="viewMode === 'participant'"
+      type="button"
+      mat-stroked-button
+      (click)="exportParticipantsCsv()"
+      [disabled]="participants.length === 0"
+    >
+      <mat-icon>file_download</mat-icon>
+      {{ 'statistics.export.csv' | translate }}
+    </button>
   </section>
 
   <mat-error *ngIf="loadError" class="load-error">
@@ -181,7 +201,6 @@
         class="kpi kpi--info"
         [matTooltip]="
           ('statistics.kpi.filledVsAvailableActiveTooltip' | translate)
-            .replace('{{days}}', d.activeWindowDays.toString())
             .replace('{{count}}', d.activeRespondentCount.toString())
         "
         matTooltipPosition="above"

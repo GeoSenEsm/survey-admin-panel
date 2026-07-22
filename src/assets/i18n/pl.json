@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "Numery kontaktowe",
       "responseDocuments": "Dokumenty odpowiedzi",
       "statistics": "Statystyki",
-      "dailyCompletion": "Wypełnienia dzienne"
+      "dailyCompletion": "Wypełnienia dzienne",
+      "surveyWindow": "Daty ankiety"
     }
   },
   "responseDocuments": {
@@ -85,7 +86,9 @@
       "sensorData": "Dane z czujników",
       "locationData": "Dane lokalizacyjne",
       "surveyResponses": "Odpowiedzi na ankiety",
-      "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana."
+      "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana.",
+      "surveyStartDate": "Początek ankiety",
+      "surveyEndDate": "Koniec ankiety"
     },
     "edit": {
       "title": "Edycja danych respondenta",
@@ -107,7 +110,15 @@
       "dateTo": "Data do",
       "timeFrom": "Godzina od",
       "timeTo": "Godzina do",
-      "none": "Brak"
+      "none": "Brak",
+      "surveyWindow": "Okno ankiety",
+      "surveyWindowAny": "Dowolne",
+      "surveyWindowSet": "Daty przypisane",
+      "surveyWindowUnset": "Daty nieustawione",
+      "surveyStartFrom": "Początek od",
+      "surveyStartTo": "Początek do",
+      "surveyEndFrom": "Koniec od",
+      "surveyEndTo": "Koniec do"
     },
     "changePassword": {
       "changePassword": "Zmiana hasła",
@@ -481,13 +492,18 @@
     "loadError": "Nie udało się załadować statystyk.",
     "dailyDate": "Dzień",
     "today": "Dziś",
+    "export": {
+      "csv": "Eksport CSV",
+      "dailyFilename": "statystyki-dzienne.csv",
+      "participantsFilename": "statystyki-uczestnicy.csv"
+    },
     "kpi": {
       "studyWindow": "Okres badania",
       "participants": "Uczestnicy",
       "participantsWithSubmissions": "Aktywni uczestnicy",
       "filledVsAvailable": "Wypełnione / Dostępne",
-      "filledVsAvailableActive": "Wypełnione / Dostępne (aktywni)",
-      "filledVsAvailableActiveTooltip": "Aktywni respondenci: {{count}} — tacy, którzy przesłali co najmniej jedną ankietę w ciągu ostatnich {{days}} dni kończących się w wybranym dniu.",
+      "filledVsAvailableActive": "Wypełnione / Dostępne (ustawione daty)",
+      "filledVsAvailableActiveTooltip": "Respondenci z przypisanymi datami obejmującymi wybrany dzień: {{count}}.",
       "locationData": "Dane lokalizacyjne",
       "sensorData": "Odczyty czujników",
       "outsideResearchArea": "Poza obszarem badań",
@@ -511,8 +527,7 @@
       "today": "Dziś",
       "minFilled": "Min wypełnionych",
       "maxFilled": "Maks wypełnionych",
-      "onlyActive": "Tylko aktywni",
-      "activeWindowDays": "w ciągu (dni)",
+      "onlyActive": "Tylko respondenci z ustawionymi datami",
       "clear": "Wyczyść",
       "refresh": "Odśwież"
     },
@@ -574,5 +589,39 @@
     "editDialogTitle": "Edytuj kontakt",
     "editedSuccessfuly": "Kontakt został pomyślnie zaktualizowany",
     "editingFailed": "Zaktualizowanie kontaktu nie powiodło. Spróbuj ponownie później"
+  },
+  "surveyWindow": {
+    "title": "Daty ankiety",
+    "subtitle": "Przypisuj daty początku i końca udziału wsadowo oraz przeglądaj liczbę aktywnych respondentów w czasie.",
+    "batch": {
+      "title": "Przypisanie wsadowe",
+      "startDate": "Data rozpoczęcia",
+      "endDate": "Data zakończenia",
+      "assign": "Przypisz do zaznaczonych",
+      "clearDates": "Wyczyść daty"
+    },
+    "chart": {
+      "title": "Aktywni respondenci w czasie",
+      "subtitle": "Liczba respondentów, których okno obejmuje dany dzień."
+    },
+    "list": {
+      "searchUsername": "Filtruj po nazwie",
+      "selectAll": "Zaznacz wszystkie przefiltrowane",
+      "clearSelection": "Wyczyść zaznaczenie",
+      "refresh": "Odśwież",
+      "username": "Nazwa użytkownika",
+      "startDate": "Początek",
+      "endDate": "Koniec",
+      "id": "ID",
+      "empty": "Brak respondentów spełniających filtr."
+    },
+    "messages": {
+      "saved": "Daty ankiety zaktualizowane."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać respondentów.",
+      "saveFailed": "Nie udało się zapisać dat.",
+      "endBeforeStart": "Data końcowa musi być nie wcześniejsza niż początkowa."
+    }
   }
 }

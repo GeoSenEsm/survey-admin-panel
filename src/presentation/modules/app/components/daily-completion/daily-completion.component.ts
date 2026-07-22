@@ -51,8 +51,6 @@ const CARD_SIZE_STORAGE_KEY = 'admin.dailyCompletion.cardSize.v4';
 const DEFAULT_CARD_SIZE: CardSizeSettings = { width: 140, height: 110 };
 const CARD_WIDTH_RANGE = { min: 110, max: 220 };
 const CARD_HEIGHT_RANGE = { min: 90, max: 160 };
-const DEFAULT_ACTIVE_WINDOW_DAYS = 7;
-const ACTIVE_WINDOW_RANGE = { min: 1, max: 365 };
 
 @Component({
   selector: 'app-daily-completion',
@@ -66,12 +64,10 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
     minFilled: new FormControl<number | null>(null),
     maxFilled: new FormControl<number | null>(null),
     onlyActive: new FormControl<boolean>(false, { nonNullable: true }),
-    activeWindowDays: new FormControl<number>(DEFAULT_ACTIVE_WINDOW_DAYS, { nonNullable: true }),
   });
 
   readonly cardWidthRange = CARD_WIDTH_RANGE;
   readonly cardHeightRange = CARD_HEIGHT_RANGE;
-  readonly activeWindowRange = ACTIVE_WINDOW_RANGE;
   cardSize: CardSizeSettings = { ...DEFAULT_CARD_SIZE };
 
   overview: DailyCompletionOverview | null = null;
@@ -100,9 +96,6 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.applyRespondentFilter());
     this.filters.controls.onlyActive.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.applyRespondentFilter());
-    this.filters.controls.activeWindowDays.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.applyRespondentFilter());
 
@@ -134,7 +127,6 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
       minFilled: null,
       maxFilled: null,
       onlyActive: false,
-      activeWindowDays: DEFAULT_ACTIVE_WINDOW_DAYS,
     });
   }
 
@@ -213,31 +205,19 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
   private applyRespondentFilter(): void {
     const min = this.filters.controls.minFilled.value;
     const max = this.filters.controls.maxFilled.value;
-    const onlyActive = this.filters.controls.onlyActive.value;
-    const windowDays = clamp(
-      this.filters.controls.activeWindowDays.value ?? DEFAULT_ACTIVE_WINDOW_DAYS,
-      ACTIVE_WINDOW_RANGE
-    );
-    // "Active in the last X days" is anchored to the day the admin picked
-    // in the toolbar, not the wall clock. The backend already returns
-    // `lastSubmissionAt` clipped to that day, so the lower bound alone
-    // ("did the respondent submit anything in the trailing window?") is
-    // the correct predicate here.
-    let activeCutoffMs: number | null = null;
-    if (onlyActive) {
-      const endOfSelectedDay = new Date(this.filters.controls.date.value);
-      endOfSelectedDay.setHours(23, 59, 59, 999);
-      activeCutoffMs = endOfSelectedDay.getTime() - windowDays * 24 * 60 * 60 * 1000;
-    }
+    const onlyWithDates = this.filters.controls.onlyActive.value;
+    const selected = this.filters.controls.date.value;
+    const selectedIso = toIsoDate(selected);
 
     this.filteredRespondents = this.respondentViews.filter((view) => {
       const count = view.respondent.completedCount;
       if (typeof min === 'number' && count < min) return false;
       if (typeof max === 'number' && count > max) return false;
-      if (activeCutoffMs !== null) {
-        const last = view.respondent.lastSubmissionAt;
-        if (!last) return false;
-        if (Date.parse(last) < activeCutoffMs) return false;
+      if (onlyWithDates) {
+        const start = view.respondent.surveyStartDate;
+        const end = view.respondent.surveyEndDate;
+        if (!start || !end) return false;
+        if (selectedIso < start || selectedIso > end) return false;
       }
       return true;
     });

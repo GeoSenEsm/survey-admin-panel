@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "Contact numbers",
       "responseDocuments": "Response documents",
       "statistics": "Statistics",
-      "dailyCompletion": "Daily completion"
+      "dailyCompletion": "Daily completion",
+      "surveyWindow": "Survey dates"
     }
   },
   "responseDocuments": {
@@ -73,6 +74,8 @@
     "respondents": {
       "createRespondentsAccounts": "Create accounts for respondents",
       "usernameColumnHeader": "Username",
+      "surveyStartDate": "Survey start",
+      "surveyEndDate": "Survey end",
       "refresh": "Refresh",
       "nothingToDisplay": "Nothing to display",
       "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
@@ -107,7 +110,15 @@
       "dateTo": "Date to",
       "timeFrom": "Time from",
       "timeTo": "Time to",
-      "none": "None"
+      "none": "None",
+      "surveyWindow": "Survey window",
+      "surveyWindowAny": "Any",
+      "surveyWindowSet": "Dates assigned",
+      "surveyWindowUnset": "Dates not set",
+      "surveyStartFrom": "Start from",
+      "surveyStartTo": "Start to",
+      "surveyEndFrom": "End from",
+      "surveyEndTo": "End to"
     },
     "changePassword": {
       "changePassword": "Change Password",
@@ -481,13 +492,18 @@
     "loadError": "Could not load statistics.",
     "dailyDate": "Day",
     "today": "Today",
+    "export": {
+      "csv": "Export CSV",
+      "dailyFilename": "statistics-daily.csv",
+      "participantsFilename": "statistics-participants.csv"
+    },
     "kpi": {
       "studyWindow": "Study window",
       "participants": "Participants",
       "participantsWithSubmissions": "Participants active",
       "filledVsAvailable": "Filled / Available",
-      "filledVsAvailableActive": "Filled / Available (active)",
-      "filledVsAvailableActiveTooltip": "Active respondents: {{count}} — those who submitted at least one survey in the last {{days}} days ending on the selected day.",
+      "filledVsAvailableActive": "Filled / Available (set dates)",
+      "filledVsAvailableActiveTooltip": "Respondents with assigned survey dates covering the selected day: {{count}}.",
       "locationData": "Location data",
       "sensorData": "Sensor readings",
       "outsideResearchArea": "Outside research area",
@@ -511,8 +527,7 @@
       "today": "Today",
       "minFilled": "Min filled",
       "maxFilled": "Max filled",
-      "onlyActive": "Only active",
-      "activeWindowDays": "in last (days)",
+      "onlyActive": "Only respondents with set dates",
       "clear": "Clear",
       "refresh": "Refresh"
     },
@@ -537,6 +552,40 @@
     "loadError": "Could not load the daily overview.",
     "noSlots": "No surveys were scheduled for this day.",
     "noRespondentsMatch": "No respondents match the current filters."
+  },
+  "surveyWindow": {
+    "title": "Survey dates",
+    "subtitle": "Assign study start and end dates to respondents in batches, and review how many are active over time.",
+    "batch": {
+      "title": "Batch assignment",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "assign": "Assign to selected",
+      "clearDates": "Clear dates"
+    },
+    "chart": {
+      "title": "Active respondents over time",
+      "subtitle": "Count of respondents whose assigned window covers each day."
+    },
+    "list": {
+      "searchUsername": "Filter by username",
+      "selectAll": "Select all filtered",
+      "clearSelection": "Clear selection",
+      "refresh": "Refresh",
+      "username": "Username",
+      "startDate": "Start",
+      "endDate": "End",
+      "id": "ID",
+      "empty": "No respondents match the filter."
+    },
+    "messages": {
+      "saved": "Survey dates updated."
+    },
+    "errors": {
+      "loadFailed": "Could not load respondents.",
+      "saveFailed": "Could not save survey dates.",
+      "endBeforeStart": "End date must be on or after the start date."
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Items per page:",

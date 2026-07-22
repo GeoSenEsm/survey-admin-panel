@@ -6,12 +6,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { EChartsOption } from 'echarts';
 import { Subject, catchError, of, takeUntil } from 'rxjs';
+import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { STATISTICS_SERVICE } from '../../../../../core/services/registration-names';
 import { StatisticsService } from '../../../../../domain/external_services/statistics.service';
 import {
   DailyStatsDetail,
+  DailyStatsRow,
   GlobalStatsDetail,
   HourlySeriesPoint,
   ParticipantStats,
@@ -21,6 +24,31 @@ import {
 
 
 type ViewMode = 'global' | 'daily' | 'participant';
+
+const DAILY_CSV_COLUMNS: (keyof DailyStatsRow)[] = [
+  'date',
+  'totalParticipants',
+  'surveysFilled',
+  'surveysAvailable',
+  'surveysFilledActive',
+  'surveysAvailableActive',
+  'activeRespondentCount',
+  'locationDataCount',
+  'sensorDataCount',
+  'participationsOutsideAreaCount',
+];
+
+const PARTICIPANT_CSV_COLUMNS: (keyof ParticipantStats)[] = [
+  'username',
+  'respondentId',
+  'firstParticipationDate',
+  'lastParticipationDate',
+  'surveysFilled',
+  'surveysAvailable',
+  'locationDataCount',
+  'sensorDataCount',
+  'outsideResearchAreaCount',
+];
 
 @Component({
   selector: 'app-statistics',
@@ -47,6 +75,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   isLoadingGlobal = false;
   isLoadingParticipant = false;
   isLoadingDaily = false;
+  isExportingDaily = false;
   loadError = false;
 
   participationsChart: EChartsOption | null = null;
@@ -59,6 +88,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(STATISTICS_SERVICE)
     private readonly statisticsService: StatisticsService,
+    private readonly exportService: CsvExportService,
+    private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef
   ) {}
 
@@ -151,6 +182,44 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   goToToday(): void {
     this.dailyDateControl.setValue(new Date());
     this.loadDaily();
+  }
+
+  exportDailyCsv(): void {
+    if (this.isExportingDaily) return;
+    this.isExportingDaily = true;
+    this.cdr.markForCheck();
+
+    this.statisticsService
+      .listDailyStatsRows()
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(() => {
+          this.loadError = true;
+          return of<DailyStatsRow[]>([]);
+        })
+      )
+      .subscribe((rows) => {
+        this.isExportingDaily = false;
+        if (rows.length > 0) {
+          const filename = this.translate.instant('statistics.export.dailyFilename');
+          this.exportService.exportTableToCSV(
+            rows,
+            DAILY_CSV_COLUMNS as string[],
+            filename
+          );
+        }
+        this.cdr.markForCheck();
+      });
+  }
+
+  exportParticipantsCsv(): void {
+    if (this.participants.length === 0) return;
+    const filename = this.translate.instant('statistics.export.participantsFilename');
+    this.exportService.exportTableToCSV(
+      this.participants,
+      PARTICIPANT_CSV_COLUMNS as string[],
+      filename
+    );
   }
 
   fillRatio(filled: number, available: number): number {

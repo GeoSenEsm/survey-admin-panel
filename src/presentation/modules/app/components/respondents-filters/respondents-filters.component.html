@@ -77,4 +77,43 @@
     <ngx-mat-timepicker-toggle matSuffix [for]="timeToPicker" />
     <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
   </mat-form-field>
+
+  <mat-form-field class="show-respondents-who-form-field">
+    <mat-label>{{ "respondents.filters.surveyWindow" | translate }}</mat-label>
+    <mat-select [(ngModel)]="filtersModel.surveyWindowFilter">
+      <mat-option [value]="surveyWindowPresence.ANY">
+        {{ "respondents.filters.surveyWindowAny" | translate }}
+      </mat-option>
+      <mat-option [value]="surveyWindowPresence.SET">
+        {{ "respondents.filters.surveyWindowSet" | translate }}
+      </mat-option>
+      <mat-option [value]="surveyWindowPresence.UNSET">
+        {{ "respondents.filters.surveyWindowUnset" | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "respondents.filters.surveyStartFrom" | translate }}</mat-label>
+    <input matInput [matDatepicker]="surveyStartFromPicker" readonly [(ngModel)]="filtersModel.surveyStartFrom" />
+    <mat-datepicker-toggle matSuffix [for]="surveyStartFromPicker" />
+    <mat-datepicker #surveyStartFromPicker />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "respondents.filters.surveyStartTo" | translate }}</mat-label>
+    <input matInput [matDatepicker]="surveyStartToPicker" readonly [(ngModel)]="filtersModel.surveyStartTo" />
+    <mat-datepicker-toggle matSuffix [for]="surveyStartToPicker" />
+    <mat-datepicker #surveyStartToPicker />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "respondents.filters.surveyEndFrom" | translate }}</mat-label>
+    <input matInput [matDatepicker]="surveyEndFromPicker" readonly [(ngModel)]="filtersModel.surveyEndFrom" />
+    <mat-datepicker-toggle matSuffix [for]="surveyEndFromPicker" />
+    <mat-datepicker #surveyEndFromPicker />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "respondents.filters.surveyEndTo" | translate }}</mat-label>
+    <input matInput [matDatepicker]="surveyEndToPicker" readonly [(ngModel)]="filtersModel.surveyEndTo" />
+    <mat-datepicker-toggle matSuffix [for]="surveyEndToPicker" />
+    <mat-datepicker #surveyEndToPicker />
+  </mat-form-field>
 </div>

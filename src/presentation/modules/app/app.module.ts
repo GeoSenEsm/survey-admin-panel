@@ -92,12 +92,14 @@ import { EditContactComponent } from './components/edit-contact/edit-contact.com
 import { ResponseDocumentsComponent } from './components/response-documents/response-documents.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { DailyCompletionComponent } from './components/daily-completion/daily-completion.component';
+import { SurveyWindowAssignmentComponent } from './components/survey-window-assignment/survey-window-assignment.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'respondents', component: RespondentsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'surveyWindow', component: SurveyWindowAssignmentComponent, canActivate: [tokenAvailableGuard]},
     {path: '', component: LoadingComponent, canActivate: [laodingComponentGuard]},
     {path: 'surveys', component: SurveysComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
@@ -224,8 +226,9 @@ export function HttpLoaderFactory(http: HttpClient){
     EditContactComponent,
     ResponseDocumentsComponent,
     StatisticsComponent,
-    DailyCompletionComponent
-    ],
+    DailyCompletionComponent,
+    SurveyWindowAssignmentComponent
+  ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,
 })

@@ -61,7 +61,8 @@ export interface DailyCompletionRespondent {
   username: string;
   completedSlots: DailyCompletionCompletedSlot[];
   completedCount: number;
-  lastSubmissionAt: string | null;
+  surveyStartDate: string | null;
+  surveyEndDate: string | null;
 }
 
 export interface DailyCompletionOverview {
@@ -83,7 +84,6 @@ export interface DailyStatsDetail {
   surveysFilledActive: number;
   surveysAvailableActive: number;
   activeRespondentCount: number;
-  activeWindowDays: number;
   locationDataCount: number;
   sensorDataCount: number;
   participationsOutsideAreaCount: number;
@@ -91,4 +91,18 @@ export interface DailyStatsDetail {
   locationDataPerHour: HourlySeriesPoint[];
   sensorDataPerHour: HourlySeriesPoint[];
   participationsOutsideAreaPerHour: HourlySeriesPoint[];
+}
+
+/** KPI boxes only — one row per day for CSV export across the study window. */
+export interface DailyStatsRow {
+  date: string;
+  totalParticipants: number;
+  surveysFilled: number;
+  surveysAvailable: number;
+  surveysFilledActive: number;
+  surveysAvailableActive: number;
+  activeRespondentCount: number;
+  locationDataCount: number;
+  sensorDataCount: number;
+  participationsOutsideAreaCount: number;
 }

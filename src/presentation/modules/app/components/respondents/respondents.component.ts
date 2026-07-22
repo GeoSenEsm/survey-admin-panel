@@ -16,6 +16,7 @@ import { ButtonData } from '../buttons.ribbon/button.data';
 import {
   RespondentData,
   RespondentFilters,
+  SurveyWindowPresenceFilter,
 } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import {
@@ -45,7 +46,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
   headers: string[] = [];
-  directDisplayColumns = new Set<string>(['username', 'id']);
+  directDisplayColumns = new Set<string>(['username', 'id', 'surveyStartDate', 'surveyEndDate']);
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
   valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
@@ -90,6 +91,11 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       to: new Date(
         Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20)
       ),
+      surveyWindowFilter: SurveyWindowPresenceFilter.ANY,
+      surveyStartFrom: null,
+      surveyStartTo: null,
+      surveyEndFrom: null,
+      surveyEndTo: null,
     };
   }
 
@@ -143,7 +149,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           this.respondentInfos = respondentInfos as RespondentInfoCollections;
           this.headers = ['username']
             .concat(Object.keys(this.respondentInfos))
-            .concat(['id']);
+            .concat(['surveyStartDate', 'surveyEndDate', 'id']);
           this.valueDisplayMappings = convertToValueDisplayMappings(
             this.respondentInfos
           );
@@ -151,8 +157,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
             this.respondents.push(r)
           );
           this.respondents.sort((a, b) => a.username.localeCompare(b.username));
-          this.dataSource.data = this.respondents;
-          console.log(this.dataSource.data);
+          this.applyLocalFilters();
           this.initialSurveyState = initialSurveyState as InitialSurveyState;
         },
         error: () => {
@@ -177,8 +182,28 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         (res as RespondentData[]).forEach((r) => this.respondents.push(r));
-        this.dataSource.data = this.respondents;
+        this.respondents.sort((a, b) => a.username.localeCompare(b.username));
+        this.applyLocalFilters();
       });
+  }
+
+  private applyLocalFilters(): void {
+    const presence = this.filters.surveyWindowFilter ?? SurveyWindowPresenceFilter.ANY;
+    const startFrom = toLocalIsoDate(this.filters.surveyStartFrom);
+    const startTo = toLocalIsoDate(this.filters.surveyStartTo);
+    const endFrom = toLocalIsoDate(this.filters.surveyEndFrom);
+    const endTo = toLocalIsoDate(this.filters.surveyEndTo);
+
+    this.dataSource.data = this.respondents.filter((r) => {
+      const hasWindow = !!r.surveyStartDate && !!r.surveyEndDate;
+      if (presence === SurveyWindowPresenceFilter.SET && !hasWindow) return false;
+      if (presence === SurveyWindowPresenceFilter.UNSET && hasWindow) return false;
+      if (startFrom && (!r.surveyStartDate || r.surveyStartDate < startFrom)) return false;
+      if (startTo && (!r.surveyStartDate || r.surveyStartDate > startTo)) return false;
+      if (endFrom && (!r.surveyEndDate || r.surveyEndDate < endFrom)) return false;
+      if (endTo && (!r.surveyEndDate || r.surveyEndDate > endTo)) return false;
+      return true;
+    });
   }
 
   generateRespondentsAccounts(): void {
@@ -211,6 +236,14 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       return this.translate.instant(
         'respondents.respondents.usernameColumnHeader'
       );
+    }
+
+    if (columnName == 'surveyStartDate') {
+      return this.translate.instant('respondents.respondents.surveyStartDate');
+    }
+
+    if (columnName == 'surveyEndDate') {
+      return this.translate.instant('respondents.respondents.surveyEndDate');
     }
 
     return columnName;
@@ -279,4 +312,12 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   canEditRespondents(): boolean {
     return this.initialSurveyState == 'published';
   }
+}
+
+function toLocalIsoDate(date: Date | null | undefined): string | null {
+  if (!date) return null;
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }

@@ -1,6 +1,8 @@
 export type RespondentData = {
     id: string,
-    username: string
+    username: string,
+    surveyStartDate?: string | null,
+    surveyEndDate?: string | null,
 } & any;
 
 export interface RespondentFilters{
@@ -8,6 +10,18 @@ export interface RespondentFilters{
     amount: number
     from: Date,
     to: Date
+    /** Client-side: require assigned window / unset / any */
+    surveyWindowFilter?: SurveyWindowPresenceFilter
+    surveyStartFrom?: Date | null
+    surveyStartTo?: Date | null
+    surveyEndFrom?: Date | null
+    surveyEndTo?: Date | null
+}
+
+export enum SurveyWindowPresenceFilter {
+    ANY = 'any',
+    SET = 'set',
+    UNSET = 'unset',
 }
 
 export enum RespondentFilterOption{

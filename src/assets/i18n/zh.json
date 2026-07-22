@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "联系电话",
       "responseDocuments": "回答文档",
       "statistics": "统计",
-      "dailyCompletion": "每日完成情况"
+      "dailyCompletion": "每日完成情况",
+      "surveyWindow": "问卷日期"
     }
   },
   "responseDocuments": {
@@ -85,7 +86,9 @@
       "sensorData": "传感器数据",
       "locationData": "地理位置数据",
       "surveyResponses": "问卷回答",
-      "cannotEditRespondentData": "初始问卷发布前，无法编辑受访者数据。"
+      "cannotEditRespondentData": "初始问卷发布前，无法编辑受访者数据。",
+      "surveyStartDate": "问卷开始",
+      "surveyEndDate": "问卷结束"
     },
     "edit": {
       "title": "编辑受访者数据",
@@ -107,7 +110,15 @@
       "dateTo": "结束日期",
       "timeFrom": "开始时间",
       "timeTo": "结束时间",
-      "none": "无"
+      "none": "无",
+      "surveyWindow": "问卷时间窗",
+      "surveyWindowAny": "全部",
+      "surveyWindowSet": "已设置日期",
+      "surveyWindowUnset": "未设置日期",
+      "surveyStartFrom": "开始自",
+      "surveyStartTo": "开始至",
+      "surveyEndFrom": "结束自",
+      "surveyEndTo": "结束至"
     },
     "changePassword": {
       "changePassword": "修改密码",
@@ -481,13 +492,18 @@
     "loadError": "无法加载统计数据。",
     "dailyDate": "日期",
     "today": "今天",
+    "export": {
+      "csv": "导出 CSV",
+      "dailyFilename": "statistics-daily.csv",
+      "participantsFilename": "statistics-participants.csv"
+    },
     "kpi": {
       "studyWindow": "研究时段",
       "participants": "参与者",
       "participantsWithSubmissions": "活跃参与者",
       "filledVsAvailable": "已填写 / 可用",
-      "filledVsAvailableActive": "已填写 / 可用（活跃）",
-      "filledVsAvailableActiveTooltip": "活跃受访者：{{count}} — 在所选日期结束的最近 {{days}} 天内至少提交过一份问卷的用户。",
+      "filledVsAvailableActive": "已填写 / 可用（已设日期）",
+      "filledVsAvailableActiveTooltip": "已分配日期且覆盖所选日期的受访者：{{count}}。",
       "locationData": "位置数据",
       "sensorData": "传感器数据",
       "outsideResearchArea": "研究区域外",
@@ -511,8 +527,7 @@
       "today": "今天",
       "minFilled": "最少已填",
       "maxFilled": "最多已填",
-      "onlyActive": "仅活跃",
-      "activeWindowDays": "最近（天）",
+      "onlyActive": "仅显示已设置日期的受访者",
       "clear": "清除",
       "refresh": "刷新"
     },
@@ -574,5 +589,39 @@
     "editDialogTitle": "编辑联系人",
     "editedSuccessfuly": "联系人已成功更新",
     "editingFailed": "更新联系人失败。请稍后再试"
+  },
+  "surveyWindow": {
+    "title": "问卷日期",
+    "subtitle": "批量分配受访者问卷起止日期，并查看随时间变化的活跃人数。",
+    "batch": {
+      "title": "批量分配",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "assign": "分配给所选",
+      "clearDates": "清除日期"
+    },
+    "chart": {
+      "title": "活跃受访者随时间变化",
+      "subtitle": "覆盖各日期的受访者数量。"
+    },
+    "list": {
+      "searchUsername": "按用户名筛选",
+      "selectAll": "全选筛选结果",
+      "clearSelection": "清除选择",
+      "refresh": "刷新",
+      "username": "用户名",
+      "startDate": "开始",
+      "endDate": "结束",
+      "id": "ID",
+      "empty": "没有符合筛选条件的受访者。"
+    },
+    "messages": {
+      "saved": "问卷日期已更新。"
+    },
+    "errors": {
+      "loadFailed": "无法加载受访者。",
+      "saveFailed": "无法保存问卷日期。",
+      "endBeforeStart": "结束日期不能早于开始日期。"
+    }
   }
 }

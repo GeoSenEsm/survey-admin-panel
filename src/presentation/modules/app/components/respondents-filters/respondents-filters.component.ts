@@ -2,9 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   RespondentFilterOption,
   RespondentFilters,
+  SurveyWindowPresenceFilter,
 } from '../../../../../domain/models/respondent-data';
 import { parseToTime } from '../../../../../core/utils/parsers';
-import { TimeScale } from 'chart.js/dist';
 import { adjustDateRange } from '../../../../../core/utils/adjust-date-range';
 import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
@@ -16,6 +16,8 @@ import { TimeFormatService } from '../../../../../core/services/time-format.serv
 export class RespondentsFiltersComponent implements OnChanges {
   @Input()
   filtersModel: RespondentFilters | undefined;
+
+  readonly surveyWindowPresence = SurveyWindowPresenceFilter;
 
   constructor(public readonly timeFormatService: TimeFormatService){}
 

@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "Números de contacto",
       "responseDocuments": "Documentos de respuesta",
       "statistics": "Estadísticas",
-      "dailyCompletion": "Cumplimiento diario"
+      "dailyCompletion": "Cumplimiento diario",
+      "surveyWindow": "Fechas de encuesta"
     }
   },
   "responseDocuments": {
@@ -85,7 +86,9 @@
       "sensorData": "Datos de sensores",
       "locationData": "Datos de geolocalización",
       "surveyResponses": "Respuestas a encuestas",
-      "cannotEditRespondentData": "No se pueden editar los datos del encuestado hasta que se publique la encuesta inicial."
+      "cannotEditRespondentData": "No se pueden editar los datos del encuestado hasta que se publique la encuesta inicial.",
+      "surveyStartDate": "Inicio de encuesta",
+      "surveyEndDate": "Fin de encuesta"
     },
     "edit": {
       "title": "Editar datos del encuestado",
@@ -107,7 +110,15 @@
       "dateTo": "Fecha hasta",
       "timeFrom": "Hora desde",
       "timeTo": "Hora hasta",
-      "none": "Ninguno"
+      "none": "Ninguno",
+      "surveyWindow": "Ventana de encuesta",
+      "surveyWindowAny": "Cualquiera",
+      "surveyWindowSet": "Fechas asignadas",
+      "surveyWindowUnset": "Fechas no definidas",
+      "surveyStartFrom": "Inicio desde",
+      "surveyStartTo": "Inicio hasta",
+      "surveyEndFrom": "Fin desde",
+      "surveyEndTo": "Fin hasta"
     },
     "changePassword": {
       "changePassword": "Cambiar contraseña",
@@ -481,13 +492,18 @@
     "loadError": "No se pudieron cargar las estadísticas.",
     "dailyDate": "Día",
     "today": "Hoy",
+    "export": {
+      "csv": "Exportar CSV",
+      "dailyFilename": "estadisticas-diarias.csv",
+      "participantsFilename": "estadisticas-participantes.csv"
+    },
     "kpi": {
       "studyWindow": "Ventana del estudio",
       "participants": "Participantes",
       "participantsWithSubmissions": "Participantes activos",
       "filledVsAvailable": "Completadas / Disponibles",
-      "filledVsAvailableActive": "Completadas / Disponibles (activos)",
-      "filledVsAvailableActiveTooltip": "Encuestados activos: {{count}} — aquellos que enviaron al menos una encuesta en los últimos {{days}} días que terminan en el día seleccionado.",
+      "filledVsAvailableActive": "Completadas / Disponibles (fechas definidas)",
+      "filledVsAvailableActiveTooltip": "Encuestados con fechas asignadas que cubren el día seleccionado: {{count}}.",
       "locationData": "Datos de ubicación",
       "sensorData": "Lecturas de sensores",
       "outsideResearchArea": "Fuera del área de investigación",
@@ -511,8 +527,7 @@
       "today": "Hoy",
       "minFilled": "Mín. completadas",
       "maxFilled": "Máx. completadas",
-      "onlyActive": "Solo activos",
-      "activeWindowDays": "en los últimos (días)",
+      "onlyActive": "Solo encuestados con fechas definidas",
       "clear": "Limpiar",
       "refresh": "Actualizar"
     },
@@ -574,5 +589,39 @@
     "editDialogTitle": "Editar contacto",
     "editedSuccessfuly": "El contacto se ha actualizado exitosamente",
     "editingFailed": "Error al actualizar el contacto. Por favor, inténtelo de nuevo más tarde"
+  },
+  "surveyWindow": {
+    "title": "Fechas de encuesta",
+    "subtitle": "Asigne fechas de inicio y fin por lotes y revise cuántos están activos a lo largo del tiempo.",
+    "batch": {
+      "title": "Asignación por lotes",
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de fin",
+      "assign": "Asignar a seleccionados",
+      "clearDates": "Borrar fechas"
+    },
+    "chart": {
+      "title": "Encuestados activos en el tiempo",
+      "subtitle": "Número de encuestados cuya ventana cubre cada día."
+    },
+    "list": {
+      "searchUsername": "Filtrar por usuario",
+      "selectAll": "Seleccionar filtrados",
+      "clearSelection": "Limpiar selección",
+      "refresh": "Actualizar",
+      "username": "Usuario",
+      "startDate": "Inicio",
+      "endDate": "Fin",
+      "id": "ID",
+      "empty": "Ningún encuestado coincide con el filtro."
+    },
+    "messages": {
+      "saved": "Fechas de encuesta actualizadas."
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los encuestados.",
+      "saveFailed": "No se pudieron guardar las fechas.",
+      "endBeforeStart": "La fecha de fin debe ser igual o posterior a la de inicio."
+    }
   }
 }

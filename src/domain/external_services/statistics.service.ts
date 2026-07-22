@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import {
   DailyCompletionOverview,
   DailyStatsDetail,
+  DailyStatsRow,
   GlobalStatsDetail,
   ParticipantStats,
   ParticipantStatsDetail,
@@ -20,4 +21,6 @@ export interface StatisticsService {
    * Aggregates + hourly time series for the given ISO date (YYYY-MM-DD).
    */
   getDailyDetail(isoDate: string): Observable<DailyStatsDetail>;
+  /** One KPI row per day across the global study window (CSV export). */
+  listDailyStatsRows(): Observable<DailyStatsRow[]>;
 }

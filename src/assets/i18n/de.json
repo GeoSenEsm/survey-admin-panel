@@ -38,7 +38,8 @@
       "contactPhoneNumbers": "Kontaktnummern",
       "responseDocuments": "Antwortdokumente",
       "statistics": "Statistiken",
-      "dailyCompletion": "Tagesübersicht"
+      "dailyCompletion": "Tagesübersicht",
+      "surveyWindow": "Umfragedaten"
     }
   },
   "responseDocuments": {
@@ -85,7 +86,9 @@
       "sensorData": "Sensordaten",
       "locationData": "Geolokalisierungsdaten",
       "surveyResponses": "Umfrageantworten",
-      "cannotEditRespondentData": "Die Daten der Befragten können erst bearbeitet werden, wenn die Erstumfrage veröffentlicht wurde."
+      "cannotEditRespondentData": "Die Daten der Befragten können erst bearbeitet werden, wenn die Erstumfrage veröffentlicht wurde.",
+      "surveyStartDate": "Umfragebeginn",
+      "surveyEndDate": "Umfrageende"
     },
     "edit": {
       "title": "Daten der Befragten bearbeiten",
@@ -107,7 +110,15 @@
       "dateTo": "Datum bis",
       "timeFrom": "Zeit von",
       "timeTo": "Zeit bis",
-      "none": "Keine"
+      "none": "Keine",
+      "surveyWindow": "Umfragefenster",
+      "surveyWindowAny": "Beliebig",
+      "surveyWindowSet": "Daten zugewiesen",
+      "surveyWindowUnset": "Keine Daten",
+      "surveyStartFrom": "Beginn von",
+      "surveyStartTo": "Beginn bis",
+      "surveyEndFrom": "Ende von",
+      "surveyEndTo": "Ende bis"
     },
     "changePassword": {
       "changePassword": "Passwort ändern",
@@ -481,13 +492,18 @@
     "loadError": "Statistiken konnten nicht geladen werden.",
     "dailyDate": "Tag",
     "today": "Heute",
+    "export": {
+      "csv": "CSV exportieren",
+      "dailyFilename": "statistik-taeglich.csv",
+      "participantsFilename": "statistik-teilnehmer.csv"
+    },
     "kpi": {
       "studyWindow": "Studienzeitraum",
       "participants": "Teilnehmer",
       "participantsWithSubmissions": "Aktive Teilnehmer",
       "filledVsAvailable": "Ausgefüllt / Verfügbar",
-      "filledVsAvailableActive": "Ausgefüllt / Verfügbar (aktiv)",
-      "filledVsAvailableActiveTooltip": "Aktive Teilnehmer: {{count}} — jene, die in den letzten {{days}} Tagen bis einschließlich des ausgewählten Tages mindestens eine Umfrage abgeschickt haben.",
+      "filledVsAvailableActive": "Ausgefüllt / Verfügbar (gesetzte Daten)",
+      "filledVsAvailableActiveTooltip": "Teilnehmer mit zugewiesenen Umfragedaten, die den ausgewählten Tag abdecken: {{count}}.",
       "locationData": "Standortdaten",
       "sensorData": "Sensormesswerte",
       "outsideResearchArea": "Außerhalb des Untersuchungsgebiets",
@@ -511,8 +527,7 @@
       "today": "Heute",
       "minFilled": "Min. ausgefüllt",
       "maxFilled": "Max. ausgefüllt",
-      "onlyActive": "Nur aktive",
-      "activeWindowDays": "in den letzten (Tagen)",
+      "onlyActive": "Nur Teilnehmer mit gesetzten Daten",
       "clear": "Zurücksetzen",
       "refresh": "Aktualisieren"
     },
@@ -574,5 +589,39 @@
     "editDialogTitle": "Kontakt bearbeiten",
     "editedSuccessfuly": "Kontakt wurde erfolgreich aktualisiert",
     "editingFailed": "Fehler beim Aktualisieren des Kontakts. Bitte versuchen Sie es später erneut"
+  },
+  "surveyWindow": {
+    "title": "Umfragedaten",
+    "subtitle": "Weisen Sie Start- und Enddaten stapelweise zu und prüfen Sie die aktiven Teilnehmer über die Zeit.",
+    "batch": {
+      "title": "Stapelzuweisung",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "assign": "Auf Auswahl anwenden",
+      "clearDates": "Daten löschen"
+    },
+    "chart": {
+      "title": "Aktive Teilnehmer über die Zeit",
+      "subtitle": "Anzahl der Teilnehmer, deren Fenster den jeweiligen Tag abdeckt."
+    },
+    "list": {
+      "searchUsername": "Nach Benutzername filtern",
+      "selectAll": "Alle gefilterten auswählen",
+      "clearSelection": "Auswahl löschen",
+      "refresh": "Aktualisieren",
+      "username": "Benutzername",
+      "startDate": "Beginn",
+      "endDate": "Ende",
+      "id": "ID",
+      "empty": "Keine Teilnehmer entsprechen dem Filter."
+    },
+    "messages": {
+      "saved": "Umfragedaten aktualisiert."
+    },
+    "errors": {
+      "loadFailed": "Teilnehmer konnten nicht geladen werden.",
+      "saveFailed": "Umfragedaten konnten nicht gespeichert werden.",
+      "endBeforeStart": "Das Enddatum muss am oder nach dem Startdatum liegen."
+    }
   }
 }

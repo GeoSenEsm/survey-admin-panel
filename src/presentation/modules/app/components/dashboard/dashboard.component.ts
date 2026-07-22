@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private hideScrollViews = [
     '/respondents',
+    '/surveyWindow',
     '/map',
     '/temperature',
     '/summaries',

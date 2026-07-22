@@ -47,16 +47,6 @@
       <mat-checkbox formControlName="onlyActive">
         {{ 'dailyCompletion.filters.onlyActive' | translate }}
       </mat-checkbox>
-      <mat-form-field appearance="fill" class="active-days-field">
-        <mat-label>{{ 'dailyCompletion.filters.activeWindowDays' | translate }}</mat-label>
-        <input
-          matInput
-          type="number"
-          [min]="activeWindowRange.min"
-          [max]="activeWindowRange.max"
-          formControlName="activeWindowDays"
-        />
-      </mat-form-field>
     </div>
 
     <button
