@@ -602,7 +602,7 @@
   "issues": {
     "title": "Probleme",
     "subtitle": "Finden Sie Befragte mit geringer Umfrage-, GPS- oder Sensorerfüllung in ihrem Studienfenster oder einem eigenen Zeitraum.",
-    "customDatesDisclaimer": "Eigene Daten gelten nur für Befragte mit zugewiesenem Umfragefenster (Start- und Enddatum). Befragte ohne Daten werden ausgeschlossen.",
+    "customDatesDisclaimer": "Eigene Daten gelten nur für Befragte mit Umfragefenster. Kennzahlen nutzen die Schnittmenge aus gewähltem Zeitraum und Fenster; Befragte ohne Umfragen in dieser Schnittmenge werden ausgeblendet.",
     "filters": {
       "rangeSurveyWindow": "Umfragefenster",
       "rangeCustom": "Eigene Daten",

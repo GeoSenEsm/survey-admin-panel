@@ -602,7 +602,7 @@
   "issues": {
     "title": "问题",
     "subtitle": "查找在研究时间窗或自定义日期范围内问卷、GPS 或传感器完成率偏低的受访者。",
-    "customDatesDisclaimer": "自定义日期仅包含已设置问卷时间窗（开始和结束日期）的受访者。未设置日期的受访者会被排除。",
+    "customDatesDisclaimer": "自定义日期仅包含已设置问卷时间窗的受访者。指标按所选日期与各受访者时间窗的交集计算；在该交集内没有问卷的受访者会被隐藏。",
     "filters": {
       "rangeSurveyWindow": "问卷时间窗",
       "rangeCustom": "自定义日期",
