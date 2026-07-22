@@ -565,6 +565,7 @@
   "issues": {
     "title": "Issues",
     "subtitle": "Find respondents with low survey, GPS, or sensor fulfillment inside their study window or a custom date range.",
+    "customDatesDisclaimer": "Custom dates only include respondents who already have a survey window (start and end dates) assigned. Respondents without dates are excluded.",
     "filters": {
       "rangeSurveyWindow": "Survey window",
       "rangeCustom": "Custom dates",

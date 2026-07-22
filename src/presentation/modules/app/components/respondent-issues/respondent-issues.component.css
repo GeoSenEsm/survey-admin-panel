@@ -20,6 +20,17 @@
   font-size: 0.9rem;
 }
 
+.disclaimer {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.75);
+  background: #fff8e1;
+  border-left: 3px solid #f9a825;
+  border-radius: 4px;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;

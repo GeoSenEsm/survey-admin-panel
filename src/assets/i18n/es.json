@@ -602,6 +602,7 @@
   "issues": {
     "title": "Problemas",
     "subtitle": "Encuentre encuestados con bajo cumplimiento de encuesta, GPS o sensores en su ventana de estudio o en un rango personalizado.",
+    "customDatesDisclaimer": "Las fechas personalizadas solo incluyen encuestados que ya tienen una ventana de encuesta (fechas de inicio y fin). Los encuestados sin fechas se excluyen.",
     "filters": {
       "rangeSurveyWindow": "Ventana de encuesta",
       "rangeCustom": "Fechas personalizadas",

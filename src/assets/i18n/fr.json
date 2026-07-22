@@ -602,6 +602,7 @@
   "issues": {
     "title": "Problèmes",
     "subtitle": "Trouvez les répondants avec un faible taux de complétion enquête, GPS ou capteurs dans leur fenêtre d'étude ou une plage personnalisée.",
+    "customDatesDisclaimer": "Les dates personnalisées n'incluent que les répondants ayant déjà une fenêtre d'enquête (dates de début et de fin). Les répondants sans dates sont exclus.",
     "filters": {
       "rangeSurveyWindow": "Fenêtre d'enquête",
       "rangeCustom": "Dates personnalisées",

@@ -602,6 +602,7 @@
   "issues": {
     "title": "Problemy",
     "subtitle": "Znajdź respondentów z niskim wypełnieniem ankiet, GPS lub sensorów w ich oknie badania albo w wybranym zakresie dat.",
+    "customDatesDisclaimer": "Własne daty obejmują tylko respondentów, którzy mają już przypisane okno ankiety (daty początku i końca). Respondenci bez dat są pomijani.",
     "filters": {
       "rangeSurveyWindow": "Okno ankiety",
       "rangeCustom": "Własne daty",
