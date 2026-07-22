@@ -48,22 +48,11 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-.chart-card,
 .table-card {
   background: #fff;
   border-radius: 8px;
   padding: 16px 18px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.chart-card h2 {
-  margin: 0 0 4px;
-  font-size: 1.05rem;
-}
-
-.echart {
-  width: 100%;
-  height: 280px;
 }
 
 .issues-table {

@@ -126,8 +126,5 @@ export interface RespondentIssue {
 
 export interface IssuesOverview {
   respondents: RespondentIssue[];
-  below80SurveyCount: number;
-  below80GpsCount: number;
-  below80SensorCount: number;
   respondentsConsidered: number;
 }

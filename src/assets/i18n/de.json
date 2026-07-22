@@ -618,13 +618,6 @@
     "summary": {
       "respondents": "{{visible}} von {{total}} Befragten"
     },
-    "chart": {
-      "title": "Befragte unter 80% Erfüllung",
-      "subtitle": "Anzahlen für Umfrage, GPS und Sensor im geladenen Zeitraum.",
-      "survey": "Umfrage",
-      "gps": "GPS",
-      "sensor": "Sensor"
-    },
     "table": {
       "username": "Benutzername",
       "window": "Fenster",

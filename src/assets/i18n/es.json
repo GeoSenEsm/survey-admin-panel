@@ -618,13 +618,6 @@
     "summary": {
       "respondents": "Mostrando {{visible}} de {{total}} encuestados"
     },
-    "chart": {
-      "title": "Encuestados por debajo del 80%",
-      "subtitle": "Conteos de encuesta, GPS y sensores para el rango cargado.",
-      "survey": "Encuesta",
-      "gps": "GPS",
-      "sensor": "Sensores"
-    },
     "table": {
       "username": "Nombre de usuario",
       "window": "Ventana",

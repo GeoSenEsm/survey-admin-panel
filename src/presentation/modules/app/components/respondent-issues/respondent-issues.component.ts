@@ -10,9 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { EChartsOption } from 'echarts';
 import { Subject, catchError, finalize, of, takeUntil } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { STATISTICS_SERVICE } from '../../../../../core/services/registration-names';
 import { StatisticsService } from '../../../../../domain/external_services/statistics.service';
 import {
@@ -60,7 +58,6 @@ export class RespondentIssuesComponent implements OnInit, OnDestroy {
 
   dataSource = new MatTableDataSource<RespondentIssue>([]);
   overview: IssuesOverview | null = null;
-  chartOptions: EChartsOption | null = null;
   isLoading = false;
   loadError = false;
 
@@ -70,7 +67,6 @@ export class RespondentIssuesComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(STATISTICS_SERVICE)
     private readonly statisticsService: StatisticsService,
-    private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef
   ) {}
 
@@ -175,7 +171,6 @@ export class RespondentIssuesComponent implements OnInit, OnDestroy {
       .subscribe((overview) => {
         this.overview = overview;
         this.allRows = overview?.respondents ?? [];
-        this.chartOptions = overview ? this.buildBelow80Chart(overview) : null;
         this.dataSource = new MatTableDataSource(this.allRows);
         setTimeout(() => {
           if (this.sort) this.dataSource.sort = this.sort;
@@ -200,35 +195,6 @@ export class RespondentIssuesComponent implements OnInit, OnDestroy {
       return false;
     }
     return true;
-  }
-
-  private buildBelow80Chart(overview: IssuesOverview): EChartsOption {
-    return {
-      tooltip: { trigger: 'axis' },
-      grid: { left: 48, right: 24, top: 32, bottom: 40 },
-      xAxis: {
-        type: 'category',
-        data: [
-          this.translate.instant('issues.chart.survey'),
-          this.translate.instant('issues.chart.gps'),
-          this.translate.instant('issues.chart.sensor'),
-        ],
-      },
-      yAxis: { type: 'value', minInterval: 1 },
-      series: [
-        {
-          type: 'bar',
-          barWidth: '42%',
-          data: [
-            overview.below80SurveyCount,
-            overview.below80GpsCount,
-            overview.below80SensorCount,
-          ],
-          itemStyle: { color: '#c62828' },
-          label: { show: true, position: 'top' },
-        },
-      ],
-    };
   }
 }
 

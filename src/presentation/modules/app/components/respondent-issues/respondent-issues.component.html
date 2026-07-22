@@ -76,12 +76,6 @@
       </span>
     </section>
 
-    <section class="chart-card" *ngIf="chartOptions">
-      <h2>{{ 'issues.chart.title' | translate }}</h2>
-      <p class="subtitle">{{ 'issues.chart.subtitle' | translate }}</p>
-      <div echarts [options]="chartOptions" class="echart"></div>
-    </section>
-
     <div class="table-card">
       <table mat-table [dataSource]="dataSource" matSort class="issues-table">
         <ng-container matColumnDef="username">

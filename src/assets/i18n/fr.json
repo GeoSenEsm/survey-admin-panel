@@ -618,13 +618,6 @@
     "summary": {
       "respondents": "{{visible}} sur {{total}} répondants"
     },
-    "chart": {
-      "title": "Répondants sous 80% de complétion",
-      "subtitle": "Comptes pour enquête, GPS et capteurs sur la plage chargée.",
-      "survey": "Enquête",
-      "gps": "GPS",
-      "sensor": "Capteurs"
-    },
     "table": {
       "username": "Nom d'utilisateur",
       "window": "Fenêtre",

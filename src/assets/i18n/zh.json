@@ -618,13 +618,6 @@
     "summary": {
       "respondents": "显示 {{visible}} / {{total}} 位受访者"
     },
-    "chart": {
-      "title": "完成率低于 80% 的受访者",
-      "subtitle": "已加载范围内问卷、GPS、传感器三类计数。",
-      "survey": "问卷",
-      "gps": "GPS",
-      "sensor": "传感器"
-    },
     "table": {
       "username": "用户名",
       "window": "时间窗",

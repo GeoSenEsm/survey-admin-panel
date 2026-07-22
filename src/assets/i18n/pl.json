@@ -618,13 +618,6 @@
     "summary": {
       "respondents": "Pokazano {{visible}} z {{total}} respondentów"
     },
-    "chart": {
-      "title": "Respondenci poniżej 80% wypełnienia",
-      "subtitle": "Liczby w kategoriach ankieta, GPS i sensory dla wczytanego zakresu.",
-      "survey": "Ankiety",
-      "gps": "GPS",
-      "sensor": "Sensory"
-    },
     "table": {
       "username": "Nazwa użytkownika",
       "window": "Okno",
