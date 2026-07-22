@@ -106,3 +106,28 @@ export interface DailyStatsRow {
   sensorDataCount: number;
   participationsOutsideAreaCount: number;
 }
+
+export type IssuesRangeMode = 'survey_window' | 'custom';
+
+export interface RespondentIssue {
+  respondentId: string;
+  username: string;
+  windowStart: string;
+  windowEnd: string;
+  surveysFilled: number;
+  surveysAvailable: number;
+  gpsFilled: number;
+  sensorFilled: number;
+  skippedSurveys: number;
+  surveyCompletionPercent: number | null;
+  gpsCompletionPercent: number | null;
+  sensorCompletionPercent: number | null;
+}
+
+export interface IssuesOverview {
+  respondents: RespondentIssue[];
+  below80SurveyCount: number;
+  below80GpsCount: number;
+  below80SensorCount: number;
+  respondentsConsidered: number;
+}

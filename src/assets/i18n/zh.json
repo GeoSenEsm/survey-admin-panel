@@ -39,7 +39,8 @@
       "responseDocuments": "回答文档",
       "statistics": "统计",
       "dailyCompletion": "每日完成情况",
-      "surveyWindow": "问卷日期"
+      "surveyWindow": "问卷日期",
+      "issues": "问题"
     }
   },
   "responseDocuments": {
@@ -75,6 +76,7 @@
       "createRespondentsAccounts": "创建受访者账户",
       "usernameColumnHeader": "用户名",
       "refresh": "刷新",
+      "applyFilters": "应用筛选",
       "nothingToDisplay": "无内容可显示",
       "errorLoadingRespondents": "哎呀……加载受访者时出错。请稍后再试。",
       "export": "导出",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "出现错误"
     },
     "filters": {
+      "username": "用户名",
+      "id": "ID",
       "showRespondentsWho": "显示满足以下条件的受访者",
       "hasNotSentAtLeastNumberOfSurveys": "至少跳过了这么多份问卷",
       "hasNotSentAtLeastNumberOfLocationData": "发送的位置数据少于此数量",
@@ -594,6 +598,44 @@
     "editDialogTitle": "编辑联系人",
     "editedSuccessfuly": "联系人已成功更新",
     "editingFailed": "更新联系人失败。请稍后再试"
+  },
+  "issues": {
+    "title": "问题",
+    "subtitle": "查找在研究时间窗或自定义日期范围内问卷、GPS 或传感器完成率偏低的受访者。",
+    "filters": {
+      "rangeSurveyWindow": "问卷时间窗",
+      "rangeCustom": "自定义日期",
+      "from": "从",
+      "to": "到",
+      "load": "加载",
+      "minSkipped": "至少跳过",
+      "maxSurveyPercent": "问卷完成率 ≤ %",
+      "maxGpsPercent": "GPS 完成率 ≤ %",
+      "maxSensorPercent": "传感器完成率 ≤ %",
+      "apply": "应用筛选",
+      "clear": "清除筛选"
+    },
+    "summary": {
+      "respondents": "显示 {{visible}} / {{total}} 位受访者"
+    },
+    "chart": {
+      "title": "完成率低于 80% 的受访者",
+      "subtitle": "已加载范围内问卷、GPS、传感器三类计数。",
+      "survey": "问卷",
+      "gps": "GPS",
+      "sensor": "传感器"
+    },
+    "table": {
+      "username": "用户名",
+      "window": "时间窗",
+      "surveys": "已填问卷",
+      "surveyPercent": "问卷 %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "传感器 %",
+      "skipped": "跳过",
+      "empty": "没有符合筛选条件的受访者。"
+    },
+    "loadError": "无法加载问题数据。"
   },
   "surveyWindow": {
     "title": "问卷日期",

@@ -23,8 +23,13 @@ export class SurveyWindowAssignmentComponent implements OnInit, OnDestroy {
 
   respondents: RespondentData[] = [];
   filteredRespondents: RespondentData[] = [];
+  pagedRespondents: RespondentData[] = [];
   selectedIds = new Set<string>();
   usernameFilter = '';
+
+  pageIndex = 0;
+  pageSize = 25;
+  readonly pageSizeOptions = [25, 50, 100];
 
   activityChart: EChartsOption | null = null;
   isLoading = false;
@@ -92,6 +97,23 @@ export class SurveyWindowAssignmentComponent implements OnInit, OnDestroy {
           String(r.username).toLowerCase().includes(needle)
         )
       : this.respondents.slice();
+    this.pageIndex = 0;
+    this.applyPagination();
+  }
+
+  onPage(event: { pageIndex: number; pageSize: number }): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.applyPagination();
+  }
+
+  private applyPagination(): void {
+    const start = this.pageIndex * this.pageSize;
+    this.pagedRespondents = this.filteredRespondents.slice(
+      start,
+      start + this.pageSize
+    );
+    this.cdr.markForCheck();
   }
 
   isSelected(id: string): boolean {

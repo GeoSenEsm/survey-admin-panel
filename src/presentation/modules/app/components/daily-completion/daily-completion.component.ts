@@ -63,7 +63,7 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
     date: new FormControl<Date>(new Date(), { nonNullable: true }),
     minFilled: new FormControl<number | null>(null),
     maxFilled: new FormControl<number | null>(null),
-    onlyActive: new FormControl<boolean>(false, { nonNullable: true }),
+    onlyActive: new FormControl<boolean>(true, { nonNullable: true }),
   });
 
   readonly cardWidthRange = CARD_WIDTH_RANGE;
@@ -126,7 +126,7 @@ export class DailyCompletionComponent implements OnInit, OnDestroy {
     this.filters.patchValue({
       minFilled: null,
       maxFilled: null,
-      onlyActive: false,
+      onlyActive: true,
     });
   }
 

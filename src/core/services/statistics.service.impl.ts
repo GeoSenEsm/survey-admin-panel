@@ -7,6 +7,8 @@ import {
   DailyStatsDetail,
   DailyStatsRow,
   GlobalStatsDetail,
+  IssuesOverview,
+  IssuesRangeMode,
   ParticipantStats,
   ParticipantStatsDetail,
 } from '../../domain/models/statistics';
@@ -47,5 +49,16 @@ export class StatisticsServiceImpl
 
   listDailyStatsRows(): Observable<DailyStatsRow[]> {
     return this.get<DailyStatsRow[]>('/api/statistics/daily/rows');
+  }
+
+  getIssuesOverview(
+    rangeMode: IssuesRangeMode,
+    from?: string,
+    to?: string
+  ): Observable<IssuesOverview> {
+    const params: { [key: string]: string } = { rangeMode };
+    if (from) params['from'] = from;
+    if (to) params['to'] = to;
+    return this.get<IssuesOverview>('/api/statistics/issues', params);
   }
 }

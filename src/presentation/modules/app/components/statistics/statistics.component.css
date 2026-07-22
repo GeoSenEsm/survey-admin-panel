@@ -14,9 +14,7 @@
   flex-direction: column;
   gap: 20px;
   box-sizing: border-box;
-  max-width: 1400px;
   width: 100%;
-  align-self: center;
 }
 
 /* --- Toolbar (view toggle + participant picker) ---------------------- */

@@ -39,7 +39,8 @@
       "responseDocuments": "Dokumenty odpowiedzi",
       "statistics": "Statystyki",
       "dailyCompletion": "Wypełnienia dzienne",
-      "surveyWindow": "Daty ankiety"
+      "surveyWindow": "Daty ankiety",
+      "issues": "Problemy"
     }
   },
   "responseDocuments": {
@@ -75,6 +76,7 @@
       "createRespondentsAccounts": "Utwórz konta dla respondentów",
       "usernameColumnHeader": "Nazwa użytkownika",
       "refresh": "Odśwież",
+      "applyFilters": "Zastosuj filtry",
       "nothingToDisplay": "Brak respondentów do wyswietlenia",
       "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
       "export": "Exportuj",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "Coś poszło nie tak"
     },
     "filters": {
+      "username": "Nazwa użytkownika",
+      "id": "ID",
       "showRespondentsWho": "Pokazuj respondentów, którzy",
       "hasNotSentAtLeastNumberOfSurveys": "Ominęli przynajmniej tyle ankiet",
       "hasNotSentAtLeastNumberOfLocationData": "Wysłali mniej niż tyle danych lokalizacyjnych",
@@ -594,6 +598,44 @@
     "editDialogTitle": "Edytuj kontakt",
     "editedSuccessfuly": "Kontakt został pomyślnie zaktualizowany",
     "editingFailed": "Zaktualizowanie kontaktu nie powiodło. Spróbuj ponownie później"
+  },
+  "issues": {
+    "title": "Problemy",
+    "subtitle": "Znajdź respondentów z niskim wypełnieniem ankiet, GPS lub sensorów w ich oknie badania albo w wybranym zakresie dat.",
+    "filters": {
+      "rangeSurveyWindow": "Okno ankiety",
+      "rangeCustom": "Własne daty",
+      "from": "Od",
+      "to": "Do",
+      "load": "Wczytaj",
+      "minSkipped": "Pominięto co najmniej",
+      "maxSurveyPercent": "Wypełnienie ankiet ≤ %",
+      "maxGpsPercent": "Wypełnienie GPS ≤ %",
+      "maxSensorPercent": "Wypełnienie sensorów ≤ %",
+      "apply": "Zastosuj filtry",
+      "clear": "Wyczyść filtry"
+    },
+    "summary": {
+      "respondents": "Pokazano {{visible}} z {{total}} respondentów"
+    },
+    "chart": {
+      "title": "Respondenci poniżej 80% wypełnienia",
+      "subtitle": "Liczby w kategoriach ankieta, GPS i sensory dla wczytanego zakresu.",
+      "survey": "Ankiety",
+      "gps": "GPS",
+      "sensor": "Sensory"
+    },
+    "table": {
+      "username": "Nazwa użytkownika",
+      "window": "Okno",
+      "surveys": "Wypełnione ankiety",
+      "surveyPercent": "Ankiety %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensory %",
+      "skipped": "Pominięte",
+      "empty": "Brak respondentów spełniających filtry."
+    },
+    "loadError": "Nie udało się wczytać danych problemów."
   },
   "surveyWindow": {
     "title": "Daty ankiety",

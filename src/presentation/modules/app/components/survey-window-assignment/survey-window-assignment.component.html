@@ -85,7 +85,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let r of filteredRespondents; trackBy: trackById">
+        <tr *ngFor="let r of pagedRespondents; trackBy: trackById">
           <td>
             <mat-checkbox
               [checked]="isSelected(r.id)"
@@ -99,6 +99,15 @@
         </tr>
       </tbody>
     </table>
+    <mat-paginator
+      *ngIf="!isLoading && !loadError && filteredRespondents.length > 0"
+      [length]="filteredRespondents.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPage($event)"
+      showFirstLastButtons
+    />
     <p class="empty" *ngIf="!isLoading && !loadError && filteredRespondents.length === 0">
       {{ 'surveyWindow.list.empty' | translate }}
     </p>

@@ -39,7 +39,8 @@
       "responseDocuments": "Antwortdokumente",
       "statistics": "Statistiken",
       "dailyCompletion": "Tagesübersicht",
-      "surveyWindow": "Umfragedaten"
+      "surveyWindow": "Umfragedaten",
+      "issues": "Probleme"
     }
   },
   "responseDocuments": {
@@ -75,6 +76,7 @@
       "createRespondentsAccounts": "Konten für Befragte erstellen",
       "usernameColumnHeader": "Benutzername",
       "refresh": "Aktualisieren",
+      "applyFilters": "Filter anwenden",
       "nothingToDisplay": "Nichts anzuzeigen",
       "errorLoadingRespondents": "Ups... Beim Laden der Befragten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
       "export": "Exportieren",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "Etwas ist schief gelaufen"
     },
     "filters": {
+      "username": "Benutzername",
+      "id": "ID",
       "showRespondentsWho": "Befragte anzeigen, die",
       "hasNotSentAtLeastNumberOfSurveys": "Haben mindestens diese Anzahl von Umfragen übersprungen",
       "hasNotSentAtLeastNumberOfLocationData": "Haben weniger als diese Anzahl von Standortdaten gesendet",
@@ -594,6 +598,44 @@
     "editDialogTitle": "Kontakt bearbeiten",
     "editedSuccessfuly": "Kontakt wurde erfolgreich aktualisiert",
     "editingFailed": "Fehler beim Aktualisieren des Kontakts. Bitte versuchen Sie es später erneut"
+  },
+  "issues": {
+    "title": "Probleme",
+    "subtitle": "Finden Sie Befragte mit geringer Umfrage-, GPS- oder Sensorerfüllung in ihrem Studienfenster oder einem eigenen Zeitraum.",
+    "filters": {
+      "rangeSurveyWindow": "Umfragefenster",
+      "rangeCustom": "Eigene Daten",
+      "from": "Von",
+      "to": "Bis",
+      "load": "Laden",
+      "minSkipped": "Mindestens übersprungen",
+      "maxSurveyPercent": "Umfrageerfüllung ≤ %",
+      "maxGpsPercent": "GPS-Erfüllung ≤ %",
+      "maxSensorPercent": "Sensorerfüllung ≤ %",
+      "apply": "Filter anwenden",
+      "clear": "Filter löschen"
+    },
+    "summary": {
+      "respondents": "{{visible}} von {{total}} Befragten"
+    },
+    "chart": {
+      "title": "Befragte unter 80% Erfüllung",
+      "subtitle": "Anzahlen für Umfrage, GPS und Sensor im geladenen Zeitraum.",
+      "survey": "Umfrage",
+      "gps": "GPS",
+      "sensor": "Sensor"
+    },
+    "table": {
+      "username": "Benutzername",
+      "window": "Fenster",
+      "surveys": "Ausgefüllte Umfragen",
+      "surveyPercent": "Umfrage %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensor %",
+      "skipped": "Übersprungen",
+      "empty": "Keine Befragten entsprechen den Filtern."
+    },
+    "loadError": "Problemdaten konnten nicht geladen werden."
   },
   "surveyWindow": {
     "title": "Umfragedaten",

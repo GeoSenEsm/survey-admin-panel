@@ -39,7 +39,8 @@
       "responseDocuments": "Documents de réponse",
       "statistics": "Statistiques",
       "dailyCompletion": "Suivi quotidien",
-      "surveyWindow": "Dates d'enquête"
+      "surveyWindow": "Dates d'enquête",
+      "issues": "Problèmes"
     }
   },
   "responseDocuments": {
@@ -75,6 +76,7 @@
       "createRespondentsAccounts": "Créer des comptes pour les répondants",
       "usernameColumnHeader": "Nom d'utilisateur",
       "refresh": "Actualiser",
+      "applyFilters": "Appliquer les filtres",
       "nothingToDisplay": "Rien à afficher",
       "errorLoadingRespondents": "Oups... Une erreur s'est produite lors du chargement des répondants. Réessayez plus tard.",
       "export": "Exporter",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "Quelque chose s'est mal passé"
     },
     "filters": {
+      "username": "Nom d'utilisateur",
+      "id": "ID",
       "showRespondentsWho": "Afficher les répondants qui",
       "hasNotSentAtLeastNumberOfSurveys": "Ont sauté au moins ce nombre d'enquêtes",
       "hasNotSentAtLeastNumberOfLocationData": "Ont envoyé moins de ce nombre de données de localisation",
@@ -594,6 +598,44 @@
     "editDialogTitle": "Modifier le contact",
     "editedSuccessfuly": "Le contact a été mis à jour avec succès",
     "editingFailed": "La mise à jour du contact a échoué. Veuillez réessayer plus tard"
+  },
+  "issues": {
+    "title": "Problèmes",
+    "subtitle": "Trouvez les répondants avec un faible taux de complétion enquête, GPS ou capteurs dans leur fenêtre d'étude ou une plage personnalisée.",
+    "filters": {
+      "rangeSurveyWindow": "Fenêtre d'enquête",
+      "rangeCustom": "Dates personnalisées",
+      "from": "Du",
+      "to": "Au",
+      "load": "Charger",
+      "minSkipped": "Au moins omis",
+      "maxSurveyPercent": "Complétion enquête ≤ %",
+      "maxGpsPercent": "Complétion GPS ≤ %",
+      "maxSensorPercent": "Complétion capteurs ≤ %",
+      "apply": "Appliquer les filtres",
+      "clear": "Effacer les filtres"
+    },
+    "summary": {
+      "respondents": "{{visible}} sur {{total}} répondants"
+    },
+    "chart": {
+      "title": "Répondants sous 80% de complétion",
+      "subtitle": "Comptes pour enquête, GPS et capteurs sur la plage chargée.",
+      "survey": "Enquête",
+      "gps": "GPS",
+      "sensor": "Capteurs"
+    },
+    "table": {
+      "username": "Nom d'utilisateur",
+      "window": "Fenêtre",
+      "surveys": "Enquêtes remplies",
+      "surveyPercent": "Enquête %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Capteurs %",
+      "skipped": "Omises",
+      "empty": "Aucun répondant ne correspond aux filtres."
+    },
+    "loadError": "Impossible de charger les données des problèmes."
   },
   "surveyWindow": {
     "title": "Dates d'enquête",

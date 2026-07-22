@@ -39,7 +39,8 @@
       "responseDocuments": "Response documents",
       "statistics": "Statistics",
       "dailyCompletion": "Daily completion",
-      "surveyWindow": "Survey dates"
+      "surveyWindow": "Survey dates",
+      "issues": "Issues"
     }
   },
   "responseDocuments": {
@@ -77,6 +78,7 @@
       "surveyStartDate": "Survey start",
       "surveyEndDate": "Survey end",
       "refresh": "Refresh",
+      "applyFilters": "Apply filters",
       "nothingToDisplay": "Nothing to display",
       "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
       "export": "Export",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "Something went wrong"
     },
     "filters": {
+      "username": "Username",
+      "id": "ID",
       "showRespondentsWho": "Show respondents who",
       "hasNotSentAtLeastNumberOfSurveys": "Skipped at least this many surveys",
       "hasNotSentAtLeastNumberOfLocationData": "Have sent less than this many location data points",
@@ -557,6 +561,44 @@
     "loadError": "Could not load the daily overview.",
     "noSlots": "No surveys were scheduled for this day.",
     "noRespondentsMatch": "No respondents match the current filters."
+  },
+  "issues": {
+    "title": "Issues",
+    "subtitle": "Find respondents with low survey, GPS, or sensor fulfillment inside their study window or a custom date range.",
+    "filters": {
+      "rangeSurveyWindow": "Survey window",
+      "rangeCustom": "Custom dates",
+      "from": "From",
+      "to": "To",
+      "load": "Load",
+      "minSkipped": "Skipped at least",
+      "maxSurveyPercent": "Survey fulfillment ≤ %",
+      "maxGpsPercent": "GPS fulfillment ≤ %",
+      "maxSensorPercent": "Sensor fulfillment ≤ %",
+      "apply": "Apply filters",
+      "clear": "Clear filters"
+    },
+    "summary": {
+      "respondents": "Showing {{visible}} of {{total}} respondents"
+    },
+    "chart": {
+      "title": "Respondents below 80% fulfillment",
+      "subtitle": "Counts across survey, GPS, and sensor categories for the loaded range.",
+      "survey": "Survey",
+      "gps": "GPS",
+      "sensor": "Sensor"
+    },
+    "table": {
+      "username": "Username",
+      "window": "Window",
+      "surveys": "Surveys filled",
+      "surveyPercent": "Survey %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensor %",
+      "skipped": "Skipped",
+      "empty": "No respondents match the current filters."
+    },
+    "loadError": "Could not load issues data."
   },
   "surveyWindow": {
     "title": "Survey dates",

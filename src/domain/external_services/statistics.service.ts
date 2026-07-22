@@ -4,6 +4,8 @@ import {
   DailyStatsDetail,
   DailyStatsRow,
   GlobalStatsDetail,
+  IssuesOverview,
+  IssuesRangeMode,
   ParticipantStats,
   ParticipantStatsDetail,
 } from '../models/statistics';
@@ -23,4 +25,9 @@ export interface StatisticsService {
   getDailyDetail(isoDate: string): Observable<DailyStatsDetail>;
   /** One KPI row per day across the global study window (CSV export). */
   listDailyStatsRows(): Observable<DailyStatsRow[]>;
+  getIssuesOverview(
+    rangeMode: IssuesRangeMode,
+    from?: string,
+    to?: string
+  ): Observable<IssuesOverview>;
 }

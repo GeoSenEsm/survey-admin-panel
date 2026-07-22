@@ -27,6 +27,11 @@ export function getNavListItems(): NavListItem[] {
       link: 'respondents',
     },
     {
+      display: 'app.dashboard.issues',
+      matIcon: 'report_problem',
+      link: 'issues',
+    },
+    {
       display: 'app.dashboard.surveyWindow',
       matIcon: 'date_range',
       link: 'surveyWindow',

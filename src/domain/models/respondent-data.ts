@@ -10,6 +10,8 @@ export interface RespondentFilters{
     amount: number
     from: Date,
     to: Date
+    username?: string
+    id?: string
     /** Client-side: require assigned window / unset / any */
     surveyWindowFilter?: SurveyWindowPresenceFilter
     surveyStartFrom?: Date | null

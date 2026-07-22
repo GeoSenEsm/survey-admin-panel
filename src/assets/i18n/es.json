@@ -39,7 +39,8 @@
       "responseDocuments": "Documentos de respuesta",
       "statistics": "Estadísticas",
       "dailyCompletion": "Cumplimiento diario",
-      "surveyWindow": "Fechas de encuesta"
+      "surveyWindow": "Fechas de encuesta",
+      "issues": "Problemas"
     }
   },
   "responseDocuments": {
@@ -75,6 +76,7 @@
       "createRespondentsAccounts": "Crear cuentas para encuestados",
       "usernameColumnHeader": "Nombre de usuario",
       "refresh": "Actualizar",
+      "applyFilters": "Aplicar filtros",
       "nothingToDisplay": "Nada que mostrar",
       "errorLoadingRespondents": "Ups... Hubo un error al cargar los encuestados. Inténtelo de nuevo más tarde.",
       "export": "Exportar",
@@ -106,6 +108,8 @@
       "somethingWentWrong": "Algo salió mal"
     },
     "filters": {
+      "username": "Nombre de usuario",
+      "id": "ID",
       "showRespondentsWho": "Mostrar encuestados que",
       "hasNotSentAtLeastNumberOfSurveys": "Han omitido al menos este número de encuestas",
       "hasNotSentAtLeastNumberOfLocationData": "Han enviado menos de este número de datos de ubicación",
@@ -594,6 +598,44 @@
     "editDialogTitle": "Editar contacto",
     "editedSuccessfuly": "El contacto se ha actualizado exitosamente",
     "editingFailed": "Error al actualizar el contacto. Por favor, inténtelo de nuevo más tarde"
+  },
+  "issues": {
+    "title": "Problemas",
+    "subtitle": "Encuentre encuestados con bajo cumplimiento de encuesta, GPS o sensores en su ventana de estudio o en un rango personalizado.",
+    "filters": {
+      "rangeSurveyWindow": "Ventana de encuesta",
+      "rangeCustom": "Fechas personalizadas",
+      "from": "Desde",
+      "to": "Hasta",
+      "load": "Cargar",
+      "minSkipped": "Omitidas al menos",
+      "maxSurveyPercent": "Cumplimiento encuesta ≤ %",
+      "maxGpsPercent": "Cumplimiento GPS ≤ %",
+      "maxSensorPercent": "Cumplimiento sensores ≤ %",
+      "apply": "Aplicar filtros",
+      "clear": "Borrar filtros"
+    },
+    "summary": {
+      "respondents": "Mostrando {{visible}} de {{total}} encuestados"
+    },
+    "chart": {
+      "title": "Encuestados por debajo del 80%",
+      "subtitle": "Conteos de encuesta, GPS y sensores para el rango cargado.",
+      "survey": "Encuesta",
+      "gps": "GPS",
+      "sensor": "Sensores"
+    },
+    "table": {
+      "username": "Nombre de usuario",
+      "window": "Ventana",
+      "surveys": "Encuestas completadas",
+      "surveyPercent": "Encuesta %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensores %",
+      "skipped": "Omitidas",
+      "empty": "Ningún encuestado coincide con los filtros."
+    },
+    "loadError": "No se pudieron cargar los datos de problemas."
   },
   "surveyWindow": {
     "title": "Fechas de encuesta",

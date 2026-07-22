@@ -1,16 +1,14 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   Inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
 import {
@@ -53,6 +51,11 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   isBusy = false;
   readonly ribbonButtons: ButtonData[] = [
     {
+      content: 'respondents.respondents.applyFilters',
+      onClick: () => this.applyFilters(),
+      icon: 'filter_alt',
+    },
+    {
       content: 'respondents.respondents.refresh',
       onClick: this.reloadRespondents.bind(this),
       icon: 'refresh',
@@ -82,15 +85,12 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     @Inject(START_SURVEY_SERVICE_TOKEN)
     private readonly initialSurveyService: StartSurveyService
   ) {
-    const now = new Date();
     this.filters = {
       amount: 1,
-      from: new Date(
-        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7)
-      ),
-      to: new Date(
-        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20)
-      ),
+      from: new Date(),
+      to: new Date(),
+      username: '',
+      id: '',
       surveyWindowFilter: SurveyWindowPresenceFilter.ANY,
       surveyStartFrom: null,
       surveyStartTo: null,
@@ -126,7 +126,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           return throwError(() => e);
         })
       ),
-      this.service.getRespondents(this.filters),
+      this.service.getRespondents(undefined),
       this.initialSurveyService.getState(),
     ];
 
@@ -174,7 +174,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     this.respondents.length = 0;
     this.dataSource.data = [];
     this.service
-      .getRespondents(this.filters)
+      .getRespondents(undefined)
       .pipe(
         finalize(() => {
           this.isBusy = false;
@@ -187,14 +187,26 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  applyFilters(): void {
+    this.applyLocalFilters();
+  }
+
   private applyLocalFilters(): void {
     const presence = this.filters.surveyWindowFilter ?? SurveyWindowPresenceFilter.ANY;
     const startFrom = toLocalIsoDate(this.filters.surveyStartFrom);
     const startTo = toLocalIsoDate(this.filters.surveyStartTo);
     const endFrom = toLocalIsoDate(this.filters.surveyEndFrom);
     const endTo = toLocalIsoDate(this.filters.surveyEndTo);
+    const usernameNeedle = (this.filters.username ?? '').trim().toLowerCase();
+    const idNeedle = (this.filters.id ?? '').trim().toLowerCase();
 
     this.dataSource.data = this.respondents.filter((r) => {
+      if (usernameNeedle && !String(r.username).toLowerCase().includes(usernameNeedle)) {
+        return false;
+      }
+      if (idNeedle && !String(r.id).toLowerCase().includes(idNeedle)) {
+        return false;
+      }
       const hasWindow = !!r.surveyStartDate && !!r.surveyEndDate;
       if (presence === SurveyWindowPresenceFilter.SET && !hasWindow) return false;
       if (presence === SurveyWindowPresenceFilter.UNSET && hasWindow) return false;
