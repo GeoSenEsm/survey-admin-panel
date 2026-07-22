@@ -29,3 +29,10 @@
   max-height: min(600px, 70vh);
   overflow-y: auto;
 }
+
+.survey-window-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  line-height: 1.35;
+}

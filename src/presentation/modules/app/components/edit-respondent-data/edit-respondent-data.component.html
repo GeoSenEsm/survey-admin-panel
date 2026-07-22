@@ -14,6 +14,25 @@
     </mat-label>
     <input matInput [(ngModel)]="data.username" readonly="true" />
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      {{ "respondents.edit.surveyStartDate" | translate }}
+    </mat-label>
+    <input matInput [matDatepicker]="startPicker" [formControl]="surveyStartDate" />
+    <mat-datepicker-toggle matSuffix [for]="startPicker" />
+    <mat-datepicker #startPicker />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      {{ "respondents.edit.surveyEndDate" | translate }}
+    </mat-label>
+    <input matInput [matDatepicker]="endPicker" [formControl]="surveyEndDate" />
+    <mat-datepicker-toggle matSuffix [for]="endPicker" />
+    <mat-datepicker #endPicker />
+  </mat-form-field>
+  <p class="survey-window-hint">
+    {{ "respondents.edit.surveyWindowHint" | translate }}
+  </p>
   <form class="data-container" [formGroup]="formGroup">
     <mat-form-field
       *ngFor="let question of questions">
