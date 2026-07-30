@@ -1,40 +1,152 @@
 @import "../../../../../styles/variables.scss";
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 10px;
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $app-background;
+}
+
+.login-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+// ---------------------------------------------------------------------------
+// Hero panel (left side on desktop)
+// ---------------------------------------------------------------------------
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.16), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.35), transparent 55%),
+    linear-gradient(135deg, $primary-color 0%, $primary-color-dark 55%, #1e1b4b 100%);
+  color: $primary-contrast;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-8;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-4;
+}
+
+.hero-logo {
+  width: 112px;
+  height: 112px;
+  border-radius: $radius-xl;
+  background: $primary-contrast;
+  padding: $space-3;
+  box-shadow: $shadow-lg;
+  object-fit: contain;
+}
+
+.hero-title {
+  color: $primary-contrast;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.hero-tagline {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+  max-width: 32ch;
+  margin: 0;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Login panel (right side)
+// ---------------------------------------------------------------------------
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-8;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: $surface;
+  border-radius: $radius-xl;
+  padding: $space-8;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-md;
+}
+
+.login-header {
+  margin-bottom: $space-6;
+  text-align: left;
+
+  h2 {
+    margin: 0 0 $space-1;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin: 0; }
 }
 
 .form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-}
-  
-.full-width {
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
 }
 
-h1 {
-    color: $primary-color;
+.full-width { width: 100%; }
+
+.submit-button {
+  margin-top: $space-3;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+
+  ::ng-deep .mat-mdc-progress-spinner circle {
+    stroke: currentColor;
+  }
 }
 
-h2 {
-    color: $primary-color;
+// ---------------------------------------------------------------------------
+// Responsive – stack the hero on top of the form on smaller screens.
+// ---------------------------------------------------------------------------
+@media (max-width: $tablet-breakpoint) {
+  .login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .hero { padding: $space-6 $space-4; min-height: 240px; }
+
+  .hero-logo { width: 72px; height: 72px; }
+  .hero-title { font-size: 1.75rem; }
+
+  .login-panel { padding: $space-5 $space-3; }
+  .login-card  { padding: $space-6; }
 }
 
-.logo {
-    width: 200px;
-    height: 200px;
-}
-
-.welcome-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 20px;
+@media (max-width: 480px) {
+  .login-card { padding: $space-4; }
+  .hero-tagline { font-size: 0.9rem; }
 }

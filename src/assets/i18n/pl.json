@@ -18,12 +18,12 @@
       "passwordRequiredError": "Hasło jest wymagane.",
       "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
       "welcome": "Witamy w panelu administracyjnym GeoSenEsm!",
-      "loginToContinue": "Zaloguj się, aby kontynuować"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Respondenci",
       "surveys": "Ankiety",
-      "creatingSurveys": "Tworzenie ankiet",
+      "createSurvey": "Utwórz ankietę",
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
@@ -31,11 +31,39 @@
       "map": "Mapa",
       "configuration": "Konfiguracja",
       "changeAdminPassword": "Zmiana hasła",
+      "userGuide": "Podręcznik użytkownika",
       "sensorDevices": "Czujniki",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
       "ok": "OK",
-      "contactPhoneNumbers": "Numery kontaktowe"
+      "contactPhoneNumbers": "Numery kontaktowe",
+      "responseDocuments": "Dokumenty odpowiedzi",
+      "statistics": "Statystyki",
+      "dailyCompletion": "Wypełnienia dzienne",
+      "surveyWindow": "Daty ankiety",
+      "issues": "Problemy"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Ankieta",
+      "anySurvey": "Dowolna ankieta",
+      "dateFrom": "Od",
+      "dateTo": "Do",
+      "apply": "Zastosuj",
+      "clear": "Wyczyść"
+    },
+    "columns": {
+      "participationDate": "Data uczestnictwa",
+      "surveyName": "Ankieta",
+      "respondent": "Respondent",
+      "answers": "Odpowiedzi",
+      "actions": "Akcje"
+    },
+    "download": "Pobierz JSON",
+    "exportZip": "Eksportuj ZIP",
+    "nothingToDisplay": "Brak dokumentów pasujących do filtrów.",
+    "loadError": "Nie udało się pobrać dokumentów odpowiedzi.",
+    "exportError": "Nie udało się wyeksportować dokumentów odpowiedzi."
   },
   "respondents": {
     "addRespondents": {
@@ -48,6 +76,7 @@
       "createRespondentsAccounts": "Utwórz konta dla respondentów",
       "usernameColumnHeader": "Nazwa użytkownika",
       "refresh": "Odśwież",
+      "applyFilters": "Zastosuj filtry",
       "nothingToDisplay": "Brak respondentów do wyswietlenia",
       "errorLoadingRespondents": "Ups... Wystąpił błąd. Spróbuj ponownie później.",
       "export": "Exportuj",
@@ -59,12 +88,19 @@
       "sensorData": "Dane z czujników",
       "locationData": "Dane lokalizacyjne",
       "surveyResponses": "Odpowiedzi na ankiety",
-      "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana."
+      "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana.",
+      "surveyStartDate": "Początek ankiety",
+      "surveyEndDate": "Koniec ankiety"
     },
     "edit": {
       "title": "Edycja danych respondenta",
       "username": "Nazwa użytkownika",
       "id": "ID",
+      "surveyStartDate": "Data rozpoczęcia ankiety",
+      "surveyEndDate": "Data zakończenia ankiety",
+      "surveyWindowHint": "Pozostaw obie daty puste, aby wyczyścić okno ankiety.",
+      "surveyWindowBothOrNeither": "Ustaw obie daty ankiety albo wyczyść obie.",
+      "surveyWindowEndBeforeStart": "Data zakończenia musi być równa lub późniejsza niż data rozpoczęcia.",
       "cancel": "Anuluj",
       "save": "Zapisz",
       "emptyValidationError": "Pole jest wymagane",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "Coś poszło nie tak"
     },
     "filters": {
+      "username": "Nazwa użytkownika",
+      "id": "ID",
       "showRespondentsWho": "Pokazuj respondentów, którzy",
       "hasNotSentAtLeastNumberOfSurveys": "Ominęli przynajmniej tyle ankiet",
       "hasNotSentAtLeastNumberOfLocationData": "Wysłali mniej niż tyle danych lokalizacyjnych",
@@ -81,7 +119,15 @@
       "dateTo": "Data do",
       "timeFrom": "Godzina od",
       "timeTo": "Godzina do",
-      "none": "Brak"
+      "none": "Brak",
+      "surveyWindow": "Okno ankiety",
+      "surveyWindowAny": "Dowolne",
+      "surveyWindowSet": "Daty przypisane",
+      "surveyWindowUnset": "Daty nieustawione",
+      "surveyStartFrom": "Początek od",
+      "surveyStartTo": "Początek do",
+      "surveyEndFrom": "Koniec od",
+      "surveyEndTo": "Koniec do"
     },
     "changePassword": {
       "changePassword": "Zmiana hasła",
@@ -439,7 +485,82 @@
     "loadingError": "Wystąpił bład podczas ładowania.",
     "retry": "Spróbuj ponownie",
     "noSurveys": "Brak ankiet",
-    "refresh": "Odśwież"
+    "refresh": "Odśwież",
+    "createNew": "Utwórz ankietę"
+  },
+  "statistics": {
+    "view": {
+      "global": "Globalnie",
+      "daily": "Dziennie",
+      "participant": "Uczestnik"
+    },
+    "selectParticipant": "Wybierz uczestnika",
+    "selectParticipantHint": "Wpisz nazwę użytkownika…",
+    "noParticipantsMatch": "Brak uczestników pasujących do wyszukiwania",
+    "clearSearch": "Wyczyść wyszukiwanie",
+    "loadError": "Nie udało się załadować statystyk.",
+    "dailyDate": "Dzień",
+    "today": "Dziś",
+    "export": {
+      "csv": "Eksport CSV",
+      "dailyFilename": "statystyki-dzienne.csv",
+      "participantsFilename": "statystyki-uczestnicy.csv"
+    },
+    "kpi": {
+      "studyWindow": "Okres badania",
+      "participants": "Uczestnicy",
+      "participantsWithSubmissions": "Aktywni uczestnicy",
+      "filledVsAvailable": "Wypełnione / Dostępne",
+      "filledVsAvailableActive": "Wypełnione / Dostępne (ustawione daty)",
+      "filledVsAvailableActiveTooltip": "Respondenci z przypisanymi datami obejmującymi wybrany dzień: {{count}}.",
+      "locationData": "Dane lokalizacyjne",
+      "sensorData": "Odczyty czujników",
+      "outsideResearchArea": "Poza obszarem badań",
+      "username": "Uczestnik",
+      "day": "Dzień"
+    },
+    "charts": {
+      "participations": "Wypełnione ankiety dziennie",
+      "locationData": "Dane lokalizacyjne dziennie",
+      "sensorData": "Odczyty czujników dziennie",
+      "participationsHourly": "Wypełnione ankiety w każdej godzinie",
+      "locationDataHourly": "Dane lokalizacyjne w każdej godzinie",
+      "sensorDataHourly": "Odczyty czujników w każdej godzinie",
+      "outsideResearchArea": "Odpowiedzi poza obszarem badań dziennie",
+      "outsideResearchAreaHourly": "Odpowiedzi poza obszarem badań na godzinę"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Dzień",
+      "today": "Dziś",
+      "minFilled": "Min wypełnionych",
+      "maxFilled": "Maks wypełnionych",
+      "onlyActive": "Tylko respondenci z ustawionymi datami",
+      "clear": "Wyczyść",
+      "refresh": "Odśwież"
+    },
+    "size": {
+      "title": "Rozmiar kafelka",
+      "width": "Szerokość",
+      "height": "Wysokość",
+      "reset": "Reset"
+    },
+    "summary": {
+      "slots": "Zaplanowano ankiet: {{count}}",
+      "respondents": "Widocznych respondentów: {{visible}} z {{total}}"
+    },
+    "legend": {
+      "completedFull": "Wypełniona + GPS + czujnik",
+      "completedGpsOnly": "Wypełniona + tylko GPS",
+      "completedSensorOnly": "Wypełniona + tylko czujnik",
+      "completedNone": "Wypełniona (bez GPS i czujnika)",
+      "missed": "Nie wypełniona (minęła)",
+      "pending": "Oczekująca"
+    },
+    "loadError": "Nie udało się załadować podsumowania dnia.",
+    "noSlots": "Na ten dzień nie zaplanowano żadnych ankiet.",
+    "noRespondentsMatch": "Żaden respondent nie spełnia bieżących filtrów."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementów na stronie:",
@@ -477,5 +598,71 @@
     "editDialogTitle": "Edytuj kontakt",
     "editedSuccessfuly": "Kontakt został pomyślnie zaktualizowany",
     "editingFailed": "Zaktualizowanie kontaktu nie powiodło. Spróbuj ponownie później"
+  },
+  "issues": {
+    "title": "Problemy",
+    "subtitle": "Znajdź respondentów z niskim wypełnieniem ankiet, GPS lub sensorów w ich oknie badania albo w wybranym zakresie dat.",
+    "customDatesDisclaimer": "Własne daty obejmują tylko respondentów z przypisanym oknem ankiety. Metryki liczone są dla przecięcia wybranych dat z oknem respondenta; osoby bez ankiet w tym przecięciu są ukrywane.",
+    "filters": {
+      "rangeSurveyWindow": "Okno ankiety",
+      "rangeCustom": "Własne daty",
+      "from": "Od",
+      "to": "Do",
+      "load": "Wczytaj",
+      "minSkipped": "Pominięto co najmniej",
+      "maxSurveyPercent": "Wypełnienie ankiet ≤ %",
+      "maxGpsPercent": "Wypełnienie GPS ≤ %",
+      "maxSensorPercent": "Wypełnienie sensorów ≤ %",
+      "apply": "Zastosuj filtry",
+      "clear": "Wyczyść filtry"
+    },
+    "summary": {
+      "respondents": "Pokazano {{visible}} z {{total}} respondentów"
+    },
+    "table": {
+      "username": "Nazwa użytkownika",
+      "window": "Okno",
+      "surveys": "Wypełnione ankiety",
+      "surveyPercent": "Ankiety %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensory %",
+      "skipped": "Pominięte",
+      "empty": "Brak respondentów spełniających filtry."
+    },
+    "loadError": "Nie udało się wczytać danych problemów."
+  },
+  "surveyWindow": {
+    "title": "Daty ankiety",
+    "subtitle": "Przypisuj daty początku i końca udziału wsadowo oraz przeglądaj liczbę aktywnych respondentów w czasie.",
+    "batch": {
+      "title": "Przypisanie wsadowe",
+      "startDate": "Data rozpoczęcia",
+      "endDate": "Data zakończenia",
+      "assign": "Przypisz do zaznaczonych",
+      "clearDates": "Wyczyść daty"
+    },
+    "chart": {
+      "title": "Aktywni respondenci w czasie",
+      "subtitle": "Liczba respondentów, których okno obejmuje dany dzień."
+    },
+    "list": {
+      "searchUsername": "Filtruj po nazwie",
+      "selectAll": "Zaznacz wszystkie przefiltrowane",
+      "clearSelection": "Wyczyść zaznaczenie",
+      "refresh": "Odśwież",
+      "username": "Nazwa użytkownika",
+      "startDate": "Początek",
+      "endDate": "Koniec",
+      "id": "ID",
+      "empty": "Brak respondentów spełniających filtr."
+    },
+    "messages": {
+      "saved": "Daty ankiety zaktualizowane."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać respondentów.",
+      "saveFailed": "Nie udało się zapisać dat.",
+      "endBeforeStart": "Data końcowa musi być nie wcześniejsza niż początkowa."
+    }
   }
 }

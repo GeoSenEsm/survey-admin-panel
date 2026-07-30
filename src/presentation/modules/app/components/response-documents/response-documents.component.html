@@ -1,0 +1,151 @@
+<div class="container">
+  <form
+    class="filters"
+    [formGroup]="filtersForm"
+    (ngSubmit)="applyFilters()"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'responseDocuments.filters.survey' | translate }}</mat-label>
+      <mat-select formControlName="surveyId">
+        <mat-option [value]="''">
+          {{ 'responseDocuments.filters.anySurvey' | translate }}
+        </mat-option>
+        <mat-option *ngFor="let survey of surveys" [value]="survey.id">
+          {{ survey.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'responseDocuments.filters.dateFrom' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dateFromPicker"
+        readonly
+        formControlName="dateFrom"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dateFromPicker" />
+      <mat-datepicker #dateFromPicker />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'responseDocuments.filters.dateTo' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dateToPicker"
+        readonly
+        formControlName="dateTo"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dateToPicker" />
+      <mat-datepicker #dateToPicker />
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="isBusy"
+    >
+      <mat-icon>filter_alt</mat-icon>
+      {{ 'responseDocuments.filters.apply' | translate }}
+    </button>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="clearFilters()"
+      [disabled]="isBusy"
+    >
+      <mat-icon>clear</mat-icon>
+      {{ 'responseDocuments.filters.clear' | translate }}
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      color="accent"
+      (click)="exportZip()"
+      [disabled]="isBusy || isExporting"
+    >
+      <mat-icon>archive</mat-icon>
+      {{ 'responseDocuments.exportZip' | translate }}
+      <mat-spinner *ngIf="isExporting" diameter="16" class="export-spinner" />
+    </button>
+  </form>
+
+  <mat-error *ngIf="exportError" class="export-error">
+    {{ 'responseDocuments.exportError' | translate }}
+  </mat-error>
+
+  <div class="table-container">
+    <mat-table [dataSource]="documents">
+      <ng-container matColumnDef="participationDate">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'responseDocuments.columns.participationDate' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let doc">
+          {{ doc.participationDate | date: 'short' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="surveyName">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'responseDocuments.columns.surveyName' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let doc">{{ doc.surveyName }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="respondentUsername">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'responseDocuments.columns.respondent' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let doc">{{ doc.respondentUsername }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="answerCount">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'responseDocuments.columns.answers' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let doc">{{ doc.answers.length }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+          {{ 'responseDocuments.columns.actions' | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let doc">
+          <button
+            mat-icon-button
+            color="primary"
+            [attr.aria-label]="'responseDocuments.download' | translate"
+            (click)="downloadDocument(doc)"
+          >
+            <mat-icon>download</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+      <mat-row *matRowDef="let row; columns: displayedColumns" />
+    </mat-table>
+
+    <h3
+      *ngIf="!isBusy && documents.length === 0 && loadedAtLeastOnce && !loadError"
+    >
+      {{ 'responseDocuments.nothingToDisplay' | translate }}
+    </h3>
+    <h3 *ngIf="!isBusy && loadError">
+      <mat-error>{{ 'responseDocuments.loadError' | translate }}</mat-error>
+    </h3>
+
+    <div class="spinner-row" *ngIf="isBusy">
+      <mat-spinner diameter="40" />
+    </div>
+  </div>
+
+  <mat-paginator
+    [length]="totalElements"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSizeOptions[1]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  />
+</div>

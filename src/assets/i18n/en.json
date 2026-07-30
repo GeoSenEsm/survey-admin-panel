@@ -18,12 +18,12 @@
       "passwordRequiredError": "Password is required.",
       "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters.",
       "welcome": "Welcome to the GeoSenEsm admin panel!",
-      "loginToContinue": "Log in to continue"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Respondents",
       "surveys": "Surveys",
-      "creatingSurveys": "Creating surveys",
+      "createSurvey": "Create survey",
       "results": "Results",
       "logout": "Logout",
       "startSurvey": "Initial survey",
@@ -31,11 +31,39 @@
       "map": "Map",
       "configuration": "Configuration",
       "changeAdminPassword": "Change password",
+      "userGuide": "User guide",
       "sensorDevices": "Sensor devices",
       "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
       "ok": "OK",
-      "contactPhoneNumbers": "Contact numbers"
+      "contactPhoneNumbers": "Contact numbers",
+      "responseDocuments": "Response documents",
+      "statistics": "Statistics",
+      "dailyCompletion": "Daily completion",
+      "surveyWindow": "Survey dates",
+      "issues": "Issues"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Survey",
+      "anySurvey": "Any survey",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "apply": "Apply",
+      "clear": "Clear"
+    },
+    "columns": {
+      "participationDate": "Participation date",
+      "surveyName": "Survey",
+      "respondent": "Respondent",
+      "answers": "Answers",
+      "actions": "Actions"
+    },
+    "download": "Download JSON",
+    "exportZip": "Export ZIP",
+    "nothingToDisplay": "No response documents match the current filter.",
+    "loadError": "Could not load response documents.",
+    "exportError": "Could not export response documents."
   },
   "respondents": {
     "addRespondents": {
@@ -47,7 +75,10 @@
     "respondents": {
       "createRespondentsAccounts": "Create accounts for respondents",
       "usernameColumnHeader": "Username",
+      "surveyStartDate": "Survey start",
+      "surveyEndDate": "Survey end",
       "refresh": "Refresh",
+      "applyFilters": "Apply filters",
       "nothingToDisplay": "Nothing to display",
       "errorLoadingRespondents": "Oops... There was an error when loading respondents. Try again later.",
       "export": "Export",
@@ -65,6 +96,11 @@
       "title": "Edit respondent data",
       "username": "Username",
       "id": "ID",
+      "surveyStartDate": "Survey start date",
+      "surveyEndDate": "Survey end date",
+      "surveyWindowHint": "Leave both dates empty to clear the survey window.",
+      "surveyWindowBothOrNeither": "Set both survey dates, or clear both.",
+      "surveyWindowEndBeforeStart": "Survey end date must be on or after the start date.",
       "cancel": "Cancel",
       "save": "Save",
       "emptyValidationError": "This field is required",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "Something went wrong"
     },
     "filters": {
+      "username": "Username",
+      "id": "ID",
       "showRespondentsWho": "Show respondents who",
       "hasNotSentAtLeastNumberOfSurveys": "Skipped at least this many surveys",
       "hasNotSentAtLeastNumberOfLocationData": "Have sent less than this many location data points",
@@ -81,7 +119,15 @@
       "dateTo": "Date to",
       "timeFrom": "Time from",
       "timeTo": "Time to",
-      "none": "None"
+      "none": "None",
+      "surveyWindow": "Survey window",
+      "surveyWindowAny": "Any",
+      "surveyWindowSet": "Dates assigned",
+      "surveyWindowUnset": "Dates not set",
+      "surveyStartFrom": "Start from",
+      "surveyStartTo": "Start to",
+      "surveyEndFrom": "End from",
+      "surveyEndTo": "End to"
     },
     "changePassword": {
       "changePassword": "Change Password",
@@ -439,7 +485,148 @@
     "loadingError": "An error occurred while loading.",
     "retry": "Try again",
     "noSurveys": "No surveys",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "createNew": "Create survey"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "daily": "Daily",
+      "participant": "Per participant"
+    },
+    "selectParticipant": "Select participant",
+    "selectParticipantHint": "Type username…",
+    "noParticipantsMatch": "No participants match your search",
+    "clearSearch": "Clear search",
+    "loadError": "Could not load statistics.",
+    "dailyDate": "Day",
+    "today": "Today",
+    "export": {
+      "csv": "Export CSV",
+      "dailyFilename": "statistics-daily.csv",
+      "participantsFilename": "statistics-participants.csv"
+    },
+    "kpi": {
+      "studyWindow": "Study window",
+      "participants": "Participants",
+      "participantsWithSubmissions": "Participants active",
+      "filledVsAvailable": "Filled / Available",
+      "filledVsAvailableActive": "Filled / Available (set dates)",
+      "filledVsAvailableActiveTooltip": "Respondents with assigned survey dates covering the selected day: {{count}}.",
+      "locationData": "Location data",
+      "sensorData": "Sensor readings",
+      "outsideResearchArea": "Outside research area",
+      "username": "Participant",
+      "day": "Day"
+    },
+    "charts": {
+      "participations": "Survey responses per day",
+      "locationData": "Location data per day",
+      "sensorData": "Sensor readings per day",
+      "outsideResearchArea": "Responses outside research area per day",
+      "participationsHourly": "Survey responses per hour",
+      "locationDataHourly": "Location data per hour",
+      "sensorDataHourly": "Sensor readings per hour",
+      "outsideResearchAreaHourly": "Responses outside research area per hour"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Day",
+      "today": "Today",
+      "minFilled": "Min filled",
+      "maxFilled": "Max filled",
+      "onlyActive": "Only respondents with set dates",
+      "clear": "Clear",
+      "refresh": "Refresh"
+    },
+    "size": {
+      "title": "Box size",
+      "width": "Width",
+      "height": "Height",
+      "reset": "Reset"
+    },
+    "summary": {
+      "slots": "{{count}} surveys scheduled",
+      "respondents": "Showing {{visible}} of {{total}} respondents"
+    },
+    "legend": {
+      "completedFull": "Completed + GPS + sensor",
+      "completedGpsOnly": "Completed + GPS only",
+      "completedSensorOnly": "Completed + sensor only",
+      "completedNone": "Completed (no GPS or sensor)",
+      "missed": "Missed",
+      "pending": "Pending"
+    },
+    "loadError": "Could not load the daily overview.",
+    "noSlots": "No surveys were scheduled for this day.",
+    "noRespondentsMatch": "No respondents match the current filters."
+  },
+  "issues": {
+    "title": "Issues",
+    "subtitle": "Find respondents with low survey, GPS, or sensor fulfillment inside their study window or a custom date range.",
+    "customDatesDisclaimer": "Custom dates only include respondents with an assigned survey window. Metrics use the overlap of your selected dates and each respondent's window; respondents with no surveys in that overlap are hidden.",
+    "filters": {
+      "rangeSurveyWindow": "Survey window",
+      "rangeCustom": "Custom dates",
+      "from": "From",
+      "to": "To",
+      "load": "Load",
+      "minSkipped": "Skipped at least",
+      "maxSurveyPercent": "Survey fulfillment ≤ %",
+      "maxGpsPercent": "GPS fulfillment ≤ %",
+      "maxSensorPercent": "Sensor fulfillment ≤ %",
+      "apply": "Apply filters",
+      "clear": "Clear filters"
+    },
+    "summary": {
+      "respondents": "Showing {{visible}} of {{total}} respondents"
+    },
+    "table": {
+      "username": "Username",
+      "window": "Window",
+      "surveys": "Surveys filled",
+      "surveyPercent": "Survey %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensor %",
+      "skipped": "Skipped",
+      "empty": "No respondents match the current filters."
+    },
+    "loadError": "Could not load issues data."
+  },
+  "surveyWindow": {
+    "title": "Survey dates",
+    "subtitle": "Assign study start and end dates to respondents in batches, and review how many are active over time.",
+    "batch": {
+      "title": "Batch assignment",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "assign": "Assign to selected",
+      "clearDates": "Clear dates"
+    },
+    "chart": {
+      "title": "Active respondents over time",
+      "subtitle": "Count of respondents whose assigned window covers each day."
+    },
+    "list": {
+      "searchUsername": "Filter by username",
+      "selectAll": "Select all filtered",
+      "clearSelection": "Clear selection",
+      "refresh": "Refresh",
+      "username": "Username",
+      "startDate": "Start",
+      "endDate": "End",
+      "id": "ID",
+      "empty": "No respondents match the filter."
+    },
+    "messages": {
+      "saved": "Survey dates updated."
+    },
+    "errors": {
+      "loadFailed": "Could not load respondents.",
+      "saveFailed": "Could not save survey dates.",
+      "endBeforeStart": "End date must be on or after the start date."
+    }
   },
   "matPaginator": {
     "itemsPerPageLabel": "Items per page:",

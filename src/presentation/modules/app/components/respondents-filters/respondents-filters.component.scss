@@ -1,10 +1,34 @@
-.container{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
+@import "../../../../../styles/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  background: $surface;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xs;
+  align-items: flex-start;
 }
 
-.show-respondents-who-form-field{
-    min-width: 400px;
+.container > * {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.show-respondents-who-form-field {
+  flex: 1 1 320px;
+  min-width: 240px;
+}
+
+@media (max-width: $mobile-breakpoint) {
+  .container {
+    padding: $space-3;
+  }
+
+  .container > * {
+    flex: 1 1 100%;
+  }
 }

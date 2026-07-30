@@ -1,63 +1,101 @@
-.container{
-    padding: 10px;
-    height: 100vh;
-    margin: 0 auto;
-    margin-top: 20px;
+@import "../../../../../styles/variables.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
-h3{
-    text-align: center;
+.container {
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+h3 {
+  text-align: center;
+  margin: 0;
 }
 
 .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: $space-5;
 }
 
 .loading-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: $space-5;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .progress-info {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $space-2;
 }
 
 .progress-text {
   display: flex;
   justify-content: center;
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
+  font-size: 0.875rem;
+  color: $text-secondary;
 }
 
-.paginator-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.table-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border-radius: $radius-lg;
+  background: $surface;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-xs;
+  text-align: center;
 }
 
-.table-container{
-    text-align: center;
-    height: calc(100% - 280px); /* TODO: this breaks down when the user rescales the window horizontaly */
-    overflow-y: auto;
-    display: block;
-}
+.table-container mat-table { background: transparent; }
 
 mat-header-row,
 mat-header-cell {
   position: sticky;
   top: 0;
   z-index: 1;
+  background: $surface-muted;
+}
+
+.paginator-container {
+  flex-shrink: 0;
+  background: $surface;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+@media (max-width: $tablet-breakpoint) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .table-container {
+    flex: 0 0 auto;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: $mobile-breakpoint) {
+  .container { padding: $space-3; }
 }

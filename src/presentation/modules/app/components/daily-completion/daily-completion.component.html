@@ -1,0 +1,218 @@
+<div class="container">
+  <section class="toolbar" [formGroup]="filters">
+    <mat-form-field appearance="fill" class="date-field">
+      <mat-label>{{ 'dailyCompletion.filters.date' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dayPicker"
+        readonly
+        formControlName="date"
+        (dateChange)="onDateChange()"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dayPicker" />
+      <mat-datepicker #dayPicker />
+    </mat-form-field>
+
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="goToToday()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>today</mat-icon>
+      {{ 'dailyCompletion.filters.today' | translate }}
+    </button>
+
+    <mat-form-field appearance="fill" class="count-field">
+      <mat-label>{{ 'dailyCompletion.filters.minFilled' | translate }}</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="minFilled"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="count-field">
+      <mat-label>{{ 'dailyCompletion.filters.maxFilled' | translate }}</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="maxFilled"
+      />
+    </mat-form-field>
+
+    <div class="active-filter">
+      <mat-checkbox formControlName="onlyActive">
+        {{ 'dailyCompletion.filters.onlyActive' | translate }}
+      </mat-checkbox>
+    </div>
+
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="clearFilters()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>clear</mat-icon>
+      {{ 'dailyCompletion.filters.clear' | translate }}
+    </button>
+
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="reload()"
+      [disabled]="isLoading"
+    >
+      <mat-icon>refresh</mat-icon>
+      {{ 'dailyCompletion.filters.refresh' | translate }}
+    </button>
+  </section>
+
+  <section class="size-toolbar">
+    <span class="size-toolbar-title">
+      <mat-icon>photo_size_select_large</mat-icon>
+      {{ 'dailyCompletion.size.title' | translate }}
+    </span>
+    <label class="size-slider">
+      <span class="size-slider-label">
+        {{ 'dailyCompletion.size.width' | translate }}
+        <span class="size-slider-value">{{ cardSize.width }}px</span>
+      </span>
+      <input
+        type="range"
+        [min]="cardWidthRange.min"
+        [max]="cardWidthRange.max"
+        step="5"
+        [value]="cardSize.width"
+        (input)="onCardWidthChange(+$any($event.target).value)"
+        [attr.aria-label]="'dailyCompletion.size.width' | translate"
+      />
+    </label>
+    <label class="size-slider">
+      <span class="size-slider-label">
+        {{ 'dailyCompletion.size.height' | translate }}
+        <span class="size-slider-value">{{ cardSize.height }}px</span>
+      </span>
+      <input
+        type="range"
+        [min]="cardHeightRange.min"
+        [max]="cardHeightRange.max"
+        step="5"
+        [value]="cardSize.height"
+        (input)="onCardHeightChange(+$any($event.target).value)"
+        [attr.aria-label]="'dailyCompletion.size.height' | translate"
+      />
+    </label>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="resetCardSize()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+      {{ 'dailyCompletion.size.reset' | translate }}
+    </button>
+  </section>
+
+  <mat-error *ngIf="loadError" class="load-error">
+    {{ 'dailyCompletion.loadError' | translate }}
+  </mat-error>
+
+  <div class="spinner-row" *ngIf="isLoading">
+    <mat-spinner diameter="40" />
+  </div>
+
+  <ng-container *ngIf="!isLoading && overview as data">
+    <section class="summary">
+      <span class="summary-item">
+        <mat-icon>event</mat-icon>
+        {{ data.date | date: 'longDate' }}
+      </span>
+      <span class="summary-item">
+        <mat-icon>assignment</mat-icon>
+        {{ 'dailyCompletion.summary.slots' | translate: { count: totalSlots() } }}
+      </span>
+      <span class="summary-item">
+        <mat-icon>group</mat-icon>
+        {{
+          'dailyCompletion.summary.respondents'
+            | translate: { visible: filteredRespondents.length, total: data.respondents.length }
+        }}
+      </span>
+    </section>
+
+    <section class="legend">
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-full"></span>
+        {{ 'dailyCompletion.legend.completedFull' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-gps"></span>
+        {{ 'dailyCompletion.legend.completedGpsOnly' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-sensor"></span>
+        {{ 'dailyCompletion.legend.completedSensorOnly' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--completed-none"></span>
+        {{ 'dailyCompletion.legend.completedNone' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--missed"></span>
+        {{ 'dailyCompletion.legend.missed' | translate }}
+      </span>
+      <span class="legend-item">
+        <span class="legend-swatch legend-swatch--pending"></span>
+        {{ 'dailyCompletion.legend.pending' | translate }}
+      </span>
+    </section>
+
+    <div class="empty-hint" *ngIf="totalSlots() === 0">
+      <mat-icon>info</mat-icon>
+      <span>{{ 'dailyCompletion.noSlots' | translate }}</span>
+    </div>
+
+    <div class="empty-hint" *ngIf="totalSlots() > 0 && filteredRespondents.length === 0">
+      <mat-icon>filter_alt_off</mat-icon>
+      <span>{{ 'dailyCompletion.noRespondentsMatch' | translate }}</span>
+    </div>
+
+    <div
+      class="grid"
+      *ngIf="totalSlots() > 0 && filteredRespondents.length > 0"
+      [style.grid-template-columns]="'repeat(auto-fill, minmax(' + cardSize.width + 'px, 1fr))'"
+    >
+      <article
+        class="card"
+        *ngFor="let view of filteredRespondents; trackBy: respondentTrackBy"
+        [style.height.px]="cardSize.height"
+      >
+        <header class="card-header">
+          <span class="card-title" [title]="view.respondent.username">
+            {{ view.respondent.username }}
+          </span>
+          <span class="card-count">
+            {{ view.respondent.completedCount }} / {{ totalSlots() }}
+          </span>
+        </header>
+        <div class="stripes">
+          <span
+            *ngFor="let slotView of view.slots; trackBy: slotTrackBy"
+            class="stripe"
+            [class.stripe--completed-full]="slotView.status === 'completed-full'"
+            [class.stripe--completed-gps]="slotView.status === 'completed-gps'"
+            [class.stripe--completed-sensor]="slotView.status === 'completed-sensor'"
+            [class.stripe--completed-none]="slotView.status === 'completed-none'"
+            [class.stripe--missed]="slotView.status === 'missed'"
+            [class.stripe--pending]="slotView.status === 'pending'"
+            [matTooltip]="slotView.tooltip"
+            [attr.aria-label]="slotView.tooltip"
+          ></span>
+        </div>
+      </article>
+    </div>
+  </ng-container>
+</div>

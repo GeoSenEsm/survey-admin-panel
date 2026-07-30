@@ -18,12 +18,12 @@
       "passwordRequiredError": "Le mot de passe est requis.",
       "passwordMinLenError": "Le mot de passe ne peut pas dépasser {{maxLen}} caractères.",
       "welcome": "Bienvenue dans le panneau d'administration GeoSenEsm !",
-      "loginToContinue": "Connectez-vous pour continuer"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Répondants",
       "surveys": "Enquêtes",
-      "creatingSurveys": "Création d'enquêtes",
+      "createSurvey": "Créer une enquête",
       "results": "Résultats",
       "logout": "Déconnexion",
       "startSurvey": "Enquête initiale",
@@ -31,11 +31,39 @@
       "map": "Carte",
       "configuration": "Configuration",
       "changeAdminPassword": "Changer le mot de passe",
+      "userGuide": "Guide de l'utilisateur",
       "sensorDevices": "Capteurs",
       "someElementsNeedRefreshing": "Certains éléments nécessitent un rafraîchissement de la page pour appliquer le changement de langue.",
       "ok": "OK",
-      "contactPhoneNumbers": "Numéros de contact"
+      "contactPhoneNumbers": "Numéros de contact",
+      "responseDocuments": "Documents de réponse",
+      "statistics": "Statistiques",
+      "dailyCompletion": "Suivi quotidien",
+      "surveyWindow": "Dates d'enquête",
+      "issues": "Problèmes"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Sondage",
+      "anySurvey": "N'importe quel sondage",
+      "dateFrom": "Du",
+      "dateTo": "Au",
+      "apply": "Appliquer",
+      "clear": "Effacer"
+    },
+    "columns": {
+      "participationDate": "Date de participation",
+      "surveyName": "Sondage",
+      "respondent": "Répondant",
+      "answers": "Réponses",
+      "actions": "Actions"
+    },
+    "download": "Télécharger le JSON",
+    "exportZip": "Exporter en ZIP",
+    "nothingToDisplay": "Aucun document ne correspond au filtre.",
+    "loadError": "Impossible de charger les documents de réponse.",
+    "exportError": "Impossible d'exporter les documents de réponse."
   },
   "respondents": {
     "addRespondents": {
@@ -48,6 +76,7 @@
       "createRespondentsAccounts": "Créer des comptes pour les répondants",
       "usernameColumnHeader": "Nom d'utilisateur",
       "refresh": "Actualiser",
+      "applyFilters": "Appliquer les filtres",
       "nothingToDisplay": "Rien à afficher",
       "errorLoadingRespondents": "Oups... Une erreur s'est produite lors du chargement des répondants. Réessayez plus tard.",
       "export": "Exporter",
@@ -59,12 +88,19 @@
       "sensorData": "Données des capteurs",
       "locationData": "Données de géolocalisation",
       "surveyResponses": "Réponses aux enquêtes",
-      "cannotEditRespondentData": "Impossible de modifier les données du répondant tant que l'enquête initiale n'est pas publiée."
+      "cannotEditRespondentData": "Impossible de modifier les données du répondant tant que l'enquête initiale n'est pas publiée.",
+      "surveyStartDate": "Début d'enquête",
+      "surveyEndDate": "Fin d'enquête"
     },
     "edit": {
       "title": "Modifier les données du répondant",
       "username": "Nom d'utilisateur",
       "id": "ID",
+      "surveyStartDate": "Date de début de l'enquête",
+      "surveyEndDate": "Date de fin de l'enquête",
+      "surveyWindowHint": "Laissez les deux dates vides pour effacer la fenêtre d'enquête.",
+      "surveyWindowBothOrNeither": "Définissez les deux dates d'enquête, ou effacez les deux.",
+      "surveyWindowEndBeforeStart": "La date de fin doit être égale ou postérieure à la date de début.",
       "cancel": "Annuler",
       "save": "Enregistrer",
       "emptyValidationError": "Ce champ est requis",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "Quelque chose s'est mal passé"
     },
     "filters": {
+      "username": "Nom d'utilisateur",
+      "id": "ID",
       "showRespondentsWho": "Afficher les répondants qui",
       "hasNotSentAtLeastNumberOfSurveys": "Ont sauté au moins ce nombre d'enquêtes",
       "hasNotSentAtLeastNumberOfLocationData": "Ont envoyé moins de ce nombre de données de localisation",
@@ -81,7 +119,15 @@
       "dateTo": "Date de fin",
       "timeFrom": "Heure de début",
       "timeTo": "Heure de fin",
-      "none": "Aucun"
+      "none": "Aucun",
+      "surveyWindow": "Fenêtre d'enquête",
+      "surveyWindowAny": "Toutes",
+      "surveyWindowSet": "Dates définies",
+      "surveyWindowUnset": "Dates non définies",
+      "surveyStartFrom": "Début depuis",
+      "surveyStartTo": "Début jusqu'à",
+      "surveyEndFrom": "Fin depuis",
+      "surveyEndTo": "Fin jusqu'à"
     },
     "changePassword": {
       "changePassword": "Changer le mot de passe",
@@ -439,7 +485,82 @@
     "loadingError": "Une erreur s'est produite lors du chargement.",
     "retry": "Réessayer",
     "noSurveys": "Aucune enquête",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "createNew": "Créer une enquête"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "daily": "Journalier",
+      "participant": "Par participant"
+    },
+    "selectParticipant": "Sélectionner un participant",
+    "selectParticipantHint": "Saisissez un nom d'utilisateur…",
+    "noParticipantsMatch": "Aucun participant ne correspond à votre recherche",
+    "clearSearch": "Effacer la recherche",
+    "loadError": "Impossible de charger les statistiques.",
+    "dailyDate": "Jour",
+    "today": "Aujourd'hui",
+    "export": {
+      "csv": "Exporter CSV",
+      "dailyFilename": "statistiques-quotidiennes.csv",
+      "participantsFilename": "statistiques-participants.csv"
+    },
+    "kpi": {
+      "studyWindow": "Fenêtre d'étude",
+      "participants": "Participants",
+      "participantsWithSubmissions": "Participants actifs",
+      "filledVsAvailable": "Remplies / Disponibles",
+      "filledVsAvailableActive": "Remplies / Disponibles (dates définies)",
+      "filledVsAvailableActiveTooltip": "Participants dont les dates assignées couvrent le jour sélectionné : {{count}}.",
+      "locationData": "Données de localisation",
+      "sensorData": "Mesures des capteurs",
+      "outsideResearchArea": "Hors zone d'étude",
+      "username": "Participant",
+      "day": "Jour"
+    },
+    "charts": {
+      "participations": "Réponses par jour",
+      "locationData": "Données de localisation par jour",
+      "sensorData": "Mesures des capteurs par jour",
+      "participationsHourly": "Réponses par heure",
+      "locationDataHourly": "Données de localisation par heure",
+      "sensorDataHourly": "Mesures des capteurs par heure",
+      "outsideResearchArea": "Réponses hors zone d'étude par jour",
+      "outsideResearchAreaHourly": "Réponses hors zone d'étude par heure"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Jour",
+      "today": "Aujourd'hui",
+      "minFilled": "Min. remplies",
+      "maxFilled": "Max. remplies",
+      "onlyActive": "Uniquement les participants avec dates définies",
+      "clear": "Effacer",
+      "refresh": "Actualiser"
+    },
+    "size": {
+      "title": "Taille des cases",
+      "width": "Largeur",
+      "height": "Hauteur",
+      "reset": "Réinitialiser"
+    },
+    "summary": {
+      "slots": "{{count}} enquêtes prévues",
+      "respondents": "{{visible}} sur {{total}} participants affichés"
+    },
+    "legend": {
+      "completedFull": "Remplie + GPS + capteur",
+      "completedGpsOnly": "Remplie + GPS uniquement",
+      "completedSensorOnly": "Remplie + capteur uniquement",
+      "completedNone": "Remplie (sans GPS ni capteur)",
+      "missed": "Manquée",
+      "pending": "En attente"
+    },
+    "loadError": "Impossible de charger la vue quotidienne.",
+    "noSlots": "Aucune enquête n'est prévue pour cette journée.",
+    "noRespondentsMatch": "Aucun participant ne correspond aux filtres actuels."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Éléments par page :",
@@ -477,5 +598,71 @@
     "editDialogTitle": "Modifier le contact",
     "editedSuccessfuly": "Le contact a été mis à jour avec succès",
     "editingFailed": "La mise à jour du contact a échoué. Veuillez réessayer plus tard"
+  },
+  "issues": {
+    "title": "Problèmes",
+    "subtitle": "Trouvez les répondants avec un faible taux de complétion enquête, GPS ou capteurs dans leur fenêtre d'étude ou une plage personnalisée.",
+    "customDatesDisclaimer": "Les dates personnalisées n'incluent que les répondants avec une fenêtre d'enquête. Les indicateurs utilisent l'intersection entre vos dates et la fenêtre de chaque répondant ; ceux sans enquête dans cette intersection sont masqués.",
+    "filters": {
+      "rangeSurveyWindow": "Fenêtre d'enquête",
+      "rangeCustom": "Dates personnalisées",
+      "from": "Du",
+      "to": "Au",
+      "load": "Charger",
+      "minSkipped": "Au moins omis",
+      "maxSurveyPercent": "Complétion enquête ≤ %",
+      "maxGpsPercent": "Complétion GPS ≤ %",
+      "maxSensorPercent": "Complétion capteurs ≤ %",
+      "apply": "Appliquer les filtres",
+      "clear": "Effacer les filtres"
+    },
+    "summary": {
+      "respondents": "{{visible}} sur {{total}} répondants"
+    },
+    "table": {
+      "username": "Nom d'utilisateur",
+      "window": "Fenêtre",
+      "surveys": "Enquêtes remplies",
+      "surveyPercent": "Enquête %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Capteurs %",
+      "skipped": "Omises",
+      "empty": "Aucun répondant ne correspond aux filtres."
+    },
+    "loadError": "Impossible de charger les données des problèmes."
+  },
+  "surveyWindow": {
+    "title": "Dates d'enquête",
+    "subtitle": "Attribuez des dates de début et de fin par lots et consultez le nombre de participants actifs dans le temps.",
+    "batch": {
+      "title": "Attribution par lots",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "assign": "Attribuer à la sélection",
+      "clearDates": "Effacer les dates"
+    },
+    "chart": {
+      "title": "Participants actifs dans le temps",
+      "subtitle": "Nombre de participants dont la fenêtre couvre chaque jour."
+    },
+    "list": {
+      "searchUsername": "Filtrer par nom",
+      "selectAll": "Sélectionner les filtrés",
+      "clearSelection": "Effacer la sélection",
+      "refresh": "Actualiser",
+      "username": "Nom d'utilisateur",
+      "startDate": "Début",
+      "endDate": "Fin",
+      "id": "ID",
+      "empty": "Aucun participant ne correspond au filtre."
+    },
+    "messages": {
+      "saved": "Dates d'enquête mises à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les participants.",
+      "saveFailed": "Impossible d'enregistrer les dates.",
+      "endBeforeStart": "La date de fin doit être postérieure ou égale à la date de début."
+    }
   }
 }

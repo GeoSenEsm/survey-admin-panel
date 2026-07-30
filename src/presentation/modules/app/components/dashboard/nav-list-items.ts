@@ -27,19 +27,44 @@ export function getNavListItems(): NavListItem[] {
       link: 'respondents',
     },
     {
+      display: 'app.dashboard.issues',
+      matIcon: 'report_problem',
+      link: 'issues',
+    },
+    {
+      display: 'app.dashboard.surveyWindow',
+      matIcon: 'date_range',
+      link: 'surveyWindow',
+    },
+    {
       display: 'app.dashboard.surveys',
       matIcon: 'content_paste',
       link: 'surveys',
     },
     {
-      display: 'app.dashboard.creatingSurveys',
-      matIcon: 'build',
+      display: 'app.dashboard.createSurvey',
+      matIcon: 'add_box',
       link: 'surveys/new',
     },
     {
       display: 'app.dashboard.results',
       matIcon: 'bar_chart',
       link: 'summaries',
+    },
+    {
+      display: 'app.dashboard.responseDocuments',
+      matIcon: 'description',
+      link: 'responseDocuments',
+    },
+    {
+      display: 'app.dashboard.statistics',
+      matIcon: 'insights',
+      link: 'statistics',
+    },
+    {
+      display: 'app.dashboard.dailyCompletion',
+      matIcon: 'view_module',
+      link: 'dailyCompletion',
     },
     {
       display: 'app.dashboard.temepratureSensors',

@@ -1,11 +1,31 @@
-form > * {
-    margin-right: 16px;
-}
-  
-form > *:last-child {
-    margin-right: 0;
+@import "../../../../../styles/variables.scss";
+
+:host { display: block; }
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  align-items: flex-start;
+  padding: $space-3 $space-4;
+  background: $surface;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xs;
 }
 
-mat-slide-toggle{
-    font-weight: 600;
+form > * {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+form > button {
+  flex: 0 0 auto;
+}
+
+mat-slide-toggle { font-weight: 600; }
+
+@media (max-width: $mobile-breakpoint) {
+  form { padding: $space-3; }
+  form > * { flex: 1 1 100%; }
 }

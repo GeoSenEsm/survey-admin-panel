@@ -18,12 +18,12 @@
       "passwordRequiredError": "Passwort ist erforderlich.",
       "passwordMinLenError": "Passwort darf nicht länger als {{maxLen}} Zeichen sein.",
       "welcome": "Willkommen im GeoSenEsm Admin-Panel!",
-      "loginToContinue": "Melden Sie sich an, um fortzufahren"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Befragte",
       "surveys": "Umfragen",
-      "creatingSurveys": "Umfragen erstellen",
+      "createSurvey": "Umfrage erstellen",
       "results": "Ergebnisse",
       "logout": "Abmelden",
       "startSurvey": "Erstumfrage",
@@ -31,11 +31,39 @@
       "map": "Karte",
       "configuration": "Konfiguration",
       "changeAdminPassword": "Passwort ändern",
+      "userGuide": "Benutzerhandbuch",
       "sensorDevices": "Sensorgeräte",
       "someElementsNeedRefreshing": "Einige Elemente erfordern ein Neuladen der Seite, um die Sprachänderung anzuwenden.",
       "ok": "OK",
-      "contactPhoneNumbers": "Kontaktnummern"
+      "contactPhoneNumbers": "Kontaktnummern",
+      "responseDocuments": "Antwortdokumente",
+      "statistics": "Statistiken",
+      "dailyCompletion": "Tagesübersicht",
+      "surveyWindow": "Umfragedaten",
+      "issues": "Probleme"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Umfrage",
+      "anySurvey": "Beliebige Umfrage",
+      "dateFrom": "Von",
+      "dateTo": "Bis",
+      "apply": "Anwenden",
+      "clear": "Löschen"
+    },
+    "columns": {
+      "participationDate": "Teilnahmedatum",
+      "surveyName": "Umfrage",
+      "respondent": "Befragter",
+      "answers": "Antworten",
+      "actions": "Aktionen"
+    },
+    "download": "JSON herunterladen",
+    "exportZip": "ZIP exportieren",
+    "nothingToDisplay": "Keine passenden Antwortdokumente.",
+    "loadError": "Antwortdokumente konnten nicht geladen werden.",
+    "exportError": "Antwortdokumente konnten nicht exportiert werden."
   },
   "respondents": {
     "addRespondents": {
@@ -48,6 +76,7 @@
       "createRespondentsAccounts": "Konten für Befragte erstellen",
       "usernameColumnHeader": "Benutzername",
       "refresh": "Aktualisieren",
+      "applyFilters": "Filter anwenden",
       "nothingToDisplay": "Nichts anzuzeigen",
       "errorLoadingRespondents": "Ups... Beim Laden der Befragten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
       "export": "Exportieren",
@@ -59,12 +88,19 @@
       "sensorData": "Sensordaten",
       "locationData": "Geolokalisierungsdaten",
       "surveyResponses": "Umfrageantworten",
-      "cannotEditRespondentData": "Die Daten der Befragten können erst bearbeitet werden, wenn die Erstumfrage veröffentlicht wurde."
+      "cannotEditRespondentData": "Die Daten der Befragten können erst bearbeitet werden, wenn die Erstumfrage veröffentlicht wurde.",
+      "surveyStartDate": "Umfragebeginn",
+      "surveyEndDate": "Umfrageende"
     },
     "edit": {
       "title": "Daten der Befragten bearbeiten",
       "username": "Benutzername",
       "id": "ID",
+      "surveyStartDate": "Umfrage-Startdatum",
+      "surveyEndDate": "Umfrage-Enddatum",
+      "surveyWindowHint": "Lassen Sie beide Daten leer, um das Umfragefenster zu löschen.",
+      "surveyWindowBothOrNeither": "Beide Umfragedaten setzen oder beide leeren.",
+      "surveyWindowEndBeforeStart": "Das Enddatum muss am oder nach dem Startdatum liegen.",
       "cancel": "Abbrechen",
       "save": "Speichern",
       "emptyValidationError": "Dieses Feld ist erforderlich",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "Etwas ist schief gelaufen"
     },
     "filters": {
+      "username": "Benutzername",
+      "id": "ID",
       "showRespondentsWho": "Befragte anzeigen, die",
       "hasNotSentAtLeastNumberOfSurveys": "Haben mindestens diese Anzahl von Umfragen übersprungen",
       "hasNotSentAtLeastNumberOfLocationData": "Haben weniger als diese Anzahl von Standortdaten gesendet",
@@ -81,7 +119,15 @@
       "dateTo": "Datum bis",
       "timeFrom": "Zeit von",
       "timeTo": "Zeit bis",
-      "none": "Keine"
+      "none": "Keine",
+      "surveyWindow": "Umfragefenster",
+      "surveyWindowAny": "Beliebig",
+      "surveyWindowSet": "Daten zugewiesen",
+      "surveyWindowUnset": "Keine Daten",
+      "surveyStartFrom": "Beginn von",
+      "surveyStartTo": "Beginn bis",
+      "surveyEndFrom": "Ende von",
+      "surveyEndTo": "Ende bis"
     },
     "changePassword": {
       "changePassword": "Passwort ändern",
@@ -439,7 +485,82 @@
     "loadingError": "Beim Laden ist ein Fehler aufgetreten.",
     "retry": "Erneut versuchen",
     "noSurveys": "Keine Umfragen",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "createNew": "Umfrage erstellen"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "daily": "Täglich",
+      "participant": "Pro Teilnehmer"
+    },
+    "selectParticipant": "Teilnehmer auswählen",
+    "selectParticipantHint": "Benutzername eingeben…",
+    "noParticipantsMatch": "Keine Teilnehmer entsprechen deiner Suche",
+    "clearSearch": "Suche leeren",
+    "loadError": "Statistiken konnten nicht geladen werden.",
+    "dailyDate": "Tag",
+    "today": "Heute",
+    "export": {
+      "csv": "CSV exportieren",
+      "dailyFilename": "statistik-taeglich.csv",
+      "participantsFilename": "statistik-teilnehmer.csv"
+    },
+    "kpi": {
+      "studyWindow": "Studienzeitraum",
+      "participants": "Teilnehmer",
+      "participantsWithSubmissions": "Aktive Teilnehmer",
+      "filledVsAvailable": "Ausgefüllt / Verfügbar",
+      "filledVsAvailableActive": "Ausgefüllt / Verfügbar (gesetzte Daten)",
+      "filledVsAvailableActiveTooltip": "Teilnehmer mit zugewiesenen Umfragedaten, die den ausgewählten Tag abdecken: {{count}}.",
+      "locationData": "Standortdaten",
+      "sensorData": "Sensormesswerte",
+      "outsideResearchArea": "Außerhalb des Untersuchungsgebiets",
+      "username": "Teilnehmer",
+      "day": "Tag"
+    },
+    "charts": {
+      "participations": "Umfrageantworten pro Tag",
+      "locationData": "Standortdaten pro Tag",
+      "sensorData": "Sensormesswerte pro Tag",
+      "participationsHourly": "Umfrageantworten pro Stunde",
+      "locationDataHourly": "Standortdaten pro Stunde",
+      "sensorDataHourly": "Sensormesswerte pro Stunde",
+      "outsideResearchArea": "Antworten außerhalb des Untersuchungsgebiets pro Tag",
+      "outsideResearchAreaHourly": "Antworten außerhalb des Untersuchungsgebiets pro Stunde"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Tag",
+      "today": "Heute",
+      "minFilled": "Min. ausgefüllt",
+      "maxFilled": "Max. ausgefüllt",
+      "onlyActive": "Nur Teilnehmer mit gesetzten Daten",
+      "clear": "Zurücksetzen",
+      "refresh": "Aktualisieren"
+    },
+    "size": {
+      "title": "Kachelgröße",
+      "width": "Breite",
+      "height": "Höhe",
+      "reset": "Zurücksetzen"
+    },
+    "summary": {
+      "slots": "{{count}} geplante Umfragen",
+      "respondents": "{{visible}} von {{total}} Teilnehmern angezeigt"
+    },
+    "legend": {
+      "completedFull": "Ausgefüllt + GPS + Sensor",
+      "completedGpsOnly": "Ausgefüllt + nur GPS",
+      "completedSensorOnly": "Ausgefüllt + nur Sensor",
+      "completedNone": "Ausgefüllt (ohne GPS und Sensor)",
+      "missed": "Verpasst",
+      "pending": "Ausstehend"
+    },
+    "loadError": "Die Tagesübersicht konnte nicht geladen werden.",
+    "noSlots": "An diesem Tag sind keine Umfragen geplant.",
+    "noRespondentsMatch": "Kein Teilnehmer entspricht den aktuellen Filtern."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elemente pro Seite:",
@@ -477,5 +598,71 @@
     "editDialogTitle": "Kontakt bearbeiten",
     "editedSuccessfuly": "Kontakt wurde erfolgreich aktualisiert",
     "editingFailed": "Fehler beim Aktualisieren des Kontakts. Bitte versuchen Sie es später erneut"
+  },
+  "issues": {
+    "title": "Probleme",
+    "subtitle": "Finden Sie Befragte mit geringer Umfrage-, GPS- oder Sensorerfüllung in ihrem Studienfenster oder einem eigenen Zeitraum.",
+    "customDatesDisclaimer": "Eigene Daten gelten nur für Befragte mit Umfragefenster. Kennzahlen nutzen die Schnittmenge aus gewähltem Zeitraum und Fenster; Befragte ohne Umfragen in dieser Schnittmenge werden ausgeblendet.",
+    "filters": {
+      "rangeSurveyWindow": "Umfragefenster",
+      "rangeCustom": "Eigene Daten",
+      "from": "Von",
+      "to": "Bis",
+      "load": "Laden",
+      "minSkipped": "Mindestens übersprungen",
+      "maxSurveyPercent": "Umfrageerfüllung ≤ %",
+      "maxGpsPercent": "GPS-Erfüllung ≤ %",
+      "maxSensorPercent": "Sensorerfüllung ≤ %",
+      "apply": "Filter anwenden",
+      "clear": "Filter löschen"
+    },
+    "summary": {
+      "respondents": "{{visible}} von {{total}} Befragten"
+    },
+    "table": {
+      "username": "Benutzername",
+      "window": "Fenster",
+      "surveys": "Ausgefüllte Umfragen",
+      "surveyPercent": "Umfrage %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensor %",
+      "skipped": "Übersprungen",
+      "empty": "Keine Befragten entsprechen den Filtern."
+    },
+    "loadError": "Problemdaten konnten nicht geladen werden."
+  },
+  "surveyWindow": {
+    "title": "Umfragedaten",
+    "subtitle": "Weisen Sie Start- und Enddaten stapelweise zu und prüfen Sie die aktiven Teilnehmer über die Zeit.",
+    "batch": {
+      "title": "Stapelzuweisung",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "assign": "Auf Auswahl anwenden",
+      "clearDates": "Daten löschen"
+    },
+    "chart": {
+      "title": "Aktive Teilnehmer über die Zeit",
+      "subtitle": "Anzahl der Teilnehmer, deren Fenster den jeweiligen Tag abdeckt."
+    },
+    "list": {
+      "searchUsername": "Nach Benutzername filtern",
+      "selectAll": "Alle gefilterten auswählen",
+      "clearSelection": "Auswahl löschen",
+      "refresh": "Aktualisieren",
+      "username": "Benutzername",
+      "startDate": "Beginn",
+      "endDate": "Ende",
+      "id": "ID",
+      "empty": "Keine Teilnehmer entsprechen dem Filter."
+    },
+    "messages": {
+      "saved": "Umfragedaten aktualisiert."
+    },
+    "errors": {
+      "loadFailed": "Teilnehmer konnten nicht geladen werden.",
+      "saveFailed": "Umfragedaten konnten nicht gespeichert werden.",
+      "endBeforeStart": "Das Enddatum muss am oder nach dem Startdatum liegen."
+    }
   }
 }

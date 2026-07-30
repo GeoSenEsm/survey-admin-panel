@@ -1,0 +1,136 @@
+<div class="container">
+  <header class="page-header">
+    <h1>{{ 'issues.title' | translate }}</h1>
+    <p class="subtitle">{{ 'issues.subtitle' | translate }}</p>
+    <p class="disclaimer">{{ 'issues.customDatesDisclaimer' | translate }}</p>
+  </header>
+
+  <section class="toolbar" [formGroup]="filters">
+    <mat-button-toggle-group formControlName="rangeMode" class="range-toggle">
+      <mat-button-toggle *ngFor="let mode of rangeModes" [value]="mode.value">
+        {{ mode.label | translate }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <ng-container *ngIf="isCustomRange">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'issues.filters.from' | translate }}</mat-label>
+        <input matInput [matDatepicker]="fromPicker" formControlName="from" readonly />
+        <mat-datepicker-toggle matSuffix [for]="fromPicker" />
+        <mat-datepicker #fromPicker />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'issues.filters.to' | translate }}</mat-label>
+        <input matInput [matDatepicker]="toPicker" formControlName="to" readonly />
+        <mat-datepicker-toggle matSuffix [for]="toPicker" />
+        <mat-datepicker #toPicker />
+      </mat-form-field>
+    </ng-container>
+
+    <button mat-flat-button color="primary" type="button" (click)="reload()" [disabled]="isLoading">
+      <mat-icon>refresh</mat-icon>
+      {{ 'issues.filters.load' | translate }}
+    </button>
+  </section>
+
+  <section class="toolbar secondary" [formGroup]="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'issues.filters.minSkipped' | translate }}</mat-label>
+      <input matInput type="number" min="0" formControlName="minSkipped" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'issues.filters.maxSurveyPercent' | translate }}</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="maxSurveyPercent" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'issues.filters.maxGpsPercent' | translate }}</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="maxGpsPercent" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'issues.filters.maxSensorPercent' | translate }}</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="maxSensorPercent" />
+    </mat-form-field>
+    <button mat-stroked-button type="button" (click)="applyClientFilters()">
+      {{ 'issues.filters.apply' | translate }}
+    </button>
+    <button mat-stroked-button type="button" (click)="clearClientFilters()">
+      {{ 'issues.filters.clear' | translate }}
+    </button>
+  </section>
+
+  <mat-error *ngIf="loadError" class="load-error">
+    {{ 'issues.loadError' | translate }}
+  </mat-error>
+
+  <div class="spinner-row" *ngIf="isLoading">
+    <mat-spinner diameter="40" />
+  </div>
+
+  <ng-container *ngIf="!isLoading && overview as data">
+    <section class="summary">
+      <span class="summary-item">
+        <mat-icon>group</mat-icon>
+        {{
+          'issues.summary.respondents'
+            | translate: { visible: dataSource.data.length, total: data.respondentsConsidered }
+        }}
+      </span>
+    </section>
+
+    <div class="table-card">
+      <table mat-table [dataSource]="dataSource" matSort class="issues-table">
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'issues.table.username' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.username }}</td>
+        </ng-container>
+        <ng-container matColumnDef="window">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'issues.table.window' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.windowStart }} → {{ row.windowEnd }}</td>
+        </ng-container>
+        <ng-container matColumnDef="surveys">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="surveysFilled">
+            {{ 'issues.table.surveys' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.surveysFilled }} / {{ row.surveysAvailable }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="surveyPercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="surveyCompletionPercent">
+            {{ 'issues.table.surveyPercent' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ formatPercent(row.surveyCompletionPercent) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="gpsPercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="gpsCompletionPercent">
+            {{ 'issues.table.gpsPercent' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ formatPercent(row.gpsCompletionPercent) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="sensorPercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="sensorCompletionPercent">
+            {{ 'issues.table.sensorPercent' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ formatPercent(row.sensorCompletionPercent) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="skipped">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="skippedSurveys">
+            {{ 'issues.table.skipped' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.skippedSurveys }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons />
+      <p class="empty" *ngIf="dataSource.data.length === 0">
+        {{ 'issues.table.empty' | translate }}
+      </p>
+    </div>
+  </ng-container>
+</div>

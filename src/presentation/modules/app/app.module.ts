@@ -4,6 +4,7 @@ import { AppComponent } from './components/app/app.component';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './components/login/login.component';
@@ -88,11 +89,19 @@ import { CreateSensorComponent } from './components/create-sensor/create-sensor.
 import { ContactPhoneNumbersComponent } from './components/contact-phone-numbers/contact-phone-numbers.component';
 import { CreateNewContactPhoneNumberComponent } from './components/create-new-contact-phone-number/create-new-contact-phone-number.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
+import { ResponseDocumentsComponent } from './components/response-documents/response-documents.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { DailyCompletionComponent } from './components/daily-completion/daily-completion.component';
+import { SurveyWindowAssignmentComponent } from './components/survey-window-assignment/survey-window-assignment.component';
+import { RespondentIssuesComponent } from './components/respondent-issues/respondent-issues.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'respondents', component: RespondentsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'issues', component: RespondentIssuesComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'surveyWindow', component: SurveyWindowAssignmentComponent, canActivate: [tokenAvailableGuard]},
     {path: '', component: LoadingComponent, canActivate: [laodingComponentGuard]},
     {path: 'surveys', component: SurveysComponent, canActivate: [tokenAvailableGuard]},
     {path: 'surveys/new', component: CreateSurveyComponent, canActivate: [tokenAvailableGuard]},
@@ -103,7 +112,10 @@ export const routes: Routes = [
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]}
+    {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'dailyCompletion', component: DailyCompletionComponent, canActivate: [tokenAvailableGuard]}
 ];
 
 export function HttpLoaderFactory(http: HttpClient){
@@ -119,6 +131,7 @@ export function HttpLoaderFactory(http: HttpClient){
     }),
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
     FormsModule,
     MatButtonModule,
     ReactiveFormsModule,
@@ -159,7 +172,8 @@ export function HttpLoaderFactory(http: HttpClient){
     MatExpansionModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonToggleModule
   ],
   declarations: [
     AppComponent,
@@ -211,8 +225,13 @@ export function HttpLoaderFactory(http: HttpClient){
     CreateSensorComponent,
     ContactPhoneNumbersComponent,
     CreateNewContactPhoneNumberComponent,
-    EditContactComponent
-    ],
+    EditContactComponent,
+    ResponseDocumentsComponent,
+    StatisticsComponent,
+    DailyCompletionComponent,
+    SurveyWindowAssignmentComponent,
+    RespondentIssuesComponent
+  ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,
 })

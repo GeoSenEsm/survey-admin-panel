@@ -1,0 +1,341 @@
+<div class="container">
+  <section class="toolbar">
+    <mat-button-toggle-group
+      [value]="viewMode"
+      (change)="onViewModeChange($event.value)"
+      class="view-toggle"
+    >
+      <mat-button-toggle value="global">
+        <mat-icon>public</mat-icon>
+        {{ 'statistics.view.global' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle value="daily">
+        <mat-icon>today</mat-icon>
+        {{ 'statistics.view.daily' | translate }}
+      </mat-button-toggle>
+      <mat-button-toggle value="participant">
+        <mat-icon>person</mat-icon>
+        {{ 'statistics.view.participant' | translate }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field
+      *ngIf="viewMode === 'participant'"
+      appearance="fill"
+      class="participant-picker"
+    >
+      <mat-label>{{ 'statistics.selectParticipant' | translate }}</mat-label>
+      <input
+        matInput
+        type="text"
+        [formControl]="participantSearchControl"
+        [matAutocomplete]="participantAuto"
+        [placeholder]="'statistics.selectParticipantHint' | translate"
+      />
+      <button
+        *ngIf="participantSearchControl.value"
+        matSuffix
+        mat-icon-button
+        type="button"
+        [attr.aria-label]="'statistics.clearSearch' | translate"
+        (click)="clearParticipantSearch()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete
+        #participantAuto="matAutocomplete"
+        (optionSelected)="onParticipantSelected($event.option.value)"
+        [displayWith]="displayParticipant"
+      >
+        <mat-option
+          *ngFor="let p of filteredParticipants; trackBy: participantTrackBy"
+          [value]="p"
+        >
+          <span class="autocomplete-primary">{{ p.username }}</span>
+          <span class="autocomplete-secondary">
+            {{ p.surveysFilled }}/{{ p.surveysAvailable }}
+          </span>
+        </mat-option>
+        <mat-option
+          *ngIf="filteredParticipants.length === 0"
+          disabled
+          class="autocomplete-empty"
+        >
+          {{ 'statistics.noParticipantsMatch' | translate }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <ng-container *ngIf="viewMode === 'daily'">
+      <mat-form-field appearance="fill" class="daily-date-picker">
+        <mat-label>{{ 'statistics.dailyDate' | translate }}</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dailyPicker"
+          readonly
+          [formControl]="dailyDateControl"
+          (dateChange)="onDailyDateChange()"
+        />
+        <mat-datepicker-toggle matSuffix [for]="dailyPicker" />
+        <mat-datepicker #dailyPicker />
+      </mat-form-field>
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="goToToday()"
+        [disabled]="isLoadingDaily"
+      >
+        <mat-icon>today</mat-icon>
+        {{ 'statistics.today' | translate }}
+      </button>
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="exportDailyCsv()"
+        [disabled]="isExportingDaily"
+      >
+        <mat-icon>file_download</mat-icon>
+        {{ 'statistics.export.csv' | translate }}
+      </button>
+    </ng-container>
+
+    <button
+      *ngIf="viewMode === 'participant'"
+      type="button"
+      mat-stroked-button
+      (click)="exportParticipantsCsv()"
+      [disabled]="participants.length === 0"
+    >
+      <mat-icon>file_download</mat-icon>
+      {{ 'statistics.export.csv' | translate }}
+    </button>
+  </section>
+
+  <mat-error *ngIf="loadError" class="load-error">
+    {{ 'statistics.loadError' | translate }}
+  </mat-error>
+
+  <div
+    class="spinner-row"
+    *ngIf="(viewMode === 'global' && isLoadingGlobal) ||
+           (viewMode === 'participant' && isLoadingParticipant) ||
+           (viewMode === 'daily' && isLoadingDaily)"
+  >
+    <mat-spinner diameter="40" />
+  </div>
+
+  <ng-container
+    *ngIf="viewMode === 'global' && !isLoadingGlobal && globalDetail as g"
+  >
+    <div class="kpi-grid">
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.studyWindow' | translate }}</span>
+        <span class="kpi-value kpi-value--sm">
+          <ng-container *ngIf="g.stats.firstParticipationDate; else emptyDash">
+            {{ g.stats.firstParticipationDate | date: 'mediumDate' }}
+            &nbsp;&mdash;&nbsp;
+            {{ g.stats.lastParticipationDate | date: 'mediumDate' }}
+          </ng-container>
+        </span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.participants' | translate }}</span>
+        <span class="kpi-value">{{ g.stats.totalParticipants }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.filledVsAvailable' | translate }}</span>
+        <span class="kpi-value">
+          {{ g.stats.surveysFilled }}
+          <span class="kpi-value-secondary">/ {{ g.stats.surveysAvailable }}</span>
+        </span>
+        <span class="kpi-hint">
+          {{ fillRatio(g.stats.surveysFilled, g.stats.surveysAvailable) }}%
+        </span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.locationData' | translate }}</span>
+        <span class="kpi-value">{{ g.stats.locationDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.sensorData' | translate }}</span>
+        <span class="kpi-value">{{ g.stats.sensorDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.outsideResearchArea' | translate }}</span>
+        <span class="kpi-value">{{ g.stats.outsideResearchAreaCount }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="viewMode === 'daily' && !isLoadingDaily && dailyDetail as d"
+  >
+    <div class="kpi-grid">
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.day' | translate }}</span>
+        <span class="kpi-value kpi-value--sm">{{ d.date | date: 'mediumDate' }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.participantsWithSubmissions' | translate }}</span>
+        <span class="kpi-value">{{ d.totalParticipants }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.filledVsAvailable' | translate }}</span>
+        <span class="kpi-value">
+          {{ d.surveysFilled }}
+          <span class="kpi-value-secondary">/ {{ d.surveysAvailable }}</span>
+        </span>
+        <span class="kpi-hint">
+          {{ fillRatio(d.surveysFilled, d.surveysAvailable) }}%
+        </span>
+      </div>
+
+      <div
+        class="kpi kpi--info"
+        [matTooltip]="
+          ('statistics.kpi.filledVsAvailableActiveTooltip' | translate)
+            .replace('{{count}}', d.activeRespondentCount.toString())
+        "
+        matTooltipPosition="above"
+      >
+        <span class="kpi-label">
+          {{ 'statistics.kpi.filledVsAvailableActive' | translate }}
+          <mat-icon class="kpi-info-icon">info_outline</mat-icon>
+        </span>
+        <span class="kpi-value">
+          {{ d.surveysFilledActive }}
+          <span class="kpi-value-secondary">/ {{ d.surveysAvailableActive }}</span>
+        </span>
+        <span class="kpi-hint">
+          {{ fillRatio(d.surveysFilledActive, d.surveysAvailableActive) }}%
+        </span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.locationData' | translate }}</span>
+        <span class="kpi-value">{{ d.locationDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.sensorData' | translate }}</span>
+        <span class="kpi-value">{{ d.sensorDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.outsideResearchArea' | translate }}</span>
+        <span class="kpi-value">{{ d.participationsOutsideAreaCount }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="viewMode === 'participant' && !isLoadingParticipant && participantDetail as p"
+  >
+    <div class="kpi-grid">
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.username' | translate }}</span>
+        <span class="kpi-value kpi-value--sm">{{ p.stats.username }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.studyWindow' | translate }}</span>
+        <span class="kpi-value kpi-value--sm">
+          {{ p.stats.firstParticipationDate | date: 'mediumDate' }}
+          &nbsp;&mdash;&nbsp;
+          {{ p.stats.lastParticipationDate | date: 'mediumDate' }}
+        </span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.filledVsAvailable' | translate }}</span>
+        <span class="kpi-value">
+          {{ p.stats.surveysFilled }}
+          <span class="kpi-value-secondary">/ {{ p.stats.surveysAvailable }}</span>
+        </span>
+        <span class="kpi-hint">
+          {{ fillRatio(p.stats.surveysFilled, p.stats.surveysAvailable) }}%
+        </span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.locationData' | translate }}</span>
+        <span class="kpi-value">{{ p.stats.locationDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.sensorData' | translate }}</span>
+        <span class="kpi-value">{{ p.stats.sensorDataCount }}</span>
+      </div>
+
+      <div class="kpi">
+        <span class="kpi-label">{{ 'statistics.kpi.outsideResearchArea' | translate }}</span>
+        <span class="kpi-value">{{ p.stats.outsideResearchAreaCount }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <div
+    class="empty-hint"
+    *ngIf="!isLoadingGlobal && !isLoadingParticipant &&
+           viewMode === 'participant' && !selectedParticipantId"
+  >
+    <mat-icon>info</mat-icon>
+    <span>{{ 'statistics.selectParticipant' | translate }}</span>
+  </div>
+
+  <div class="charts">
+    <section class="chart-card" *ngIf="participationsChart">
+      <h3 class="chart-title">
+        {{
+          (viewMode === 'daily'
+            ? 'statistics.charts.participationsHourly'
+            : 'statistics.charts.participations') | translate
+        }}
+      </h3>
+      <div echarts [options]="participationsChart" class="echart"></div>
+    </section>
+
+    <section class="chart-card" *ngIf="locationChart">
+      <h3 class="chart-title">
+        {{
+          (viewMode === 'daily'
+            ? 'statistics.charts.locationDataHourly'
+            : 'statistics.charts.locationData') | translate
+        }}
+      </h3>
+      <div echarts [options]="locationChart" class="echart"></div>
+    </section>
+
+    <section class="chart-card" *ngIf="sensorChart">
+      <h3 class="chart-title">
+        {{
+          (viewMode === 'daily'
+            ? 'statistics.charts.sensorDataHourly'
+            : 'statistics.charts.sensorData') | translate
+        }}
+      </h3>
+      <div echarts [options]="sensorChart" class="echart"></div>
+    </section>
+
+    <section class="chart-card" *ngIf="outsideAreaChart">
+      <h3 class="chart-title">
+        {{
+          (viewMode === 'daily'
+            ? 'statistics.charts.outsideResearchAreaHourly'
+            : 'statistics.charts.outsideResearchArea') | translate
+        }}
+      </h3>
+      <div echarts [options]="outsideAreaChart" class="echart"></div>
+    </section>
+
+  </div>
+
+  <ng-template #emptyDash>&mdash;</ng-template>
+</div>

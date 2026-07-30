@@ -1,21 +1,20 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   Inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { AddRespondentsComponent } from '../add-respondents/add-respondents.component';
 import { ButtonData } from '../buttons.ribbon/button.data';
 import {
   RespondentData,
   RespondentFilters,
+  SurveyWindowPresenceFilter,
 } from '../../../../../domain/models/respondent-data';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import {
@@ -45,12 +44,17 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
   headers: string[] = [];
-  directDisplayColumns = new Set<string>(['username', 'id']);
+  directDisplayColumns = new Set<string>(['username', 'id', 'surveyStartDate', 'surveyEndDate']);
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
   valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
   isBusy = false;
   readonly ribbonButtons: ButtonData[] = [
+    {
+      content: 'respondents.respondents.applyFilters',
+      onClick: () => this.applyFilters(),
+      icon: 'filter_alt',
+    },
     {
       content: 'respondents.respondents.refresh',
       onClick: this.reloadRespondents.bind(this),
@@ -81,15 +85,17 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     @Inject(START_SURVEY_SERVICE_TOKEN)
     private readonly initialSurveyService: StartSurveyService
   ) {
-    const now = new Date();
     this.filters = {
       amount: 1,
-      from: new Date(
-        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7)
-      ),
-      to: new Date(
-        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20)
-      ),
+      from: new Date(),
+      to: new Date(),
+      username: '',
+      id: '',
+      surveyWindowFilter: SurveyWindowPresenceFilter.ANY,
+      surveyStartFrom: null,
+      surveyStartTo: null,
+      surveyEndFrom: null,
+      surveyEndTo: null,
     };
   }
 
@@ -120,7 +126,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           return throwError(() => e);
         })
       ),
-      this.service.getRespondents(this.filters),
+      this.service.getRespondents(undefined),
       this.initialSurveyService.getState(),
     ];
 
@@ -143,7 +149,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           this.respondentInfos = respondentInfos as RespondentInfoCollections;
           this.headers = ['username']
             .concat(Object.keys(this.respondentInfos))
-            .concat(['id']);
+            .concat(['surveyStartDate', 'surveyEndDate', 'id']);
           this.valueDisplayMappings = convertToValueDisplayMappings(
             this.respondentInfos
           );
@@ -151,8 +157,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
             this.respondents.push(r)
           );
           this.respondents.sort((a, b) => a.username.localeCompare(b.username));
-          this.dataSource.data = this.respondents;
-          console.log(this.dataSource.data);
+          this.applyLocalFilters();
           this.initialSurveyState = initialSurveyState as InitialSurveyState;
         },
         error: () => {
@@ -169,7 +174,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
     this.respondents.length = 0;
     this.dataSource.data = [];
     this.service
-      .getRespondents(this.filters)
+      .getRespondents(undefined)
       .pipe(
         finalize(() => {
           this.isBusy = false;
@@ -177,8 +182,40 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         (res as RespondentData[]).forEach((r) => this.respondents.push(r));
-        this.dataSource.data = this.respondents;
+        this.respondents.sort((a, b) => a.username.localeCompare(b.username));
+        this.applyLocalFilters();
       });
+  }
+
+  applyFilters(): void {
+    this.applyLocalFilters();
+  }
+
+  private applyLocalFilters(): void {
+    const presence = this.filters.surveyWindowFilter ?? SurveyWindowPresenceFilter.ANY;
+    const startFrom = toLocalIsoDate(this.filters.surveyStartFrom);
+    const startTo = toLocalIsoDate(this.filters.surveyStartTo);
+    const endFrom = toLocalIsoDate(this.filters.surveyEndFrom);
+    const endTo = toLocalIsoDate(this.filters.surveyEndTo);
+    const usernameNeedle = (this.filters.username ?? '').trim().toLowerCase();
+    const idNeedle = (this.filters.id ?? '').trim().toLowerCase();
+
+    this.dataSource.data = this.respondents.filter((r) => {
+      if (usernameNeedle && !String(r.username).toLowerCase().includes(usernameNeedle)) {
+        return false;
+      }
+      if (idNeedle && !String(r.id).toLowerCase().includes(idNeedle)) {
+        return false;
+      }
+      const hasWindow = !!r.surveyStartDate && !!r.surveyEndDate;
+      if (presence === SurveyWindowPresenceFilter.SET && !hasWindow) return false;
+      if (presence === SurveyWindowPresenceFilter.UNSET && hasWindow) return false;
+      if (startFrom && (!r.surveyStartDate || r.surveyStartDate < startFrom)) return false;
+      if (startTo && (!r.surveyStartDate || r.surveyStartDate > startTo)) return false;
+      if (endFrom && (!r.surveyEndDate || r.surveyEndDate < endFrom)) return false;
+      if (endTo && (!r.surveyEndDate || r.surveyEndDate > endTo)) return false;
+      return true;
+    });
   }
 
   generateRespondentsAccounts(): void {
@@ -211,6 +248,14 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       return this.translate.instant(
         'respondents.respondents.usernameColumnHeader'
       );
+    }
+
+    if (columnName == 'surveyStartDate') {
+      return this.translate.instant('respondents.respondents.surveyStartDate');
+    }
+
+    if (columnName == 'surveyEndDate') {
+      return this.translate.instant('respondents.respondents.surveyEndDate');
     }
 
     return columnName;
@@ -279,4 +324,12 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   canEditRespondents(): boolean {
     return this.initialSurveyState == 'published';
   }
+}
+
+function toLocalIsoDate(date: Date | null | undefined): string | null {
+  if (!date) return null;
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }

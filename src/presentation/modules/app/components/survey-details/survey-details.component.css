@@ -1,4 +1,45 @@
-mat-icon {
-    margin-right: 10px;
-    margin-left: 10px;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.container {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.container mat-tab-group {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+mat-tab {
+  overflow: auto;
+}
+
+.container mat-icon {
+  margin-right: 8px;
+}
+
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .container mat-tab-group { flex: 0 0 auto; }
+
+  mat-tab { overflow: visible; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 8px; }
 }

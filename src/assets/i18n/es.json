@@ -18,12 +18,12 @@
       "passwordRequiredError": "La contraseña es obligatoria.",
       "passwordMinLenError": "La contraseña no puede tener más de {{maxLen}} caracteres.",
       "welcome": "¡Bienvenido al panel de administración de GeoSenEsm!",
-      "loginToContinue": "Inicie sesión para continuar"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "Encuestados",
       "surveys": "Encuestas",
-      "creatingSurveys": "Creación de encuestas",
+      "createSurvey": "Crear encuesta",
       "results": "Resultados",
       "logout": "Cerrar sesión",
       "startSurvey": "Encuesta inicial",
@@ -31,11 +31,39 @@
       "map": "Mapa",
       "configuration": "Configuración",
       "changeAdminPassword": "Cambiar contraseña",
+      "userGuide": "Guía del usuario",
       "sensorDevices": "Dispositivos sensores",
       "someElementsNeedRefreshing": "Algunos elementos requieren actualizar la página para aplicar el cambio de idioma.",
       "ok": "OK",
-      "contactPhoneNumbers": "Números de contacto"
+      "contactPhoneNumbers": "Números de contacto",
+      "responseDocuments": "Documentos de respuesta",
+      "statistics": "Estadísticas",
+      "dailyCompletion": "Cumplimiento diario",
+      "surveyWindow": "Fechas de encuesta",
+      "issues": "Problemas"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "Encuesta",
+      "anySurvey": "Cualquier encuesta",
+      "dateFrom": "Desde",
+      "dateTo": "Hasta",
+      "apply": "Aplicar",
+      "clear": "Limpiar"
+    },
+    "columns": {
+      "participationDate": "Fecha de participación",
+      "surveyName": "Encuesta",
+      "respondent": "Encuestado",
+      "answers": "Respuestas",
+      "actions": "Acciones"
+    },
+    "download": "Descargar JSON",
+    "exportZip": "Exportar ZIP",
+    "nothingToDisplay": "Ningún documento coincide con el filtro.",
+    "loadError": "No se pudieron cargar los documentos de respuesta.",
+    "exportError": "No se pudieron exportar los documentos de respuesta."
   },
   "respondents": {
     "addRespondents": {
@@ -48,6 +76,7 @@
       "createRespondentsAccounts": "Crear cuentas para encuestados",
       "usernameColumnHeader": "Nombre de usuario",
       "refresh": "Actualizar",
+      "applyFilters": "Aplicar filtros",
       "nothingToDisplay": "Nada que mostrar",
       "errorLoadingRespondents": "Ups... Hubo un error al cargar los encuestados. Inténtelo de nuevo más tarde.",
       "export": "Exportar",
@@ -59,12 +88,19 @@
       "sensorData": "Datos de sensores",
       "locationData": "Datos de geolocalización",
       "surveyResponses": "Respuestas a encuestas",
-      "cannotEditRespondentData": "No se pueden editar los datos del encuestado hasta que se publique la encuesta inicial."
+      "cannotEditRespondentData": "No se pueden editar los datos del encuestado hasta que se publique la encuesta inicial.",
+      "surveyStartDate": "Inicio de encuesta",
+      "surveyEndDate": "Fin de encuesta"
     },
     "edit": {
       "title": "Editar datos del encuestado",
       "username": "Nombre de usuario",
       "id": "ID",
+      "surveyStartDate": "Fecha de inicio de la encuesta",
+      "surveyEndDate": "Fecha de fin de la encuesta",
+      "surveyWindowHint": "Deje ambas fechas vacías para borrar la ventana de encuesta.",
+      "surveyWindowBothOrNeither": "Defina ambas fechas de encuesta, o borre ambas.",
+      "surveyWindowEndBeforeStart": "La fecha de fin debe ser igual o posterior a la de inicio.",
       "cancel": "Cancelar",
       "save": "Guardar",
       "emptyValidationError": "Este campo es obligatorio",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "Algo salió mal"
     },
     "filters": {
+      "username": "Nombre de usuario",
+      "id": "ID",
       "showRespondentsWho": "Mostrar encuestados que",
       "hasNotSentAtLeastNumberOfSurveys": "Han omitido al menos este número de encuestas",
       "hasNotSentAtLeastNumberOfLocationData": "Han enviado menos de este número de datos de ubicación",
@@ -81,7 +119,15 @@
       "dateTo": "Fecha hasta",
       "timeFrom": "Hora desde",
       "timeTo": "Hora hasta",
-      "none": "Ninguno"
+      "none": "Ninguno",
+      "surveyWindow": "Ventana de encuesta",
+      "surveyWindowAny": "Cualquiera",
+      "surveyWindowSet": "Fechas asignadas",
+      "surveyWindowUnset": "Fechas no definidas",
+      "surveyStartFrom": "Inicio desde",
+      "surveyStartTo": "Inicio hasta",
+      "surveyEndFrom": "Fin desde",
+      "surveyEndTo": "Fin hasta"
     },
     "changePassword": {
       "changePassword": "Cambiar contraseña",
@@ -439,7 +485,82 @@
     "loadingError": "Ocurrió un error al cargar.",
     "retry": "Intentar de nuevo",
     "noSurveys": "No hay encuestas",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "createNew": "Crear encuesta"
+  },
+  "statistics": {
+    "view": {
+      "global": "Global",
+      "daily": "Diario",
+      "participant": "Por participante"
+    },
+    "selectParticipant": "Seleccionar participante",
+    "selectParticipantHint": "Escribe el nombre de usuario…",
+    "noParticipantsMatch": "Ningún participante coincide con tu búsqueda",
+    "clearSearch": "Borrar búsqueda",
+    "loadError": "No se pudieron cargar las estadísticas.",
+    "dailyDate": "Día",
+    "today": "Hoy",
+    "export": {
+      "csv": "Exportar CSV",
+      "dailyFilename": "estadisticas-diarias.csv",
+      "participantsFilename": "estadisticas-participantes.csv"
+    },
+    "kpi": {
+      "studyWindow": "Ventana del estudio",
+      "participants": "Participantes",
+      "participantsWithSubmissions": "Participantes activos",
+      "filledVsAvailable": "Completadas / Disponibles",
+      "filledVsAvailableActive": "Completadas / Disponibles (fechas definidas)",
+      "filledVsAvailableActiveTooltip": "Encuestados con fechas asignadas que cubren el día seleccionado: {{count}}.",
+      "locationData": "Datos de ubicación",
+      "sensorData": "Lecturas de sensores",
+      "outsideResearchArea": "Fuera del área de investigación",
+      "username": "Participante",
+      "day": "Día"
+    },
+    "charts": {
+      "participations": "Respuestas por día",
+      "locationData": "Datos de ubicación por día",
+      "sensorData": "Lecturas de sensores por día",
+      "participationsHourly": "Respuestas por hora",
+      "locationDataHourly": "Datos de ubicación por hora",
+      "sensorDataHourly": "Lecturas de sensores por hora",
+      "outsideResearchArea": "Respuestas fuera del área de investigación por día",
+      "outsideResearchAreaHourly": "Respuestas fuera del área de investigación por hora"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "Día",
+      "today": "Hoy",
+      "minFilled": "Mín. completadas",
+      "maxFilled": "Máx. completadas",
+      "onlyActive": "Solo encuestados con fechas definidas",
+      "clear": "Limpiar",
+      "refresh": "Actualizar"
+    },
+    "size": {
+      "title": "Tamaño de las tarjetas",
+      "width": "Ancho",
+      "height": "Alto",
+      "reset": "Restablecer"
+    },
+    "summary": {
+      "slots": "{{count}} encuestas programadas",
+      "respondents": "Mostrando {{visible}} de {{total}} participantes"
+    },
+    "legend": {
+      "completedFull": "Completada + GPS + sensor",
+      "completedGpsOnly": "Completada + solo GPS",
+      "completedSensorOnly": "Completada + solo sensor",
+      "completedNone": "Completada (sin GPS ni sensor)",
+      "missed": "Perdida",
+      "pending": "Pendiente"
+    },
+    "loadError": "No se pudo cargar la vista diaria.",
+    "noSlots": "No hay encuestas programadas para este día.",
+    "noRespondentsMatch": "Ningún participante coincide con los filtros actuales."
   },
   "matPaginator": {
     "itemsPerPageLabel": "Elementos por página:",
@@ -477,5 +598,71 @@
     "editDialogTitle": "Editar contacto",
     "editedSuccessfuly": "El contacto se ha actualizado exitosamente",
     "editingFailed": "Error al actualizar el contacto. Por favor, inténtelo de nuevo más tarde"
+  },
+  "issues": {
+    "title": "Problemas",
+    "subtitle": "Encuentre encuestados con bajo cumplimiento de encuesta, GPS o sensores en su ventana de estudio o en un rango personalizado.",
+    "customDatesDisclaimer": "Las fechas personalizadas solo incluyen encuestados con ventana de encuesta. Las métricas usan la intersección entre sus fechas y la ventana de cada encuestado; quienes no tengan encuestas en esa intersección se ocultan.",
+    "filters": {
+      "rangeSurveyWindow": "Ventana de encuesta",
+      "rangeCustom": "Fechas personalizadas",
+      "from": "Desde",
+      "to": "Hasta",
+      "load": "Cargar",
+      "minSkipped": "Omitidas al menos",
+      "maxSurveyPercent": "Cumplimiento encuesta ≤ %",
+      "maxGpsPercent": "Cumplimiento GPS ≤ %",
+      "maxSensorPercent": "Cumplimiento sensores ≤ %",
+      "apply": "Aplicar filtros",
+      "clear": "Borrar filtros"
+    },
+    "summary": {
+      "respondents": "Mostrando {{visible}} de {{total}} encuestados"
+    },
+    "table": {
+      "username": "Nombre de usuario",
+      "window": "Ventana",
+      "surveys": "Encuestas completadas",
+      "surveyPercent": "Encuesta %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "Sensores %",
+      "skipped": "Omitidas",
+      "empty": "Ningún encuestado coincide con los filtros."
+    },
+    "loadError": "No se pudieron cargar los datos de problemas."
+  },
+  "surveyWindow": {
+    "title": "Fechas de encuesta",
+    "subtitle": "Asigne fechas de inicio y fin por lotes y revise cuántos están activos a lo largo del tiempo.",
+    "batch": {
+      "title": "Asignación por lotes",
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de fin",
+      "assign": "Asignar a seleccionados",
+      "clearDates": "Borrar fechas"
+    },
+    "chart": {
+      "title": "Encuestados activos en el tiempo",
+      "subtitle": "Número de encuestados cuya ventana cubre cada día."
+    },
+    "list": {
+      "searchUsername": "Filtrar por usuario",
+      "selectAll": "Seleccionar filtrados",
+      "clearSelection": "Limpiar selección",
+      "refresh": "Actualizar",
+      "username": "Usuario",
+      "startDate": "Inicio",
+      "endDate": "Fin",
+      "id": "ID",
+      "empty": "Ningún encuestado coincide con el filtro."
+    },
+    "messages": {
+      "saved": "Fechas de encuesta actualizadas."
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los encuestados.",
+      "saveFailed": "No se pudieron guardar las fechas.",
+      "endBeforeStart": "La fecha de fin debe ser igual o posterior a la de inicio."
+    }
   }
 }

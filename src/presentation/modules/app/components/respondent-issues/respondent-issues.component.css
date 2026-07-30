@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px 32px;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+}
+
+.disclaimer {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.75);
+  background: #fff8e1;
+  border-left: 3px solid #f9a825;
+  border-radius: 4px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.toolbar.secondary {
+  padding-top: 4px;
+}
+
+.range-toggle {
+  margin-right: 4px;
+}
+
+.summary {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.issues-table {
+  width: 100%;
+}
+
+.spinner-row {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.load-error,
+.empty {
+  color: #c62828;
+}
+
+.empty {
+  color: rgba(0, 0, 0, 0.55);
+  padding: 12px 0 0;
+}

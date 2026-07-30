@@ -1,13 +1,21 @@
-.container {
-  padding: 10px;
-  height: 100vh;
-  margin: 0 auto;
-  margin-top: 20px;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
-h3 {
-  text-align: center;
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
+
+h3 { text-align: center; margin: 0; }
 
 .spinner-container {
   display: flex;
@@ -23,46 +31,71 @@ h3 {
   align-items: center;
   gap: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .progress-info {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .progress-text {
   display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748b);
 }
 
 .bytes-info {
-  font-size: 12px;
-  color: #999;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
 }
 
 .table-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.08));
   text-align: center;
-  height: calc(100% - 264px); /* substract paginator height here */
-  overflow-y: auto;
-  display: block;
 }
+
+.table-container mat-table { background: transparent; }
 
 mat-header-row,
 mat-header-cell {
   position: sticky;
   top: 0;
   z-index: 1;
+  background: var(--surface-muted, #f8fafc);
 }
 
 .paginator-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  flex-shrink: 0;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .table-container {
+    flex: 0 0 auto;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
 }

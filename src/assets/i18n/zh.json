@@ -18,12 +18,12 @@
       "passwordRequiredError": "密码为必填项。",
       "passwordMinLenError": "密码不能超过 {{maxLen}} 个字符。",
       "welcome": "欢迎使用 GeoSenEsm 管理面板！",
-      "loginToContinue": "请登录以继续"
+      "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
       "respondents": "受访者",
       "surveys": "问卷",
-      "creatingSurveys": "创建问卷",
+      "createSurvey": "创建问卷",
       "results": "结果",
       "logout": "退出登录",
       "startSurvey": "初始问卷",
@@ -31,11 +31,39 @@
       "map": "地图",
       "configuration": "配置",
       "changeAdminPassword": "修改密码",
+      "userGuide": "用户指南",
       "sensorDevices": "传感器设备",
       "someElementsNeedRefreshing": "部分元素需要刷新页面后才能应用语言更改。",
       "ok": "确定",
-      "contactPhoneNumbers": "联系电话"
+      "contactPhoneNumbers": "联系电话",
+      "responseDocuments": "回答文档",
+      "statistics": "统计",
+      "dailyCompletion": "每日完成情况",
+      "surveyWindow": "问卷日期",
+      "issues": "问题"
     }
+  },
+  "responseDocuments": {
+    "filters": {
+      "survey": "调查",
+      "anySurvey": "全部调查",
+      "dateFrom": "从",
+      "dateTo": "到",
+      "apply": "应用",
+      "clear": "清除"
+    },
+    "columns": {
+      "participationDate": "参与日期",
+      "surveyName": "调查",
+      "respondent": "受访者",
+      "answers": "回答",
+      "actions": "操作"
+    },
+    "download": "下载 JSON",
+    "exportZip": "导出 ZIP",
+    "nothingToDisplay": "没有符合筛选条件的文档。",
+    "loadError": "无法加载回答文档。",
+    "exportError": "无法导出回答文档。"
   },
   "respondents": {
     "addRespondents": {
@@ -48,6 +76,7 @@
       "createRespondentsAccounts": "创建受访者账户",
       "usernameColumnHeader": "用户名",
       "refresh": "刷新",
+      "applyFilters": "应用筛选",
       "nothingToDisplay": "无内容可显示",
       "errorLoadingRespondents": "哎呀……加载受访者时出错。请稍后再试。",
       "export": "导出",
@@ -59,12 +88,19 @@
       "sensorData": "传感器数据",
       "locationData": "地理位置数据",
       "surveyResponses": "问卷回答",
-      "cannotEditRespondentData": "初始问卷发布前，无法编辑受访者数据。"
+      "cannotEditRespondentData": "初始问卷发布前，无法编辑受访者数据。",
+      "surveyStartDate": "问卷开始",
+      "surveyEndDate": "问卷结束"
     },
     "edit": {
       "title": "编辑受访者数据",
       "username": "用户名",
       "id": "ID",
+      "surveyStartDate": "问卷开始日期",
+      "surveyEndDate": "问卷结束日期",
+      "surveyWindowHint": "将两个日期都留空可清除问卷时间窗。",
+      "surveyWindowBothOrNeither": "请同时设置两个日期，或同时清空。",
+      "surveyWindowEndBeforeStart": "结束日期必须不早于开始日期。",
       "cancel": "取消",
       "save": "保存",
       "emptyValidationError": "此字段为必填项",
@@ -72,6 +108,8 @@
       "somethingWentWrong": "出现错误"
     },
     "filters": {
+      "username": "用户名",
+      "id": "ID",
       "showRespondentsWho": "显示满足以下条件的受访者",
       "hasNotSentAtLeastNumberOfSurveys": "至少跳过了这么多份问卷",
       "hasNotSentAtLeastNumberOfLocationData": "发送的位置数据少于此数量",
@@ -81,7 +119,15 @@
       "dateTo": "结束日期",
       "timeFrom": "开始时间",
       "timeTo": "结束时间",
-      "none": "无"
+      "none": "无",
+      "surveyWindow": "问卷时间窗",
+      "surveyWindowAny": "全部",
+      "surveyWindowSet": "已设置日期",
+      "surveyWindowUnset": "未设置日期",
+      "surveyStartFrom": "开始自",
+      "surveyStartTo": "开始至",
+      "surveyEndFrom": "结束自",
+      "surveyEndTo": "结束至"
     },
     "changePassword": {
       "changePassword": "修改密码",
@@ -439,7 +485,82 @@
     "loadingError": "加载时发生错误。",
     "retry": "重试",
     "noSurveys": "无问卷",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "createNew": "创建问卷"
+  },
+  "statistics": {
+    "view": {
+      "global": "全局",
+      "daily": "按日",
+      "participant": "按参与者"
+    },
+    "selectParticipant": "选择参与者",
+    "selectParticipantHint": "输入用户名…",
+    "noParticipantsMatch": "没有参与者与您的搜索匹配",
+    "clearSearch": "清除搜索",
+    "loadError": "无法加载统计数据。",
+    "dailyDate": "日期",
+    "today": "今天",
+    "export": {
+      "csv": "导出 CSV",
+      "dailyFilename": "statistics-daily.csv",
+      "participantsFilename": "statistics-participants.csv"
+    },
+    "kpi": {
+      "studyWindow": "研究时段",
+      "participants": "参与者",
+      "participantsWithSubmissions": "活跃参与者",
+      "filledVsAvailable": "已填写 / 可用",
+      "filledVsAvailableActive": "已填写 / 可用（已设日期）",
+      "filledVsAvailableActiveTooltip": "已分配日期且覆盖所选日期的受访者：{{count}}。",
+      "locationData": "位置数据",
+      "sensorData": "传感器数据",
+      "outsideResearchArea": "研究区域外",
+      "username": "参与者",
+      "day": "日期"
+    },
+    "charts": {
+      "participations": "每日问卷回答数",
+      "locationData": "每日位置数据",
+      "sensorData": "每日传感器数据",
+      "participationsHourly": "每小时问卷回答数",
+      "locationDataHourly": "每小时位置数据",
+      "sensorDataHourly": "每小时传感器数据",
+      "outsideResearchArea": "研究区域外的每日回答数",
+      "outsideResearchAreaHourly": "研究区域外的每小时回答数"
+    }
+  },
+  "dailyCompletion": {
+    "filters": {
+      "date": "日期",
+      "today": "今天",
+      "minFilled": "最少已填",
+      "maxFilled": "最多已填",
+      "onlyActive": "仅显示已设置日期的受访者",
+      "clear": "清除",
+      "refresh": "刷新"
+    },
+    "size": {
+      "title": "方框大小",
+      "width": "宽度",
+      "height": "高度",
+      "reset": "重置"
+    },
+    "summary": {
+      "slots": "已安排 {{count}} 份问卷",
+      "respondents": "显示 {{visible}} / {{total}} 位参与者"
+    },
+    "legend": {
+      "completedFull": "已完成 + GPS + 传感器",
+      "completedGpsOnly": "已完成 + 仅 GPS",
+      "completedSensorOnly": "已完成 + 仅传感器",
+      "completedNone": "已完成（无 GPS 与传感器）",
+      "missed": "已错过",
+      "pending": "待填写"
+    },
+    "loadError": "无法加载当日概览。",
+    "noSlots": "这一天没有安排问卷。",
+    "noRespondentsMatch": "没有参与者符合当前筛选条件。"
   },
   "matPaginator": {
     "itemsPerPageLabel": "每页项目数：",
@@ -477,5 +598,71 @@
     "editDialogTitle": "编辑联系人",
     "editedSuccessfuly": "联系人已成功更新",
     "editingFailed": "更新联系人失败。请稍后再试"
+  },
+  "issues": {
+    "title": "问题",
+    "subtitle": "查找在研究时间窗或自定义日期范围内问卷、GPS 或传感器完成率偏低的受访者。",
+    "customDatesDisclaimer": "自定义日期仅包含已设置问卷时间窗的受访者。指标按所选日期与各受访者时间窗的交集计算；在该交集内没有问卷的受访者会被隐藏。",
+    "filters": {
+      "rangeSurveyWindow": "问卷时间窗",
+      "rangeCustom": "自定义日期",
+      "from": "从",
+      "to": "到",
+      "load": "加载",
+      "minSkipped": "至少跳过",
+      "maxSurveyPercent": "问卷完成率 ≤ %",
+      "maxGpsPercent": "GPS 完成率 ≤ %",
+      "maxSensorPercent": "传感器完成率 ≤ %",
+      "apply": "应用筛选",
+      "clear": "清除筛选"
+    },
+    "summary": {
+      "respondents": "显示 {{visible}} / {{total}} 位受访者"
+    },
+    "table": {
+      "username": "用户名",
+      "window": "时间窗",
+      "surveys": "已填问卷",
+      "surveyPercent": "问卷 %",
+      "gpsPercent": "GPS %",
+      "sensorPercent": "传感器 %",
+      "skipped": "跳过",
+      "empty": "没有符合筛选条件的受访者。"
+    },
+    "loadError": "无法加载问题数据。"
+  },
+  "surveyWindow": {
+    "title": "问卷日期",
+    "subtitle": "批量分配受访者问卷起止日期，并查看随时间变化的活跃人数。",
+    "batch": {
+      "title": "批量分配",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "assign": "分配给所选",
+      "clearDates": "清除日期"
+    },
+    "chart": {
+      "title": "活跃受访者随时间变化",
+      "subtitle": "覆盖各日期的受访者数量。"
+    },
+    "list": {
+      "searchUsername": "按用户名筛选",
+      "selectAll": "全选筛选结果",
+      "clearSelection": "清除选择",
+      "refresh": "刷新",
+      "username": "用户名",
+      "startDate": "开始",
+      "endDate": "结束",
+      "id": "ID",
+      "empty": "没有符合筛选条件的受访者。"
+    },
+    "messages": {
+      "saved": "问卷日期已更新。"
+    },
+    "errors": {
+      "loadFailed": "无法加载受访者。",
+      "saveFailed": "无法保存问卷日期。",
+      "endBeforeStart": "结束日期不能早于开始日期。"
+    }
   }
 }

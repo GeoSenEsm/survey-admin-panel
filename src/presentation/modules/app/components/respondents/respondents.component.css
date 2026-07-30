@@ -1,19 +1,27 @@
-.container{
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-.spacer{
-    flex-grow: 1;
-    margin-right: 10px;
+.table-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.08));
+  text-align: center;
 }
 
-.table-container{
-    text-align: center;
-    height: calc(100% - 264px); /* substract paginator height here */
-    overflow-y: auto;
-    display: block;
+.table-container mat-table {
+  background: transparent;
 }
 
 mat-header-row,
@@ -21,17 +29,48 @@ mat-header-cell {
   position: sticky;
   top: 0;
   z-index: 1;
+  background: var(--surface-muted, #f8fafc);
 }
 
-.respondents-actions-cell{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
+.respondents-actions-cell {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.paginator-container {
+  flex-shrink: 0;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  :host { height: auto; }
+
+  .container {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .table-container {
+    flex: 0 0 auto;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
 }

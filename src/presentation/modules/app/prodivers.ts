@@ -32,6 +32,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LanguageInterceptor } from '../../../core/services/language-interceptor';
 import {
   AUTHENTICATION_SERVICE,
+  RESPONSE_DOCUMENTS_SERVICE,
+  STATISTICS_SERVICE,
   SUMMARIES_SERVICE,
   SURVEY_DETAILS_MAPPER,
 } from '../../../core/services/registration-names';
@@ -45,13 +47,40 @@ import { TemperatureDataServiceImpl } from '../../../core/services/temperature-d
 import { LocationServiceImpl } from '../../../core/services/location-service-impl';
 import { ResearchAreaServiceImpl } from '../../../core/services/research_area_service_impl';
 import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl';
+import { ResponseDocumentsServiceImpl } from '../../../core/services/response-documents.service.impl';
+import { StatisticsServiceImpl } from '../../../core/services/statistics.service.impl';
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-import { getConfiguredLanguage, getMaterialDateLocale } from './supported-languages';
+import { firstValueFrom } from 'rxjs';
+import { getConfiguredLanguage, getMaterialDateLocale, SUPPORTED_LANGUAGES } from './supported-languages';
 
 function initializeApp(configService: ConfigService): () => Promise<any> {
   return () => configService.loadConfig();
+}
+
+// Preloads the configured language JSON before Angular starts rendering.
+// Without this, translate.instant() calls that fire during construction
+// (MatPaginatorIntl, table header helpers, snackbar labels …) can return
+// the raw i18n key on browsers that don't rerun those assignments after
+// the JSON arrives — most visibly on Safari with the larger zh.json.
+function initializeTranslations(
+  translate: TranslateService,
+  storage: LocalStorageService,
+): () => Promise<unknown> {
+  return async () => {
+    translate.addLangs([...SUPPORTED_LANGUAGES]);
+    const lang = getConfiguredLanguage(
+      storage.get<string>('lang'),
+      translate.getBrowserLang(),
+    );
+    try {
+      await firstValueFrom(translate.use(lang));
+    } catch {
+      // Missing/broken JSON must not block bootstrap; keys fall back to
+      // themselves and the language picker still works.
+    }
+  };
 }
 
 export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
@@ -67,12 +96,20 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     useClass: SurveySendingPolicyServiceImpl,
   },
   { provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl },
+  { provide: RESPONSE_DOCUMENTS_SERVICE, useClass: ResponseDocumentsServiceImpl },
+  { provide: STATISTICS_SERVICE, useClass: StatisticsServiceImpl },
   { provide: 'respondentDataService', useClass: RespondentDataServiceImpl },
   { provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService },
   {
     provide: APP_INITIALIZER,
     useFactory: initializeApp,
     deps: [ConfigService],
+    multi: true,
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeTranslations,
+    deps: [TranslateService, CookieStorageService],
     multi: true,
   },
   {

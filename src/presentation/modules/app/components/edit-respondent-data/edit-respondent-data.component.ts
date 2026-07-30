@@ -1,15 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 import {
   StartSurveyQuestion,
 } from '../../../../../core/models/start-survey-question';
-import { catchError, of, throwError } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { catchError, forkJoin, of, throwError } from 'rxjs';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
+import { AssignSurveyWindowRequest } from '../../../../../domain/models/survey-window';
 
 @Component({
   selector: 'app-edit-respondent-data',
@@ -19,11 +21,15 @@ import { TranslateService } from '@ngx-translate/core';
 export class EditRespondentDataComponent implements OnInit {
   questions: StartSurveyQuestion[] = [];
   formGroup = this.formBuilder.group({});
+  surveyStartDate = new FormControl<Date | null>(null);
+  surveyEndDate = new FormControl<Date | null>(null);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: RespondentData,
     @Inject(START_SURVEY_SERVICE_TOKEN)
     private readonly initialSurveyService: StartSurveyService,
+    @Inject('respondentDataService')
+    private readonly respondentDataService: RespondentDataService,
     private readonly formBuilder: FormBuilder,
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService,
@@ -31,6 +37,8 @@ export class EditRespondentDataComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.surveyStartDate.setValue(parseIsoDate(this.data.surveyStartDate));
+    this.surveyEndDate.setValue(parseIsoDate(this.data.surveyEndDate));
     this.loadQuestions();
   }
 
@@ -73,6 +81,17 @@ export class EditRespondentDataComponent implements OnInit {
       return;
     }
 
+    const start = this.surveyStartDate.value;
+    const end = this.surveyEndDate.value;
+    if ((start && !end) || (!start && end)) {
+      this.showError('respondents.edit.surveyWindowBothOrNeither');
+      return;
+    }
+    if (start && end && toIsoDate(end) < toIsoDate(start)) {
+      this.showError('respondents.edit.surveyWindowEndBeforeStart');
+      return;
+    }
+
     const responses = Object.entries(this.formGroup.controls).map(
       ([controlName, control]) => {
         return {
@@ -82,28 +101,57 @@ export class EditRespondentDataComponent implements OnInit {
       }
     );
 
-    this.initialSurveyService.update(this.data.id, responses).subscribe({
+    const windowBody: AssignSurveyWindowRequest = {
+      respondentIds: [this.data.id],
+      surveyStartDate: start ? toIsoDate(start) : null,
+      surveyEndDate: end ? toIsoDate(end) : null,
+    };
+
+    forkJoin({
+      answers: this.initialSurveyService.update(this.data.id, responses),
+      window: this.respondentDataService.assignSurveyWindow(windowBody),
+    }).subscribe({
       next: () => {
         responses.forEach((response) => {
           const question = this.questions.find((q) => q.id == response.questionId);
-          if (question){
+          if (question) {
             this.data[question.content] = response.optionId;
-          } 
+          }
         });
+        this.data.surveyStartDate = windowBody.surveyStartDate;
+        this.data.surveyEndDate = windowBody.surveyEndDate;
         this.dialogRef.close();
       },
       error: (error) => {
         console.log(error);
-        this.snackbar.open(
-          this.translate.instant('respondents.edit.somethingWentWrong'),
-          this.translate.instant('respondents.edit.ok'),
-          { duration: 3000 }
-        );
+        this.showError('respondents.edit.somethingWentWrong');
       },
     });
   }
 
-  cancel(): void{
+  cancel(): void {
     this.dialogRef.close();
   }
+
+  private showError(messageKey: string): void {
+    this.snackbar.open(
+      this.translate.instant(messageKey),
+      this.translate.instant('respondents.edit.ok'),
+      { duration: 3000 }
+    );
+  }
+}
+
+function parseIsoDate(iso: string | null | undefined): Date | null {
+  if (!iso) return null;
+  const parts = iso.split('-').map(Number);
+  if (parts.length < 3 || parts.some((n) => Number.isNaN(n))) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+function toIsoDate(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }

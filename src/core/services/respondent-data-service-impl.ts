@@ -7,7 +7,11 @@ import { HttpClient } from "@angular/common/http";
 import { ApiService } from "./api.service";
 import { ConfigService } from "./config.service";
 import { StartSurveyQuestion } from "../models/start-survey-question";
-import { ChangePasswordDto } from "../../domain/models/change-password-dto";
+import {
+  AssignSurveyWindowRequest,
+  AssignSurveyWindowResponse,
+  SurveyWindowActivityPoint,
+} from "../../domain/models/survey-window";
 
 @Injectable()
 export class RespondentDataServiceImpl 
@@ -46,5 +50,13 @@ implements RespondentDataService{
             });
         }
         return this.get('/api/respondents/all');
-    }  
+    }
+
+    assignSurveyWindow(body: AssignSurveyWindowRequest): Observable<AssignSurveyWindowResponse> {
+        return this.put('/api/respondents/survey-window', body);
+    }
+
+    getSurveyWindowActivity(): Observable<SurveyWindowActivityPoint[]> {
+        return this.get('/api/respondents/survey-window/activity');
+    }
 }

@@ -1,0 +1,115 @@
+<div class="container">
+  <header class="page-header">
+    <h1>{{ 'surveyWindow.title' | translate }}</h1>
+    <p class="subtitle">{{ 'surveyWindow.subtitle' | translate }}</p>
+  </header>
+
+  <section class="batch-card" [formGroup]="batchForm">
+    <h2>{{ 'surveyWindow.batch.title' | translate }}</h2>
+    <div class="batch-row">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'surveyWindow.batch.startDate' | translate }}</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="surveyStartDate" />
+        <mat-datepicker-toggle matSuffix [for]="startPicker" />
+        <mat-datepicker #startPicker />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'surveyWindow.batch.endDate' | translate }}</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="surveyEndDate" />
+        <mat-datepicker-toggle matSuffix [for]="endPicker" />
+        <mat-datepicker #endPicker />
+      </mat-form-field>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="assign()"
+        [disabled]="isSaving || selectedCount === 0"
+      >
+        {{ 'surveyWindow.batch.assign' | translate }} ({{ selectedCount }})
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="clearDates()"
+        [disabled]="isSaving || selectedCount === 0"
+      >
+        {{ 'surveyWindow.batch.clearDates' | translate }}
+      </button>
+    </div>
+    <p class="hint" *ngIf="saveMessage" [class.error]="saveError">
+      {{ saveMessage | translate }}
+    </p>
+  </section>
+
+  <section class="chart-card" *ngIf="activityChart">
+    <h2>{{ 'surveyWindow.chart.title' | translate }}</h2>
+    <p class="subtitle">{{ 'surveyWindow.chart.subtitle' | translate }}</p>
+    <div echarts [options]="activityChart" class="echart"></div>
+  </section>
+
+  <section class="list-card">
+    <div class="list-toolbar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>{{ 'surveyWindow.list.searchUsername' | translate }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="usernameFilter"
+          (ngModelChange)="applyUsernameFilter()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </mat-form-field>
+      <button mat-stroked-button type="button" (click)="selectAllFiltered()" [disabled]="isLoading">
+        {{ 'surveyWindow.list.selectAll' | translate }}
+      </button>
+      <button mat-stroked-button type="button" (click)="clearSelection()" [disabled]="selectedCount === 0">
+        {{ 'surveyWindow.list.clearSelection' | translate }}
+      </button>
+      <button mat-stroked-button type="button" (click)="reload()" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon>
+        {{ 'surveyWindow.list.refresh' | translate }}
+      </button>
+    </div>
+
+    <p class="error" *ngIf="loadError">{{ 'surveyWindow.errors.loadFailed' | translate }}</p>
+    <div class="spinner" *ngIf="isLoading"><mat-spinner diameter="40" /></div>
+
+    <table class="respondent-table" *ngIf="!isLoading && !loadError">
+      <thead>
+        <tr>
+          <th></th>
+          <th>{{ 'surveyWindow.list.username' | translate }}</th>
+          <th>{{ 'surveyWindow.list.startDate' | translate }}</th>
+          <th>{{ 'surveyWindow.list.endDate' | translate }}</th>
+          <th>{{ 'surveyWindow.list.id' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of pagedRespondents; trackBy: trackById">
+          <td>
+            <mat-checkbox
+              [checked]="isSelected(r.id)"
+              (change)="toggle(r.id, $event.checked)"
+            />
+          </td>
+          <td>{{ r.username }}</td>
+          <td>{{ r.surveyStartDate || '—' }}</td>
+          <td>{{ r.surveyEndDate || '—' }}</td>
+          <td class="mono">{{ r.id }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator
+      *ngIf="!isLoading && !loadError && filteredRespondents.length > 0"
+      [length]="filteredRespondents.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPage($event)"
+      showFirstLastButtons
+    />
+    <p class="empty" *ngIf="!isLoading && !loadError && filteredRespondents.length === 0">
+      {{ 'surveyWindow.list.empty' | translate }}
+    </p>
+  </section>
+</div>

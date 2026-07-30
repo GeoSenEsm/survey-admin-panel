@@ -1,19 +1,21 @@
-mat-form-field{
-    width: 100%;
-}
+mat-form-field { width: 100%; }
 
 .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px; 
-    padding-left: 20px;
-    padding-right: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 16px;
 }
 
-.row-item {
-    padding: 10px;
-}
+.row-item { padding: 8px 0; }
 
-.add-option-button{
-    margin-left: 30px;
+.add-option-button { margin-left: 16px; }
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
+  }
+
+  .add-option-button { margin-left: 8px; }
 }

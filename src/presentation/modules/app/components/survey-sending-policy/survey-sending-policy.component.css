@@ -1,18 +1,24 @@
-.container{
-    padding: 20px;
-    display: block;
-    overflow-y: scroll;
-    height: calc(100vh - 150px);
+.container {
+  padding: 20px;
+  display: block;
+  overflow-y: auto;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-
-mat-slide-toggle{
-    font-weight: 600;
+mat-slide-toggle {
+  font-weight: 600;
 }
 
-.wrap-panel{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
+.wrap-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
 }

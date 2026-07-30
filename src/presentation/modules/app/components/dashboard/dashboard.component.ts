@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../../../../core/services/local-storage';
 import {
@@ -15,6 +15,16 @@ import { ChangeAdminPasswordComponent } from '../change-admin-password/change-ad
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
 
+// Below this viewport width the drawer switches to overlay mode and starts closed.
+const MOBILE_BREAKPOINT_PX = 768;
+// Below this viewport width the app shell stops locking overflow so tables,
+// tabs and maps can grow vertically and the page scrolls top-to-bottom. Kept
+// in sync with $tablet-breakpoint in styles/variables.scss.
+const COMPACT_BREAKPOINT_PX = 1024;
+
+const USER_GUIDE_URL =
+  'https://github.com/GeoSenEsm/.github/blob/main/profile/GeoSenEsm__User_Guide.pdf';
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -23,12 +33,20 @@ import { MapProvider, MapProviderService } from '../../../../../core/services/ma
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isDrawerOpen = true;
+  isMobile = false;
+  isCompact = false;
+
   private hideScrollViews = [
     '/respondents',
+    '/issues',
+    '/surveyWindow',
     '/map',
     '/temperature',
     '/summaries',
     '/sensorDevices',
+    '/responseDocuments',
+    '/statistics',
+    '/dailyCompletion',
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
@@ -59,11 +77,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly mapProviderService: MapProviderService
   ) {}
+
   ngOnDestroy(): void {
     this.navigationSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.updateResponsiveState();
     this.navigationSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.scrollToTop();
@@ -71,6 +91,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this._language = this.translateService.currentLang;
     this.loadInitials();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.updateResponsiveState();
+  }
+
+  private updateResponsiveState(): void {
+    const width = window.innerWidth;
+    const nextIsMobile = width < MOBILE_BREAKPOINT_PX;
+    this.isCompact = width < COMPACT_BREAKPOINT_PX;
+    if (nextIsMobile !== this.isMobile) {
+      this.isMobile = nextIsMobile;
+      this.isDrawerOpen = !nextIsMobile;
+    } else if (!this.isMobile) {
+      this.isDrawerOpen = true;
+    }
   }
 
   private scrollToTop(): void {
@@ -119,6 +156,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
+  onNavItemClick(): void {
+    if (this.isMobile) {
+      this.isDrawerOpen = false;
+    }
+  }
+
   private loadInitials(): void {
     const token = this.storage.get<string>('token');
 
@@ -138,6 +181,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   shouldHideOverflow(): boolean {
+    // On compact viewports (phones and tablets) every route must be top-to-bottom
+    // scrollable: filters, tables and tabs stack vertically and routinely exceed
+    // the viewport height. Keeping the shell scrollable lets those pages grow
+    // naturally instead of being clipped by an app-shell overflow: hidden.
+    if (this.isCompact) {
+      return false;
+    }
+
     if (this.hideScrollViews.some((e) => this.router.url.startsWith(e))) {
       return true;
     }
@@ -149,5 +200,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   changePassword(): void {
     this.dialog.open(ChangeAdminPasswordComponent);
+  }
+
+  openUserGuide(): void {
+    window.open(USER_GUIDE_URL, '_blank', 'noopener,noreferrer');
   }
 }

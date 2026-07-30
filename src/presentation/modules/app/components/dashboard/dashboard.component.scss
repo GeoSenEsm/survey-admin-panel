@@ -1,146 +1,284 @@
 @import "../../../../../styles/variables.scss";
 
-.vertical-middle{
-    vertical-align: middle;
+// ---------------------------------------------------------------------------
+// App shell – full-viewport flex layout so the router-outlet can size to
+// the remaining space and page content can rely on `height: 100%` instead of
+// hard-coded `100vh` values.
+// ---------------------------------------------------------------------------
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+  background: $app-background;
 }
 
-.spacer{
-    width: 10px;
-}
-
-.container{
-  height: calc(100% - 64px);
-}
-
-.mat-icon{
-    vertical-align: middle;
-    margin-right: 15px;
-}
-
+// ---------------------------------------------------------------------------
+// Toolbar
+// ---------------------------------------------------------------------------
 .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-    gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  height: $toolbar-height;
+  min-height: $toolbar-height;
+  padding: 0 $space-4;
+  gap: $space-3;
+  background: $surface !important;
+  color: $text-primary !important;
+  border-bottom: 1px solid $border-color;
+  box-shadow: $shadow-xs;
+
+  .menu-button {
+    color: $text-primary;
+  }
 }
 
-mat-drawer-content{
-    /* TODO change this not to be hardcoded!!!!*/
-    background-color: #ffffff;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  min-width: 0;
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    padding: 3px;
+    background: $primary-color-light;
+    object-fit: contain;
+    // The bundled logo has the wordmark baked in – hide it so only the icon
+    // portion of the artwork is visible inside the badge.
+    object-position: top;
+    clip-path: inset(0 0 22% 0);
+  }
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: $text-primary;
+    white-space: nowrap;
+  }
 }
 
-.auto-overflow{
-    overflow: auto;
+.spacer {
+  flex: 1 1 auto;
 }
 
-.hide-overflow {
-    overflow: hidden;
-}
-
-mat-toolbar span{
-    font-weight: 600;
-    font-size: 20px;
-}
-
-mat-toolbar mat-form-field{
-    /* I really cannot center this in a better way, it just does not react on any 'center' css property*/
-    margin-top: 20px;
-    width: 150px;
-}
-
+// ---------------------------------------------------------------------------
+// Toolbar dropdowns
+// ---------------------------------------------------------------------------
 .toolbar-select {
-    margin-top: 0 !important;
+  height: 40px;
+  margin: 0;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
     height: 40px;
+    border-radius: $radius-pill;
+    background-color: $surface-muted;
+    padding: 0 $space-2 0 $space-3;
+  }
 
-    ::ng-deep .mat-mdc-text-field-wrapper {
-        height: 40px;
-        border-radius: 999px;
-        background-color: rgba(255, 255, 255, 0.92);
-    }
-
-    ::ng-deep .mat-mdc-form-field-flex,
-    ::ng-deep .mat-mdc-form-field-infix {
-        min-height: 40px;
-        height: 40px;
-        padding-top: 0;
-        padding-bottom: 0;
-        display: flex;
-        align-items: center;
-    }
-
-    ::ng-deep .mat-mdc-select-arrow-wrapper {
-        color: $primary-color;
-    }
-}
-
-.map-provider-select {
-    width: 190px !important;
-}
-
-.language-select {
-    width: 150px !important;
-}
-
-.toolbar-select-trigger {
+  ::ng-deep .mat-mdc-form-field-flex,
+  ::ng-deep .mat-mdc-form-field-infix {
+    min-height: 40px;
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: $primary-color;
+    width: auto;
+  }
+
+  ::ng-deep .mdc-notched-outline > * {
+    border: none !important;
+  }
+
+  ::ng-deep .mat-mdc-select-arrow-wrapper {
+    color: $text-secondary;
+  }
+}
+
+.map-provider-select { width: 200px; }
+.language-select     { width: 150px; }
+
+.toolbar-select-trigger {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: $text-primary;
 }
 
 .toolbar-select-icon {
-    margin-right: 0 !important;
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: $text-secondary;
 }
 
 .toolbar-select-text {
-    font-weight: 600;
-    font-size: 14px;
-    color: $primary-color;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: $text-primary;
 }
 
 .flag-and-text {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: 0.875rem;
 }
 
 .flag {
-    margin-right: 8px;
-    width: 15px;
-    height: auto;
+  width: 18px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
 }
 
-.spacer{
-    flex-grow: 1;
+.lang-span {
+  color: $text-primary;
+  font-weight: 500;
 }
 
-/* This is a workaround, because mat-icon-button does not  center the icon vertically.
-After changing mat-icon-button to mat-button it is properly centered, but the button is too wide.
-This was the only solution I found*/
-.hamburger mat-icon{
-    margin-top: -7px;
-}
-
-.lang-span{
-    color: $primary-color;
+// ---------------------------------------------------------------------------
+// Profile / avatar
+// ---------------------------------------------------------------------------
+.profile-button {
+  border-radius: $radius-pill !important;
+  padding: 4px 6px 4px 4px !important;
+  min-width: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: $text-primary !important;
 }
 
 .avatar-chip {
-    margin-left: 10px;
-    background-color: $backgrouod-primary;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary-contrast;
+  box-shadow: $shadow-sm;
 }
 
 .avatar-initials {
-    color: $primary-color;
-    font-weight: bold;
-    font-size: 25px;
+  color: $primary-contrast;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.profile-caret {
+  color: $text-secondary;
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Drawer container – takes remaining height, side drawer, nav list
+// ---------------------------------------------------------------------------
+.container {
+  flex: 1 1 auto;
+  min-height: 0;
+  background: transparent;
+}
+
+::ng-deep .mat-drawer-container {
+  background: transparent;
+}
+
+.side-drawer {
+  width: $drawer-width;
+  background: $surface;
+  border-right: 1px solid $border-color;
+
+  ::ng-deep .mat-drawer-inner-container {
+    padding: $space-3;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-3;
+  border-radius: $radius-md;
+  color: $text-secondary;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color $transition-fast, color $transition-fast;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background: $surface-muted;
+    color: $text-primary;
+  }
+
+  &.active {
+    background: $primary-color-light;
+    color: $primary-color-dark;
+
+    .nav-item-icon { color: $primary-color; }
+  }
+}
+
+.nav-item-icon {
+  color: $text-secondary;
+  margin: 0;
+  flex-shrink: 0;
+  transition: color $transition-fast;
+}
+
+.nav-item-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ---------------------------------------------------------------------------
+// Content
+// ---------------------------------------------------------------------------
+.content {
+  background: transparent;
+  min-height: 100%;
+}
+
+.auto-overflow { overflow: auto; }
+.hide-overflow { overflow: hidden; }
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+.hide-on-mobile { display: initial; }
+
+@media (max-width: $mobile-breakpoint) {
+  .toolbar {
+    padding: 0 $space-2;
+    gap: $space-2;
+  }
+
+  .brand-name { display: none; }
+
+  .hide-on-mobile { display: none !important; }
+
+  .language-select { width: 110px; }
+}
+
+@media (max-width: 480px) {
+  .language-select { width: 84px; }
+  .lang-span { display: none; }
+  .flag { width: 22px; }
 }
