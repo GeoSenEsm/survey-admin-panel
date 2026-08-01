@@ -1,48 +1,130 @@
-# SurveyAdminPanel
+# survey-admin-panel
 
-## Build docker image
+Angular admin portal for GeoSenEsm researchers. Configure surveys, manage
+respondents, review results, statistics, daily completion, issues, and
+download response documents from the backend.
 
-You are able to build a docker image with this application simply by runnning 
+| | |
+|---|---|
+| Stack | Angular 17, Angular Material, Leaflet / ngx-leaflet, echarts / ngx-charts / chart.js, ngx-translate, papaparse |
+| Dev server | `http://localhost:4200` |
+| Docker port | `80` (nginx) |
+| Backend | `survey-api` (`API_URL` / `config.json` → `apiUrl`) |
+| Sibling clients | `mobile-app` (respondent) |
+
+---
+
+## Repository contents
+
+| Path | Purpose |
+|---|---|
+| `src/presentation/` | Angular modules, routes, feature components (dashboard tabs) |
+| `src/core/` | HTTP services, mappers, guards, utils, injection tokens |
+| `src/domain/` | Models and `external_services` interfaces |
+| `src/assets/config/config.json` | Runtime API base URL (`apiUrl`) and map provider |
+| `src/assets/i18n/` | ngx-translate language files (keep all locales in sync) |
+| `nginx.conf` / `start-admin-panel.sh` | Docker: nginx + rewrite of `apiUrl` from `API_URL` |
+| `Dockerfile` | Production image (listens on `80`) |
+| `angular.json` / `package.json` | Angular CLI project config |
+
+### Source layout
+
+```
+src/
+├── presentation/   UI — components, templates, dashboard navigation
+├── core/           Services (extend ApiService), mappers, guards, tokens
+├── domain/         Models + service contracts (external_services)
+└── assets/         config.json, i18n, static assets
+```
+
+Components must not call `HttpClient` directly — inject a service from
+`core/services/` that implements a `domain/external_services` interface.
+Register new services in `prodivers.ts` / injection tokens.
+
+### Main dashboard areas
+
+| Route / nav | Role |
+|---|---|
+| Configuration, surveys, start survey | Study setup |
+| Respondents, survey window | Respondent management and study-date assignment |
+| Issues | Survey / GPS / sensor fulfillment |
+| Summaries, response documents | Results and Mongo-backed JSON / ZIP export |
+| Statistics, daily completion | Aggregates and per-slot completion grid |
+| Map, sensors, phone numbers | Research area, devices, contacts |
+
+---
+
+## Local development
+
+### Prerequisites
+
+- Node.js 20+ and npm
+- Running `survey-api` on `http://localhost:8080` (or update `apiUrl`)
+
+### Install and run
 
 ```bash
-docker build -t your_image_name:your_tag .
-```
-
-The interenal docker image port, the applicatoin is listening on, is `80`.
-
-### Environmental variables
-
-In the docker container, you can configure an `API_URL` environmental variable. It is responsible for configuring a URL of the backend server.
-By default it is set to `http://localhost:8080`.
-
-## Install dependencies 
-
-```
 npm install --force
+npm start                 # or: ng serve
 ```
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
+Open `http://localhost:4200`. Hot reload is enabled.
 
-## Development server
+Ensure the backend `ALLOWED_ORIGINS` includes `http://localhost:4200`
+(or leave it unset to allow `*`).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Point at a backend
 
-## Code scaffolding
+Edit `src/assets/config/config.json`:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```json
+{
+  "apiUrl": "http://localhost:8080",
+  "mapProvider": "openstreetmap"
+}
+```
 
-## Build
+`mapProvider` accepts `openstreetmap` or `baidu`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Preferred full stack
 
-## Running unit tests
+From the workspace root:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```powershell
+./scripts/dev-up.ps1
+```
 
-## Running end-to-end tests
+See `../scripts/README.md`.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Build
 
-## Further help
+```bash
+ng build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Artifacts are written to `dist/`.
+
+### Tests
+
+```bash
+ng test                   # Karma unit tests
+```
+
+End-to-end testing requires an additional e2e package; none is wired by
+default. Use `ng help` or the [Angular CLI docs](https://angular.io/cli)
+for generator and tooling reference.
+
+---
+
+## Docker image
+
+```bash
+docker build -t survey-admin-panel:<tag> .
+docker run -p 8081:80 -e API_URL=http://host.docker.internal:8080 survey-admin-panel:<tag>
+```
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `API_URL` | Backend base URL written into `config.json` at container start | `http://localhost:8080` |
+
+The container listens on port `80`.
