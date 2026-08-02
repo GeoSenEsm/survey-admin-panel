@@ -116,8 +116,7 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
             this.dataSource.data = [...this.dataSource.data];
           }
         },
-        error: (e) => {
-          console.log(e);
+        error: () => {
           this.snackbar.open(
             this.translate.instant('sensorDevices.couldNotDelete'),
             'OK'

@@ -83,8 +83,7 @@ export class CreateSensorComponent implements OnInit {
           this.data.refreshCallback();
           this.close();
         },
-        error: (error) => {
-          console.log(error);
+        error: () => {
           this.snackbar.open(
             this.translate.instant('sensorDevices.couldNotCreate'),
             this.translate.instant('sensorDevices.ok')

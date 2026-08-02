@@ -156,22 +156,9 @@ export class EditSensorComponent implements OnInit {
       return;
     }
 
-    const respondentValue = this.formGroup.get('respondent')?.value;
-    let respondentId: string | null = null;
-    if (respondentValue && typeof respondentValue === 'object' && respondentValue.id) {
-      respondentId = respondentValue.id;
-    } else if (typeof respondentValue === 'string' && respondentValue.trim()) {
-      const match = this.respondents.find(
-        (r) => r.username === respondentValue.trim()
-      );
-      if (!match) {
-        this.snackbar.open(
-          this.translate.instant('sensorDevices.respondentNotFound'),
-          this.translate.instant('sensorDevices.ok')
-        );
-        return;
-      }
-      respondentId = match.id;
+    const respondentId = this.resolveRespondentId();
+    if (respondentId === undefined) {
+      return;
     }
 
     this.isBusy = true;
@@ -189,13 +176,14 @@ export class EditSensorComponent implements OnInit {
       )
       .subscribe({
         next: (assignment) => {
-          this.data.sensor.sensorMac = sensorMac;
-          this.data.sensor.sensorTypeId = assignment.sensorTypeId;
-          this.data.sensor.sensorTypeCode = assignment.sensorTypeCode;
-          this.data.sensor.sensorTypeName = assignment.sensorTypeName;
-          this.data.sensor.respondentId = assignment.respondentId ?? null;
-          this.data.sensor.respondentUsername =
-            assignment.respondentUsername ?? null;
+          Object.assign(this.data.sensor, {
+            sensorMac,
+            sensorTypeId: assignment.sensorTypeId,
+            sensorTypeCode: assignment.sensorTypeCode,
+            sensorTypeName: assignment.sensorTypeName,
+            respondentId: assignment.respondentId ?? null,
+            respondentUsername: assignment.respondentUsername ?? null,
+          });
           this.close();
         },
         error: () => {
@@ -205,5 +193,27 @@ export class EditSensorComponent implements OnInit {
           );
         },
       });
+  }
+
+  /** `undefined` means the typed username did not match any respondent. */
+  private resolveRespondentId(): string | null | undefined {
+    const respondentValue = this.formGroup.get('respondent')?.value;
+    if (respondentValue && typeof respondentValue === 'object' && respondentValue.id) {
+      return respondentValue.id;
+    }
+    if (typeof respondentValue === 'string' && respondentValue.trim()) {
+      const match = this.respondents.find(
+        (r) => r.username === respondentValue.trim()
+      );
+      if (!match) {
+        this.snackbar.open(
+          this.translate.instant('sensorDevices.respondentNotFound'),
+          this.translate.instant('sensorDevices.ok')
+        );
+        return undefined;
+      }
+      return match.id;
+    }
+    return null;
   }
 }

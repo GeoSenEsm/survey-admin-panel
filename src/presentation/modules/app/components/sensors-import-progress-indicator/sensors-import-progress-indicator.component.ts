@@ -70,13 +70,11 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
           this.componentState = 'COMPLETED';
           this.data.reloadCallback();
         },
-        error: (e) => {
-          console.log(e);
+        error: () => {
           this.componentState = 'ERROR';
         },
       });
-    } catch (e: any) {
-      console.log(e);
+    } catch {
       this.componentState = 'ERROR';
     }
   }
