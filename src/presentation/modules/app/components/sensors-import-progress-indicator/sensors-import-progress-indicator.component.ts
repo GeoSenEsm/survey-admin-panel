@@ -7,6 +7,9 @@ import {
 } from '../../../../../domain/models/sensors-dtos';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Papa } from 'ngx-papaparse';
+import { firstValueFrom } from 'rxjs';
+import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
+import { DEFAULT_SURVEY_SETTINGS } from '../../../../../domain/models/survey-settings';
 
 type SensorsImportState =
   | 'UNKNOWN'
@@ -44,7 +47,9 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     private readonly sensorsService: SensorsService,
     @Inject(MAT_DIALOG_DATA) private readonly data: SensorsImportDialogArgs,
     private readonly matDialogRef: MatDialogRef<SensorsImportProgressIndicatorComponent>,
-    private readonly papa: Papa<CreateSensorDto>
+    private readonly papa: Papa<CreateSensorDto>,
+    @Inject('surveySettingsService')
+    private readonly surveySettingsService: SurveySettingsService
   ) {}
 
   ngOnInit(): void {
@@ -85,18 +90,24 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     if (input.files && input.files[0]) {
       const file = input.files[0];
 
-      return new Promise((resolve, reject) => {
-        this.papa.parse(file, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (result) => {
-            resolve(result.data as CreateSensorDto[]);
-          },
-          error: (error) => {
-            reject(error);
-          },
-        });
-      });
+      return firstValueFrom(this.surveySettingsService.getSettings())
+        .catch(() => DEFAULT_SURVEY_SETTINGS)
+        .then(
+          (settings) =>
+            new Promise<CreateSensorDto[]>((resolve, reject) => {
+              this.papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                delimiter: settings.csvColumnSeparator,
+                complete: (result) => {
+                  resolve(result.data as CreateSensorDto[]);
+                },
+                error: (error) => {
+                  reject(error);
+                },
+              });
+            })
+        );
     }
 
     return Promise.resolve([]);

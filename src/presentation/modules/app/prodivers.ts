@@ -49,6 +49,7 @@ import { ResearchAreaServiceImpl } from '../../../core/services/research_area_se
 import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl';
 import { ResponseDocumentsServiceImpl } from '../../../core/services/response-documents.service.impl';
 import { StatisticsServiceImpl } from '../../../core/services/statistics.service.impl';
+import { SurveySettingsServiceImpl } from '../../../core/services/survey-settings.service.impl';
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
@@ -98,6 +99,10 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   { provide: SUMMARIES_SERVICE, useClass: SummariesServiceImpl },
   { provide: RESPONSE_DOCUMENTS_SERVICE, useClass: ResponseDocumentsServiceImpl },
   { provide: STATISTICS_SERVICE, useClass: StatisticsServiceImpl },
+  {
+    provide: 'surveySettingsService',
+    useClass: SurveySettingsServiceImpl,
+  },
   { provide: 'respondentDataService', useClass: RespondentDataServiceImpl },
   { provide: STORAGE_SERVICE_TOKEN, useClass: CookieStorageService },
   {

@@ -45,7 +45,7 @@ Register new services in `prodivers.ts` / injection tokens.
 
 | Route / nav | Role |
 |---|---|
-| Configuration, surveys, start survey | Study setup |
+| Configuration, surveys, start survey, survey settings | Study setup (research area with documented CSV format; study-wide toggles such as sending-policy calendar visibility and CSV separators) |
 | Respondents, survey window | Respondent management and study-date assignment |
 | Issues | Survey / GPS / sensor fulfillment |
 | Summaries, response documents | Results and Mongo-backed JSON / ZIP export |

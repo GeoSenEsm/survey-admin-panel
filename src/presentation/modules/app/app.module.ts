@@ -95,6 +95,7 @@ import { DailyCompletionComponent } from './components/daily-completion/daily-co
 import { SurveyWindowAssignmentComponent } from './components/survey-window-assignment/survey-window-assignment.component';
 import { RespondentIssuesComponent } from './components/respondent-issues/respondent-issues.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SurveySettingsComponent } from './components/survey-settings/survey-settings.component';
 
 
 export const routes: Routes = [
@@ -111,6 +112,7 @@ export const routes: Routes = [
     {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'surveySettings', component: SurveySettingsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
     {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
     {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
@@ -230,7 +232,8 @@ export function HttpLoaderFactory(http: HttpClient){
     StatisticsComponent,
     DailyCompletionComponent,
     SurveyWindowAssignmentComponent,
-    RespondentIssuesComponent
+    RespondentIssuesComponent,
+    SurveySettingsComponent
   ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

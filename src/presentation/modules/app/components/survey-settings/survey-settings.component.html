@@ -1,0 +1,72 @@
+<div class="container">
+  <h3>{{ "surveySettings.description" | translate }}</h3>
+
+  <div class="settings-panel">
+    <div class="setting-row">
+      <div class="setting-text">
+        <div class="setting-title">
+          {{ "surveySettings.showSendingPolicyCalendar" | translate }}
+        </div>
+        <div class="setting-hint">
+          {{ "surveySettings.showSendingPolicyCalendarHint" | translate }}
+        </div>
+      </div>
+      <mat-slide-toggle
+        color="primary"
+        [checked]="settings.showSendingPolicyCalendar"
+        [disabled]="isBusy"
+        (change)="onCalendarToggle($event.checked)"
+      >
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="settings-panel">
+    <div class="setting-text">
+      <div class="setting-title">
+        {{ "surveySettings.csvFormatTitle" | translate }}
+      </div>
+      <div class="setting-hint">
+        {{ "surveySettings.csvFormatHint" | translate }}
+      </div>
+    </div>
+
+    <div class="setting-row csv-row">
+      <mat-form-field appearance="outline" class="separator-field">
+        <mat-label>{{ "surveySettings.csvColumnSeparator" | translate }}</mat-label>
+        <mat-select
+          [ngModel]="settings.csvColumnSeparator"
+          [disabled]="isBusy"
+          (ngModelChange)="onColumnSeparatorChange($event)"
+        >
+          <mat-option
+            *ngFor="let option of columnSeparatorOptions"
+            [value]="option.value"
+          >
+            {{ option.labelKey | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="separator-field">
+        <mat-label>{{ "surveySettings.csvDecimalSeparator" | translate }}</mat-label>
+        <mat-select
+          [ngModel]="settings.csvDecimalSeparator"
+          [disabled]="isBusy"
+          (ngModelChange)="onDecimalSeparatorChange($event)"
+        >
+          <mat-option
+            *ngFor="let option of decimalSeparatorOptions"
+            [value]="option.value"
+          >
+            {{ option.labelKey | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="busy" *ngIf="isBusy">
+    <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
