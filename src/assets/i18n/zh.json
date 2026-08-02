@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "受访者",
+      "respondentList": "受访者列表",
       "surveys": "问卷",
       "createSurvey": "创建问卷",
       "results": "结果",
@@ -29,7 +29,7 @@
       "startSurvey": "初始问卷",
       "temepratureSensors": "传感器数据",
       "map": "地图",
-      "configuration": "配置",
+      "researchArea": "研究区域",
       "surveySettings": "问卷设置",
       "changeAdminPassword": "修改密码",
       "userGuide": "用户指南",
@@ -41,7 +41,15 @@
       "statistics": "统计",
       "dailyCompletion": "每日完成情况",
       "surveyWindow": "问卷日期",
-      "issues": "问题"
+      "issues": "问题",
+      "navCategory": {
+        "settings": "设置",
+        "respondents": "受访者",
+        "statistics": "统计",
+        "sensors": "传感器",
+        "results": "结果",
+        "surveys": "问卷"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "请先从日历中选择至少一个要删除的时间段",
       "deletingConfirmationText": "确定要删除所选时间段吗？",
       "deletingConfirmationInput": "delete",
-      "couldNotDeleteSendingPolicies": "删除问卷发送策略失败"
+      "couldNotDeleteSendingPolicies": "删除问卷发送策略失败",
+      "notificationsTitle": "手机通知",
+      "notificationsHint": "为每个时间段配置手机收到的通知数量，以及相对于开始或结束的触发时间。默认：开始时，以及结束前 15 分钟。",
+      "notificationsLoading": "正在加载通知…",
+      "noNotifications": "未配置通知。受访者不会收到此问卷的提醒。",
+      "relativeTo": "相对于",
+      "minutesBefore": "提前分钟数",
+      "relativeToOptions": {
+        "beginning": "问卷开始",
+        "end": "问卷结束"
+      },
+      "addNotification": "添加通知",
+      "removeNotification": "移除通知",
+      "saveNotifications": "保存通知",
+      "notificationsSaved": "通知已保存",
+      "notificationsInvalid": "每条通知都需要有效的锚点和非负的分钟数。",
+      "couldNotLoadNotifications": "无法加载手机通知",
+      "couldNotSaveNotifications": "保存手机通知失败"
     },
     "surveyTile": {
       "surveyDetails": "问卷详情"

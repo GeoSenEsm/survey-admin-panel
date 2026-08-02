@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "Respondents",
+      "respondentList": "Respondent list",
       "surveys": "Surveys",
       "createSurvey": "Create survey",
       "results": "Results",
@@ -29,7 +29,7 @@
       "startSurvey": "Initial survey",
       "temepratureSensors": "Sensors data",
       "map": "Map",
-      "configuration": "Configuration",
+      "researchArea": "Research area",
       "surveySettings": "Survey settings",
       "changeAdminPassword": "Change password",
       "userGuide": "User guide",
@@ -41,7 +41,15 @@
       "statistics": "Statistics",
       "dailyCompletion": "Daily completion",
       "surveyWindow": "Survey dates",
-      "issues": "Issues"
+      "issues": "Issues",
+      "navCategory": {
+        "settings": "Settings",
+        "respondents": "Respondents",
+        "statistics": "Statistics",
+        "sensors": "Sensors",
+        "results": "Results",
+        "surveys": "Surveys"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "Please select at least one time slot from the calendar that you want to delete first",
       "deletingConfirmationText": "Are you sure you want to delete the selected time slots?",
       "deletingConfirmationInput": "delete",
-      "couldNotDeleteSendingPolicies": "Failed to delete the survey sending policy"
+      "couldNotDeleteSendingPolicies": "Failed to delete the survey sending policy",
+      "notificationsTitle": "Phone notifications",
+      "notificationsHint": "Configure how many notifications the phone receives for each time slot, and when they fire relative to the beginning or end of the slot. Defaults: at the beginning, and 15 minutes before the end.",
+      "notificationsLoading": "Loading notifications…",
+      "noNotifications": "No notifications configured. Respondents will not be reminded about this survey.",
+      "relativeTo": "Relative to",
+      "minutesBefore": "Minutes before",
+      "relativeToOptions": {
+        "beginning": "Beginning of the survey",
+        "end": "End of the survey"
+      },
+      "addNotification": "Add notification",
+      "removeNotification": "Remove notification",
+      "saveNotifications": "Save notifications",
+      "notificationsSaved": "Notifications saved",
+      "notificationsInvalid": "Each notification needs a valid anchor and a non-negative number of minutes.",
+      "couldNotLoadNotifications": "Could not load phone notifications",
+      "couldNotSaveNotifications": "Failed to save phone notifications"
     },
     "surveyTile": {
       "surveyDetails": "Survey details"

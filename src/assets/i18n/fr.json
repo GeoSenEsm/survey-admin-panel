@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "Répondants",
+      "respondentList": "Liste des répondants",
       "surveys": "Enquêtes",
       "createSurvey": "Créer une enquête",
       "results": "Résultats",
@@ -29,7 +29,7 @@
       "startSurvey": "Enquête initiale",
       "temepratureSensors": "Données des capteurs",
       "map": "Carte",
-      "configuration": "Configuration",
+      "researchArea": "Zone de recherche",
       "surveySettings": "Paramètres des enquêtes",
       "changeAdminPassword": "Changer le mot de passe",
       "userGuide": "Guide de l'utilisateur",
@@ -41,7 +41,15 @@
       "statistics": "Statistiques",
       "dailyCompletion": "Suivi quotidien",
       "surveyWindow": "Dates d'enquête",
-      "issues": "Problèmes"
+      "issues": "Problèmes",
+      "navCategory": {
+        "settings": "Paramètres",
+        "respondents": "Répondants",
+        "statistics": "Statistiques",
+        "sensors": "Capteurs",
+        "results": "Résultats",
+        "surveys": "Enquêtes"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "Veuillez d'abord sélectionner au moins un créneau horaire du calendrier que vous souhaitez supprimer",
       "deletingConfirmationText": "Êtes-vous sûr de vouloir supprimer les créneaux horaires sélectionnés ?",
       "deletingConfirmationInput": "supprimer",
-      "couldNotDeleteSendingPolicies": "Échec de la suppression de la politique d'envoi d'enquête"
+      "couldNotDeleteSendingPolicies": "Échec de la suppression de la politique d'envoi d'enquête",
+      "notificationsTitle": "Notifications téléphone",
+      "notificationsHint": "Configurez le nombre de notifications envoyées au téléphone pour chaque créneau et le moment par rapport au début ou à la fin du créneau. Par défaut : au début, et 15 minutes avant la fin.",
+      "notificationsLoading": "Chargement des notifications…",
+      "noNotifications": "Aucune notification configurée. Les répondants ne recevront pas de rappel pour cette enquête.",
+      "relativeTo": "Par rapport à",
+      "minutesBefore": "Minutes avant",
+      "relativeToOptions": {
+        "beginning": "Début de l'enquête",
+        "end": "Fin de l'enquête"
+      },
+      "addNotification": "Ajouter une notification",
+      "removeNotification": "Supprimer la notification",
+      "saveNotifications": "Enregistrer les notifications",
+      "notificationsSaved": "Notifications enregistrées",
+      "notificationsInvalid": "Chaque notification doit avoir un point d'ancrage valide et un nombre de minutes non négatif.",
+      "couldNotLoadNotifications": "Impossible de charger les notifications téléphone",
+      "couldNotSaveNotifications": "Échec de l'enregistrement des notifications téléphone"
     },
     "surveyTile": {
       "surveyDetails": "Détails de l'enquête"

@@ -12,7 +12,7 @@ import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
 import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
-import { catchError, of, Subscription, throwError } from 'rxjs';
+import { catchError, firstValueFrom, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import isClockwise from '../../../../../core/utils/coords';
@@ -178,61 +178,72 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const columnSep = this.csvSettings.csvColumnSeparator;
-      const decimalSep = this.csvSettings.csvDecimalSeparator;
-      this.papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        delimiter: columnSep,
-        complete: (result) => {
-          if (
-            result.data.some(
-              (e: any) => e.longitude == undefined || e.latitude == undefined
-            )
-          ) {
-            this.showInvalidFormat();
-            return;
-          }
-
-          let data: LatLong[] = (result.data as any[]).map((row) => ({
-            latitude: this.withPrecision(
-              this.parseLocalizedNumber(row.latitude, decimalSep),
-              6
-            ),
-            longitude: this.withPrecision(
-              this.parseLocalizedNumber(row.longitude, decimalSep),
-              6
-            ),
-          }));
-
-          if (data.some((point) => Number.isNaN(point.latitude) || Number.isNaN(point.longitude))) {
-            this.showInvalidFormat();
-            return;
-          }
-
-          if (data.length < 3 || data.length > 250) {
-            this.showInvalidLength();
-            return;
-          }
-
-          if (isClockwise(data)){
-            data = data.reverse();
-          }
-
-          this.drawPolygon(data);
-          this.changesMade = true;
-        },
-        error: (error) => {
-          const message = this.translate.instant(
-            'configuration.researchArea.somethingWentWrong'
-          );
-          this.showOkMessage(message);
-          console.error('Error parsing CSV file:', error);
-        },
-      });
+    if (!input.files?.[0]) {
+      return;
     }
+
+    const file = input.files[0];
+    firstValueFrom(this.surveySettingsService.getSettings())
+      .catch(() => this.csvSettings)
+      .then((settings) => {
+        this.csvSettings = { ...settings };
+        this.parseResearchAreaCsv(file, settings);
+      });
+  }
+
+  private parseResearchAreaCsv(file: File, settings: SurveySettings): void {
+    const columnSep = settings.csvColumnSeparator;
+    const decimalSep = settings.csvDecimalSeparator;
+    this.papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      delimiter: columnSep,
+      complete: (result) => {
+        if (
+          result.data.some(
+            (e: any) => e.longitude == undefined || e.latitude == undefined
+          )
+        ) {
+          this.showInvalidFormat();
+          return;
+        }
+
+        let data: LatLong[] = (result.data as any[]).map((row) => ({
+          latitude: this.withPrecision(
+            this.parseLocalizedNumber(row.latitude, decimalSep),
+            6
+          ),
+          longitude: this.withPrecision(
+            this.parseLocalizedNumber(row.longitude, decimalSep),
+            6
+          ),
+        }));
+
+        if (data.some((point) => Number.isNaN(point.latitude) || Number.isNaN(point.longitude))) {
+          this.showInvalidFormat();
+          return;
+        }
+
+        if (data.length < 3 || data.length > 250) {
+          this.showInvalidLength();
+          return;
+        }
+
+        if (isClockwise(data)) {
+          data = data.reverse();
+        }
+
+        this.drawPolygon(data);
+        this.changesMade = true;
+      },
+      error: (error) => {
+        const message = this.translate.instant(
+          'configuration.researchArea.somethingWentWrong'
+        );
+        this.showOkMessage(message);
+        console.error('Error parsing CSV file:', error);
+      },
+    });
   }
 
   showInvalidLength(): void {

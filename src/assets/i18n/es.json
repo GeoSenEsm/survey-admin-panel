@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "Encuestados",
+      "respondentList": "Lista de encuestados",
       "surveys": "Encuestas",
       "createSurvey": "Crear encuesta",
       "results": "Resultados",
@@ -29,7 +29,7 @@
       "startSurvey": "Encuesta inicial",
       "temepratureSensors": "Datos de sensores",
       "map": "Mapa",
-      "configuration": "Configuración",
+      "researchArea": "Área de investigación",
       "surveySettings": "Ajustes de encuestas",
       "changeAdminPassword": "Cambiar contraseña",
       "userGuide": "Guía del usuario",
@@ -41,7 +41,15 @@
       "statistics": "Estadísticas",
       "dailyCompletion": "Cumplimiento diario",
       "surveyWindow": "Fechas de encuesta",
-      "issues": "Problemas"
+      "issues": "Problemas",
+      "navCategory": {
+        "settings": "Ajustes",
+        "respondents": "Encuestados",
+        "statistics": "Estadísticas",
+        "sensors": "Sensores",
+        "results": "Resultados",
+        "surveys": "Encuestas"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "Por favor, seleccione primero al menos un intervalo de tiempo del calendario que desee eliminar",
       "deletingConfirmationText": "¿Está seguro de que desea eliminar los intervalos de tiempo seleccionados?",
       "deletingConfirmationInput": "eliminar",
-      "couldNotDeleteSendingPolicies": "Error al eliminar la política de envío de encuesta"
+      "couldNotDeleteSendingPolicies": "Error al eliminar la política de envío de encuesta",
+      "notificationsTitle": "Notificaciones del teléfono",
+      "notificationsHint": "Configure cuántas notificaciones recibe el teléfono por cada intervalo y cuándo se disparan respecto al inicio o al final del intervalo. Valores predeterminados: al inicio y 15 minutos antes del final.",
+      "notificationsLoading": "Cargando notificaciones…",
+      "noNotifications": "No hay notificaciones configuradas. Los encuestados no recibirán recordatorios de esta encuesta.",
+      "relativeTo": "Respecto a",
+      "minutesBefore": "Minutos antes",
+      "relativeToOptions": {
+        "beginning": "Inicio de la encuesta",
+        "end": "Fin de la encuesta"
+      },
+      "addNotification": "Añadir notificación",
+      "removeNotification": "Eliminar notificación",
+      "saveNotifications": "Guardar notificaciones",
+      "notificationsSaved": "Notificaciones guardadas",
+      "notificationsInvalid": "Cada notificación necesita un ancla válida y un número de minutos no negativo.",
+      "couldNotLoadNotifications": "No se pudieron cargar las notificaciones del teléfono",
+      "couldNotSaveNotifications": "Error al guardar las notificaciones del teléfono"
     },
     "surveyTile": {
       "surveyDetails": "Detalles de la encuesta"

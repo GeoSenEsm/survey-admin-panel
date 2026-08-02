@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "Respondenci",
+      "respondentList": "Lista respondentów",
       "surveys": "Ankiety",
       "createSurvey": "Utwórz ankietę",
       "results": "Wyniki",
@@ -29,7 +29,7 @@
       "startSurvey": "Ankieta początkowa",
       "temepratureSensors": "Dane z czujników",
       "map": "Mapa",
-      "configuration": "Konfiguracja",
+      "researchArea": "Obszar badania",
       "surveySettings": "Ustawienia ankiet",
       "changeAdminPassword": "Zmiana hasła",
       "userGuide": "Podręcznik użytkownika",
@@ -41,7 +41,15 @@
       "statistics": "Statystyki",
       "dailyCompletion": "Wypełnienia dzienne",
       "surveyWindow": "Daty ankiety",
-      "issues": "Problemy"
+      "issues": "Problemy",
+      "navCategory": {
+        "settings": "Ustawienia",
+        "respondents": "Respondenci",
+        "statistics": "Statystyki",
+        "sensors": "Czujniki",
+        "results": "Wyniki",
+        "surveys": "Ankiety"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
       "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
       "deletingConfirmationInput": "usuń",
-      "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety"
+      "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety",
+      "notificationsTitle": "Powiadomienia na telefon",
+      "notificationsHint": "Ustaw liczbę powiadomień wysyłanych na telefon dla każdego przedziału czasu oraz moment względem początku lub końca przedziału. Domyślnie: na początku oraz 15 minut przed końcem.",
+      "notificationsLoading": "Ładowanie powiadomień…",
+      "noNotifications": "Brak skonfigurowanych powiadomień. Respondenci nie otrzymają przypomnień o tej ankiecie.",
+      "relativeTo": "Względem",
+      "minutesBefore": "Minut przed",
+      "relativeToOptions": {
+        "beginning": "Początek ankiety",
+        "end": "Koniec ankiety"
+      },
+      "addNotification": "Dodaj powiadomienie",
+      "removeNotification": "Usuń powiadomienie",
+      "saveNotifications": "Zapisz powiadomienia",
+      "notificationsSaved": "Powiadomienia zapisane",
+      "notificationsInvalid": "Każde powiadomienie wymaga poprawnego punktu odniesienia i nieujemnej liczby minut.",
+      "couldNotLoadNotifications": "Nie udało się załadować powiadomień na telefon",
+      "couldNotSaveNotifications": "Nie udało się zapisać powiadomień na telefon"
     },
     "surveyTile": {
       "surveyDetails": "Szczegóły ankiety"

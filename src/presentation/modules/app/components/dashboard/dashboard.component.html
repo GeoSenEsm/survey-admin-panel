@@ -103,18 +103,44 @@
       (closedStart)="isDrawerOpen = false"
     >
       <nav class="nav">
-        <a
-          *ngFor="let navListItem of navListItems"
-          class="nav-item"
-          [routerLink]="navListItem.link"
-          routerLinkActive="active"
-          (click)="onNavItemClick()"
-        >
-          <mat-icon class="nav-item-icon">{{ navListItem.matIcon }}</mat-icon>
-          <span class="nav-item-label">{{
-            navListItem.display | translate
-          }}</span>
-        </a>
+        <ng-container *ngFor="let entry of navListItems">
+          <mat-expansion-panel
+            *ngIf="isNavGroup(entry)"
+            class="nav-group"
+            [expanded]="isGroupExpanded(entry)"
+            (opened)="setGroupExpanded(entry, true)"
+            (closed)="setGroupExpanded(entry, false)"
+          >
+            <mat-expansion-panel-header class="nav-group-header">
+              <mat-panel-title>
+                <mat-icon class="nav-item-icon">{{ entry.matIcon }}</mat-icon>
+                <span class="nav-item-label">{{ entry.display | translate }}</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a
+              *ngFor="let child of entry.children"
+              class="nav-item nav-item-child"
+              [routerLink]="child.link"
+              routerLinkActive="active"
+              (click)="onNavItemClick()"
+            >
+              <mat-icon class="nav-item-icon">{{ child.matIcon }}</mat-icon>
+              <span class="nav-item-label">{{ child.display | translate }}</span>
+            </a>
+          </mat-expansion-panel>
+          <a
+            *ngIf="!isNavGroup(entry)"
+            class="nav-item"
+            [routerLink]="asNavItem(entry).link"
+            routerLinkActive="active"
+            (click)="onNavItemClick()"
+          >
+            <mat-icon class="nav-item-icon">{{ asNavItem(entry).matIcon }}</mat-icon>
+            <span class="nav-item-label">{{
+              asNavItem(entry).display | translate
+            }}</span>
+          </a>
+        </ng-container>
       </nav>
     </mat-drawer>
     <mat-drawer-content

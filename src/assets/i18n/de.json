@@ -21,7 +21,7 @@
       "loginToContinue": "Geolocation and sensor data supported ESM"
     },
     "dashboard": {
-      "respondents": "Befragte",
+      "respondentList": "Befragtenliste",
       "surveys": "Umfragen",
       "createSurvey": "Umfrage erstellen",
       "results": "Ergebnisse",
@@ -29,7 +29,7 @@
       "startSurvey": "Erstumfrage",
       "temepratureSensors": "Sensordaten",
       "map": "Karte",
-      "configuration": "Konfiguration",
+      "researchArea": "Forschungsgebiet",
       "surveySettings": "Umfrageeinstellungen",
       "changeAdminPassword": "Passwort ändern",
       "userGuide": "Benutzerhandbuch",
@@ -41,7 +41,15 @@
       "statistics": "Statistiken",
       "dailyCompletion": "Tagesübersicht",
       "surveyWindow": "Umfragedaten",
-      "issues": "Probleme"
+      "issues": "Probleme",
+      "navCategory": {
+        "settings": "Einstellungen",
+        "respondents": "Befragte",
+        "statistics": "Statistiken",
+        "sensors": "Sensoren",
+        "results": "Ergebnisse",
+        "surveys": "Umfragen"
+      }
     }
   },
   "responseDocuments": {
@@ -257,7 +265,24 @@
       "selectTimeSlotsToDeleteFirst": "Bitte wählen Sie zuerst mindestens einen Kalenderzeitschlitz aus, den Sie löschen möchten",
       "deletingConfirmationText": "Sind Sie sicher, dass Sie die ausgewählten Zeitslots löschen möchten?",
       "deletingConfirmationInput": "löschen",
-      "couldNotDeleteSendingPolicies": "Fehler beim Löschen der Umfragesenderichtlinie"
+      "couldNotDeleteSendingPolicies": "Fehler beim Löschen der Umfragesenderichtlinie",
+      "notificationsTitle": "Telefonbenachrichtigungen",
+      "notificationsHint": "Legen Sie fest, wie viele Benachrichtigungen das Telefon pro Zeitslot erhält und wann sie relativ zum Beginn oder Ende des Slots ausgelöst werden. Standard: zu Beginn und 15 Minuten vor dem Ende.",
+      "notificationsLoading": "Benachrichtigungen werden geladen…",
+      "noNotifications": "Keine Benachrichtigungen konfiguriert. Teilnehmende erhalten keine Erinnerungen zu dieser Umfrage.",
+      "relativeTo": "Bezogen auf",
+      "minutesBefore": "Minuten vorher",
+      "relativeToOptions": {
+        "beginning": "Beginn der Umfrage",
+        "end": "Ende der Umfrage"
+      },
+      "addNotification": "Benachrichtigung hinzufügen",
+      "removeNotification": "Benachrichtigung entfernen",
+      "saveNotifications": "Benachrichtigungen speichern",
+      "notificationsSaved": "Benachrichtigungen gespeichert",
+      "notificationsInvalid": "Jede Benachrichtigung braucht einen gültigen Bezugspunkt und eine nicht negative Minutenanzahl.",
+      "couldNotLoadNotifications": "Telefonbenachrichtigungen konnten nicht geladen werden",
+      "couldNotSaveNotifications": "Telefonbenachrichtigungen konnten nicht gespeichert werden"
     },
     "surveyTile": {
       "surveyDetails": "Umfragedetails"

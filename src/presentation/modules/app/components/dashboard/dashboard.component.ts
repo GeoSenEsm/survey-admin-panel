@@ -9,7 +9,14 @@ import { TokenHandler } from '../../../../../core/services/token-handler';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
-import { getNavListItems, NavListItem } from './nav-list-items';
+import {
+  getNavListItems,
+  isNavGroup,
+  NavEntry,
+  NavGroup,
+  NavListItem,
+  navGroupContainsLink,
+} from './nav-list-items';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeAdminPasswordComponent } from '../change-admin-password/change-admin-password.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -32,6 +39,8 @@ const USER_GUIDE_URL =
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  readonly isNavGroup = isNavGroup;
+
   isDrawerOpen = true;
   isMobile = false;
   isCompact = false;
@@ -51,7 +60,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;
 
-  navListItems: NavListItem[] = getNavListItems();
+  navListItems: NavEntry[] = getNavListItems();
+  private expandedGroups = new Set<string>();
   readonly toolbarMapProviders: { value: MapProvider; name: string }[] = [
     { value: 'openstreetmap', name: 'OpenStreetMap' },
     { value: 'baidu', name: 'Baidu' },
@@ -84,13 +94,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.updateResponsiveState();
+    this.expandGroupForUrl(this.router.url);
     this.navigationSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.expandGroupForUrl(event.urlAfterRedirects);
         this.scrollToTop();
       }
     });
     this._language = this.translateService.currentLang;
     this.loadInitials();
+  }
+
+  asNavItem(entry: NavEntry): NavListItem {
+    return entry as NavListItem;
+  }
+
+  isGroupExpanded(group: NavGroup): boolean {
+    return this.expandedGroups.has(group.display);
+  }
+
+  setGroupExpanded(group: NavGroup, expanded: boolean): void {
+    if (expanded) {
+      this.expandedGroups.add(group.display);
+    } else {
+      this.expandedGroups.delete(group.display);
+    }
+  }
+
+  private expandGroupForUrl(url: string): void {
+    for (const entry of this.navListItems) {
+      if (isNavGroup(entry) && navGroupContainsLink(entry, url)) {
+        this.expandedGroups.add(entry.display);
+      }
+    }
   }
 
   @HostListener('window:resize')

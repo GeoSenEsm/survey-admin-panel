@@ -19,6 +19,58 @@ mat-slide-toggle {
   gap: 10px;
 }
 
+.notifications-panel {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.notifications-panel h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.notifications-hint,
+.notifications-status,
+.notifications-empty {
+  margin: 0 0 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.notification-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.relative-to-field {
+  min-width: 200px;
+  flex: 1 1 200px;
+}
+
+.minutes-field {
+  width: 180px;
+  flex: 0 0 180px;
+}
+
+.notifications-actions {
+  margin-top: 4px;
+}
+
 @media (max-width: 768px) {
   .container { padding: 12px; }
+
+  .minutes-field {
+    width: 100%;
+    flex: 1 1 100%;
+  }
 }

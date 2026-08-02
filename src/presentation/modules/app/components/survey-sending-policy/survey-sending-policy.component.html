@@ -1,4 +1,80 @@
 <div class="container">
+  <section class="notifications-panel">
+    <h3>{{ "surveyDetails.surveySendingPolicy.notificationsTitle" | translate }}</h3>
+    <p class="notifications-hint">
+      {{ "surveyDetails.surveySendingPolicy.notificationsHint" | translate }}
+    </p>
+
+    <div *ngIf="notificationsLoading" class="notifications-status">
+      {{ "surveyDetails.surveySendingPolicy.notificationsLoading" | translate }}
+    </div>
+
+    <div *ngIf="!notificationsLoading" class="notifications-list">
+      <div
+        class="notification-row"
+        *ngFor="let notification of notifications; let i = index"
+      >
+        <mat-form-field appearance="outline" class="relative-to-field">
+          <mat-label>
+            {{ "surveyDetails.surveySendingPolicy.relativeTo" | translate }}
+          </mat-label>
+          <mat-select [(ngModel)]="notification.relativeTo">
+            <mat-option *ngFor="let option of relativeToOptions" [value]="option">
+              {{ ("surveyDetails.surveySendingPolicy.relativeToOptions." + option) | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="minutes-field">
+          <mat-label>
+            {{ "surveyDetails.surveySendingPolicy.minutesBefore" | translate }}
+          </mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            [(ngModel)]="notification.minutesBefore"
+          />
+        </mat-form-field>
+
+        <button
+          mat-icon-button
+          color="warn"
+          type="button"
+          (click)="removeNotification(i)"
+          [attr.aria-label]="'surveyDetails.surveySendingPolicy.removeNotification' | translate"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <p *ngIf="notifications.length === 0" class="notifications-empty">
+        {{ "surveyDetails.surveySendingPolicy.noNotifications" | translate }}
+      </p>
+    </div>
+
+    <div class="notifications-actions wrap-panel">
+      <button
+        mat-stroked-button
+        color="primary"
+        type="button"
+        (click)="addNotification()"
+        [disabled]="notificationsLoading || notifications.length >= maxNotifications"
+      >
+        {{ "surveyDetails.surveySendingPolicy.addNotification" | translate }}
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="saveNotifications()"
+        [disabled]="notificationsLoading || notificationsSaving"
+      >
+        {{ "surveyDetails.surveySendingPolicy.saveNotifications" | translate }}
+      </button>
+    </div>
+  </section>
+
   <div class="wrap-panel">
     <button mat-flat-button color="primary" (click)="addSendingPolicy()">
       {{ "surveyDetails.surveySendingPolicy.craeteNewSendingPolicy" | translate }}
@@ -10,12 +86,13 @@
       {{ "surveyDetails.surveySendingPolicy.deleteMode" | translate }}
     </button>
     <div [matTooltip]="!deletingEnabled() ? ('surveyDetails.surveySendingPolicy.selectTimeSlotsToDeleteFirst' | translate) : ''">
-      <button 
-        *ngIf="deleteMode" 
-        mat-stroked-button 
-        color="warn" 
-        (click)="deleteSelected()" 
-        [disabled]="!deletingEnabled()">
+      <button
+        *ngIf="deleteMode"
+        mat-stroked-button
+        color="warn"
+        (click)="deleteSelected()"
+        [disabled]="!deletingEnabled()"
+      >
         {{ "surveyDetails.surveySendingPolicy.delete" | translate }}
       </button>
     </div>
