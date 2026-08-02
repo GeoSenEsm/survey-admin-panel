@@ -448,7 +448,7 @@
     "somethingWentWrong": "Something went wrong"
   },
   "sensorDevices": {
-    "description": "Here you can configure the MAC addresses of sensors, making it easier for respondents to synchronize them with the application.",
+    "description": "Configure sensor MAC addresses and assign each sensor to a respondent so the mobile app can sync the correct device automatically.",
     "import": "Import",
     "sensorId": "ID",
     "sensorMac": "MAC Address",
@@ -479,7 +479,14 @@
     "createNew": "Add",
     "createNewSensor": "Add a new sensor",
     "couldNotCreate": "Failed to add the sensor",
-    "uniqueError": "This field must be unique"
+    "uniqueError": "This field must be unique",
+    "respondentUsername": "Respondent",
+    "sensorTypeName": "Type",
+    "unassigned": "Unassigned",
+    "selectRespondentHint": "Type username…",
+    "clearRespondent": "Clear respondent",
+    "noRespondentsMatch": "No respondents match your search",
+    "respondentNotFound": "No respondent matches that username"
   },
   "surveys": {
     "loadingError": "An error occurred while loading.",

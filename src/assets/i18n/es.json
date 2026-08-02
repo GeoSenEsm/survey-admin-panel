@@ -479,7 +479,14 @@
     "createNew": "Agregar",
     "createNewSensor": "Agregar un nuevo sensor",
     "couldNotCreate": "Error al agregar el sensor",
-    "uniqueError": "Este campo debe ser único"
+    "uniqueError": "Este campo debe ser único",
+    "respondentUsername": "Encuestado",
+    "sensorTypeName": "Tipo",
+    "unassigned": "Sin asignar",
+    "selectRespondentHint": "Escriba el nombre de usuario…",
+    "clearRespondent": "Quitar encuestado",
+    "noRespondentsMatch": "Ningún encuestado coincide con la búsqueda",
+    "respondentNotFound": "No hay encuestado con ese nombre de usuario"
   },
   "surveys": {
     "loadingError": "Ocurrió un error al cargar.",

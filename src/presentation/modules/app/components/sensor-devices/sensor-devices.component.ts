@@ -31,7 +31,7 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   readonly dataSource = new MatTableDataSource<SensorDto>([]);
-  readonly headers = ['sensorId', 'sensorMac'];
+  readonly headers = ['sensorId', 'sensorTypeName', 'sensorMac', 'respondentUsername'];
   isBusy = false;
 
   constructor(
@@ -84,12 +84,17 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.matDialog.open(EditSensorComponent, {
-      data: {
-        sensor: sensor,
-        allSensors: this.dataSource.data,
-      },
-    });
+    this.matDialog
+      .open(EditSensorComponent, {
+        data: {
+          sensor: sensor,
+          allSensors: this.dataSource.data,
+        },
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.dataSource.data = [...this.dataSource.data];
+      });
   }
 
   public delete(sensor: SensorDto): void {

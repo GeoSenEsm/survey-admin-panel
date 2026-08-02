@@ -479,7 +479,14 @@
     "createNew": "添加",
     "createNewSensor": "添加新传感器",
     "couldNotCreate": "添加传感器失败",
-    "uniqueError": "此字段必须唯一"
+    "uniqueError": "此字段必须唯一",
+    "respondentUsername": "受访者",
+    "sensorTypeName": "类型",
+    "unassigned": "未分配",
+    "selectRespondentHint": "输入用户名…",
+    "clearRespondent": "清除受访者",
+    "noRespondentsMatch": "没有匹配的受访者",
+    "respondentNotFound": "找不到该用户名的受访者"
   },
   "surveys": {
     "loadingError": "加载时发生错误。",

@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   CreateSensorDto,
   SensorDto,
+  SensorTypeDto,
 } from '../../../../../domain/models/sensors-dtos';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +10,7 @@ import { SensorsService } from '../../../../../domain/external_services/sensors.
 import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { finalize } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 import { macPattern, notIn } from '../../../../../core/utils/validators';
 
 interface CreateSensorComponentDialogParameter {
@@ -22,9 +23,10 @@ interface CreateSensorComponentDialogParameter {
   templateUrl: './create-sensor.component.html',
   styleUrl: './create-sensor.component.scss',
 })
-export class CreateSensorComponent {
+export class CreateSensorComponent implements OnInit {
   isBusy = false;
   readonly formGroup: FormGroup;
+  sensorTypes: SensorTypeDto[] = [];
 
   constructor(
     private readonly matDialogRef: MatDialogRef<CreateSensorComponent>,
@@ -45,7 +47,21 @@ export class CreateSensorComponent {
         notIn(data.allSensors.map((s) => s.sensorMac)),
         macPattern(),
       ]),
+      sensorTypeId: new FormControl('', [Validators.required]),
     });
+  }
+
+  ngOnInit(): void {
+    this.sensorsService
+      .getSensorTypes()
+      .pipe(catchError(() => of([] as SensorTypeDto[])))
+      .subscribe((types) => {
+        this.sensorTypes = types;
+        const xiaomi = types.find((t) => t.code === 'xiaomi');
+        if (xiaomi && !this.formGroup.get('sensorTypeId')?.value) {
+          this.formGroup.get('sensorTypeId')?.setValue(xiaomi.id);
+        }
+      });
   }
 
   public close(): void {
@@ -63,7 +79,7 @@ export class CreateSensorComponent {
       .addSensors([model])
       .pipe(finalize(() => (this.isBusy = false)))
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.data.refreshCallback();
           this.close();
         },

@@ -479,7 +479,14 @@
     "createNew": "Ajouter",
     "createNewSensor": "Ajouter un nouveau capteur",
     "couldNotCreate": "Échec de l'ajout du capteur",
-    "uniqueError": "Ce champ doit être unique"
+    "uniqueError": "Ce champ doit être unique",
+    "respondentUsername": "Répondant",
+    "sensorTypeName": "Type",
+    "unassigned": "Non assigné",
+    "selectRespondentHint": "Saisir le nom d'utilisateur…",
+    "clearRespondent": "Effacer le répondant",
+    "noRespondentsMatch": "Aucun répondant ne correspond à la recherche",
+    "respondentNotFound": "Aucun répondant avec ce nom d'utilisateur"
   },
   "surveys": {
     "loadingError": "Une erreur s'est produite lors du chargement.",

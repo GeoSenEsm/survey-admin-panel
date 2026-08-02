@@ -44,14 +44,19 @@
 
   <div class="table-container">
     <mat-table [dataSource]="dataSource" matSort>
-      <ng-cintainer *ngFor="let column of headers" [matColumnDef]="column">
+      <ng-container *ngFor="let column of headers" [matColumnDef]="column">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "sensorDevices." + column | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let sensor">
-          {{ sensor[column] }}
+          <ng-container *ngIf="column === 'respondentUsername'; else typedCell">
+            {{ sensor.respondentUsername || ("sensorDevices.unassigned" | translate) }}
+          </ng-container>
+          <ng-template #typedCell>
+            {{ sensor[column] }}
+          </ng-template>
         </mat-cell>
-      </ng-cintainer>
+      </ng-container>
 
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef>

@@ -479,7 +479,14 @@
     "createNew": "Hinzufügen",
     "createNewSensor": "Neuen Sensor hinzufügen",
     "couldNotCreate": "Fehler beim Hinzufügen des Sensors",
-    "uniqueError": "Dieses Feld muss eindeutig sein"
+    "uniqueError": "Dieses Feld muss eindeutig sein",
+    "respondentUsername": "Befragter",
+    "sensorTypeName": "Typ",
+    "unassigned": "Nicht zugewiesen",
+    "selectRespondentHint": "Benutzernamen eingeben…",
+    "clearRespondent": "Befragten entfernen",
+    "noRespondentsMatch": "Keine Befragten passen zur Suche",
+    "respondentNotFound": "Kein Befragter mit diesem Benutzernamen"
   },
   "surveys": {
     "loadingError": "Beim Laden ist ein Fehler aufgetreten.",

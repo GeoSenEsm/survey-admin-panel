@@ -479,7 +479,14 @@
     "createNew": "Dodaj",
     "createNewSensor": "Dodaj nowy czujnik",
     "couldNotCreate": "Nie udało się dodać czujnika",
-    "uniqueError": "Pole musi być unikalne"
+    "uniqueError": "Pole musi być unikalne",
+    "respondentUsername": "Respondent",
+    "sensorTypeName": "Typ",
+    "unassigned": "Nieprzypisany",
+    "selectRespondentHint": "Wpisz nazwę użytkownika…",
+    "clearRespondent": "Wyczyść respondenta",
+    "noRespondentsMatch": "Brak respondentów pasujących do wyszukiwania",
+    "respondentNotFound": "Nie znaleziono respondenta o tej nazwie"
   },
   "surveys": {
     "loadingError": "Wystąpił bład podczas ładowania.",

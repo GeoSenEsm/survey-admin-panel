@@ -12,6 +12,20 @@
 
   <mat-form-field>
     <mat-label>
+      {{ "sensorDevices.sensorTypeName" | translate }}
+    </mat-label>
+    <mat-select formControlName="sensorTypeId">
+      <mat-option *ngFor="let type of sensorTypes" [value]="type.id">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{ "sensorDevices.fieldIsRequired" | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
       {{ "sensorDevices.sensorMac" | translate }}
     </mat-label>
     <input matInput formControlName="sensorMac" maxlength="17" />
@@ -20,7 +34,47 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+  <mat-form-field>
+    <mat-label>
+      {{ "sensorDevices.respondentUsername" | translate }}
+    </mat-label>
+    <input
+      matInput
+      formControlName="respondent"
+      [matAutocomplete]="respondentAuto"
+      (input)="onRespondentInput($event)"
+      [placeholder]="'sensorDevices.selectRespondentHint' | translate"
+    />
+    <button
+      *ngIf="formGroup.get('respondent')?.value"
+      matSuffix
+      mat-icon-button
+      type="button"
+      [attr.aria-label]="'sensorDevices.clearRespondent' | translate"
+      (click)="clearRespondent()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete
+      #respondentAuto="matAutocomplete"
+      [displayWith]="displayRespondent"
+    >
+      <mat-option
+        *ngFor="let respondent of filteredRespondents"
+        [value]="respondent"
+      >
+        {{ respondent.username }}
+      </mat-option>
+      <mat-option
+        *ngIf="filteredRespondents.length === 0 && !loadingRespondents"
+        disabled
+      >
+        {{ "sensorDevices.noRespondentsMatch" | translate }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid || isBusy">
     {{ "sensorDevices.save" | translate }}
   </button>
 

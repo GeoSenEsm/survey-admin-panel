@@ -50,7 +50,7 @@ Register new services in `prodivers.ts` / injection tokens.
 | Issues | Survey / GPS / sensor fulfillment |
 | Summaries, response documents | Results and Mongo-backed JSON / ZIP export |
 | Statistics, daily completion | Aggregates and per-slot completion grid |
-| Map, sensors, phone numbers | Research area, devices, contacts |
+| Map, sensors, phone numbers | Research area, devices (type + MAC + respondent assignment), contacts |
 
 ---
 
