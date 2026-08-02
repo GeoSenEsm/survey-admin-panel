@@ -1,72 +1,321 @@
 <div class="container">
   <h3>{{ "surveySettings.description" | translate }}</h3>
 
-  <div class="settings-panel">
-    <div class="setting-row">
-      <div class="setting-text">
-        <div class="setting-title">
-          {{ "surveySettings.showSendingPolicyCalendar" | translate }}
+  <mat-tab-group>
+    <mat-tab label="{{ 'surveySettings.tabs.general' | translate }}">
+      <div class="tab-content">
+        <div class="settings-panel">
+          <div class="setting-text">
+            <div class="setting-title">
+              {{ "surveySettings.logoTitle" | translate }}
+            </div>
+            <div class="setting-hint">
+              {{ "surveySettings.logoHint" | translate }}
+            </div>
+          </div>
+
+          <div class="setting-row logo-row">
+            <img
+              *ngIf="logoPreviewUrl"
+              [src]="logoPreviewUrl"
+              alt="{{ 'surveySettings.logoTitle' | translate }}"
+              class="logo-preview"
+            />
+
+            <div class="logo-actions">
+              <label class="file-button" mat-stroked-button>
+                {{ "surveySettings.uploadLogo" | translate }}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg"
+                  [disabled]="isLogoBusy"
+                  (change)="onLogoSelected($any($event.target).files)"
+                />
+              </label>
+              <button
+                mat-button
+                color="warn"
+                *ngIf="settings.logoPath"
+                [disabled]="isLogoBusy"
+                (click)="onRemoveLogo()"
+              >
+                {{ "surveySettings.removeLogo" | translate }}
+              </button>
+            </div>
+
+            <mat-progress-spinner
+              *ngIf="isLogoBusy"
+              diameter="24"
+              mode="indeterminate"
+            ></mat-progress-spinner>
+          </div>
         </div>
-        <div class="setting-hint">
-          {{ "surveySettings.showSendingPolicyCalendarHint" | translate }}
+
+        <div class="settings-panel">
+          <div class="setting-row">
+            <div class="setting-text">
+              <div class="setting-title">
+                {{ "surveySettings.showSendingPolicyCalendar" | translate }}
+              </div>
+              <div class="setting-hint">
+                {{ "surveySettings.showSendingPolicyCalendarHint" | translate }}
+              </div>
+            </div>
+            <mat-slide-toggle
+              color="primary"
+              [checked]="settings.showSendingPolicyCalendar"
+              [disabled]="isBusy"
+              (change)="onCalendarToggle($event.checked)"
+            >
+            </mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="settings-panel">
+          <div class="setting-text">
+            <div class="setting-title">
+              {{ "surveySettings.csvFormatTitle" | translate }}
+            </div>
+            <div class="setting-hint">
+              {{ "surveySettings.csvFormatHint" | translate }}
+            </div>
+          </div>
+
+          <div class="setting-row csv-row">
+            <mat-form-field appearance="outline" class="separator-field">
+              <mat-label>{{ "surveySettings.csvColumnSeparator" | translate }}</mat-label>
+              <mat-select
+                [ngModel]="settings.csvColumnSeparator"
+                [disabled]="isBusy"
+                (ngModelChange)="onColumnSeparatorChange($event)"
+              >
+                <mat-option
+                  *ngFor="let option of columnSeparatorOptions"
+                  [value]="option.value"
+                >
+                  {{ option.labelKey | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="separator-field">
+              <mat-label>{{ "surveySettings.csvDecimalSeparator" | translate }}</mat-label>
+              <mat-select
+                [ngModel]="settings.csvDecimalSeparator"
+                [disabled]="isBusy"
+                (ngModelChange)="onDecimalSeparatorChange($event)"
+              >
+                <mat-option
+                  *ngFor="let option of decimalSeparatorOptions"
+                  [value]="option.value"
+                >
+                  {{ option.labelKey | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="busy" *ngIf="isBusy">
+          <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
         </div>
       </div>
-      <mat-slide-toggle
-        color="primary"
-        [checked]="settings.showSendingPolicyCalendar"
-        [disabled]="isBusy"
-        (change)="onCalendarToggle($event.checked)"
-      >
-      </mat-slide-toggle>
-    </div>
-  </div>
+    </mat-tab>
 
-  <div class="settings-panel">
-    <div class="setting-text">
-      <div class="setting-title">
-        {{ "surveySettings.csvFormatTitle" | translate }}
-      </div>
-      <div class="setting-hint">
-        {{ "surveySettings.csvFormatHint" | translate }}
-      </div>
-    </div>
+    <mat-tab label="{{ 'surveySettings.tabs.sensorData' | translate }}">
+      <div class="tab-content">
+        <div class="settings-panel">
+          <div class="setting-text">
+            <div class="setting-title">
+              {{ "surveySettings.sensorData.modeTitle" | translate }}
+            </div>
+            <div class="setting-hint">
+              {{ "surveySettings.sensorData.modeHint" | translate }}
+            </div>
+          </div>
 
-    <div class="setting-row csv-row">
-      <mat-form-field appearance="outline" class="separator-field">
-        <mat-label>{{ "surveySettings.csvColumnSeparator" | translate }}</mat-label>
-        <mat-select
-          [ngModel]="settings.csvColumnSeparator"
-          [disabled]="isBusy"
-          (ngModelChange)="onColumnSeparatorChange($event)"
+          <mat-form-field appearance="outline" class="wide-field">
+            <mat-label>{{ "surveySettings.sensorData.mode" | translate }}</mat-label>
+            <mat-select [(ngModel)]="sensorSettings.mode" [disabled]="isSensorSettingsBusy">
+              <mat-option value="no_sensor_data">
+                {{ "surveySettings.sensorData.noSensorData" | translate }}
+              </mat-option>
+              <mat-option value="configured_sensors">
+                {{ "surveySettings.sensorData.configuredSensors" | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="settings-panel"
+          *ngIf="sensorSettings.mode === 'configured_sensors'"
         >
-          <mat-option
-            *ngFor="let option of columnSeparatorOptions"
-            [value]="option.value"
-          >
-            {{ option.labelKey | translate }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div class="setting-title">
+            {{ "surveySettings.sensorData.activeSensors" | translate }}
+          </div>
+          <div class="sensor-type-grid">
+            <div class="sensor-type-card" *ngFor="let sensorType of sensorSettings.sensorTypes">
+              <mat-slide-toggle
+                color="primary"
+                [checked]="sensorType.enabled"
+                [disabled]="isSensorSettingsBusy"
+                (change)="onSensorTypeEnabledChange(sensorType, $event.checked)"
+              >
+                {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
+              </mat-slide-toggle>
+              <div class="integration-label">
+                {{
+                  integrationModeLabel(sensorType.integrationMode)
+                    | translate
+                }}
+                <span *ngIf="sensorType.integrationMode === 'native'">
+                  — {{ sensorType.adapterKey }}
+                </span>
+              </div>
 
-      <mat-form-field appearance="outline" class="separator-field">
-        <mat-label>{{ "surveySettings.csvDecimalSeparator" | translate }}</mat-label>
-        <mat-select
-          [ngModel]="settings.csvDecimalSeparator"
-          [disabled]="isBusy"
-          (ngModelChange)="onDecimalSeparatorChange($event)"
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "surveySettings.sensorData.timeoutSeconds" | translate }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="1"
+                  [(ngModel)]="sensorType.connectionTimeoutSeconds"
+                  [disabled]="isSensorSettingsBusy || !sensorType.enabled"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="settings-panel"
+          *ngIf="sensorSettings.mode === 'configured_sensors'"
         >
-          <mat-option
-            *ngFor="let option of decimalSeparatorOptions"
-            [value]="option.value"
-          >
-            {{ option.labelKey | translate }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
+          <div class="setting-row">
+            <div class="setting-text">
+              <div class="setting-title">
+                {{ "surveySettings.sensorData.parameters" | translate }}
+              </div>
+              <div class="setting-hint">
+                {{ "surveySettings.sensorData.parametersHint" | translate }}
+              </div>
+            </div>
+            <button mat-raised-button color="primary" (click)="addParameter()">
+              {{ "surveySettings.sensorData.addParameter" | translate }}
+            </button>
+          </div>
 
-  <div class="busy" *ngIf="isBusy">
-    <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
-  </div>
+          <div
+            class="parameter-card"
+            *ngFor="let parameter of sensorSettings.parameters; let i = index"
+          >
+            <div class="parameter-fields">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "surveySettings.sensorData.parameterCode" | translate }}</mat-label>
+                <input matInput [(ngModel)]="parameter.code" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "surveySettings.sensorData.parameterName" | translate }}</mat-label>
+                <input matInput [(ngModel)]="parameter.name" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "surveySettings.sensorData.dataType" | translate }}</mat-label>
+                <input matInput [(ngModel)]="parameter.dataType" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "surveySettings.sensorData.unit" | translate }}</mat-label>
+                <input matInput [(ngModel)]="parameter.unit" />
+              </mat-form-field>
+            </div>
+
+            <div class="setting-row">
+              <mat-slide-toggle color="primary" [(ngModel)]="parameter.required">
+                {{ "surveySettings.sensorData.required" | translate }}
+              </mat-slide-toggle>
+              <mat-slide-toggle color="primary" [(ngModel)]="parameter.active">
+                {{ "surveySettings.sensorData.active" | translate }}
+              </mat-slide-toggle>
+              <button mat-button color="warn" (click)="removeParameter(i)">
+                {{ "surveySettings.sensorData.removeParameter" | translate }}
+              </button>
+            </div>
+
+            <div class="source-row">
+              <span>{{ "surveySettings.sensorData.sources" | translate }}</span>
+              <mat-checkbox
+                *ngFor="let sensorType of sensorSettings.sensorTypes"
+                [checked]="hasSource(parameter, sensorType.sensorTypeCode)"
+                [disabled]="!sensorType.enabled"
+                (change)="toggleSource(parameter, sensorType.sensorTypeCode, $event.checked)"
+              >
+                {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-panel" *ngIf="sensorSettings.assignments.length">
+          <div class="setting-title">
+            {{ "surveySettings.sensorData.assignments" | translate }}
+          </div>
+          <div class="assignment-row" *ngFor="let assignment of sensorSettings.assignments">
+            <span>{{ assignment.respondentUsername }}</span>
+            <span>{{ assignment.sensorTypeName || assignment.sensorTypeCode }}</span>
+            <span>{{ assignment.sensorId || "-" }}</span>
+            <mat-slide-toggle
+              color="primary"
+              [(ngModel)]="assignment.enabled"
+              [disabled]="isSensorSettingsBusy"
+            >
+              {{ "surveySettings.sensorData.active" | translate }}
+            </mat-slide-toggle>
+            <mat-form-field appearance="outline" class="priority-field">
+              <mat-label>{{
+                "surveySettings.sensorData.priority" | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                [(ngModel)]="assignment.priorityOrder"
+                [disabled]="isSensorSettingsBusy"
+              />
+            </mat-form-field>
+          </div>
+          <div class="setting-hint">
+            {{ "surveySettings.sensorData.assignmentsHint" | translate }}
+          </div>
+        </div>
+
+        <div class="settings-panel profile-panel">
+          <div class="setting-title">
+            {{ "surveySettings.sensorProfiles.title" | translate }}
+          </div>
+          <div class="setting-hint">
+            {{ "surveySettings.sensorProfiles.hint" | translate }}
+          </div>
+          <a mat-stroked-button routerLink="/sensorProfiles">
+            {{ "surveySettings.sensorProfiles.openLink" | translate }}
+          </a>
+        </div>
+
+        <div class="actions">
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="isSensorSettingsBusy || !sensorSettingsLoaded"
+            (click)="saveSensorDataSettings()"
+          >
+            {{ "surveySettings.sensorData.save" | translate }}
+          </button>
+          <mat-progress-spinner
+            *ngIf="isSensorSettingsBusy"
+            diameter="36"
+            mode="indeterminate"
+          ></mat-progress-spinner>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

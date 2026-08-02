@@ -30,6 +30,13 @@ h3 {
   padding: $space-4;
 }
 
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding-top: $space-3;
+}
+
 .setting-row {
   display: flex;
   align-items: center;
@@ -64,6 +71,106 @@ h3 {
 .separator-field {
   min-width: 220px;
   flex: 1 1 220px;
+}
+
+.wide-field {
+  width: 100%;
+  margin-top: $space-3;
+}
+
+.sensor-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $space-3;
+  margin-top: $space-3;
+}
+
+.sensor-type-card,
+.parameter-card {
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: $space-3;
+}
+
+.sensor-type-card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.integration-label {
+  color: $text-secondary;
+  font-size: 0.85rem;
+}
+
+.parameter-card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  margin-top: $space-3;
+}
+
+.parameter-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-2;
+}
+
+.source-row,
+.assignment-row,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  flex-wrap: wrap;
+}
+
+.assignment-row {
+  justify-content: space-between;
+  border-top: 1px solid $border-color;
+  padding: $space-2 0;
+}
+
+.priority-field {
+  width: 120px;
+}
+
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.file-button {
+  cursor: pointer;
+}
+
+.file-button input {
+  display: none;
+}
+
+.logo-row {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.logo-preview {
+  height: 56px;
+  max-width: 220px;
+  object-fit: contain;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: $space-1;
+}
+
+.logo-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.actions {
+  justify-content: flex-end;
 }
 
 .busy {

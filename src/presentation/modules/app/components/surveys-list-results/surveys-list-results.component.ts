@@ -41,8 +41,8 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     'latitude',
     'accuracyMeters',
     'outsideResearchArea',
-    'temperature',
-    'humidity',
+    'sensorSource',
+    'sensorValues',
     'respondentId'
   ];
   isBusy: boolean = false;
@@ -62,6 +62,10 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
       return responseDate
         ? this.datePipe.transform(responseDate, 'short') ?? property
         : property;
+    },
+    sensorValues: (property: any) => {
+      if (!Array.isArray(property)) return '';
+      return property.map((v: any) => `${v.parameterCode}: ${v.value}`).join(', ');
     },
   };
 
@@ -137,8 +141,8 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
                 longitude: single.localizationData?.longitude,
                 latitude: single.localizationData?.latitude,
                 outsideResearchArea: single.localizationData?.outsideResearchArea,
-                temperature: single.sensorData?.temperature,
-                humidity: single.sensorData?.humidity,
+                sensorSource: single.sensorData?.source,
+                sensorValues: single.sensorData?.values,
                 accuracyMeters: single.localizationData?.accuracyMeters
               });
             });

@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "mężczyzna",
     "female": "kobieta"
@@ -16,9 +16,9 @@
       "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
       "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
       "passwordRequiredError": "Hasło jest wymagane.",
-      "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
+      "passwordMaxLenError": "Hasło nie może być dłuższe niż {{maxLen}} znaków.",
       "welcome": "Witamy w panelu administracyjnym GeoSenEsm!",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "ESM z obsługą geolokalizacji i danych z czujników"
     },
     "dashboard": {
       "respondentList": "Lista respondentów",
@@ -34,6 +34,7 @@
       "changeAdminPassword": "Zmiana hasła",
       "userGuide": "Podręcznik użytkownika",
       "sensorDevices": "Czujniki",
+      "sensorProfiles": "Profile czujnikow",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
       "ok": "OK",
       "contactPhoneNumbers": "Numery kontaktowe",
@@ -99,7 +100,8 @@
       "surveyResponses": "Odpowiedzi na ankiety",
       "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana.",
       "surveyStartDate": "Początek ankiety",
-      "surveyEndDate": "Koniec ankiety"
+      "surveyEndDate": "Koniec ankiety",
+      "timeZone": "Strefa czasowa"
     },
     "edit": {
       "title": "Edycja danych respondenta",
@@ -346,8 +348,8 @@
       "latitude": "Szerokość geograficzna",
       "accuracyMeters": "Precyzja (m)",
       "outsideResearchArea": "Poza obszarem badania",
-      "temperature": "Temperatura (°C)",
-      "humidity": "Wilgotność (%)"
+      "sensorSource": "Źródło sensora",
+      "sensorValues": "Odczyty sensora"
     }
   },
   "startSurvey": {
@@ -399,10 +401,10 @@
     "gridExportFilename": "temperatury.csv",
     "respondentId": "ID respondenta",
     "dateTime": "Data i czas",
-    "temperature": "Temperatura (°C)",
+    "source": "Źródło",
+    "values": "Odczyty",
     "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
-    "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
-    "humidity": "Wilgotność (%)"
+    "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
   },
   "map": {
     "survey": "Ankieta",
@@ -481,6 +483,57 @@
     "saved": "Ustawienia zapisane.",
     "loadError": "Nie udało się wczytać ustawień ankiet.",
     "saveError": "Nie udało się zapisać ustawień ankiet.",
+    "logoTitle": "Logo badania",
+    "logoHint": "Wyświetlane na górze ekranu głównego aplikacji mobilnej respondenta. Akceptuje pliki JPG lub PNG.",
+    "uploadLogo": "Wgraj logo",
+    "removeLogo": "Usuń logo",
+    "removeLogoConfirm": "Usunąć logo badania?",
+    "logoUploaded": "Logo wgrane.",
+    "logoRemoved": "Logo usunięte.",
+    "logoUploadError": "Nie udało się wgrać logo.",
+    "logoRemoveError": "Nie udało się usunąć logo.",
+    "tabs": {
+      "general": "Ogólne",
+      "sensorData": "Ustawienia danych czujników"
+    },
+    "sensorData": {
+      "loadError": "Nie udało się wczytać ustawień danych czujników.",
+      "saveError": "Nie udało się zapisać ustawień danych czujników.",
+      "duplicateNameUnit": "Dwa parametry nie mogą mieć tej samej nazwy i jednostki. Parametry z inną jednostką są innymi parametrami — nadaj jednemu z nich inną nazwę, jednostkę lub kod.",
+      "modeTitle": "Zbieranie danych z czujników",
+      "modeHint": "Wybierz, czy ankiety zbierają dane z czujników i które źródła mogą dostarczać skonfigurowane parametry.",
+      "mode": "Tryb",
+      "noSensorData": "Brak danych z czujników",
+      "configuredSensors": "Użyj skonfigurowanych czujników",
+      "activeSensors": "Aktywne źródła czujników",
+      "timeoutSeconds": "Limit czasu (sekundy)",
+      "parameters": "Kolumny danych czujników",
+      "parametersHint": "Zdefiniuj kolumny parametrów zbierane z czujników lub wprowadzane ręcznie.",
+      "addParameter": "Dodaj parametr",
+      "removeParameter": "Usuń",
+      "parameterCode": "Kod",
+      "parameterName": "Nazwa",
+      "dataType": "Typ danych",
+      "unit": "Jednostka",
+      "required": "Wymagane",
+      "active": "Aktywny",
+      "sources": "Źródła",
+      "assignments": "Aktualne przypisania respondentów",
+      "assignmentsHint": "Zmiany przypisań są zapisywane za pomocą kanonicznego API ustawień czujników ankiety.",
+      "priority": "Priorytet",
+      "save": "Zapisz ustawienia czujników",
+      "integrationModes": {
+        "profile": "Uniwersalny profil BLE",
+        "native": "Skompilowany adapter mobilny",
+        "manual": "Wpis ręczny",
+        "none": "Brak integracji z czujnikiem"
+      }
+    },
+    "sensorProfiles": {
+      "title": "Profile integracji czujników",
+      "hint": "Zarządzaj profilami GATT i BLE oraz identyfikuj typy czujników wymagające skompilowanego adaptera.",
+      "openLink": "Otwórz profile czujników"
+    },
     "ok": "OK"
   },
   "changeAdminPassword": {
@@ -504,6 +557,12 @@
     "import": "Importuj",
     "sensorId": "ID",
     "sensorMac": "Adres MAC",
+    "bindKey": "Klucz powiązania urządzenia",
+    "bindKeyCreateHint": "Wymagany 32-znakowy klucz szesnastkowy dla tego typu czujnika. Jest wysyłany jednorazowo i nigdy więcej nie jest wyświetlany.",
+    "bindKeyEditHint": "Pozostaw puste, aby zachować istniejący klucz. Wprowadź nowy 32-znakowy klucz szesnastkowy, aby go zastąpić.",
+    "bindKeyConfigured": "Klucz powiązania skonfigurowany",
+    "bindKeyNotConfigured": "Klucz powiązania nieskonfigurowany",
+    "bindKeyFormat": "Klucz powiązania musi zawierać dokładnie 32 znaki szesnastkowe.",
     "update": "Aktualizuj",
     "delete": "Usuń",
     "success": "Sukces",
@@ -603,7 +662,7 @@
       "title": "Rozmiar kafelka",
       "width": "Szerokość",
       "height": "Wysokość",
-      "reset": "Reset"
+      "reset": "Resetuj"
     },
     "summary": {
       "slots": "Zaplanowano ankiet: {{count}}",
@@ -722,6 +781,74 @@
       "loadFailed": "Nie udało się wczytać respondentów.",
       "saveFailed": "Nie udało się zapisać dat.",
       "endBeforeStart": "Data końcowa musi być nie wcześniejsza niż początkowa."
+    }
+  },
+  "sensorProfiles": {
+    "title": "Profile integracji czujników",
+    "hint": "Zarządzaj profilami GATT i BLE oraz identyfikuj typy czujników wymagające skompilowanego adaptera.",
+    "ok": "OK",
+    "loadError": "Nie udało się załadować ustawień profili.",
+    "capabilitiesLoadError": "Nie udało się załadować możliwości silnika profili czujników.",
+    "newCode": "Kod typu czujnika",
+    "newName": "Nazwa typu czujnika",
+    "integrationMode": "Tryb integracji",
+    "adapterKey": "Klucz skompilowanego adaptera",
+    "noAdapterKeysAvailable": "W tej wersji nie zarejestrowano żadnych skompilowanych adapterów.",
+    "createSensorType": "Utwórz typ czujnika",
+    "createTitle": "Nowy typ czujnika",
+    "sensorType": "Typ czujnika",
+    "invalidSensorType": "Podaj kod małymi literami (litery, cyfry, podkreślenia) i nazwę. Integracje natywne wymagają klucza adaptera.",
+    "sensorTypeCreated": "Typ czujnika utworzony.",
+    "sensorTypeCreateError": "Nie udało się utworzyć typu czujnika.",
+    "codedAdapterTitle": "Skompilowany adapter",
+    "codedAdapterExplanation": "Ten typ czujnika używa adaptera {{key}} skompilowanego w aplikacji mobilnej.",
+    "noProfileForMode": "Tryb {{mode}} nie używa profilu GATT.",
+    "gattProfileTitle": "Specyfikacja profilu GATT",
+    "gattProfileBoundary": "JSON musi być zgodny ze schematem profilu GATT. Użyj Walidacji przed publikacją.",
+    "import": "Importuj JSON",
+    "format": "Formatuj",
+    "minimumEngineVersion": "Minimalna wersja silnika",
+    "profileJson": "JSON profilu",
+    "syntaxError": "Błąd składni: {{error}}",
+    "summary": "Podsumowanie:",
+    "summaryTransport": "transport: {{transport}}",
+    "summaryDiscovery": "wykrywanie: {{count}}",
+    "summaryOperations": "odczyty: {{reads}}, zapisy: {{writes}}, opóźnienia: {{delays}}, powiadomienia: {{notifications}}, wskazania: {{indications}}",
+    "summaryParsers": "parsery: {{count}}",
+    "summaryDecoder": "dekoder: {{decoder}}",
+    "summaryMappings": "mapowania obiektów: {{count}}",
+    "summaryVectors": "złote wektory: {{count}}",
+    "validationPassed": "Walidacja zakończona sukcesem.",
+    "validationFailed": "Walidacja nie powiodła się.",
+    "vectorPassed": "OK",
+    "vectorFailed": "BŁĄD",
+    "validate": "Waliduj",
+    "saveDraft": "Zapisz szkic",
+    "publish": "Opublikuj",
+    "publishConfirm": "Opublikować tę wersję profilu?",
+    "published": "Profil opublikowany.",
+    "rollback": "Przywróć",
+    "rollbackConfirm": "Przywrócić wersję {{revision}}?",
+    "rolledBack": "Profil przywrócony.",
+    "draftSaved": "Szkic zapisany.",
+    "saveError": "Nie udało się zapisać szkicu.",
+    "validationError": "Nie udało się zwalidować profilu.",
+    "revisionLoadError": "Nie udało się załadować wersji profilu.",
+    "revisionsLoadError": "Nie udało się załadować listy wersji.",
+    "lifecycleError": "Nie udało się wykonać operacji cyklu życia profilu.",
+    "importError": "Nie udało się odczytać pliku.",
+    "revisionHistory": "Historia wersji",
+    "revision": "Wersja {{revision}}",
+    "integrationModes": {
+      "profile": "Silnik profilu GATT",
+      "native": "Skompilowany adapter",
+      "manual": "Ręczny wpis",
+      "none": "Brak czujnika"
+    },
+    "status": {
+      "draft": "Szkic",
+      "published": "Opublikowany",
+      "archived": "Zarchiwizowany"
     }
   }
 }

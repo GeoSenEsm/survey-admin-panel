@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "masculino",
     "female": "femenino"
@@ -16,9 +16,9 @@
       "invalidUsername": "El nombre de usuario o la contraseña no son válidos",
       "invalidPassword": "El nombre de usuario o la contraseña no son válidos",
       "passwordRequiredError": "La contraseña es obligatoria.",
-      "passwordMinLenError": "La contraseña no puede tener más de {{maxLen}} caracteres.",
       "welcome": "¡Bienvenido al panel de administración de GeoSenEsm!",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "ESM con soporte de geolocalización y datos de sensores",
+      "passwordMaxLenError": "La contraseña no puede tener más de {{maxLen}} caracteres."
     },
     "dashboard": {
       "respondentList": "Lista de encuestados",
@@ -34,6 +34,7 @@
       "changeAdminPassword": "Cambiar contraseña",
       "userGuide": "Guía del usuario",
       "sensorDevices": "Dispositivos sensores",
+      "sensorProfiles": "Perfiles de sensores",
       "someElementsNeedRefreshing": "Algunos elementos requieren actualizar la página para aplicar el cambio de idioma.",
       "ok": "OK",
       "contactPhoneNumbers": "Números de contacto",
@@ -99,7 +100,8 @@
       "surveyResponses": "Respuestas a encuestas",
       "cannotEditRespondentData": "No se pueden editar los datos del encuestado hasta que se publique la encuesta inicial.",
       "surveyStartDate": "Inicio de encuesta",
-      "surveyEndDate": "Fin de encuesta"
+      "surveyEndDate": "Fin de encuesta",
+      "timeZone": "Zona horaria"
     },
     "edit": {
       "title": "Editar datos del encuestado",
@@ -346,8 +348,8 @@
       "latitude": "Latitud",
       "accuracyMeters": "Precisión (m)",
       "outsideResearchArea": "Fuera del área de investigación",
-      "temperature": "Temperatura (°C)",
-      "humidity": "Humedad (%)"
+      "sensorSource": "Fuente del sensor",
+      "sensorValues": "Lecturas del sensor"
     }
   },
   "startSurvey": {
@@ -399,10 +401,10 @@
     "gridExportFilename": "temperaturas.csv",
     "respondentId": "ID del encuestado",
     "dateTime": "Fecha y hora",
-    "temperature": "Temperatura (°C)",
+    "source": "Fuente",
+    "values": "Lecturas",
     "nothingToDisplay": "No hay datos para mostrar. Intente cambiar los filtros.",
-    "loadingError": "Ocurrió un error al cargar los datos. Por favor, inténtelo de nuevo más tarde.",
-    "humidity": "Humedad (%)"
+    "loadingError": "Ocurrió un error al cargar los datos. Por favor, inténtelo de nuevo más tarde."
   },
   "map": {
     "survey": "Encuesta",
@@ -481,6 +483,57 @@
     "saved": "Ajustes guardados.",
     "loadError": "No se pudieron cargar los ajustes de encuestas.",
     "saveError": "No se pudieron guardar los ajustes de encuestas.",
+    "logoTitle": "Logo del estudio",
+    "logoHint": "Se muestra en la parte superior de la pantalla principal de la app móvil para los encuestados. Admite JPG o PNG.",
+    "uploadLogo": "Subir logo",
+    "removeLogo": "Quitar logo",
+    "removeLogoConfirm": "¿Quitar el logo del estudio?",
+    "logoUploaded": "Logo subido.",
+    "logoRemoved": "Logo eliminado.",
+    "logoUploadError": "No se pudo subir el logo.",
+    "logoRemoveError": "No se pudo eliminar el logo.",
+    "tabs": {
+      "general": "General",
+      "sensorData": "Configuración de datos de sensores"
+    },
+    "sensorData": {
+      "loadError": "No se pudo cargar la configuración de datos de sensores.",
+      "saveError": "No se pudo guardar la configuración de datos de sensores.",
+      "duplicateNameUnit": "Dos parámetros no pueden compartir el mismo nombre y unidad. Los parámetros con unidades diferentes son parámetros diferentes: asigne a uno un nombre, unidad o código distinto.",
+      "modeTitle": "Recopilación de datos de sensores",
+      "modeHint": "Elija si las encuestas recopilan datos de sensores y qué fuentes pueden proporcionar los parámetros configurados.",
+      "mode": "Modo",
+      "noSensorData": "Sin datos de sensores",
+      "configuredSensors": "Usar sensores configurados",
+      "activeSensors": "Fuentes de sensores activas",
+      "timeoutSeconds": "Tiempo de espera (segundos)",
+      "parameters": "Columnas de datos de sensores",
+      "parametersHint": "Defina las columnas de parámetros recopiladas de los sensores o mediante entrada manual.",
+      "addParameter": "Añadir parámetro",
+      "removeParameter": "Eliminar",
+      "parameterCode": "Código",
+      "parameterName": "Nombre",
+      "dataType": "Tipo de dato",
+      "unit": "Unidad",
+      "required": "Obligatorio",
+      "active": "Activo",
+      "sources": "Fuentes",
+      "assignments": "Asignaciones actuales de encuestados",
+      "assignmentsHint": "Los cambios de asignación se guardan a través de la API canónica de configuración de sensores de la encuesta.",
+      "priority": "Prioridad",
+      "save": "Guardar configuración de sensores",
+      "integrationModes": {
+        "profile": "Perfil BLE genérico",
+        "native": "Adaptador móvil compilado",
+        "manual": "Entrada manual",
+        "none": "Sin integración de sensor"
+      }
+    },
+    "sensorProfiles": {
+      "title": "Perfiles de integración de sensores",
+      "hint": "Gestione secuencias GATT y perfiles de publicidad BLE, e identifique tipos de sensores que requieren un adaptador compilado.",
+      "openLink": "Abrir perfiles de sensores"
+    },
     "ok": "OK"
   },
   "changeAdminPassword": {
@@ -504,6 +557,12 @@
     "import": "Importar",
     "sensorId": "ID",
     "sensorMac": "Dirección MAC",
+    "bindKey": "Clave de vinculación del dispositivo",
+    "bindKeyCreateHint": "Clave hexadecimal de 32 caracteres obligatoria para este tipo de sensor. Se envía una vez y nunca se vuelve a mostrar.",
+    "bindKeyEditHint": "Déjelo en blanco para conservar la clave existente. Introduzca una nueva clave hexadecimal de 32 caracteres para sustituirla.",
+    "bindKeyConfigured": "Clave de vinculación configurada",
+    "bindKeyNotConfigured": "Clave de vinculación no configurada",
+    "bindKeyFormat": "La clave de vinculación debe contener exactamente 32 caracteres hexadecimales.",
     "update": "Actualizar",
     "delete": "Eliminar",
     "success": "Éxito",
@@ -722,6 +781,74 @@
       "loadFailed": "No se pudieron cargar los encuestados.",
       "saveFailed": "No se pudieron guardar las fechas.",
       "endBeforeStart": "La fecha de fin debe ser igual o posterior a la de inicio."
+    }
+  },
+  "sensorProfiles": {
+    "title": "Perfiles de integración de sensores",
+    "hint": "Gestione secuencias GATT y perfiles de publicidad BLE, e identifique tipos de sensores que requieren un adaptador compilado.",
+    "ok": "OK",
+    "loadError": "No se pudieron cargar los ajustes de perfil.",
+    "capabilitiesLoadError": "No se pudieron cargar las capacidades del motor de perfiles de sensores.",
+    "newCode": "Código del tipo de sensor",
+    "newName": "Nombre del tipo de sensor",
+    "integrationMode": "Modo de integración",
+    "adapterKey": "Clave del adaptador compilado",
+    "noAdapterKeysAvailable": "No hay adaptadores compilados registrados en esta versión.",
+    "createSensorType": "Crear tipo de sensor",
+    "createTitle": "Nuevo tipo de sensor",
+    "sensorType": "Tipo de sensor",
+    "invalidSensorType": "Introduzca un código en minúsculas (letras, números, guiones bajos) y un nombre. Las integraciones nativas requieren una clave de adaptador.",
+    "sensorTypeCreated": "Tipo de sensor creado.",
+    "sensorTypeCreateError": "No se pudo crear el tipo de sensor.",
+    "codedAdapterTitle": "Adaptador compilado",
+    "codedAdapterExplanation": "Este tipo de sensor usa el adaptador {{key}} compilado en la aplicación móvil.",
+    "noProfileForMode": "El modo {{mode}} no usa perfil GATT.",
+    "gattProfileTitle": "Especificación del perfil GATT",
+    "gattProfileBoundary": "El JSON debe coincidir con el esquema del perfil GATT. Valide antes de publicar.",
+    "import": "Importar JSON",
+    "format": "Formatear",
+    "minimumEngineVersion": "Versión mínima del motor",
+    "profileJson": "JSON del perfil",
+    "syntaxError": "Error de sintaxis: {{error}}",
+    "summary": "Resumen:",
+    "summaryTransport": "transporte: {{transport}}",
+    "summaryDiscovery": "descubrimiento: {{count}}",
+    "summaryOperations": "lecturas: {{reads}}, escrituras: {{writes}}, retrasos: {{delays}}, notificaciones: {{notifications}}, indicaciones: {{indications}}",
+    "summaryParsers": "analizadores: {{count}}",
+    "summaryDecoder": "decodificador: {{decoder}}",
+    "summaryMappings": "asignaciones de objetos: {{count}}",
+    "summaryVectors": "vectores dorados: {{count}}",
+    "validationPassed": "Validación exitosa.",
+    "validationFailed": "Validación fallida.",
+    "vectorPassed": "OK",
+    "vectorFailed": "FALLO",
+    "validate": "Validar",
+    "saveDraft": "Guardar borrador",
+    "publish": "Publicar",
+    "publishConfirm": "¿Publicar esta revisión del perfil?",
+    "published": "Perfil publicado.",
+    "rollback": "Restaurar",
+    "rollbackConfirm": "¿Restaurar la revisión {{revision}}?",
+    "rolledBack": "Perfil restaurado.",
+    "draftSaved": "Borrador guardado.",
+    "saveError": "No se pudo guardar el borrador.",
+    "validationError": "No se pudo validar el perfil.",
+    "revisionLoadError": "No se pudo cargar la revisión del perfil.",
+    "revisionsLoadError": "No se pudo cargar la lista de revisiones.",
+    "lifecycleError": "Error en la operación del ciclo de vida del perfil.",
+    "importError": "No se pudo leer el archivo.",
+    "revisionHistory": "Historial de revisiones",
+    "revision": "Revisión {{revision}}",
+    "integrationModes": {
+      "profile": "Motor de perfil GATT",
+      "native": "Adaptador compilado",
+      "manual": "Entrada manual",
+      "none": "Sin sensor"
+    },
+    "status": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "archived": "Archivado"
     }
   }
 }

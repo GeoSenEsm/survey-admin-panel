@@ -21,6 +21,7 @@ import {
 import {
   LOCATION_SERVICE_TOKEN,
   RESEARCH_AREA_SERVICE_TOKEN,
+  SENSOR_PROFILE_SERVICE_TOKEN,
   SENSORS_SERVICE_TOKEN,
   START_SURVEY_SERVICE_TOKEN,
   STORAGE_SERVICE_TOKEN,
@@ -50,6 +51,7 @@ import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl'
 import { ResponseDocumentsServiceImpl } from '../../../core/services/response-documents.service.impl';
 import { StatisticsServiceImpl } from '../../../core/services/statistics.service.impl';
 import { SurveySettingsServiceImpl } from '../../../core/services/survey-settings.service.impl';
+import { SensorProfileServiceImpl } from '../../../core/services/sensor-profile.service.impl';
 import { GeoSenEsmMatPaginatorIntl } from '../../localization/geo-sen-esm-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
@@ -159,6 +161,10 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   {
     provide: SENSORS_SERVICE_TOKEN,
     useClass: SensorsServiceImpl,
+  },
+  {
+    provide: SENSOR_PROFILE_SERVICE_TOKEN,
+    useClass: SensorProfileServiceImpl,
   },
   { provide: MatPaginatorIntl, useClass: GeoSenEsmMatPaginatorIntl },
   {

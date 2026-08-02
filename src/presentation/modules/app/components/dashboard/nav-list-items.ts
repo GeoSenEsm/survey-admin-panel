@@ -37,6 +37,11 @@ export function getNavListItems(): NavEntry[] {
           matIcon: 'phone',
           link: 'contactPhoneNumbers',
         },
+        {
+          display: 'app.dashboard.startSurvey',
+          matIcon: 'list',
+          link: 'startSurvey',
+        },
       ],
     },
     {
@@ -90,6 +95,11 @@ export function getNavListItems(): NavEntry[] {
           matIcon: 'bluetooth',
           link: 'sensorDevices',
         },
+        {
+          display: 'app.dashboard.sensorProfiles',
+          matIcon: 'schema',
+          link: 'sensorProfiles',
+        },
       ],
     },
     {
@@ -126,11 +136,6 @@ export function getNavListItems(): NavEntry[] {
           display: 'app.dashboard.createSurvey',
           matIcon: 'add_box',
           link: 'surveys/new',
-        },
-        {
-          display: 'app.dashboard.startSurvey',
-          matIcon: 'list',
-          link: 'startSurvey',
         },
       ],
     },

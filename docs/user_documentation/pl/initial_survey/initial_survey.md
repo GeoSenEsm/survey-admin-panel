@@ -1,6 +1,6 @@
 # Ankieta początkowa
 
-Aby przejść do modułu `Ankieta początkowa`, wybierz odpowiednią zakładkę w bocznym panelu po lewej stronie ekranu
+Aby przejść do modułu `Ankieta początkowa`, rozwiń grupę `Konfiguracja` w bocznym panelu po lewej stronie ekranu i wybierz `Ankieta początkowa`.
 ![alt text](imgs/turn_on.png)
 
 Ankieta początkowa różni się od standardowych ankiet. 

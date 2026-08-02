@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "männlich",
     "female": "weiblich"
@@ -16,9 +16,9 @@
       "invalidUsername": "Benutzername oder Passwort ist ungültig",
       "invalidPassword": "Benutzername oder Passwort ist ungültig",
       "passwordRequiredError": "Passwort ist erforderlich.",
-      "passwordMinLenError": "Passwort darf nicht länger als {{maxLen}} Zeichen sein.",
       "welcome": "Willkommen im GeoSenEsm Admin-Panel!",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "ESM mit Unterstützung für Geolokalisierung und Sensordaten",
+      "passwordMaxLenError": "Passwort darf nicht länger als {{maxLen}} Zeichen sein."
     },
     "dashboard": {
       "respondentList": "Befragtenliste",
@@ -34,6 +34,7 @@
       "changeAdminPassword": "Passwort ändern",
       "userGuide": "Benutzerhandbuch",
       "sensorDevices": "Sensorgeräte",
+      "sensorProfiles": "Sensorprofile",
       "someElementsNeedRefreshing": "Einige Elemente erfordern ein Neuladen der Seite, um die Sprachänderung anzuwenden.",
       "ok": "OK",
       "contactPhoneNumbers": "Kontaktnummern",
@@ -99,7 +100,8 @@
       "surveyResponses": "Umfrageantworten",
       "cannotEditRespondentData": "Die Daten der Befragten können erst bearbeitet werden, wenn die Erstumfrage veröffentlicht wurde.",
       "surveyStartDate": "Umfragebeginn",
-      "surveyEndDate": "Umfrageende"
+      "surveyEndDate": "Umfrageende",
+      "timeZone": "Zeitzone"
     },
     "edit": {
       "title": "Daten der Befragten bearbeiten",
@@ -165,7 +167,7 @@
     "createImageOptions": {
       "image": "Bild",
       "dragAndDropHere": "Hier ablegen",
-      "fileBrowser": "Browser",
+      "fileBrowser": "Durchsuchen",
       "code": "Beschriftung",
       "codeTooltip": "Die Bildbeschriftung wird für den Export der Umfrageergebnisse benötigt. Sie wird den Befragten nicht angezeigt.",
       "addImage": "Bild hinzufügen",
@@ -346,8 +348,8 @@
       "latitude": "Breitengrad",
       "accuracyMeters": "Genauigkeit (m)",
       "outsideResearchArea": "Außerhalb des Forschungsgebiets",
-      "temperature": "Temperatur (°C)",
-      "humidity": "Feuchtigkeit (%)"
+      "sensorSource": "Sensorquelle",
+      "sensorValues": "Sensorwerte"
     }
   },
   "startSurvey": {
@@ -399,10 +401,10 @@
     "gridExportFilename": "temperaturen.csv",
     "respondentId": "Befragten-ID",
     "dateTime": "Datum und Uhrzeit",
-    "temperature": "Temperatur (°C)",
+    "source": "Quelle",
+    "values": "Messwerte",
     "nothingToDisplay": "Keine Daten zum Anzeigen. Versuchen Sie, die Filter zu ändern.",
-    "loadingError": "Beim Laden der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
-    "humidity": "Feuchtigkeit (%)"
+    "loadingError": "Beim Laden der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
   },
   "map": {
     "survey": "Umfrage",
@@ -473,7 +475,7 @@
     "csvDecimalSeparator": "Dezimaltrenner",
     "csvSeparatorComma": "Komma (,)",
     "csvSeparatorSemicolon": "Semikolon (;)",
-    "csvSeparatorPipe": "Pipe (|)",
+    "csvSeparatorPipe": "Senkrechter Strich (|)",
     "csvSeparatorTab": "Tabulator",
     "csvDecimalDot": "Punkt (.)",
     "csvDecimalComma": "Komma (,)",
@@ -481,6 +483,57 @@
     "saved": "Einstellungen gespeichert.",
     "loadError": "Umfrageeinstellungen konnten nicht geladen werden.",
     "saveError": "Umfrageeinstellungen konnten nicht gespeichert werden.",
+    "logoTitle": "Studienlogo",
+    "logoHint": "Wird oben auf dem Startbildschirm der mobilen App für Teilnehmende angezeigt. JPG oder PNG.",
+    "uploadLogo": "Logo hochladen",
+    "removeLogo": "Logo entfernen",
+    "removeLogoConfirm": "Studienlogo entfernen?",
+    "logoUploaded": "Logo hochgeladen.",
+    "logoRemoved": "Logo entfernt.",
+    "logoUploadError": "Logo konnte nicht hochgeladen werden.",
+    "logoRemoveError": "Logo konnte nicht entfernt werden.",
+    "tabs": {
+      "general": "Allgemein",
+      "sensorData": "Sensordateneinstellungen"
+    },
+    "sensorData": {
+      "loadError": "Die Sensordateneinstellungen konnten nicht geladen werden.",
+      "saveError": "Die Sensordateneinstellungen konnten nicht gespeichert werden.",
+      "duplicateNameUnit": "Zwei Parameter dürfen nicht denselben Namen und dieselbe Einheit haben. Parameter mit unterschiedlichen Einheiten sind unterschiedliche Parameter — geben Sie einem einen anderen Namen, eine andere Einheit oder einen anderen Code.",
+      "modeTitle": "Erfassung von Sensordaten",
+      "modeHint": "Legen Sie fest, ob Umfragen Sensordaten erfassen und welche Quellen die konfigurierten Parameter liefern können.",
+      "mode": "Modus",
+      "noSensorData": "Keine Sensordaten",
+      "configuredSensors": "Konfigurierte Sensoren verwenden",
+      "activeSensors": "Aktive Sensorquellen",
+      "timeoutSeconds": "Zeitüberschreitung (Sekunden)",
+      "parameters": "Sensordatenspalten",
+      "parametersHint": "Definieren Sie die Parameterspalten, die von Sensoren oder per manueller Eingabe erfasst werden.",
+      "addParameter": "Parameter hinzufügen",
+      "removeParameter": "Entfernen",
+      "parameterCode": "Code",
+      "parameterName": "Name",
+      "dataType": "Datentyp",
+      "unit": "Einheit",
+      "required": "Erforderlich",
+      "active": "Aktiv",
+      "sources": "Quellen",
+      "assignments": "Aktuelle Zuordnungen der Befragten",
+      "assignmentsHint": "Änderungen an Zuordnungen werden über die zentrale API für Sensoreinstellungen der Umfrage gespeichert.",
+      "priority": "Priorität",
+      "save": "Sensoreinstellungen speichern",
+      "integrationModes": {
+        "profile": "Generisches BLE-Profil",
+        "native": "Kompilierter mobiler Adapter",
+        "manual": "Manuelle Eingabe",
+        "none": "Keine Sensorintegration"
+      }
+    },
+    "sensorProfiles": {
+      "title": "Sensor-Integrationsprofile",
+      "hint": "Verwalten Sie GATT-Sequenzen und BLE-Werbeprofile und identifizieren Sie Sensortypen, die einen kompilierten Adapter erfordern.",
+      "openLink": "Sensorprofile öffnen"
+    },
     "ok": "OK"
   },
   "changeAdminPassword": {
@@ -504,6 +557,12 @@
     "import": "Importieren",
     "sensorId": "ID",
     "sensorMac": "MAC-Adresse",
+    "bindKey": "Geräte-Bindungsschlüssel",
+    "bindKeyCreateHint": "Erforderlicher 32-stelliger Hexadezimalschlüssel für diesen Sensortyp. Er wird einmal gesendet und danach nie wieder angezeigt.",
+    "bindKeyEditHint": "Leer lassen, um den vorhandenen Schlüssel zu behalten. Geben Sie einen neuen 32-stelligen Hexadezimalschlüssel ein, um ihn zu ersetzen.",
+    "bindKeyConfigured": "Bindungsschlüssel konfiguriert",
+    "bindKeyNotConfigured": "Bindungsschlüssel nicht konfiguriert",
+    "bindKeyFormat": "Der Bindungsschlüssel muss genau 32 Hexadezimalzeichen enthalten.",
     "update": "Aktualisieren",
     "delete": "Löschen",
     "success": "Erfolg",
@@ -722,6 +781,74 @@
       "loadFailed": "Teilnehmer konnten nicht geladen werden.",
       "saveFailed": "Umfragedaten konnten nicht gespeichert werden.",
       "endBeforeStart": "Das Enddatum muss am oder nach dem Startdatum liegen."
+    }
+  },
+  "sensorProfiles": {
+    "title": "Sensor-Integrationsprofile",
+    "hint": "Verwalten Sie GATT-Sequenzen und BLE-Werbeprofile und identifizieren Sie Sensortypen, die einen kompilierten Adapter erfordern.",
+    "ok": "OK",
+    "loadError": "Sensorprofileinstellungen konnten nicht geladen werden.",
+    "capabilitiesLoadError": "Die Fähigkeiten der Sensorprofil-Engine konnten nicht geladen werden.",
+    "newCode": "Sensortypcode",
+    "newName": "Sensortypname",
+    "integrationMode": "Integrationsmodus",
+    "adapterKey": "Kompilierter Adapterschlüssel",
+    "noAdapterKeysAvailable": "In dieser Version sind keine kompilierten Adapter registriert.",
+    "createSensorType": "Sensortyp erstellen",
+    "createTitle": "Neuer Sensortyp",
+    "sensorType": "Sensortyp",
+    "invalidSensorType": "Geben Sie einen Kleinbuchstaben-Code (Buchstaben, Zahlen, Unterstriche) und einen Namen ein. Native Integrationen benötigen einen Adapterschlüssel.",
+    "sensorTypeCreated": "Sensortyp erstellt.",
+    "sensorTypeCreateError": "Sensortyp konnte nicht erstellt werden.",
+    "codedAdapterTitle": "Kompilierter Adapter",
+    "codedAdapterExplanation": "Dieser Sensortyp verwendet Adapter {{key}}, der in die mobile App kompiliert ist.",
+    "noProfileForMode": "Modus {{mode}} verwendet kein GATT-Profil.",
+    "gattProfileTitle": "GATT-Profilspezifikation",
+    "gattProfileBoundary": "Das JSON muss dem GATT-Profilschema entsprechen. Validieren Sie vor der Veröffentlichung.",
+    "import": "JSON importieren",
+    "format": "Formatieren",
+    "minimumEngineVersion": "Mindest-Engine-Version",
+    "profileJson": "Profil-JSON",
+    "syntaxError": "Syntaxfehler: {{error}}",
+    "summary": "Zusammenfassung:",
+    "summaryTransport": "Transport: {{transport}}",
+    "summaryDiscovery": "Erkennung: {{count}}",
+    "summaryOperations": "Lesevorgänge: {{reads}}, Schreibvorgänge: {{writes}}, Verzögerungen: {{delays}}, Benachrichtigungen: {{notifications}}, Hinweise: {{indications}}",
+    "summaryParsers": "Parser: {{count}}",
+    "summaryDecoder": "Decoder: {{decoder}}",
+    "summaryMappings": "Objektzuordnungen: {{count}}",
+    "summaryVectors": "Goldene Vektoren: {{count}}",
+    "validationPassed": "Validierung erfolgreich.",
+    "validationFailed": "Validierung fehlgeschlagen.",
+    "vectorPassed": "OK",
+    "vectorFailed": "FEHLER",
+    "validate": "Validieren",
+    "saveDraft": "Entwurf speichern",
+    "publish": "Veröffentlichen",
+    "publishConfirm": "Diese Profilversion veröffentlichen?",
+    "published": "Profil veröffentlicht.",
+    "rollback": "Wiederherstellen",
+    "rollbackConfirm": "Version {{revision}} wiederherstellen?",
+    "rolledBack": "Profil wiederhergestellt.",
+    "draftSaved": "Entwurf gespeichert.",
+    "saveError": "Entwurf konnte nicht gespeichert werden.",
+    "validationError": "Profil konnte nicht validiert werden.",
+    "revisionLoadError": "Profilversion konnte nicht geladen werden.",
+    "revisionsLoadError": "Versionsliste konnte nicht geladen werden.",
+    "lifecycleError": "Profillebenszyklusvorgang fehlgeschlagen.",
+    "importError": "Datei konnte nicht gelesen werden.",
+    "revisionHistory": "Versionsverlauf",
+    "revision": "Version {{revision}}",
+    "integrationModes": {
+      "profile": "GATT-Profilmotor",
+      "native": "Kompilierter Adapter",
+      "manual": "Manuelle Eingabe",
+      "none": "Kein Sensor"
+    },
+    "status": {
+      "draft": "Entwurf",
+      "published": "Veröffentlicht",
+      "archived": "Archiviert"
     }
   }
 }

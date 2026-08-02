@@ -3,6 +3,7 @@ export type RespondentData = {
     username: string,
     surveyStartDate?: string | null,
     surveyEndDate?: string | null,
+    timeZone?: string | null,
 } & any;
 
 export interface RespondentFilters{

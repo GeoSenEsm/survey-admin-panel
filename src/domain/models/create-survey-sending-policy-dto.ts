@@ -6,6 +6,11 @@ export interface CreateSurveySendingPolicyDto{
     surveyParticipationTimeSlots: CreateSurveyParticipationTimeSlotDto[];
 }
 
+/**
+ * Builds study wall-clock slots. The LocalDateTime face is the schedule
+ * (hours of the study day); it is serialized with a fixed +00:00 offset so
+ * the API stores the intended clock face rather than the admin browser TZ.
+ */
 export const crossDatesAndTimes = (surveyId: string, dates: Date[], timeRanges: TimeRange[]) => 
     {
         const model: CreateSurveySendingPolicyDto = {
@@ -15,24 +20,25 @@ export const crossDatesAndTimes = (surveyId: string, dates: Date[], timeRanges: 
     
         dates.forEach(date => {
             timeRanges.forEach(range => {
-                const dateFrom = new Date(date.getFullYear(), 
-                date.getMonth(), 
-                date.getDate(),
-                range.from.hours,
-                range.from.minutes);
-    
-                const dateTo = new Date(date.getFullYear(), 
-                date.getMonth(), 
-                date.getDate(),
-                range.to.hours,
-                range.to.minutes);
-    
+                const y = date.getFullYear();
+                const m = date.getMonth();
+                const d = date.getDate();
                 model.surveyParticipationTimeSlots.push({
-                    start: new Date(dateFrom),
-                    finish: new Date(dateTo)
+                    start: wallClockAsUtcDate(y, m, d, range.from.hours, range.from.minutes),
+                    finish: wallClockAsUtcDate(y, m, d, range.to.hours, range.to.minutes)
                 })
             })
         })
     
         return model;
     };
+
+function wallClockAsUtcDate(
+    year: number,
+    monthIndex: number,
+    day: number,
+    hours: number,
+    minutes: number
+): Date {
+    return new Date(Date.UTC(year, monthIndex, day, hours, minutes, 0, 0));
+}

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { TemperatureDataEntry } from '../../../../../domain/models/temperature-data-entry';
+import { SensorDataValue, TemperatureDataEntry } from '../../../../../domain/models/temperature-data-entry';
 import { DatePipe } from '@angular/common';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,7 +22,7 @@ import { HttpEventType } from '@angular/common/http';
 export class TempratureDataComponent implements OnInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
-  readonly headers = ['dateTime', 'temperature', 'humidity', 'respondentId'];
+  readonly headers = ['dateTime', 'source', 'values', 'respondentId'];
   isBusy: boolean = false;
   loadDataError: boolean = false;
   dataSource: MatTableDataSource<TemperatureDataEntry> = undefined!;
@@ -33,6 +33,10 @@ export class TempratureDataComponent implements OnInit {
   readonly valuesTransformers: { [key: string]: (property: any) => any } = {
     dateTime: (property: any) => {
       return this.datePipe.transform(new Date(property), 'short');
+    },
+    values: (property: SensorDataValue[]) => {
+      if (!Array.isArray(property)) return '';
+      return property.map((v) => `${v.parameterCode}: ${v.value}`).join(', ');
     },
   };
 

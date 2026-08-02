@@ -6,6 +6,7 @@ import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { ConfigService } from "./config.service";
 import { SurveyResultEntry } from "../../domain/models/survey-result-entry";
 import { SurveyResultsFilter } from "../../domain/models/survey-results-filter";
+import { toStudyWallClockParam } from "../utils/study-wall-clock";
 
 @Injectable()
 export class SummariesServiceImpl
@@ -18,8 +19,8 @@ implements SummariesService {
     getTableResultsWithProgress(filter: SurveyResultsFilter): Observable<HttpEvent<any>> {
         const filterMap: any = {
             'surveyId': filter.surveyId,
-            'dateFrom': filter.fromDate.toISOString(),
-            'dateTo': filter.toDate.toISOString()
+            'dateFrom': toStudyWallClockParam(filter.fromDate),
+            'dateTo': toStudyWallClockParam(filter.toDate)
         };
 
         if (filter.respondentId) {

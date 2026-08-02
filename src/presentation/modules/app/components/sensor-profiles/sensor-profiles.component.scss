@@ -1,0 +1,145 @@
+.container {
+  padding: 24px;
+  max-width: 960px;
+}
+
+.hint {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.settings-panel {
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.setting-title {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.create-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.wide-field {
+  width: 100%;
+}
+
+.adapter-boundary {
+  padding: 12px;
+  border-left: 4px solid #3f51b5;
+  background: rgba(63, 81, 181, 0.06);
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.file-button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 16px;
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 4px;
+  font-size: 14px;
+
+  input[type='file'] {
+    display: none;
+  }
+}
+
+.profile-metadata {
+  margin-bottom: 12px;
+}
+
+.json-editor {
+  width: 100%;
+  font-family: monospace;
+}
+
+.syntax-error {
+  color: #f44336;
+  font-size: 0.75rem;
+  margin: -12px 0 12px;
+}
+
+.profile-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 0.875rem;
+
+  span {
+    background: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
+
+.validation-results {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.validation-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin: 4px 0;
+}
+
+.vector-result {
+  padding: 6px;
+  border-left: 3px solid #f44336;
+  margin: 4px 0;
+  font-size: 0.875rem;
+
+  &.passed {
+    border-color: #4caf50;
+  }
+
+  pre {
+    font-size: 0.75rem;
+    margin: 4px 0;
+  }
+}
+
+.revision-history {
+  margin-top: 16px;
+}
+
+.revision-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 0.875rem;
+}

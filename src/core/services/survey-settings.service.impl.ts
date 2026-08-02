@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import {
   DEFAULT_SURVEY_SETTINGS,
+  SurveySensorDataSettings,
   SurveySettings,
 } from '../../domain/models/survey-settings';
 import { SurveySettingsService } from '../../domain/external_services/survey-settings.service';
@@ -42,5 +43,29 @@ export class SurveySettingsServiceImpl
     return this.put('/api/surveysettings', settings).pipe(
       tap((updated: SurveySettings) => this.cachedSettings$.next(updated))
     );
+  }
+
+  uploadLogo(file: File): Observable<SurveySettings> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.post<SurveySettings>('/api/surveysettings/logo', formData).pipe(
+      tap((updated) => this.cachedSettings$.next(updated))
+    );
+  }
+
+  deleteLogo(): Observable<SurveySettings> {
+    return this.delete<SurveySettings>('/api/surveysettings/logo').pipe(
+      tap((updated) => this.cachedSettings$.next(updated))
+    );
+  }
+
+  getSensorDataSettings(): Observable<SurveySensorDataSettings> {
+    return this.get<SurveySensorDataSettings>('/api/surveysettings/sensordata');
+  }
+
+  updateSensorDataSettings(
+    settings: SurveySensorDataSettings
+  ): Observable<SurveySensorDataSettings> {
+    return this.put('/api/surveysettings/sensordata', settings);
   }
 }

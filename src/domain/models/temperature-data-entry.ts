@@ -1,6 +1,11 @@
-export interface TemperatureDataEntry{
-    respondentId: string,
-    dateTime: string,
-    temperature: number
-    humidity: number
+export interface SensorDataValue {
+    parameterCode: string;
+    value: string;
+}
+
+export interface TemperatureDataEntry {
+    respondentId: string;
+    dateTime: string;
+    source: string;
+    values: SensorDataValue[];
 }

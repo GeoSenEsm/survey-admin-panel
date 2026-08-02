@@ -7,6 +7,7 @@ Aby przejść do modułu `Konfiguracja`, wybierz odpowiednią zakładkę w boczn
 W module `Konfiguracja` możesz skonfigurować następujące elementy systemu:
 
 1. Obszar badania
+2. Ankieta początkowa
 
 ## Obszar badania
 

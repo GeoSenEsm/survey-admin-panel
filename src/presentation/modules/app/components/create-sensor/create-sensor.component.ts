@@ -10,8 +10,10 @@ import { SensorsService } from '../../../../../domain/external_services/sensors.
 import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, finalize, of } from 'rxjs';
+import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
 import { macPattern, notIn } from '../../../../../core/utils/validators';
+import { SENSOR_PROFILE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 
 interface CreateSensorComponentDialogParameter {
   allSensors: SensorDto[];
@@ -32,6 +34,8 @@ export class CreateSensorComponent implements OnInit {
     private readonly matDialogRef: MatDialogRef<CreateSensorComponent>,
     @Inject(SENSORS_SERVICE_TOKEN)
     private readonly sensorsService: SensorsService,
+    @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
+    private readonly sensorProfileService: SensorProfileService,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA)
@@ -48,7 +52,14 @@ export class CreateSensorComponent implements OnInit {
         macPattern(),
       ]),
       sensorTypeId: new FormControl('', [Validators.required]),
+      bindKey: new FormControl('', [
+        Validators.pattern(/^[0-9a-fA-F]{32}$/),
+      ]),
     });
+
+    this.formGroup
+      .get('sensorTypeId')
+      ?.valueChanges.subscribe(() => this.syncBindKeyAvailability());
   }
 
   ngOnInit(): void {
@@ -61,7 +72,34 @@ export class CreateSensorComponent implements OnInit {
         if (xiaomi && !this.formGroup.get('sensorTypeId')?.value) {
           this.formGroup.get('sensorTypeId')?.setValue(xiaomi.id);
         }
+        this.syncBindKeyAvailability();
       });
+  }
+
+  get selectedSensorType(): SensorTypeDto | undefined {
+    const sensorTypeId = this.formGroup.get('sensorTypeId')?.value;
+    return this.sensorTypes.find((t) => t.id === sensorTypeId);
+  }
+
+  get bindKeyRequired(): boolean {
+    return this.selectedSensorType?.requiredSecrets?.includes('bind_key') === true;
+  }
+
+  private syncBindKeyAvailability(): void {
+    const bindKey = this.formGroup.get('bindKey');
+    if (!bindKey) {
+      return;
+    }
+    if (this.bindKeyRequired) {
+      bindKey.setValidators([
+        Validators.required,
+        Validators.pattern(/^[0-9a-fA-F]{32}$/),
+      ]);
+    } else {
+      bindKey.setValue('');
+      bindKey.setValidators([Validators.pattern(/^[0-9a-fA-F]{32}$/)]);
+    }
+    bindKey.updateValueAndValidity();
   }
 
   public close(): void {
@@ -74,10 +112,34 @@ export class CreateSensorComponent implements OnInit {
     }
 
     this.isBusy = true;
-    const model = this.formGroup.value as CreateSensorDto;
+    const formValue = this.formGroup.value as CreateSensorDto & {
+      bindKey?: string;
+    };
+    const model: CreateSensorDto = {
+      sensorId: formValue.sensorId,
+      sensorMac: formValue.sensorMac,
+      sensorTypeId: formValue.sensorTypeId,
+    };
     this.sensorsService
       .addSensors([model])
-      .pipe(finalize(() => (this.isBusy = false)))
+      .pipe(
+        switchMap((createdSensors) => {
+          const createdSensor = createdSensors[0];
+          return formValue.bindKey && createdSensor
+            ? this.sensorProfileService
+                .putDeviceSecret(createdSensor.id, 'bind_key', formValue.bindKey)
+                .pipe(
+                  catchError((error) =>
+                    this.sensorsService.deleteSensor(createdSensor.sensorId).pipe(
+                      catchError(() => of(undefined)),
+                      switchMap(() => throwError(() => error))
+                    )
+                  )
+                )
+            : of(undefined);
+        }),
+        finalize(() => (this.isBusy = false))
+      )
       .subscribe({
         next: () => {
           this.data.refreshCallback();
@@ -107,6 +169,9 @@ export class CreateSensorComponent implements OnInit {
     }
 
     if (control.hasError('pattern')) {
+      if (controlName === 'bindKey') {
+        return 'sensorDevices.bindKeyFormat';
+      }
       return 'sensorDevices.notValidMacAddress';
     }
 

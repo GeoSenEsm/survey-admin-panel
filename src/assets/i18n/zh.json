@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "男",
     "female": "女"
@@ -16,9 +16,9 @@
       "invalidUsername": "用户名或密码无效",
       "invalidPassword": "用户名或密码无效",
       "passwordRequiredError": "密码为必填项。",
-      "passwordMinLenError": "密码不能超过 {{maxLen}} 个字符。",
       "welcome": "欢迎使用 GeoSenEsm 管理面板！",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "支持地理位置与传感器数据的 ESM",
+      "passwordMaxLenError": "密码不能超过 {{maxLen}} 个字符。"
     },
     "dashboard": {
       "respondentList": "受访者列表",
@@ -34,6 +34,7 @@
       "changeAdminPassword": "修改密码",
       "userGuide": "用户指南",
       "sensorDevices": "传感器设备",
+      "sensorProfiles": "传感器配置文件",
       "someElementsNeedRefreshing": "部分元素需要刷新页面后才能应用语言更改。",
       "ok": "确定",
       "contactPhoneNumbers": "联系电话",
@@ -99,7 +100,8 @@
       "surveyResponses": "问卷回答",
       "cannotEditRespondentData": "初始问卷发布前，无法编辑受访者数据。",
       "surveyStartDate": "问卷开始",
-      "surveyEndDate": "问卷结束"
+      "surveyEndDate": "问卷结束",
+      "timeZone": "时区"
     },
     "edit": {
       "title": "编辑受访者数据",
@@ -143,7 +145,7 @@
       "newPassword": "新密码",
       "confirmNewPassword": "确认新密码",
       "saveConfirmationDialogInformation": "确定要保存新密码吗？",
-      "saveConfirmationInput": "save",
+      "saveConfirmationInput": "保存",
       "save": "保存",
       "cancel": "取消",
       "fieldIsRequired": "此字段为必填项",
@@ -264,7 +266,7 @@
       "delete": "删除",
       "selectTimeSlotsToDeleteFirst": "请先从日历中选择至少一个要删除的时间段",
       "deletingConfirmationText": "确定要删除所选时间段吗？",
-      "deletingConfirmationInput": "delete",
+      "deletingConfirmationInput": "删除",
       "couldNotDeleteSendingPolicies": "删除问卷发送策略失败",
       "notificationsTitle": "手机通知",
       "notificationsHint": "为每个时间段配置手机收到的通知数量，以及相对于开始或结束的触发时间。默认：开始时，以及结束前 15 分钟。",
@@ -305,9 +307,9 @@
     "ok": "确定",
     "successfullyPublishedSurvey": "问卷已成功发布。",
     "publishInformationText": "确定要发布该问卷吗？发布后将无法再编辑。",
-    "publishConfirmationInput": "publish",
+    "publishConfirmationInput": "发布",
     "deleteInformationText": "确定要删除该问卷吗？此操作无法撤销。",
-    "deleteConfirmationInput": "delete",
+    "deleteConfirmationInput": "删除",
     "undoChanges": "撤销更改"
   },
   "summary": {
@@ -346,8 +348,8 @@
       "latitude": "纬度",
       "accuracyMeters": "精度（米）",
       "outsideResearchArea": "研究区域外",
-      "temperature": "温度（°C）",
-      "humidity": "湿度（%）"
+      "sensorSource": "传感器来源",
+      "sensorValues": "传感器读数"
     }
   },
   "startSurvey": {
@@ -361,7 +363,7 @@
     "saveNewQuestions": "保存新问题",
     "deleteQuestion": "删除问题",
     "saveInformationText": "如果系统中已添加受访者，他们不会自动分配到相应组。需要手动完成此操作。",
-    "saveConfirmationInput": "save",
+    "saveConfirmationInput": "保存",
     "questionCannotBeEmpty": "问题不能为空",
     "questionAlreadyExists": "问题不能重复",
     "optionCannotBeEmpty": "选项不能为空",
@@ -377,7 +379,7 @@
     "publishedSuccesfully": "发布成功。",
     "publish": "发布",
     "publishInformationText": "确定要发布该问卷吗？发布后将无法再编辑。",
-    "publishConfirmationInput": "publish",
+    "publishConfirmationInput": "发布",
     "surveyAlreadyPublished": "问卷已发布。"
   },
   "shared": {
@@ -399,10 +401,10 @@
     "gridExportFilename": "temperatures.csv",
     "respondentId": "受访者 ID",
     "dateTime": "日期和时间",
-    "temperature": "温度（°C）",
+    "source": "来源",
+    "values": "读数",
     "nothingToDisplay": "没有数据可显示。请尝试更改筛选条件。",
-    "loadingError": "加载数据时发生错误。请稍后再试。",
-    "humidity": "湿度（%）"
+    "loadingError": "加载数据时发生错误。请稍后再试。"
   },
   "map": {
     "survey": "问卷",
@@ -481,6 +483,57 @@
     "saved": "设置已保存。",
     "loadError": "无法加载问卷设置。",
     "saveError": "无法保存问卷设置。",
+    "logoTitle": "研究标志",
+    "logoHint": "显示在移动应用受访者主屏幕的顶部。支持 JPG 或 PNG 格式。",
+    "uploadLogo": "上传标志",
+    "removeLogo": "移除标志",
+    "removeLogoConfirm": "移除研究标志吗？",
+    "logoUploaded": "标志已上传。",
+    "logoRemoved": "标志已移除。",
+    "logoUploadError": "无法上传标志。",
+    "logoRemoveError": "无法移除标志。",
+    "tabs": {
+      "general": "常规",
+      "sensorData": "传感器数据设置"
+    },
+    "sensorData": {
+      "loadError": "无法加载传感器数据设置。",
+      "saveError": "无法保存传感器数据设置。",
+      "duplicateNameUnit": "两个参数不能使用相同的名称和单位。单位不同的参数属于不同的参数——请为其中一个指定不同的名称、单位或代码。",
+      "modeTitle": "传感器数据采集",
+      "modeHint": "选择调查是否收集传感器数据，以及哪些数据源可以提供已配置的参数。",
+      "mode": "模式",
+      "noSensorData": "无传感器数据",
+      "configuredSensors": "使用已配置的传感器",
+      "activeSensors": "活动传感器数据源",
+      "timeoutSeconds": "超时时间(秒)",
+      "parameters": "传感器数据列",
+      "parametersHint": "定义从传感器采集或手动输入的参数列。",
+      "addParameter": "添加参数",
+      "removeParameter": "删除",
+      "parameterCode": "代码",
+      "parameterName": "名称",
+      "dataType": "数据类型",
+      "unit": "单位",
+      "required": "必填",
+      "active": "启用",
+      "sources": "数据源",
+      "assignments": "当前受访者分配",
+      "assignmentsHint": "分配变更将通过标准的调查传感器设置 API 保存。",
+      "priority": "优先级",
+      "save": "保存传感器设置",
+      "integrationModes": {
+        "profile": "通用 BLE 配置文件",
+        "native": "已编译的移动适配器",
+        "manual": "手动输入",
+        "none": "无传感器集成"
+      }
+    },
+    "sensorProfiles": {
+      "title": "传感器集成配置文件",
+      "hint": "管理 GATT 序列和 BLE 广播配置文件，并识别需要编译适配器的传感器类型。",
+      "openLink": "打开传感器配置文件"
+    },
     "ok": "确定"
   },
   "changeAdminPassword": {
@@ -504,6 +557,12 @@
     "import": "导入",
     "sensorId": "ID",
     "sensorMac": "MAC 地址",
+    "bindKey": "设备绑定密钥",
+    "bindKeyCreateHint": "此传感器类型需要一个 32 位十六进制密钥。该密钥仅发送一次，之后不会再显示。",
+    "bindKeyEditHint": "留空以保留现有密钥。输入新的 32 位十六进制密钥以替换它。",
+    "bindKeyConfigured": "已配置绑定密钥",
+    "bindKeyNotConfigured": "未配置绑定密钥",
+    "bindKeyFormat": "绑定密钥必须恰好包含 32 个十六进制字符。",
     "update": "更新",
     "delete": "删除",
     "success": "成功",
@@ -722,6 +781,74 @@
       "loadFailed": "无法加载受访者。",
       "saveFailed": "无法保存问卷日期。",
       "endBeforeStart": "结束日期不能早于开始日期。"
+    }
+  },
+  "sensorProfiles": {
+    "title": "传感器集成配置文件",
+    "hint": "管理 GATT 序列和 BLE 广播配置文件，并识别需要编译适配器的传感器类型。",
+    "ok": "确定",
+    "loadError": "无法加载传感器配置文件设置。",
+    "capabilitiesLoadError": "无法加载传感器配置文件引擎的功能。",
+    "newCode": "传感器类型代码",
+    "newName": "传感器类型名称",
+    "integrationMode": "集成模式",
+    "adapterKey": "编译适配器密钥",
+    "noAdapterKeysAvailable": "此版本中未注册任何已编译的适配器。",
+    "createSensorType": "创建传感器类型",
+    "createTitle": "新传感器类型",
+    "sensorType": "传感器类型",
+    "invalidSensorType": "请输入小写代码(字母、数字、下划线)和名称。原生集成需要适配器密钥。",
+    "sensorTypeCreated": "传感器类型已创建。",
+    "sensorTypeCreateError": "无法创建传感器类型。",
+    "codedAdapterTitle": "编译适配器",
+    "codedAdapterExplanation": "此传感器类型使用编译到移动应用中的适配器 {{key}}。",
+    "noProfileForMode": "模式 {{mode}} 不使用 GATT 配置文件。",
+    "gattProfileTitle": "GATT 配置文件规范",
+    "gattProfileBoundary": "JSON 必须符合 GATT 配置文件架构。发布前请先验证。",
+    "import": "导入 JSON",
+    "format": "格式化",
+    "minimumEngineVersion": "最低引擎版本",
+    "profileJson": "配置文件 JSON",
+    "syntaxError": "语法错误：{{error}}",
+    "summary": "摘要：",
+    "summaryTransport": "传输：{{transport}}",
+    "summaryDiscovery": "发现：{{count}}",
+    "summaryOperations": "读取：{{reads}}，写入：{{writes}}，延迟：{{delays}}，通知：{{notifications}}，指示：{{indications}}",
+    "summaryParsers": "解析器：{{count}}",
+    "summaryDecoder": "解码器：{{decoder}}",
+    "summaryMappings": "对象映射：{{count}}",
+    "summaryVectors": "黄金向量：{{count}}",
+    "validationPassed": "验证通过。",
+    "validationFailed": "验证失败。",
+    "vectorPassed": "通过",
+    "vectorFailed": "失败",
+    "validate": "验证",
+    "saveDraft": "保存草稿",
+    "publish": "发布",
+    "publishConfirm": "发布此配置文件版本？",
+    "published": "配置文件已发布。",
+    "rollback": "恢复",
+    "rollbackConfirm": "恢复版本 {{revision}}？",
+    "rolledBack": "配置文件已恢复。",
+    "draftSaved": "草稿已保存。",
+    "saveError": "无法保存草稿。",
+    "validationError": "无法验证配置文件。",
+    "revisionLoadError": "无法加载配置文件版本。",
+    "revisionsLoadError": "无法加载版本列表。",
+    "lifecycleError": "配置文件生命周期操作失败。",
+    "importError": "无法读取文件。",
+    "revisionHistory": "版本历史",
+    "revision": "版本 {{revision}}",
+    "integrationModes": {
+      "profile": "GATT 配置文件引擎",
+      "native": "编译适配器",
+      "manual": "手动输入",
+      "none": "无传感器"
+    },
+    "status": {
+      "draft": "草稿",
+      "published": "已发布",
+      "archived": "已归档"
     }
   }
 }

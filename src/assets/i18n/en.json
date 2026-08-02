@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "male",
     "female": "female"
@@ -16,9 +16,9 @@
       "invalidUsername": "Username or password is invalid",
       "invalidPassword": "Username or password is invalid",
       "passwordRequiredError": "Password is required.",
-      "passwordMinLenError": "Password cannot be longer than {{maxLen}} characters.",
       "welcome": "Welcome to the GeoSenEsm admin panel!",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "Geolocation and sensor data supported ESM",
+      "passwordMaxLenError": "Password cannot be longer than {{maxLen}} characters."
     },
     "dashboard": {
       "respondentList": "Respondent list",
@@ -34,6 +34,7 @@
       "changeAdminPassword": "Change password",
       "userGuide": "User guide",
       "sensorDevices": "Sensor devices",
+      "sensorProfiles": "Sensor profiles",
       "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
       "ok": "OK",
       "contactPhoneNumbers": "Contact numbers",
@@ -86,6 +87,7 @@
       "usernameColumnHeader": "Username",
       "surveyStartDate": "Survey start",
       "surveyEndDate": "Survey end",
+      "timeZone": "Timezone",
       "refresh": "Refresh",
       "applyFilters": "Apply filters",
       "nothingToDisplay": "Nothing to display",
@@ -346,8 +348,8 @@
       "latitude": "Latitude",
       "accuracyMeters": "Accuracy (m)",
       "outsideResearchArea": "Outside Research Area",
-      "temperature": "Temperature (°C)",
-      "humidity": "Humidity (%)"
+      "sensorSource": "Sensor source",
+      "sensorValues": "Sensor readings"
     }
   },
   "startSurvey": {
@@ -399,10 +401,10 @@
     "gridExportFilename": "temperatures.csv",
     "respondentId": "Respondent ID",
     "dateTime": "Date and time",
-    "temperature": "Temperature (°C)",
+    "source": "Source",
+    "values": "Readings",
     "nothingToDisplay": "No data to display. Try changing filters.",
-    "loadingError": "An error occured when loading the data. Please try again later.",
-    "humidity": "Humidity (%)"
+    "loadingError": "An error occured when loading the data. Please try again later."
   },
   "map": {
     "survey": "Survey",
@@ -481,6 +483,57 @@
     "saved": "Settings saved.",
     "loadError": "Could not load survey settings.",
     "saveError": "Could not save survey settings.",
+    "logoTitle": "Study logo",
+    "logoHint": "Shown at the top of the mobile app's home screen for respondents. Accepts JPG or PNG.",
+    "uploadLogo": "Upload logo",
+    "removeLogo": "Remove logo",
+    "removeLogoConfirm": "Remove the study logo?",
+    "logoUploaded": "Logo uploaded.",
+    "logoRemoved": "Logo removed.",
+    "logoUploadError": "Could not upload the logo.",
+    "logoRemoveError": "Could not remove the logo.",
+    "tabs": {
+      "general": "General",
+      "sensorData": "Sensor data settings"
+    },
+    "sensorData": {
+      "loadError": "Could not load sensor data settings.",
+      "saveError": "Could not save sensor data settings.",
+      "duplicateNameUnit": "Two parameters cannot share the same name and unit. Parameters with different units are different parameters — give one a different name, unit, or code.",
+      "modeTitle": "Sensor data collection",
+      "modeHint": "Choose whether surveys collect sensor data and which sources can provide configured parameters.",
+      "mode": "Mode",
+      "noSensorData": "No sensor data",
+      "configuredSensors": "Use configured sensors",
+      "activeSensors": "Active sensor sources",
+      "timeoutSeconds": "Timeout (seconds)",
+      "parameters": "Sensor data columns",
+      "parametersHint": "Define the parameter columns collected from sensors or manual entry.",
+      "addParameter": "Add parameter",
+      "removeParameter": "Remove",
+      "parameterCode": "Code",
+      "parameterName": "Name",
+      "dataType": "Data type",
+      "unit": "Unit",
+      "required": "Required",
+      "active": "Active",
+      "sources": "Sources",
+      "assignments": "Current respondent assignments",
+      "assignmentsHint": "Assignment changes are saved through the canonical survey sensor settings API.",
+      "priority": "Priority",
+      "save": "Save sensor settings",
+      "integrationModes": {
+        "profile": "Generic BLE profile",
+        "native": "Compiled mobile adapter",
+        "manual": "Manual entry",
+        "none": "No sensor integration"
+      }
+    },
+    "sensorProfiles": {
+      "title": "Sensor integration profiles",
+      "hint": "Manage bounded GATT sequences and BLE advertisement profiles, and identify sensor types that require a compiled mobile adapter.",
+      "openLink": "Open sensor profiles"
+    },
     "ok": "OK"
   },
   "changeAdminPassword": {
@@ -504,6 +557,12 @@
     "import": "Import",
     "sensorId": "ID",
     "sensorMac": "MAC Address",
+    "bindKey": "Device bind key",
+    "bindKeyCreateHint": "Required 32-character hexadecimal key for this sensor type. It is sent once and is never displayed again.",
+    "bindKeyEditHint": "Leave blank to keep the existing key. Enter a new 32-character hexadecimal key to replace it.",
+    "bindKeyConfigured": "Bind key configured",
+    "bindKeyNotConfigured": "Bind key not configured",
+    "bindKeyFormat": "The bind key must contain exactly 32 hexadecimal characters.",
     "update": "Update",
     "delete": "Delete",
     "success": "Success",
@@ -723,5 +782,73 @@
     "editDialogTitle": "Edit contact",
     "editedSuccessfuly": "Contact has been successfully updated",
     "editingFailed": "Updating the contact failed. Please try again later"
+  },
+  "sensorProfiles": {
+    "title": "Sensor integration profiles",
+    "hint": "Manage bounded GATT sequences and BLE advertisement profiles, and identify sensor types that require a compiled mobile adapter.",
+    "ok": "OK",
+    "loadError": "Could not load sensor profile settings.",
+    "capabilitiesLoadError": "Could not load sensor profile engine capabilities.",
+    "newCode": "Sensor type code",
+    "newName": "Sensor type name",
+    "integrationMode": "Integration mode",
+    "adapterKey": "Compiled adapter key",
+    "noAdapterKeysAvailable": "No compiled adapters are registered in this build.",
+    "createSensorType": "Create sensor type",
+    "createTitle": "New sensor type",
+    "sensorType": "Sensor type",
+    "invalidSensorType": "Enter a lowercase code (letters, numbers, underscores) and a name. Native integrations require an adapter key.",
+    "sensorTypeCreated": "Sensor type created.",
+    "sensorTypeCreateError": "Could not create sensor type.",
+    "codedAdapterTitle": "Compiled adapter",
+    "codedAdapterExplanation": "This sensor type uses adapter {{key}} compiled into the mobile app.",
+    "noProfileForMode": "No GATT profile is used for mode {{mode}}.",
+    "gattProfileTitle": "GATT profile specification",
+    "gattProfileBoundary": "The JSON spec must match the GATT profile schema. Use Validate before publishing.",
+    "import": "Import JSON",
+    "format": "Format",
+    "minimumEngineVersion": "Minimum engine version",
+    "profileJson": "Profile JSON",
+    "syntaxError": "Syntax error: {{error}}",
+    "summary": "Summary:",
+    "summaryTransport": "transport: {{transport}}",
+    "summaryDiscovery": "discovery: {{count}}",
+    "summaryOperations": "reads: {{reads}}, writes: {{writes}}, delays: {{delays}}, notifications: {{notifications}}, indications: {{indications}}",
+    "summaryParsers": "parsers: {{count}}",
+    "summaryDecoder": "decoder: {{decoder}}",
+    "summaryMappings": "object mappings: {{count}}",
+    "summaryVectors": "golden vectors: {{count}}",
+    "validationPassed": "Validation passed.",
+    "validationFailed": "Validation failed.",
+    "vectorPassed": "PASS",
+    "vectorFailed": "FAIL",
+    "validate": "Validate",
+    "saveDraft": "Save draft",
+    "publish": "Publish",
+    "publishConfirm": "Publish this profile revision? Respondent devices will receive it on next sync.",
+    "published": "Profile published.",
+    "rollback": "Restore",
+    "rollbackConfirm": "Restore revision {{revision}} as the active profile?",
+    "rolledBack": "Profile restored.",
+    "draftSaved": "Draft saved.",
+    "saveError": "Could not save draft.",
+    "validationError": "Could not validate profile.",
+    "revisionLoadError": "Could not load profile revision.",
+    "revisionsLoadError": "Could not load revision list.",
+    "lifecycleError": "Could not complete profile lifecycle operation.",
+    "importError": "Could not read the file.",
+    "revisionHistory": "Revision history",
+    "revision": "Revision {{revision}}",
+    "integrationModes": {
+      "profile": "GATT profile engine",
+      "native": "Compiled adapter",
+      "manual": "Manual entry",
+      "none": "No sensor"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived"
+    }
   }
 }

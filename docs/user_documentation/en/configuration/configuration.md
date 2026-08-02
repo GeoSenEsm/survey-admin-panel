@@ -7,6 +7,7 @@ To access the `Configuration` module, select the appropriate tab in the left-sid
 In the `Configuration` module, you can configure the following system elements:
 
 1. The research area
+2. The initial survey
 
 ## Research Area
 

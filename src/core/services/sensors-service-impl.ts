@@ -28,7 +28,7 @@ export class SensorsServiceImpl extends ApiService implements SensorsService {
     return this.get('/api/sensormac/types');
   }
 
-  addSensors(sensors: CreateSensorDto[]): Observable<any> {
+  addSensors(sensors: CreateSensorDto[]): Observable<SensorDto[]> {
     return this.post('/api/sensormac', sensors);
   }
   updateSensor(id: string, sensor: UpdateSensorDto): Observable<any> {
