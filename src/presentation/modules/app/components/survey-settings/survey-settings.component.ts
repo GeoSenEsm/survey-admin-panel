@@ -26,6 +26,8 @@ import { StartSurveyService } from '../../../../../domain/external_services/star
   styleUrl: './survey-settings.component.scss',
 })
 export class SurveySettingsComponent implements OnInit, OnDestroy {
+  private static readonly MAX_LOGO_FILE_SIZE_BYTES = 1024 * 1024;
+
   readonly columnSeparatorOptions = CSV_COLUMN_SEPARATOR_OPTIONS;
   readonly decimalSeparatorOptions = CSV_DECIMAL_SEPARATOR_OPTIONS;
   readonly dataTypeOptions = SENSOR_PARAMETER_DATA_TYPE_OPTIONS;
@@ -262,6 +264,10 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   onLogoSelected(fileList: FileList | null): void {
     const file = fileList?.item(0);
     if (!file || this.isLogoBusy) {
+      return;
+    }
+    if (file.size > SurveySettingsComponent.MAX_LOGO_FILE_SIZE_BYTES) {
+      this.showError('surveySettings.logoTooLarge');
       return;
     }
     this.setLocalLogoPreview(file);

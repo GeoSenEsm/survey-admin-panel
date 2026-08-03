@@ -1,0 +1,94 @@
+<div class="container">
+  <header class="page-header">
+    <h3>{{ "integrations.title" | translate }}</h3>
+    <p class="hint">{{ "integrations.hint" | translate }}</p>
+  </header>
+
+  <div class="locked-notice" *ngIf="sensorDataSetupLocked">
+    {{ "integrations.locked" | translate }}
+  </div>
+
+  <p class="section-hint">{{ "integrations.activeSensorsHint" | translate }}</p>
+
+  <div class="busy" *ngIf="isBusy && !loaded">
+    <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <p class="empty" *ngIf="loaded && !selectableSensorTypes.length">
+    {{ "integrations.empty" | translate }}
+  </p>
+
+  <div class="sensor-grid" *ngIf="selectableSensorTypes.length">
+    <article
+      class="sensor-card"
+      *ngFor="let sensorType of selectableSensorTypes"
+      [class.enabled]="sensorType.enabled"
+      [class.disabled-card]="!sensorType.enabled"
+    >
+      <div class="sensor-image-wrap">
+        <img
+          class="sensor-image"
+          [src]="sensorImage(sensorType.sensorTypeCode)"
+          [alt]="sensorType.sensorTypeName || sensorType.sensorTypeCode"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="sensor-card-header">
+        <mat-slide-toggle
+          color="primary"
+          [checked]="sensorType.enabled"
+          [disabled]="isBusy || sensorDataSetupLocked"
+          (change)="onSensorTypeEnabledChange(sensorType, $event.checked)"
+        >
+          <span class="sensor-name">
+            {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
+          </span>
+        </mat-slide-toggle>
+        <span class="status-chip" [class.on]="sensorType.enabled">
+          {{
+            (sensorType.enabled ? "integrations.statusOn" : "integrations.statusOff")
+              | translate
+          }}
+        </span>
+      </div>
+
+      <div class="sensor-meta">
+        <span class="meta-label">
+          {{ integrationModeLabel(sensorType.integrationMode) | translate }}
+        </span>
+        <span class="meta-code" *ngIf="sensorType.integrationMode === 'native'">
+          {{ sensorType.adapterKey }}
+        </span>
+        <span class="meta-code">{{ sensorType.sensorTypeCode }}</span>
+      </div>
+
+      <mat-form-field appearance="outline" class="timeout-field">
+        <mat-label>{{ "integrations.timeoutSeconds" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          [(ngModel)]="sensorType.connectionTimeoutSeconds"
+          [disabled]="isBusy || sensorDataSetupLocked || !sensorType.enabled"
+        />
+      </mat-form-field>
+    </article>
+  </div>
+
+  <div class="actions" *ngIf="loaded">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="isBusy || !selectableSensorTypes.length || sensorDataSetupLocked"
+      (click)="save()"
+    >
+      {{ "integrations.save" | translate }}
+    </button>
+    <mat-progress-spinner
+      *ngIf="isBusy && loaded"
+      diameter="28"
+      mode="indeterminate"
+    ></mat-progress-spinner>
+  </div>
+</div>
