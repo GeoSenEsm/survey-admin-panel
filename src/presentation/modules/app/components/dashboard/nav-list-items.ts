@@ -42,6 +42,32 @@ export function getNavListItems(): NavEntry[] {
           matIcon: 'list',
           link: 'startSurvey',
         },
+        {
+          display: 'app.dashboard.sensorProfiles',
+          matIcon: 'schema',
+          link: 'sensorProfiles',
+        },
+        {
+          display: 'app.dashboard.integrations',
+          matIcon: 'extension',
+          link: 'integrations',
+        },
+      ],
+    },
+    {
+      display: 'app.dashboard.navCategory.surveys',
+      matIcon: 'content_paste',
+      children: [
+        {
+          display: 'app.dashboard.surveys',
+          matIcon: 'content_paste',
+          link: 'surveys',
+        },
+        {
+          display: 'app.dashboard.createSurvey',
+          matIcon: 'add_box',
+          link: 'surveys/new',
+        },
       ],
     },
     {
@@ -61,27 +87,6 @@ export function getNavListItems(): NavEntry[] {
       ],
     },
     {
-      display: 'app.dashboard.navCategory.statistics',
-      matIcon: 'insights',
-      children: [
-        {
-          display: 'app.dashboard.dailyCompletion',
-          matIcon: 'view_module',
-          link: 'dailyCompletion',
-        },
-        {
-          display: 'app.dashboard.issues',
-          matIcon: 'report_problem',
-          link: 'issues',
-        },
-        {
-          display: 'app.dashboard.statistics',
-          matIcon: 'insights',
-          link: 'statistics',
-        },
-      ],
-    },
-    {
       display: 'app.dashboard.navCategory.sensors',
       matIcon: 'device_thermostat',
       children: [
@@ -94,11 +99,6 @@ export function getNavListItems(): NavEntry[] {
           display: 'app.dashboard.sensorDevices',
           matIcon: 'bluetooth',
           link: 'sensorDevices',
-        },
-        {
-          display: 'app.dashboard.sensorProfiles',
-          matIcon: 'schema',
-          link: 'sensorProfiles',
         },
       ],
     },
@@ -124,18 +124,23 @@ export function getNavListItems(): NavEntry[] {
       ],
     },
     {
-      display: 'app.dashboard.navCategory.surveys',
-      matIcon: 'content_paste',
+      display: 'app.dashboard.navCategory.statistics',
+      matIcon: 'insights',
       children: [
         {
-          display: 'app.dashboard.surveys',
-          matIcon: 'content_paste',
-          link: 'surveys',
+          display: 'app.dashboard.dailyCompletion',
+          matIcon: 'view_module',
+          link: 'dailyCompletion',
         },
         {
-          display: 'app.dashboard.createSurvey',
-          matIcon: 'add_box',
-          link: 'surveys/new',
+          display: 'app.dashboard.issues',
+          matIcon: 'report_problem',
+          link: 'issues',
+        },
+        {
+          display: 'app.dashboard.statistics',
+          matIcon: 'insights',
+          link: 'statistics',
         },
       ],
     },

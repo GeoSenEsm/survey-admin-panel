@@ -34,7 +34,8 @@
       "changeAdminPassword": "修改密码",
       "userGuide": "用户指南",
       "sensorDevices": "传感器设备",
-      "sensorProfiles": "传感器配置文件",
+      "sensorProfiles": "添加新传感器类型",
+      "integrations": "集成",
       "someElementsNeedRefreshing": "部分元素需要刷新页面后才能应用语言更改。",
       "ok": "确定",
       "contactPhoneNumbers": "联系电话",
@@ -497,6 +498,7 @@
       "sensorData": "传感器数据设置"
     },
     "sensorData": {
+      "locked": "由于初始调查已发布，传感器数据设置已锁定。研究现已开始，因此无法再更改模式、传感器类型和参数。下方的受访者分配仍可编辑。",
       "loadError": "无法加载传感器数据设置。",
       "saveError": "无法保存传感器数据设置。",
       "duplicateNameUnit": "两个参数不能使用相同的名称和单位。单位不同的参数属于不同的参数——请为其中一个指定不同的名称、单位或代码。",
@@ -505,8 +507,6 @@
       "mode": "模式",
       "noSensorData": "无传感器数据",
       "configuredSensors": "使用已配置的传感器",
-      "activeSensors": "活动传感器数据源",
-      "timeoutSeconds": "超时时间(秒)",
       "parameters": "传感器数据列",
       "parametersHint": "定义从传感器采集或手动输入的参数列。",
       "addParameter": "添加参数",
@@ -514,12 +514,19 @@
       "parameterCode": "代码",
       "parameterName": "名称",
       "dataType": "数据类型",
+      "dataTypes": {
+        "decimal": "小数",
+        "integer": "整数",
+        "boolean": "布尔值",
+        "text": "文本"
+      },
       "unit": "单位",
       "required": "必填",
       "active": "启用",
       "sources": "数据源",
       "assignments": "当前受访者分配",
-      "assignmentsHint": "分配变更将通过标准的调查传感器设置 API 保存。",
+      "assignmentsHint": "即使初始调查已发布，分配仍可编辑，因为受访者所使用的物理传感器会在研究进行期间不断变化。",
+      "saveAssignments": "保存分配",
       "priority": "优先级",
       "save": "保存传感器设置",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "手动输入",
         "none": "无传感器集成"
       }
-    },
-    "sensorProfiles": {
-      "title": "传感器集成配置文件",
-      "hint": "管理 GATT 序列和 BLE 广播配置文件，并识别需要编译适配器的传感器类型。",
-      "openLink": "打开传感器配置文件"
     },
     "ok": "确定"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "此字段必须唯一",
     "respondentUsername": "受访者",
     "sensorTypeName": "类型",
+    "sensorTypeHint": "此传感器所属的 BLE 设备型号。请在“添加新传感器类型”页面定义。",
+    "noSensorTypesAvailable": "尚无可用的传感器类型。请先在“添加新传感器类型”页面定义，然后再添加设备。",
+    "goToAddSensorType": "添加新传感器类型",
     "unassigned": "未分配",
     "selectRespondentHint": "输入用户名…",
     "clearRespondent": "清除受访者",
@@ -784,8 +789,9 @@
     }
   },
   "sensorProfiles": {
-    "title": "传感器集成配置文件",
-    "hint": "管理 GATT 序列和 BLE 广播配置文件，并识别需要编译适配器的传感器类型。",
+    "title": "添加新传感器类型",
+    "hint": "创建传感器类型，管理 GATT 序列和 BLE 广播配置文件，并识别需要编译适配器的类型。",
+    "locked": "由于初始调查已发布，无法再添加新传感器类型。研究现已开始，因此无法再更改传感器类型和配置文件。",
     "ok": "确定",
     "loadError": "无法加载传感器配置文件设置。",
     "capabilitiesLoadError": "无法加载传感器配置文件引擎的功能。",
@@ -850,5 +856,20 @@
       "published": "已发布",
       "archived": "已归档"
     }
+  },
+  "integrations": {
+    "title": "传感器集成",
+    "hint": "为本研究开启或关闭已安装的传感器集成。",
+    "locked": "由于初始调查已发布，无法更改传感器集成。研究现已开始，因此无法再更改活动数据源。",
+    "ok": "确定",
+    "activeSensorsHint": "启用本研究应使用的传感器集成。已禁用的集成对受访者隐藏，且不能作为参数来源。",
+    "empty": "暂无可用的传感器集成。请在“添加新传感器类型”中创建。",
+    "loadError": "无法加载传感器集成。",
+    "saveError": "无法保存传感器集成。",
+    "saved": "传感器集成已保存。",
+    "save": "保存",
+    "timeoutSeconds": "超时时间(秒)",
+    "statusOn": "开",
+    "statusOff": "关"
   }
 }

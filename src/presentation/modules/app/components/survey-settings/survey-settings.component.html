@@ -124,6 +124,10 @@
 
     <mat-tab label="{{ 'surveySettings.tabs.sensorData' | translate }}">
       <div class="tab-content">
+        <div class="locked-notice" *ngIf="sensorDataSetupLocked">
+          {{ "surveySettings.sensorData.locked" | translate }}
+        </div>
+
         <div class="settings-panel">
           <div class="setting-text">
             <div class="setting-title">
@@ -136,7 +140,7 @@
 
           <mat-form-field appearance="outline" class="wide-field">
             <mat-label>{{ "surveySettings.sensorData.mode" | translate }}</mat-label>
-            <mat-select [(ngModel)]="sensorSettings.mode" [disabled]="isSensorSettingsBusy">
+            <mat-select [(ngModel)]="sensorSettings.mode" [disabled]="isSensorSettingsBusy || sensorDataSetupLocked">
               <mat-option value="no_sensor_data">
                 {{ "surveySettings.sensorData.noSensorData" | translate }}
               </mat-option>
@@ -145,47 +149,6 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
-
-        <div
-          class="settings-panel"
-          *ngIf="sensorSettings.mode === 'configured_sensors'"
-        >
-          <div class="setting-title">
-            {{ "surveySettings.sensorData.activeSensors" | translate }}
-          </div>
-          <div class="sensor-type-grid">
-            <div class="sensor-type-card" *ngFor="let sensorType of sensorSettings.sensorTypes">
-              <mat-slide-toggle
-                color="primary"
-                [checked]="sensorType.enabled"
-                [disabled]="isSensorSettingsBusy"
-                (change)="onSensorTypeEnabledChange(sensorType, $event.checked)"
-              >
-                {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
-              </mat-slide-toggle>
-              <div class="integration-label">
-                {{
-                  integrationModeLabel(sensorType.integrationMode)
-                    | translate
-                }}
-                <span *ngIf="sensorType.integrationMode === 'native'">
-                  — {{ sensorType.adapterKey }}
-                </span>
-              </div>
-
-              <mat-form-field appearance="outline">
-                <mat-label>{{ "surveySettings.sensorData.timeoutSeconds" | translate }}</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  min="1"
-                  [(ngModel)]="sensorType.connectionTimeoutSeconds"
-                  [disabled]="isSensorSettingsBusy || !sensorType.enabled"
-                />
-              </mat-form-field>
-            </div>
-          </div>
         </div>
 
         <div
@@ -201,7 +164,12 @@
                 {{ "surveySettings.sensorData.parametersHint" | translate }}
               </div>
             </div>
-            <button mat-raised-button color="primary" (click)="addParameter()">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="sensorDataSetupLocked"
+              (click)="addParameter()"
+            >
               {{ "surveySettings.sensorData.addParameter" | translate }}
             </button>
           </div>
@@ -213,30 +181,39 @@
             <div class="parameter-fields">
               <mat-form-field appearance="outline">
                 <mat-label>{{ "surveySettings.sensorData.parameterCode" | translate }}</mat-label>
-                <input matInput [(ngModel)]="parameter.code" />
+                <input matInput [(ngModel)]="parameter.code" [disabled]="sensorDataSetupLocked" />
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>{{ "surveySettings.sensorData.parameterName" | translate }}</mat-label>
-                <input matInput [(ngModel)]="parameter.name" />
+                <input matInput [(ngModel)]="parameter.name" [disabled]="sensorDataSetupLocked" />
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>{{ "surveySettings.sensorData.dataType" | translate }}</mat-label>
-                <input matInput [(ngModel)]="parameter.dataType" />
+                <mat-select [(ngModel)]="parameter.dataType" [disabled]="sensorDataSetupLocked">
+                  <mat-option *ngFor="let option of dataTypeOptions" [value]="option.value">
+                    {{ option.labelKey | translate }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>{{ "surveySettings.sensorData.unit" | translate }}</mat-label>
-                <input matInput [(ngModel)]="parameter.unit" />
+                <input matInput [(ngModel)]="parameter.unit" [disabled]="sensorDataSetupLocked" />
               </mat-form-field>
             </div>
 
             <div class="setting-row">
-              <mat-slide-toggle color="primary" [(ngModel)]="parameter.required">
+              <mat-slide-toggle color="primary" [disabled]="sensorDataSetupLocked" [(ngModel)]="parameter.required">
                 {{ "surveySettings.sensorData.required" | translate }}
               </mat-slide-toggle>
-              <mat-slide-toggle color="primary" [(ngModel)]="parameter.active">
+              <mat-slide-toggle color="primary" [disabled]="sensorDataSetupLocked" [(ngModel)]="parameter.active">
                 {{ "surveySettings.sensorData.active" | translate }}
               </mat-slide-toggle>
-              <button mat-button color="warn" (click)="removeParameter(i)">
+              <button
+                mat-button
+                color="warn"
+                [disabled]="sensorDataSetupLocked"
+                (click)="removeParameter(i)"
+              >
                 {{ "surveySettings.sensorData.removeParameter" | translate }}
               </button>
             </div>
@@ -244,9 +221,9 @@
             <div class="source-row">
               <span>{{ "surveySettings.sensorData.sources" | translate }}</span>
               <mat-checkbox
-                *ngFor="let sensorType of sensorSettings.sensorTypes"
+                *ngFor="let sensorType of selectableSensorTypes"
                 [checked]="hasSource(parameter, sensorType.sensorTypeCode)"
-                [disabled]="!sensorType.enabled"
+                [disabled]="sensorDataSetupLocked"
                 (change)="toggleSource(parameter, sensorType.sensorTypeCode, $event.checked)"
               >
                 {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
@@ -255,18 +232,18 @@
           </div>
         </div>
 
-        <div class="settings-panel" *ngIf="sensorSettings.assignments.length">
+        <div class="settings-panel" *ngIf="activeAssignments.length">
           <div class="setting-title">
             {{ "surveySettings.sensorData.assignments" | translate }}
           </div>
-          <div class="assignment-row" *ngFor="let assignment of sensorSettings.assignments">
+          <div class="assignment-row" *ngFor="let assignment of activeAssignments">
             <span>{{ assignment.respondentUsername }}</span>
             <span>{{ assignment.sensorTypeName || assignment.sensorTypeCode }}</span>
             <span>{{ assignment.sensorId || "-" }}</span>
             <mat-slide-toggle
               color="primary"
               [(ngModel)]="assignment.enabled"
-              [disabled]="isSensorSettingsBusy"
+              [disabled]="isAssignmentsSaving"
             >
               {{ "surveySettings.sensorData.active" | translate }}
             </mat-slide-toggle>
@@ -279,32 +256,35 @@
                 type="number"
                 min="0"
                 [(ngModel)]="assignment.priorityOrder"
-                [disabled]="isSensorSettingsBusy"
+                [disabled]="isAssignmentsSaving"
               />
             </mat-form-field>
           </div>
           <div class="setting-hint">
             {{ "surveySettings.sensorData.assignmentsHint" | translate }}
           </div>
-        </div>
-
-        <div class="settings-panel profile-panel">
-          <div class="setting-title">
-            {{ "surveySettings.sensorProfiles.title" | translate }}
+          <div class="actions">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="isAssignmentsSaving"
+              (click)="saveAssignments()"
+            >
+              {{ "surveySettings.sensorData.saveAssignments" | translate }}
+            </button>
+            <mat-progress-spinner
+              *ngIf="isAssignmentsSaving"
+              diameter="36"
+              mode="indeterminate"
+            ></mat-progress-spinner>
           </div>
-          <div class="setting-hint">
-            {{ "surveySettings.sensorProfiles.hint" | translate }}
-          </div>
-          <a mat-stroked-button routerLink="/sensorProfiles">
-            {{ "surveySettings.sensorProfiles.openLink" | translate }}
-          </a>
         </div>
 
         <div class="actions">
           <button
             mat-raised-button
             color="primary"
-            [disabled]="isSensorSettingsBusy || !sensorSettingsLoaded"
+            [disabled]="isSensorSettingsBusy || !sensorSettingsLoaded || sensorDataSetupLocked"
             (click)="saveSensorDataSettings()"
           >
             {{ "surveySettings.sensorData.save" | translate }}

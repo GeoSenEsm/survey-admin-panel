@@ -2,20 +2,24 @@
   <h3>{{ "sensorProfiles.title" | translate }}</h3>
   <p class="hint">{{ "sensorProfiles.hint" | translate }}</p>
 
+  <div class="locked-notice" *ngIf="sensorDataSetupLocked">
+    {{ "sensorProfiles.locked" | translate }}
+  </div>
+
   <div class="settings-panel">
     <div class="setting-title">{{ "sensorProfiles.createTitle" | translate }}</div>
     <div class="create-grid">
       <mat-form-field appearance="outline">
         <mat-label>{{ "sensorProfiles.newCode" | translate }}</mat-label>
-        <input matInput [(ngModel)]="newCode" />
+        <input matInput [(ngModel)]="newCode" [disabled]="sensorDataSetupLocked" />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{ "sensorProfiles.newName" | translate }}</mat-label>
-        <input matInput [(ngModel)]="newName" />
+        <input matInput [(ngModel)]="newName" [disabled]="sensorDataSetupLocked" />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{ "sensorProfiles.integrationMode" | translate }}</mat-label>
-        <mat-select [(ngModel)]="newIntegrationMode">
+        <mat-select [(ngModel)]="newIntegrationMode" [disabled]="sensorDataSetupLocked">
           <mat-option *ngFor="let mode of integrationModes" [value]="mode">
             {{ integrationModeLabel(mode) | translate }}
           </mat-option>
@@ -23,7 +27,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline" *ngIf="newIntegrationMode === 'native'">
         <mat-label>{{ "sensorProfiles.adapterKey" | translate }}</mat-label>
-        <mat-select [(ngModel)]="newAdapterKey">
+        <mat-select [(ngModel)]="newAdapterKey" [disabled]="sensorDataSetupLocked">
           <mat-option *ngFor="let key of supportedAdapterKeys" [value]="key">
             {{ key }}
           </mat-option>
@@ -32,7 +36,7 @@
           {{ "sensorProfiles.noAdapterKeysAvailable" | translate }}
         </mat-hint>
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="isBusy" (click)="createSensorType()">
+      <button mat-raised-button color="primary" [disabled]="isBusy || sensorDataSetupLocked" (click)="createSensorType()">
         {{ "sensorProfiles.createSensorType" | translate }}
       </button>
     </div>
@@ -65,11 +69,11 @@
           <div class="hint">{{ "sensorProfiles.gattProfileBoundary" | translate }}</div>
         </div>
         <div class="editor-actions">
-          <label class="file-button" mat-stroked-button>
+          <label class="file-button" mat-stroked-button [class.disabled]="sensorDataSetupLocked">
             {{ "sensorProfiles.import" | translate }}
-            <input type="file" accept="application/json,.json" (change)="importProfile($any($event.target).files)" />
+            <input type="file" accept="application/json,.json" [disabled]="sensorDataSetupLocked" (change)="importProfile($any($event.target).files)" />
           </label>
-          <button mat-stroked-button (click)="formatProfileJson()">
+          <button mat-stroked-button [disabled]="sensorDataSetupLocked" (click)="formatProfileJson()">
             {{ "sensorProfiles.format" | translate }}
           </button>
         </div>
@@ -78,7 +82,7 @@
       <div class="profile-metadata">
         <mat-form-field appearance="outline">
           <mat-label>{{ "sensorProfiles.minimumEngineVersion" | translate }}</mat-label>
-          <input matInput [(ngModel)]="minimumEngineVersion" />
+          <input matInput [(ngModel)]="minimumEngineVersion" [disabled]="sensorDataSetupLocked" />
         </mat-form-field>
       </div>
 
@@ -89,7 +93,7 @@
           rows="20"
           [ngModel]="profileJson"
           (ngModelChange)="onProfileJsonChange($event)"
-          [readonly]="!!selectedRevision && selectedRevision.status !== 'draft'"
+          [readonly]="sensorDataSetupLocked || (!!selectedRevision && selectedRevision.status !== 'draft')"
           spellcheck="false"
         ></textarea>
       </mat-form-field>
@@ -133,16 +137,16 @@
       </div>
 
       <div class="editor-actions">
-        <button mat-stroked-button [disabled]="isBusy || !!profileSyntaxError" (click)="validateProfile()">
+        <button mat-stroked-button [disabled]="isBusy || sensorDataSetupLocked || !!profileSyntaxError" (click)="validateProfile()">
           {{ "sensorProfiles.validate" | translate }}
         </button>
         <button mat-raised-button color="primary"
-          [disabled]="isBusy || !!profileSyntaxError || (!!selectedRevision && selectedRevision.status !== 'draft')"
+          [disabled]="isBusy || sensorDataSetupLocked || !!profileSyntaxError || (!!selectedRevision && selectedRevision.status !== 'draft')"
           (click)="saveDraft()">
           {{ "sensorProfiles.saveDraft" | translate }}
         </button>
         <button mat-raised-button color="accent"
-          [disabled]="isBusy || selectedRevision?.status !== 'draft'"
+          [disabled]="isBusy || sensorDataSetupLocked || selectedRevision?.status !== 'draft'"
           (click)="publishDraft()">
           {{ "sensorProfiles.publish" | translate }}
         </button>
@@ -156,7 +160,7 @@
           </button>
           <span>{{ ('sensorProfiles.status.' + revision.status) | translate }}</span>
           <span>{{ revision.updatedAt | date:'medium' }}</span>
-          <button mat-stroked-button *ngIf="revision.status === 'archived'" (click)="rollbackTo(revision)">
+          <button mat-stroked-button *ngIf="revision.status === 'archived'" [disabled]="sensorDataSetupLocked" (click)="rollbackTo(revision)">
             {{ "sensorProfiles.rollback" | translate }}
           </button>
         </div>

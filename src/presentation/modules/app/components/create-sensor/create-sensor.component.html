@@ -22,10 +22,20 @@
         {{ type.name }}
       </mat-option>
     </mat-select>
+    <mat-hint *ngIf="sensorTypes.length">
+      {{ "sensorDevices.sensorTypeHint" | translate }}
+    </mat-hint>
     <mat-error>
       {{ (getErrorMessage("sensorTypeId") ?? "") | translate }}
     </mat-error>
   </mat-form-field>
+
+  <div class="no-types-hint" *ngIf="!sensorTypes.length">
+    <p>{{ "sensorDevices.noSensorTypesAvailable" | translate }}</p>
+    <button type="button" mat-stroked-button (click)="goToAddSensorType()">
+      {{ "sensorDevices.goToAddSensorType" | translate }}
+    </button>
+  </div>
 
   <mat-form-field>
     <mat-label>

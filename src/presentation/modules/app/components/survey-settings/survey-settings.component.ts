@@ -1,53 +1,103 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import {
   CSV_COLUMN_SEPARATOR_OPTIONS,
   CSV_DECIMAL_SEPARATOR_OPTIONS,
   DEFAULT_SENSOR_DATA_SETTINGS,
   DEFAULT_SURVEY_SETTINGS,
+  SENSOR_PARAMETER_DATA_TYPE_OPTIONS,
   SensorParameterDefinition,
   SensorTypeSetting,
+  RespondentSensorAssignment,
   SurveySensorDataSettings,
   SurveySettings,
 } from '../../../../../domain/models/survey-settings';
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
+import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
+import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 
 @Component({
   selector: 'app-survey-settings',
   templateUrl: './survey-settings.component.html',
   styleUrl: './survey-settings.component.scss',
 })
-export class SurveySettingsComponent implements OnInit {
+export class SurveySettingsComponent implements OnInit, OnDestroy {
   readonly columnSeparatorOptions = CSV_COLUMN_SEPARATOR_OPTIONS;
   readonly decimalSeparatorOptions = CSV_DECIMAL_SEPARATOR_OPTIONS;
+  readonly dataTypeOptions = SENSOR_PARAMETER_DATA_TYPE_OPTIONS;
 
   isBusy = false;
   isLogoBusy = false;
   isSensorSettingsBusy = false;
+  isAssignmentsSaving = false;
   sensorSettingsLoaded = false;
   settings: SurveySettings = { ...DEFAULT_SURVEY_SETTINGS };
   sensorSettings: SurveySensorDataSettings = { ...DEFAULT_SENSOR_DATA_SETTINGS };
+
+  /**
+   * Replacing a logo keeps the same URL (`logo.png`), so without a cache-busting token the
+   * browser would keep showing the previous image after a re-upload.
+   */
+  private logoCacheBustToken = 0;
+  /** Shown immediately on file selection, before the upload round-trip resolves. */
+  private localLogoPreviewUrl: string | null = null;
+
+  /**
+   * Once the initial survey is published, the study is live and sensor data setup (mode and
+   * parameter definitions) can no longer be changed — the backend rejects the save either way,
+   * this just surfaces it proactively. Active sensor sources are managed on Integrations.
+   * Respondent sensor *assignments* are saved through a separate, always-unlocked call: which
+   * physical sensor a respondent has keeps changing throughout a live study.
+   */
+  sensorDataSetupLocked = false;
 
   constructor(
     @Inject('surveySettingsService')
     private readonly service: SurveySettingsService,
     private readonly configService: ConfigService,
     private readonly snackbar: MatSnackBar,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    @Inject(START_SURVEY_SERVICE_TOKEN)
+    private readonly startSurveyService: StartSurveyService
   ) {}
 
+  get selectableSensorTypes(): SensorTypeSetting[] {
+    return this.sensorSettings.sensorTypes.filter(
+      (sensorType) =>
+        isSelectableSensorTypeCode(sensorType.sensorTypeCode) && sensorType.enabled
+    );
+  }
+
+  get activeAssignments(): RespondentSensorAssignment[] {
+    return this.sensorSettings.assignments.filter((assignment) =>
+      this.isAssignmentTypeActive(assignment.sensorTypeCode)
+    );
+  }
+
   get logoPreviewUrl(): string | null {
+    if (this.localLogoPreviewUrl) {
+      return this.localLogoPreviewUrl;
+    }
     return this.settings.logoPath
-      ? this.configService.apiUrl + this.settings.logoPath
+      ? `${this.configService.apiUrl}${this.settings.logoPath}?v=${this.logoCacheBustToken}`
       : null;
   }
 
   ngOnInit(): void {
     this.load();
     this.loadSensorDataSettings();
+    this.startSurveyService.getState().subscribe({
+      next: (state) => (this.sensorDataSetupLocked = state === 'published'),
+      error: () => (this.sensorDataSetupLocked = false),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.clearLocalLogoPreview();
   }
 
   load(): void {
@@ -60,7 +110,7 @@ export class SurveySettingsComponent implements OnInit {
       .pipe(finalize(() => (this.isBusy = false)))
       .subscribe({
         next: (settings) => {
-          this.settings = { ...settings };
+          this.applySettings(settings);
         },
         error: () => this.showError('surveySettings.loadError'),
       });
@@ -92,7 +142,7 @@ export class SurveySettingsComponent implements OnInit {
   }
 
   saveSensorDataSettings(): void {
-    if (this.isSensorSettingsBusy || !this.sensorSettingsLoaded) {
+    if (this.isSensorSettingsBusy || !this.sensorSettingsLoaded || this.sensorDataSetupLocked) {
       return;
     }
     if (this.hasDuplicateParameterNameUnitPairs()) {
@@ -100,12 +150,50 @@ export class SurveySettingsComponent implements OnInit {
       return;
     }
     this.isSensorSettingsBusy = true;
+    // Re-read sensor types before save so Integrations enable/timeout edits are not overwritten.
     this.service
-      .updateSensorDataSettings(this.sensorSettings)
-      .pipe(finalize(() => (this.isSensorSettingsBusy = false)))
+      .getSensorDataSettings()
+      .pipe(
+        switchMap((latest) =>
+          this.service.updateSensorDataSettings({
+            mode: this.sensorSettings.mode,
+            sensorTypes: latest.sensorTypes,
+            parameters: this.sensorSettings.parameters,
+          })
+        ),
+        finalize(() => (this.isSensorSettingsBusy = false))
+      )
       .subscribe({
         next: (settings) => {
-          this.sensorSettings = settings;
+          this.sensorSettings = {
+            ...settings,
+            assignments: this.sensorSettings.assignments,
+          };
+          this.showSuccess('surveySettings.saved');
+        },
+        error: () => this.showError('surveySettings.sensorData.saveError'),
+      });
+  }
+
+  /**
+   * Deliberately not guarded by `sensorDataSetupLocked`: see that field's doc comment for why
+   * assignments stay editable after the initial survey is published.
+   */
+  saveAssignments(): void {
+    if (this.isAssignmentsSaving) {
+      return;
+    }
+    this.isAssignmentsSaving = true;
+    this.service
+      .updateAssignments(this.sensorSettings.assignments)
+      .pipe(finalize(() => (this.isAssignmentsSaving = false)))
+      .subscribe({
+        next: (settings) => {
+          // Keep any unsaved local setup edits; those go through saveSensorDataSettings().
+          this.sensorSettings = {
+            ...this.sensorSettings,
+            assignments: settings.assignments,
+          };
           this.showSuccess('surveySettings.saved');
         },
         error: () => this.showError('surveySettings.sensorData.saveError'),
@@ -139,19 +227,13 @@ export class SurveySettingsComponent implements OnInit {
     };
   }
 
-  onSensorTypeEnabledChange(sensorType: SensorTypeSetting, enabled: boolean): void {
-    sensorType.enabled = enabled;
-    if (!enabled) {
-      this.sensorSettings.parameters.forEach((parameter) => {
-        parameter.sources = parameter.sources.filter(
-          (source) => source.sensorTypeCode !== sensorType.sensorTypeCode
-        );
-      });
+  isAssignmentTypeActive(sensorTypeCode: string): boolean {
+    if (sensorTypeCode === 'manual') {
+      return true;
     }
-  }
-
-  integrationModeLabel(integrationMode: string | undefined): string {
-    return `surveySettings.sensorData.integrationModes.${integrationMode ?? 'none'}`;
+    return this.sensorSettings.sensorTypes.some(
+      (sensorType) => sensorType.sensorTypeCode === sensorTypeCode && sensorType.enabled
+    );
   }
 
   hasSource(parameter: SensorParameterDefinition, sensorTypeCode: string): boolean {
@@ -182,16 +264,21 @@ export class SurveySettingsComponent implements OnInit {
     if (!file || this.isLogoBusy) {
       return;
     }
+    this.setLocalLogoPreview(file);
     this.isLogoBusy = true;
     this.service
       .uploadLogo(file)
       .pipe(finalize(() => (this.isLogoBusy = false)))
       .subscribe({
         next: (settings) => {
-          this.settings = { ...settings };
+          this.applySettings(settings);
+          this.clearLocalLogoPreview();
           this.showSuccess('surveySettings.logoUploaded');
         },
-        error: () => this.showError('surveySettings.logoUploadError'),
+        error: () => {
+          this.clearLocalLogoPreview();
+          this.showError('surveySettings.logoUploadError');
+        },
       });
   }
 
@@ -208,11 +295,28 @@ export class SurveySettingsComponent implements OnInit {
       .pipe(finalize(() => (this.isLogoBusy = false)))
       .subscribe({
         next: (settings) => {
-          this.settings = { ...settings };
+          this.applySettings(settings);
           this.showSuccess('surveySettings.logoRemoved');
         },
         error: () => this.showError('surveySettings.logoRemoveError'),
       });
+  }
+
+  private applySettings(settings: SurveySettings): void {
+    this.settings = { ...settings };
+    this.logoCacheBustToken += 1;
+  }
+
+  private setLocalLogoPreview(file: File): void {
+    this.clearLocalLogoPreview();
+    this.localLogoPreviewUrl = URL.createObjectURL(file);
+  }
+
+  private clearLocalLogoPreview(): void {
+    if (this.localLogoPreviewUrl) {
+      URL.revokeObjectURL(this.localLogoPreviewUrl);
+      this.localLogoPreviewUrl = null;
+    }
   }
 
   onCalendarToggle(enabled: boolean): void {

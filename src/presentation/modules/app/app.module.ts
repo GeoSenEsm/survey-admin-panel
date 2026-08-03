@@ -97,6 +97,7 @@ import { RespondentIssuesComponent } from './components/respondent-issues/respon
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SurveySettingsComponent } from './components/survey-settings/survey-settings.component';
 import { SensorProfilesComponent } from './components/sensor-profiles/sensor-profiles.component';
+import { IntegrationsComponent } from './components/integrations/integrations.component';
 
 
 export const routes: Routes = [
@@ -117,6 +118,7 @@ export const routes: Routes = [
     {path: 'surveySettings', component: SurveySettingsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorProfiles', component: SensorProfilesComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'integrations', component: IntegrationsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
     {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]},
@@ -237,7 +239,8 @@ export function HttpLoaderFactory(http: HttpClient){
     SurveyWindowAssignmentComponent,
     RespondentIssuesComponent,
     SurveySettingsComponent,
-    SensorProfilesComponent
+    SensorProfilesComponent,
+    IntegrationsComponent
   ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

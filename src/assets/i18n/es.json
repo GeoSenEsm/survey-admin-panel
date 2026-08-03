@@ -34,7 +34,8 @@
       "changeAdminPassword": "Cambiar contraseña",
       "userGuide": "Guía del usuario",
       "sensorDevices": "Dispositivos sensores",
-      "sensorProfiles": "Perfiles de sensores",
+      "sensorProfiles": "Añadir nuevo tipo de sensor",
+      "integrations": "Integraciones",
       "someElementsNeedRefreshing": "Algunos elementos requieren actualizar la página para aplicar el cambio de idioma.",
       "ok": "OK",
       "contactPhoneNumbers": "Números de contacto",
@@ -497,6 +498,7 @@
       "sensorData": "Configuración de datos de sensores"
     },
     "sensorData": {
+      "locked": "La configuración de datos de sensores está bloqueada porque la encuesta inicial ya se ha publicado. El estudio está en curso, por lo que el modo, los tipos de sensores y los parámetros ya no se pueden modificar. Las asignaciones de encuestados que aparecen abajo siguen siendo editables.",
       "loadError": "No se pudo cargar la configuración de datos de sensores.",
       "saveError": "No se pudo guardar la configuración de datos de sensores.",
       "duplicateNameUnit": "Dos parámetros no pueden compartir el mismo nombre y unidad. Los parámetros con unidades diferentes son parámetros diferentes: asigne a uno un nombre, unidad o código distinto.",
@@ -505,8 +507,6 @@
       "mode": "Modo",
       "noSensorData": "Sin datos de sensores",
       "configuredSensors": "Usar sensores configurados",
-      "activeSensors": "Fuentes de sensores activas",
-      "timeoutSeconds": "Tiempo de espera (segundos)",
       "parameters": "Columnas de datos de sensores",
       "parametersHint": "Defina las columnas de parámetros recopiladas de los sensores o mediante entrada manual.",
       "addParameter": "Añadir parámetro",
@@ -514,12 +514,19 @@
       "parameterCode": "Código",
       "parameterName": "Nombre",
       "dataType": "Tipo de dato",
+      "dataTypes": {
+        "decimal": "Decimal",
+        "integer": "Entero",
+        "boolean": "Booleano",
+        "text": "Texto"
+      },
       "unit": "Unidad",
       "required": "Obligatorio",
       "active": "Activo",
       "sources": "Fuentes",
       "assignments": "Asignaciones actuales de encuestados",
-      "assignmentsHint": "Los cambios de asignación se guardan a través de la API canónica de configuración de sensores de la encuesta.",
+      "assignmentsHint": "Las asignaciones siguen siendo editables incluso después de publicar la encuesta inicial, ya que el sensor físico de cada encuestado cambia a lo largo del estudio en curso.",
+      "saveAssignments": "Guardar asignaciones",
       "priority": "Prioridad",
       "save": "Guardar configuración de sensores",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "Entrada manual",
         "none": "Sin integración de sensor"
       }
-    },
-    "sensorProfiles": {
-      "title": "Perfiles de integración de sensores",
-      "hint": "Gestione secuencias GATT y perfiles de publicidad BLE, e identifique tipos de sensores que requieren un adaptador compilado.",
-      "openLink": "Abrir perfiles de sensores"
     },
     "ok": "OK"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "Este campo debe ser único",
     "respondentUsername": "Encuestado",
     "sensorTypeName": "Tipo",
+    "sensorTypeHint": "El modelo de dispositivo BLE de este sensor. Defina uno en la página Añadir nuevo tipo de sensor.",
+    "noSensorTypesAvailable": "Todavía no hay tipos de sensor disponibles. Defina uno en la página Añadir nuevo tipo de sensor antes de agregar un dispositivo.",
+    "goToAddSensorType": "Añadir nuevo tipo de sensor",
     "unassigned": "Sin asignar",
     "selectRespondentHint": "Escriba el nombre de usuario…",
     "clearRespondent": "Quitar encuestado",
@@ -784,8 +789,9 @@
     }
   },
   "sensorProfiles": {
-    "title": "Perfiles de integración de sensores",
-    "hint": "Gestione secuencias GATT y perfiles de publicidad BLE, e identifique tipos de sensores que requieren un adaptador compilado.",
+    "title": "Añadir nuevo tipo de sensor",
+    "hint": "Cree un tipo de sensor, gestione secuencias GATT y perfiles de publicidad BLE, e identifique tipos que requieren un adaptador compilado.",
+    "locked": "La adición de nuevos tipos de sensor está bloqueada porque la encuesta inicial ya se ha publicado. El estudio está en curso, por lo que los tipos de sensores y los perfiles ya no se pueden modificar.",
     "ok": "OK",
     "loadError": "No se pudieron cargar los ajustes de perfil.",
     "capabilitiesLoadError": "No se pudieron cargar las capacidades del motor de perfiles de sensores.",
@@ -850,5 +856,20 @@
       "published": "Publicado",
       "archived": "Archivado"
     }
+  },
+  "integrations": {
+    "title": "Integraciones de sensores",
+    "hint": "Active o desactive las integraciones de sensores instaladas para este estudio.",
+    "locked": "Cambiar las integraciones de sensores está bloqueado porque la encuesta inicial ya se ha publicado. El estudio está en curso, por lo que las fuentes activas ya no se pueden modificar.",
+    "ok": "OK",
+    "activeSensorsHint": "Active las integraciones de sensores que este estudio debe usar. Las integraciones desactivadas se ocultan a los encuestados y no pueden suministrar fuentes de parámetros.",
+    "empty": "No hay integraciones de sensores disponibles. Cree una en Añadir nuevo tipo de sensor.",
+    "loadError": "No se pudieron cargar las integraciones de sensores.",
+    "saveError": "No se pudieron guardar las integraciones de sensores.",
+    "saved": "Integraciones de sensores guardadas.",
+    "save": "Guardar",
+    "timeoutSeconds": "Tiempo de espera (segundos)",
+    "statusOn": "Activado",
+    "statusOff": "Desactivado"
   }
 }

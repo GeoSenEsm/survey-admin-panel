@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/temperature',
     '/summaries',
     '/sensorDevices',
-    '/sensorProfiles',
     '/responseDocuments',
     '/statistics',
     '/dailyCompletion',

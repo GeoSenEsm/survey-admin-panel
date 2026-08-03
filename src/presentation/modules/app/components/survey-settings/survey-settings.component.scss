@@ -30,6 +30,15 @@ h3 {
   padding: $space-4;
 }
 
+.locked-notice {
+  background: $warning-bg;
+  color: $warning-color;
+  border: 1px solid $warning-color;
+  border-radius: $radius-lg;
+  padding: $space-3 $space-4;
+  font-weight: 500;
+}
+
 .tab-content {
   display: flex;
   flex-direction: column;
@@ -78,32 +87,10 @@ h3 {
   margin-top: $space-3;
 }
 
-.sensor-type-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: $space-3;
-  margin-top: $space-3;
-}
-
-.sensor-type-card,
 .parameter-card {
   border: 1px solid $border-color;
   border-radius: $radius-md;
   padding: $space-3;
-}
-
-.sensor-type-card {
-  display: flex;
-  flex-direction: column;
-  gap: $space-3;
-}
-
-.integration-label {
-  color: $text-secondary;
-  font-size: 0.85rem;
-}
-
-.parameter-card {
   display: flex;
   flex-direction: column;
   gap: $space-2;
@@ -133,12 +120,6 @@ h3 {
 
 .priority-field {
   width: 120px;
-}
-
-.profile-panel {
-  display: flex;
-  flex-direction: column;
-  gap: $space-3;
 }
 
 .file-button {

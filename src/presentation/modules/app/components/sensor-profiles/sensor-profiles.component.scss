@@ -1,6 +1,9 @@
 .container {
   padding: 24px;
   max-width: 960px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .hint {
@@ -9,12 +12,25 @@
   margin-bottom: 16px;
 }
 
+.locked-notice {
+  background: #fffbeb;
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
 .settings-panel {
   background: #fafafa;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 24px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .setting-title {
@@ -24,13 +40,17 @@
 
 .create-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
   gap: 16px;
   align-items: end;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .wide-field {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .adapter-boundary {
@@ -39,13 +59,17 @@
   background: rgba(63, 81, 181, 0.06);
   margin: 12px 0;
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 .editor-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
   margin-bottom: 16px;
+  min-width: 0;
 }
 
 .editor-actions {
@@ -53,6 +77,7 @@
   gap: 8px;
   flex-wrap: wrap;
   margin: 12px 0;
+  min-width: 0;
 }
 
 .file-button {
@@ -68,6 +93,12 @@
   input[type='file'] {
     display: none;
   }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .profile-metadata {
@@ -76,13 +107,21 @@
 
 .json-editor {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   font-family: monospace;
+
+  textarea {
+    overflow-x: auto;
+    white-space: pre;
+  }
 }
 
 .syntax-error {
   color: #f44336;
   font-size: 0.75rem;
   margin: -12px 0 12px;
+  overflow-wrap: anywhere;
 }
 
 .profile-summary {
@@ -94,12 +133,15 @@
   border-radius: 4px;
   margin: 12px 0;
   font-size: 0.875rem;
+  min-width: 0;
+  max-width: 100%;
 
   span {
     background: white;
     padding: 4px 8px;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.12);
+    overflow-wrap: anywhere;
   }
 }
 
@@ -108,12 +150,14 @@
   padding: 12px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
 }
 
 .validation-error {
   color: #f44336;
   font-size: 0.875rem;
   margin: 4px 0;
+  overflow-wrap: anywhere;
 }
 
 .vector-result {
@@ -129,6 +173,7 @@
   pre {
     font-size: 0.75rem;
     margin: 4px 0;
+    overflow-x: auto;
   }
 }
 
@@ -138,8 +183,16 @@
 
 .revision-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   padding: 4px 0;
   font-size: 0.875rem;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
 }

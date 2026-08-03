@@ -56,6 +56,16 @@ export interface SurveySensorDataSettings {
   assignments: RespondentSensorAssignment[];
 }
 
+/**
+ * Write payload for `PUT /api/surveysettings/sensordata`. Deliberately excludes
+ * `assignments`: which physical sensor a respondent has stays editable throughout a live study,
+ * unlike the mode/parameter definitions, which are locked once the initial
+ * survey is published. Active sensor enablement is edited on the Integrations
+ * page and saved through the same endpoint. Assignments are saved separately
+ * through `updateAssignments`.
+ */
+export type SurveySensorDataSettingsWrite = Omit<SurveySensorDataSettings, 'assignments'>;
+
 export const DEFAULT_SURVEY_SETTINGS: SurveySettings = {
   showSendingPolicyCalendar: true,
   csvColumnSeparator: ',',
@@ -80,4 +90,16 @@ export const CSV_COLUMN_SEPARATOR_OPTIONS: { value: string; labelKey: string }[]
 export const CSV_DECIMAL_SEPARATOR_OPTIONS: { value: string; labelKey: string }[] = [
   { value: '.', labelKey: 'surveySettings.csvDecimalDot' },
   { value: ',', labelKey: 'surveySettings.csvDecimalComma' },
+];
+
+/**
+ * The full set of `sensor_parameter_definition.data_type` values understood by the mobile
+ * app and admin panel. Kept as a closed list (rather than free text) so an admin cannot save
+ * a value the rest of the platform does not know how to render or export.
+ */
+export const SENSOR_PARAMETER_DATA_TYPE_OPTIONS: { value: string; labelKey: string }[] = [
+  { value: 'decimal', labelKey: 'surveySettings.sensorData.dataTypes.decimal' },
+  { value: 'integer', labelKey: 'surveySettings.sensorData.dataTypes.integer' },
+  { value: 'boolean', labelKey: 'surveySettings.sensorData.dataTypes.boolean' },
+  { value: 'text', labelKey: 'surveySettings.sensorData.dataTypes.text' },
 ];

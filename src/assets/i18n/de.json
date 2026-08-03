@@ -34,7 +34,8 @@
       "changeAdminPassword": "Passwort ändern",
       "userGuide": "Benutzerhandbuch",
       "sensorDevices": "Sensorgeräte",
-      "sensorProfiles": "Sensorprofile",
+      "sensorProfiles": "Neuen Sensortyp hinzufügen",
+      "integrations": "Integrationen",
       "someElementsNeedRefreshing": "Einige Elemente erfordern ein Neuladen der Seite, um die Sprachänderung anzuwenden.",
       "ok": "OK",
       "contactPhoneNumbers": "Kontaktnummern",
@@ -497,6 +498,7 @@
       "sensorData": "Sensordateneinstellungen"
     },
     "sensorData": {
+      "locked": "Die Sensordateneinstellungen sind gesperrt, da die Anfangsumfrage veröffentlicht wurde. Die Studie läuft bereits, daher können Modus, Sensortypen und Parameter nicht mehr geändert werden. Die Zuordnungen der Teilnehmer unten bleiben bearbeitbar.",
       "loadError": "Die Sensordateneinstellungen konnten nicht geladen werden.",
       "saveError": "Die Sensordateneinstellungen konnten nicht gespeichert werden.",
       "duplicateNameUnit": "Zwei Parameter dürfen nicht denselben Namen und dieselbe Einheit haben. Parameter mit unterschiedlichen Einheiten sind unterschiedliche Parameter — geben Sie einem einen anderen Namen, eine andere Einheit oder einen anderen Code.",
@@ -505,8 +507,6 @@
       "mode": "Modus",
       "noSensorData": "Keine Sensordaten",
       "configuredSensors": "Konfigurierte Sensoren verwenden",
-      "activeSensors": "Aktive Sensorquellen",
-      "timeoutSeconds": "Zeitüberschreitung (Sekunden)",
       "parameters": "Sensordatenspalten",
       "parametersHint": "Definieren Sie die Parameterspalten, die von Sensoren oder per manueller Eingabe erfasst werden.",
       "addParameter": "Parameter hinzufügen",
@@ -514,12 +514,19 @@
       "parameterCode": "Code",
       "parameterName": "Name",
       "dataType": "Datentyp",
+      "dataTypes": {
+        "decimal": "Dezimalzahl",
+        "integer": "Ganzzahl",
+        "boolean": "Boolescher Wert",
+        "text": "Text"
+      },
       "unit": "Einheit",
       "required": "Erforderlich",
       "active": "Aktiv",
       "sources": "Quellen",
       "assignments": "Aktuelle Zuordnungen der Befragten",
-      "assignmentsHint": "Änderungen an Zuordnungen werden über die zentrale API für Sensoreinstellungen der Umfrage gespeichert.",
+      "assignmentsHint": "Zuordnungen bleiben auch nach Veröffentlichung der Anfangsumfrage bearbeitbar, da sich der einem Teilnehmer zugewiesene physische Sensor im Laufe der laufenden Studie ändern kann.",
+      "saveAssignments": "Zuordnungen speichern",
       "priority": "Priorität",
       "save": "Sensoreinstellungen speichern",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "Manuelle Eingabe",
         "none": "Keine Sensorintegration"
       }
-    },
-    "sensorProfiles": {
-      "title": "Sensor-Integrationsprofile",
-      "hint": "Verwalten Sie GATT-Sequenzen und BLE-Werbeprofile und identifizieren Sie Sensortypen, die einen kompilierten Adapter erfordern.",
-      "openLink": "Sensorprofile öffnen"
     },
     "ok": "OK"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "Dieses Feld muss eindeutig sein",
     "respondentUsername": "Befragter",
     "sensorTypeName": "Typ",
+    "sensorTypeHint": "Das BLE-Gerätemodell dieses Sensors. Definieren Sie eines auf der Seite Neuen Sensortyp hinzufügen.",
+    "noSensorTypesAvailable": "Es sind noch keine Sensortypen verfügbar. Definieren Sie einen auf der Seite Neuen Sensortyp hinzufügen, bevor Sie ein Gerät hinzufügen.",
+    "goToAddSensorType": "Neuen Sensortyp hinzufügen",
     "unassigned": "Nicht zugewiesen",
     "selectRespondentHint": "Benutzernamen eingeben…",
     "clearRespondent": "Befragten entfernen",
@@ -784,8 +789,9 @@
     }
   },
   "sensorProfiles": {
-    "title": "Sensor-Integrationsprofile",
-    "hint": "Verwalten Sie GATT-Sequenzen und BLE-Werbeprofile und identifizieren Sie Sensortypen, die einen kompilierten Adapter erfordern.",
+    "title": "Neuen Sensortyp hinzufügen",
+    "hint": "Erstellen Sie einen Sensortyp, verwalten Sie GATT-Sequenzen und BLE-Werbeprofile und identifizieren Sie Typen, die einen kompilierten Adapter erfordern.",
+    "locked": "Das Hinzufügen neuer Sensortypen ist gesperrt, da die Anfangsumfrage veröffentlicht wurde. Die Studie läuft bereits, daher können Sensortypen und Profile nicht mehr geändert werden.",
     "ok": "OK",
     "loadError": "Sensorprofileinstellungen konnten nicht geladen werden.",
     "capabilitiesLoadError": "Die Fähigkeiten der Sensorprofil-Engine konnten nicht geladen werden.",
@@ -850,5 +856,20 @@
       "published": "Veröffentlicht",
       "archived": "Archiviert"
     }
+  },
+  "integrations": {
+    "title": "Sensor-Integrationen",
+    "hint": "Schalten Sie installierte Sensor-Integrationen für diese Studie ein oder aus.",
+    "locked": "Das Ändern von Sensor-Integrationen ist gesperrt, da die Anfangsumfrage veröffentlicht wurde. Die Studie läuft bereits, daher können aktive Quellen nicht mehr geändert werden.",
+    "ok": "OK",
+    "activeSensorsHint": "Aktivieren Sie die Sensor-Integrationen, die diese Studie verwenden soll. Deaktivierte Integrationen sind für Teilnehmer ausgeblendet und können keine Parameterquellen liefern.",
+    "empty": "Keine Sensor-Integrationen verfügbar. Erstellen Sie eine unter Neuen Sensortyp hinzufügen.",
+    "loadError": "Sensor-Integrationen konnten nicht geladen werden.",
+    "saveError": "Sensor-Integrationen konnten nicht gespeichert werden.",
+    "saved": "Sensor-Integrationen gespeichert.",
+    "save": "Speichern",
+    "timeoutSeconds": "Zeitüberschreitung (Sekunden)",
+    "statusOn": "An",
+    "statusOff": "Aus"
   }
 }

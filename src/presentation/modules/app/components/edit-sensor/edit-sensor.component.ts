@@ -15,11 +15,12 @@ import {
 } from '../../../../../core/services/injection-tokens';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { macPattern } from '../../../../../core/utils/validators';
+import { macPattern, normalizeMacInput } from '../../../../../core/utils/validators';
 import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
+import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
 
 export interface EditSensorComponentDialogParameter {
   sensor: SensorDto;
@@ -85,6 +86,14 @@ export class EditSensorComponent implements OnInit {
     this.formGroup
       .get('sensorTypeId')
       ?.valueChanges.subscribe(() => this.syncBindKeyAvailability());
+
+    const sensorMac = this.formGroup.get('sensorMac');
+    sensorMac?.valueChanges.subscribe((value: string) => {
+      const normalized = normalizeMacInput(value);
+      if (normalized !== value) {
+        sensorMac.setValue(normalized, { emitEvent: false });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -104,7 +113,7 @@ export class EditSensorComponent implements OnInit {
       .getSensorTypes()
       .pipe(catchError(() => of([] as SensorTypeDto[])))
       .subscribe((types) => {
-        this.sensorTypes = types;
+        this.sensorTypes = excludeNonSelectableSensorTypes(types);
         this.syncBindKeyAvailability();
       });
   }
@@ -212,7 +221,11 @@ export class EditSensorComponent implements OnInit {
   }
 
   save(): void {
-    if (this.isBusy || this.formGroup.invalid) {
+    if (this.isBusy) {
+      return;
+    }
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
       return;
     }
 

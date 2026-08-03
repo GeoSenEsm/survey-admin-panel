@@ -34,7 +34,8 @@
       "changeAdminPassword": "Zmiana hasła",
       "userGuide": "Podręcznik użytkownika",
       "sensorDevices": "Czujniki",
-      "sensorProfiles": "Profile czujnikow",
+      "sensorProfiles": "Dodaj nowy typ czujnika",
+      "integrations": "Integracje",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
       "ok": "OK",
       "contactPhoneNumbers": "Numery kontaktowe",
@@ -497,6 +498,7 @@
       "sensorData": "Ustawienia danych czujników"
     },
     "sensorData": {
+      "locked": "Ustawienia danych czujników są zablokowane, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego trybu, typów czujników i parametrów nie można już zmieniać. Przypisania respondentów poniżej pozostają edytowalne.",
       "loadError": "Nie udało się wczytać ustawień danych czujników.",
       "saveError": "Nie udało się zapisać ustawień danych czujników.",
       "duplicateNameUnit": "Dwa parametry nie mogą mieć tej samej nazwy i jednostki. Parametry z inną jednostką są innymi parametrami — nadaj jednemu z nich inną nazwę, jednostkę lub kod.",
@@ -505,8 +507,6 @@
       "mode": "Tryb",
       "noSensorData": "Brak danych z czujników",
       "configuredSensors": "Użyj skonfigurowanych czujników",
-      "activeSensors": "Aktywne źródła czujników",
-      "timeoutSeconds": "Limit czasu (sekundy)",
       "parameters": "Kolumny danych czujników",
       "parametersHint": "Zdefiniuj kolumny parametrów zbierane z czujników lub wprowadzane ręcznie.",
       "addParameter": "Dodaj parametr",
@@ -514,12 +514,19 @@
       "parameterCode": "Kod",
       "parameterName": "Nazwa",
       "dataType": "Typ danych",
+      "dataTypes": {
+        "decimal": "Dziesiętny",
+        "integer": "Całkowity",
+        "boolean": "Logiczny",
+        "text": "Tekst"
+      },
       "unit": "Jednostka",
       "required": "Wymagane",
       "active": "Aktywny",
       "sources": "Źródła",
       "assignments": "Aktualne przypisania respondentów",
-      "assignmentsHint": "Zmiany przypisań są zapisywane za pomocą kanonicznego API ustawień czujników ankiety.",
+      "assignmentsHint": "Przypisania pozostają edytowalne nawet po opublikowaniu ankiety początkowej, ponieważ to, jaki fizyczny czujnik ma respondent, zmienia się przez cały czas trwania badania.",
+      "saveAssignments": "Zapisz przypisania",
       "priority": "Priorytet",
       "save": "Zapisz ustawienia czujników",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "Wpis ręczny",
         "none": "Brak integracji z czujnikiem"
       }
-    },
-    "sensorProfiles": {
-      "title": "Profile integracji czujników",
-      "hint": "Zarządzaj profilami GATT i BLE oraz identyfikuj typy czujników wymagające skompilowanego adaptera.",
-      "openLink": "Otwórz profile czujników"
     },
     "ok": "OK"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "Pole musi być unikalne",
     "respondentUsername": "Respondent",
     "sensorTypeName": "Typ",
+    "sensorTypeHint": "Model urządzenia BLE, którym jest ten czujnik. Zdefiniuj go na stronie Dodaj nowy typ czujnika.",
+    "noSensorTypesAvailable": "Brak dostępnych typów czujników. Zdefiniuj jeden na stronie Dodaj nowy typ czujnika, zanim dodasz urządzenie.",
+    "goToAddSensorType": "Dodaj nowy typ czujnika",
     "unassigned": "Nieprzypisany",
     "selectRespondentHint": "Wpisz nazwę użytkownika…",
     "clearRespondent": "Wyczyść respondenta",
@@ -784,8 +789,9 @@
     }
   },
   "sensorProfiles": {
-    "title": "Profile integracji czujników",
-    "hint": "Zarządzaj profilami GATT i BLE oraz identyfikuj typy czujników wymagające skompilowanego adaptera.",
+    "title": "Dodaj nowy typ czujnika",
+    "hint": "Utwórz typ czujnika, zarządzaj profilami GATT i BLE oraz identyfikuj typy wymagające skompilowanego adaptera.",
+    "locked": "Dodawanie nowych typów czujników jest zablokowane, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego typów czujników i profili nie można już zmieniać.",
     "ok": "OK",
     "loadError": "Nie udało się załadować ustawień profili.",
     "capabilitiesLoadError": "Nie udało się załadować możliwości silnika profili czujników.",
@@ -850,5 +856,20 @@
       "published": "Opublikowany",
       "archived": "Zarchiwizowany"
     }
+  },
+  "integrations": {
+    "title": "Integracje czujników",
+    "hint": "Włączaj i wyłączaj zainstalowane integracje czujników dla tego badania.",
+    "locked": "Zmiana integracji czujników jest zablokowana, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego aktywnych źródeł nie można już zmieniać.",
+    "ok": "OK",
+    "activeSensorsHint": "Włącz integracje czujników, z których ma korzystać to badanie. Wyłączone integracje są ukryte przed respondentami i nie mogą dostarczać źródeł parametrów.",
+    "empty": "Brak dostępnych integracji czujników. Utwórz jedną na stronie Dodaj nowy typ czujnika.",
+    "loadError": "Nie udało się wczytać integracji czujników.",
+    "saveError": "Nie udało się zapisać integracji czujników.",
+    "saved": "Integracje czujników zapisane.",
+    "save": "Zapisz",
+    "timeoutSeconds": "Limit czasu (sekundy)",
+    "statusOn": "Wł.",
+    "statusOff": "Wył."
   }
 }

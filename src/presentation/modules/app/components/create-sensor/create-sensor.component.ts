@@ -6,14 +6,16 @@ import {
 } from '../../../../../domain/models/sensors-dtos';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SensorsService } from '../../../../../domain/external_services/sensors.service';
 import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
-import { macPattern, notIn } from '../../../../../core/utils/validators';
+import { macPattern, normalizeMacInput, notIn } from '../../../../../core/utils/validators';
 import { SENSOR_PROFILE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
+import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
 
 interface CreateSensorComponentDialogParameter {
   allSensors: SensorDto[];
@@ -38,6 +40,7 @@ export class CreateSensorComponent implements OnInit {
     private readonly sensorProfileService: SensorProfileService,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
+    private readonly router: Router,
     @Inject(MAT_DIALOG_DATA)
     private readonly data: CreateSensorComponentDialogParameter
   ) {
@@ -60,6 +63,14 @@ export class CreateSensorComponent implements OnInit {
     this.formGroup
       .get('sensorTypeId')
       ?.valueChanges.subscribe(() => this.syncBindKeyAvailability());
+
+    const sensorMac = this.formGroup.get('sensorMac');
+    sensorMac?.valueChanges.subscribe((value: string) => {
+      const normalized = normalizeMacInput(value);
+      if (normalized !== value) {
+        sensorMac.setValue(normalized, { emitEvent: false });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -67,11 +78,7 @@ export class CreateSensorComponent implements OnInit {
       .getSensorTypes()
       .pipe(catchError(() => of([] as SensorTypeDto[])))
       .subscribe((types) => {
-        this.sensorTypes = types;
-        const xiaomi = types.find((t) => t.code === 'xiaomi');
-        if (xiaomi && !this.formGroup.get('sensorTypeId')?.value) {
-          this.formGroup.get('sensorTypeId')?.setValue(xiaomi.id);
-        }
+        this.sensorTypes = excludeNonSelectableSensorTypes(types);
         this.syncBindKeyAvailability();
       });
   }
@@ -106,8 +113,17 @@ export class CreateSensorComponent implements OnInit {
     this.matDialogRef.close();
   }
 
+  public goToAddSensorType(): void {
+    this.matDialogRef.close();
+    this.router.navigateByUrl('/sensorProfiles');
+  }
+
   public submit(): void {
-    if (this.isBusy || this.formGroup.invalid) {
+    if (this.isBusy) {
+      return;
+    }
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
       return;
     }
 

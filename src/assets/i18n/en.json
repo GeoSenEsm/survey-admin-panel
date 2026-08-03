@@ -34,7 +34,8 @@
       "changeAdminPassword": "Change password",
       "userGuide": "User guide",
       "sensorDevices": "Sensor devices",
-      "sensorProfiles": "Sensor profiles",
+      "sensorProfiles": "Add new sensor type",
+      "integrations": "Integrations",
       "someElementsNeedRefreshing": "Some elements require a page refresh to apply the language change.",
       "ok": "OK",
       "contactPhoneNumbers": "Contact numbers",
@@ -497,6 +498,7 @@
       "sensorData": "Sensor data settings"
     },
     "sensorData": {
+      "locked": "Sensor data settings are locked because the initial survey has been published. The study is now live, so the mode and parameter definitions can no longer be changed. Respondent assignments below stay editable.",
       "loadError": "Could not load sensor data settings.",
       "saveError": "Could not save sensor data settings.",
       "duplicateNameUnit": "Two parameters cannot share the same name and unit. Parameters with different units are different parameters — give one a different name, unit, or code.",
@@ -505,8 +507,6 @@
       "mode": "Mode",
       "noSensorData": "No sensor data",
       "configuredSensors": "Use configured sensors",
-      "activeSensors": "Active sensor sources",
-      "timeoutSeconds": "Timeout (seconds)",
       "parameters": "Sensor data columns",
       "parametersHint": "Define the parameter columns collected from sensors or manual entry.",
       "addParameter": "Add parameter",
@@ -514,12 +514,19 @@
       "parameterCode": "Code",
       "parameterName": "Name",
       "dataType": "Data type",
+      "dataTypes": {
+        "decimal": "Decimal",
+        "integer": "Integer",
+        "boolean": "Boolean",
+        "text": "Text"
+      },
       "unit": "Unit",
       "required": "Required",
       "active": "Active",
       "sources": "Sources",
       "assignments": "Current respondent assignments",
-      "assignmentsHint": "Assignment changes are saved through the canonical survey sensor settings API.",
+      "assignmentsHint": "Assignments stay editable even after the initial survey is published, since which physical sensor a respondent has keeps changing throughout a live study.",
+      "saveAssignments": "Save assignments",
       "priority": "Priority",
       "save": "Save sensor settings",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "Manual entry",
         "none": "No sensor integration"
       }
-    },
-    "sensorProfiles": {
-      "title": "Sensor integration profiles",
-      "hint": "Manage bounded GATT sequences and BLE advertisement profiles, and identify sensor types that require a compiled mobile adapter.",
-      "openLink": "Open sensor profiles"
     },
     "ok": "OK"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "This field must be unique",
     "respondentUsername": "Respondent",
     "sensorTypeName": "Type",
+    "sensorTypeHint": "The BLE device model this sensor is. Define one on the Add new sensor type page.",
+    "noSensorTypesAvailable": "No sensor types are available yet. Define one on the Add new sensor type page before adding a device.",
+    "goToAddSensorType": "Add new sensor type",
     "unassigned": "Unassigned",
     "selectRespondentHint": "Type username…",
     "clearRespondent": "Clear respondent",
@@ -784,8 +789,9 @@
     "editingFailed": "Updating the contact failed. Please try again later"
   },
   "sensorProfiles": {
-    "title": "Sensor integration profiles",
-    "hint": "Manage bounded GATT sequences and BLE advertisement profiles, and identify sensor types that require a compiled mobile adapter.",
+    "title": "Add new sensor type",
+    "hint": "Create a sensor type, manage bounded GATT sequences and BLE advertisement profiles, and identify types that require a compiled mobile adapter.",
+    "locked": "Adding new sensor types is locked because the initial survey has been published. The study is now live, so sensor types and profiles can no longer be changed.",
     "ok": "OK",
     "loadError": "Could not load sensor profile settings.",
     "capabilitiesLoadError": "Could not load sensor profile engine capabilities.",
@@ -850,5 +856,20 @@
       "published": "Published",
       "archived": "Archived"
     }
+  },
+  "integrations": {
+    "title": "Sensor integrations",
+    "hint": "Turn installed sensor integrations on or off for this study.",
+    "locked": "Changing sensor integrations is locked because the initial survey has been published. The study is now live, so active sources can no longer be changed.",
+    "ok": "OK",
+    "activeSensorsHint": "Enable the sensor integrations this study should use. Disabled integrations are hidden from respondents and cannot supply parameter sources.",
+    "empty": "No sensor integrations are available yet. Create one under Add new sensor type.",
+    "loadError": "Could not load sensor integrations.",
+    "saveError": "Could not save sensor integrations.",
+    "saved": "Sensor integrations saved.",
+    "save": "Save",
+    "timeoutSeconds": "Timeout (seconds)",
+    "statusOn": "On",
+    "statusOff": "Off"
   }
 }

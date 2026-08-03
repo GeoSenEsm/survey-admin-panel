@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 import {
+  RespondentSensorAssignment,
   SurveySensorDataSettings,
+  SurveySensorDataSettingsWrite,
   SurveySettings,
 } from '../models/survey-settings';
 
@@ -11,7 +13,14 @@ export interface SurveySettingsService {
   deleteLogo(): Observable<SurveySettings>;
   getSensorDataSettings(): Observable<SurveySensorDataSettings>;
   updateSensorDataSettings(
-    settings: SurveySensorDataSettings
+    settings: SurveySensorDataSettingsWrite
+  ): Observable<SurveySensorDataSettings>;
+  /**
+   * Always available, even once `updateSensorDataSettings` starts rejecting changes: respondent
+   * sensor assignments keep changing throughout a live study.
+   */
+  updateAssignments(
+    assignments: RespondentSensorAssignment[]
   ): Observable<SurveySensorDataSettings>;
   readonly cachedSettings: SurveySettings;
   watchSettings(): Observable<SurveySettings>;

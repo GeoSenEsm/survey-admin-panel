@@ -34,7 +34,8 @@
       "changeAdminPassword": "Changer le mot de passe",
       "userGuide": "Guide de l'utilisateur",
       "sensorDevices": "Capteurs",
-      "sensorProfiles": "Profils de capteurs",
+      "sensorProfiles": "Ajouter un nouveau type de capteur",
+      "integrations": "Intégrations",
       "someElementsNeedRefreshing": "Certains éléments nécessitent un rafraîchissement de la page pour appliquer le changement de langue.",
       "ok": "OK",
       "contactPhoneNumbers": "Numéros de contact",
@@ -497,6 +498,7 @@
       "sensorData": "Paramètres des données de capteurs"
     },
     "sensorData": {
+      "locked": "Les paramètres des données de capteurs sont verrouillés car l'enquête initiale a été publiée. L'étude est désormais en cours, le mode, les types de capteurs et les paramètres ne peuvent donc plus être modifiés. Les affectations des répondants ci-dessous restent modifiables.",
       "loadError": "Impossible de charger les paramètres des données de capteurs.",
       "saveError": "Impossible d'enregistrer les paramètres des données de capteurs.",
       "duplicateNameUnit": "Deux paramètres ne peuvent pas partager le même nom et la même unité. Les paramètres avec des unités différentes sont des paramètres différents : donnez à l'un un nom, une unité ou un code différent.",
@@ -505,8 +507,6 @@
       "mode": "Mode",
       "noSensorData": "Aucune donnée de capteur",
       "configuredSensors": "Utiliser les capteurs configurés",
-      "activeSensors": "Sources de capteurs actives",
-      "timeoutSeconds": "Délai d'expiration (secondes)",
       "parameters": "Colonnes de données de capteurs",
       "parametersHint": "Définissez les colonnes de paramètres collectées à partir des capteurs ou saisies manuellement.",
       "addParameter": "Ajouter un paramètre",
@@ -514,12 +514,19 @@
       "parameterCode": "Code",
       "parameterName": "Nom",
       "dataType": "Type de donnée",
+      "dataTypes": {
+        "decimal": "Décimal",
+        "integer": "Entier",
+        "boolean": "Booléen",
+        "text": "Texte"
+      },
       "unit": "Unité",
       "required": "Requis",
       "active": "Actif",
       "sources": "Sources",
       "assignments": "Affectations actuelles des répondants",
-      "assignmentsHint": "Les modifications d'affectation sont enregistrées via l'API canonique des paramètres de capteurs de l'enquête.",
+      "assignmentsHint": "Les affectations restent modifiables même après la publication de l'enquête initiale, car le capteur physique attribué à un répondant continue de changer tout au long de l'étude en cours.",
+      "saveAssignments": "Enregistrer les affectations",
       "priority": "Priorité",
       "save": "Enregistrer les paramètres des capteurs",
       "integrationModes": {
@@ -528,11 +535,6 @@
         "manual": "Saisie manuelle",
         "none": "Aucune intégration de capteur"
       }
-    },
-    "sensorProfiles": {
-      "title": "Profils d'intégration des capteurs",
-      "hint": "Gérez les séquences GATT et les profils publicitaires BLE, et identifiez les types de capteurs nécessitant un adaptateur compilé.",
-      "openLink": "Ouvrir les profils de capteurs"
     },
     "ok": "OK"
   },
@@ -593,6 +595,9 @@
     "uniqueError": "Ce champ doit être unique",
     "respondentUsername": "Répondant",
     "sensorTypeName": "Type",
+    "sensorTypeHint": "Le modèle d'appareil BLE de ce capteur. Définissez-en un sur la page Ajouter un nouveau type de capteur.",
+    "noSensorTypesAvailable": "Aucun type de capteur n'est encore disponible. Définissez-en un sur la page Ajouter un nouveau type de capteur avant d'ajouter un appareil.",
+    "goToAddSensorType": "Ajouter un nouveau type de capteur",
     "unassigned": "Non assigné",
     "selectRespondentHint": "Saisir le nom d'utilisateur…",
     "clearRespondent": "Effacer le répondant",
@@ -784,8 +789,9 @@
     }
   },
   "sensorProfiles": {
-    "title": "Profils d'intégration des capteurs",
-    "hint": "Gérez les séquences GATT et les profils publicitaires BLE, et identifiez les types de capteurs nécessitant un adaptateur compilé.",
+    "title": "Ajouter un nouveau type de capteur",
+    "hint": "Créez un type de capteur, gérez les séquences GATT et les profils publicitaires BLE, et identifiez les types nécessitant un adaptateur compilé.",
+    "locked": "L'ajout de nouveaux types de capteurs est verrouillé car l'enquête initiale a été publiée. L'étude est désormais en cours, les types de capteurs et les profils ne peuvent donc plus être modifiés.",
     "ok": "OK",
     "loadError": "Impossible de charger les paramètres de profil.",
     "capabilitiesLoadError": "Impossible de charger les capacités du moteur de profils de capteurs.",
@@ -850,5 +856,20 @@
       "published": "Publié",
       "archived": "Archivé"
     }
+  },
+  "integrations": {
+    "title": "Intégrations de capteurs",
+    "hint": "Activez ou désactivez les intégrations de capteurs installées pour cette étude.",
+    "locked": "La modification des intégrations de capteurs est verrouillée car l'enquête initiale a été publiée. L'étude est désormais en cours, les sources actives ne peuvent donc plus être modifiées.",
+    "ok": "OK",
+    "activeSensorsHint": "Activez les intégrations de capteurs que cette étude doit utiliser. Les intégrations désactivées sont masquées aux répondants et ne peuvent pas fournir de sources de paramètres.",
+    "empty": "Aucune intégration de capteur n'est disponible. Créez-en une sous Ajouter un nouveau type de capteur.",
+    "loadError": "Impossible de charger les intégrations de capteurs.",
+    "saveError": "Impossible d'enregistrer les intégrations de capteurs.",
+    "saved": "Intégrations de capteurs enregistrées.",
+    "save": "Enregistrer",
+    "timeoutSeconds": "Délai d'expiration (secondes)",
+    "statusOn": "Activé",
+    "statusOff": "Désactivé"
   }
 }

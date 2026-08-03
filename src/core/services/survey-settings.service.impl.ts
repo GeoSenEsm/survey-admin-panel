@@ -5,7 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import {
   DEFAULT_SURVEY_SETTINGS,
+  RespondentSensorAssignment,
   SurveySensorDataSettings,
+  SurveySensorDataSettingsWrite,
   SurveySettings,
 } from '../../domain/models/survey-settings';
 import { SurveySettingsService } from '../../domain/external_services/survey-settings.service';
@@ -64,8 +66,14 @@ export class SurveySettingsServiceImpl
   }
 
   updateSensorDataSettings(
-    settings: SurveySensorDataSettings
+    settings: SurveySensorDataSettingsWrite
   ): Observable<SurveySensorDataSettings> {
     return this.put('/api/surveysettings/sensordata', settings);
+  }
+
+  updateAssignments(
+    assignments: RespondentSensorAssignment[]
+  ): Observable<SurveySensorDataSettings> {
+    return this.put('/api/surveysettings/sensordata/assignments', { assignments });
   }
 }

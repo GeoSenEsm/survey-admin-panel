@@ -2,12 +2,17 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, Observable, switchMap } from 'rxjs';
-import { SENSOR_PROFILE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  SENSOR_PROFILE_SERVICE_TOKEN,
+  START_SURVEY_SERVICE_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import {
   parseAndFormatProfileJson,
   summarizeProfile,
 } from '../../../../../core/utils/sensor-profile-json';
+import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
+import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 import {
   SensorIntegrationMode,
   SensorProfileDraftRequest,
@@ -29,8 +34,6 @@ export class SensorProfilesComponent implements OnInit {
   readonly integrationModes: SensorIntegrationMode[] = [
     'profile',
     'native',
-    'manual',
-    'none',
   ];
 
   sensorTypes: SensorProfileSensorType[] = [];
@@ -47,10 +50,13 @@ export class SensorProfilesComponent implements OnInit {
   newAdapterKey = '';
   minimumEngineVersion = '1.0.0';
   supportedAdapterKeys: string[] = [];
+  sensorDataSetupLocked = false;
 
   constructor(
     @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
     private readonly service: SensorProfileService,
+    @Inject(START_SURVEY_SERVICE_TOKEN)
+    private readonly startSurveyService: StartSurveyService,
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService
   ) {}
@@ -58,6 +64,10 @@ export class SensorProfilesComponent implements OnInit {
   ngOnInit(): void {
     this.loadSensorTypes();
     this.loadCapabilities();
+    this.startSurveyService.getState().subscribe({
+      next: (state) => (this.sensorDataSetupLocked = state === 'published'),
+      error: () => (this.sensorDataSetupLocked = false),
+    });
   }
 
   loadCapabilities(): void {
@@ -72,9 +82,12 @@ export class SensorProfilesComponent implements OnInit {
   loadSensorTypes(): void {
     this.service.listSensorTypes().subscribe({
       next: (types) => {
-        this.sensorTypes = types;
-        if (!this.selectedTypeId && types.length) {
-          this.selectType(types[0].id);
+        this.sensorTypes = types.filter((type) => isSelectableSensorTypeCode(type.code));
+        if (!this.sensorTypes.some((type) => type.id === this.selectedTypeId)) {
+          this.selectedTypeId = '';
+        }
+        if (!this.selectedTypeId && this.sensorTypes.length) {
+          this.selectType(this.sensorTypes[0].id);
         }
       },
       error: () => this.showError('sensorProfiles.loadError'),
@@ -111,6 +124,9 @@ export class SensorProfilesComponent implements OnInit {
   }
 
   createSensorType(): void {
+    if (this.sensorDataSetupLocked) {
+      return;
+    }
     const code = this.newCode.trim();
     const name = this.newName.trim();
     if (!code || !name || !SENSOR_TYPE_CODE_PATTERN.test(code)) {
@@ -158,7 +174,7 @@ export class SensorProfilesComponent implements OnInit {
 
   importProfile(fileList: FileList | null): void {
     const file = fileList?.item(0);
-    if (!file) {
+    if (!file || this.sensorDataSetupLocked) {
       return;
     }
     const reader = new FileReader();
@@ -171,6 +187,9 @@ export class SensorProfilesComponent implements OnInit {
   }
 
   validateProfile(): void {
+    if (this.sensorDataSetupLocked) {
+      return;
+    }
     const request = this.buildDraftRequest();
     if (!request || !this.selectedTypeId) {
       return;
@@ -198,6 +217,9 @@ export class SensorProfilesComponent implements OnInit {
   }
 
   saveDraft(): void {
+    if (this.sensorDataSetupLocked) {
+      return;
+    }
     const request = this.buildDraftRequest();
     if (!request || !this.selectedTypeId) {
       return;
@@ -245,6 +267,7 @@ export class SensorProfilesComponent implements OnInit {
   publishDraft(): void {
     const revision = this.selectedRevision;
     if (
+      this.sensorDataSetupLocked ||
       !revision ||
       revision.status !== 'draft' ||
       !window.confirm(this.translate.instant('sensorProfiles.publishConfirm'))
@@ -259,6 +282,7 @@ export class SensorProfilesComponent implements OnInit {
 
   rollbackTo(revision: SensorProfileRevision): void {
     if (
+      this.sensorDataSetupLocked ||
       !window.confirm(
         this.translate.instant('sensorProfiles.rollbackConfirm', {
           revision: revision.revision,

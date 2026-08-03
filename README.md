@@ -49,12 +49,12 @@ Grouped sidenav categories:
 
 | Category | Items |
 |---|---|
-| Settings | Survey settings (general + sensor data settings), Research area (`/researchArea`), Contact numbers, Initial survey |
-| Respondents | Respondent list, Survey dates |
-| Statistics | Daily completion, Issues, Statistics |
-| Sensors | Sensors data, Sensor devices, Sensor profiles |
-| Results | Map, Results, Response documents |
+| Settings | Survey settings (general + sensor data settings), Research area (`/researchArea`), Contact numbers, Initial survey, Add new sensor type (`/sensorProfiles`), Integrations (`/integrations` — enable/disable sensor sources) |
 | Surveys | Surveys, Create survey |
+| Respondents | Respondent list, Survey dates |
+| Sensors | Temperature sensors, Sensor devices |
+| Results | Map, Results, Response documents |
+| Statistics | Daily completion, Issues, Statistics |
 
 ---
 
