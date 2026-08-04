@@ -152,17 +152,29 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSensorSettingsBusy = true;
-    // Re-read sensor types before save so Integrations enable/timeout edits are not overwritten.
+    // Re-read sensor types before save so Integrations enable/timeout edits are not overwritten,
+    // and drop any local parameter source that now points at a sensor type disabled there in the
+    // meantime — otherwise this stale local copy would silently resurrect it.
     this.service
       .getSensorDataSettings()
       .pipe(
-        switchMap((latest) =>
-          this.service.updateSensorDataSettings({
+        switchMap((latest) => {
+          const disabledCodes = new Set(
+            latest.sensorTypes
+              .filter((sensorType) => !sensorType.enabled)
+              .map((sensorType) => sensorType.sensorTypeCode)
+          );
+          return this.service.updateSensorDataSettings({
             mode: this.sensorSettings.mode,
             sensorTypes: latest.sensorTypes,
-            parameters: this.sensorSettings.parameters,
-          })
-        ),
+            parameters: this.sensorSettings.parameters.map((parameter) => ({
+              ...parameter,
+              sources: parameter.sources.filter(
+                (source) => !disabledCodes.has(source.sensorTypeCode)
+              ),
+            })),
+          });
+        }),
         finalize(() => (this.isSensorSettingsBusy = false))
       )
       .subscribe({

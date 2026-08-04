@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/responseDocuments',
     '/statistics',
     '/dailyCompletion',
+    '/integrations',
   ];
   @ViewChild(MatDrawerContent) drawerContent?: MatDrawerContent;
   navigationSubscription?: Subscription;

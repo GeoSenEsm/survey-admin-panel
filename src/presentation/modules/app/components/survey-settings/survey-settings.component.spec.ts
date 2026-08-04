@@ -206,6 +206,41 @@ describe('SurveySettingsComponent', () => {
     expect(component.sensorSettings.assignments).toBe(localAssignments);
   });
 
+  it('drops a local parameter source that points at a sensor type disabled elsewhere in the meantime', () => {
+    component.sensorSettingsLoaded = true;
+    component.sensorSettings.mode = 'configured_sensors';
+    component.sensorSettings.parameters = [
+      {
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        required: false,
+        active: true,
+        displayOrder: 0,
+        sources: [
+          { sensorTypeCode: 'kestrel', priorityOrder: 0 },
+          { sensorTypeCode: 'xiaomi', priorityOrder: 1 },
+        ],
+      },
+    ];
+    const latestTypes = [
+      { sensorTypeCode: 'kestrel', enabled: false, connectionTimeoutSeconds: 10, displayOrder: 0 },
+      { sensorTypeCode: 'xiaomi', enabled: true, connectionTimeoutSeconds: 10, displayOrder: 1 },
+    ];
+    settingsService.getSensorDataSettings.and.returnValue(
+      of({ mode: 'no_sensor_data', sensorTypes: latestTypes, parameters: [], assignments: [] })
+    );
+    settingsService.updateSensorDataSettings.and.returnValue(
+      of({ ...component.sensorSettings, sensorTypes: latestTypes, assignments: [] })
+    );
+
+    component.saveSensorDataSettings();
+
+    const [payload] = settingsService.updateSensorDataSettings.calls.mostRecent().args;
+    expect(payload.parameters[0].sources).toEqual([{ sensorTypeCode: 'xiaomi', priorityOrder: 1 }]);
+  });
+
   it('saves assignment edits through the dedicated assignments endpoint, even once locked', () => {
     component.sensorDataSetupLocked = true;
     component.sensorSettings.mode = 'configured_sensors';

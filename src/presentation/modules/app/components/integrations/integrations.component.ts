@@ -75,15 +75,13 @@ export class IntegrationsComponent implements OnInit {
   onSensorTypeEnabledChange(sensorType: SensorTypeSetting, enabled: boolean): void {
     sensorType.enabled = enabled;
     if (!enabled) {
+      // Respondent assignments for this type are managed separately, on the Survey Settings ->
+      // Sensor Data tab (dedicated updateAssignments endpoint) — this page never sends
+      // assignments, so it must not mutate them locally either.
       this.sensorSettings.parameters.forEach((parameter) => {
         parameter.sources = parameter.sources.filter(
           (source) => source.sensorTypeCode !== sensorType.sensorTypeCode
         );
-      });
-      this.sensorSettings.assignments.forEach((assignment) => {
-        if (assignment.sensorTypeCode === sensorType.sensorTypeCode) {
-          assignment.enabled = false;
-        }
       });
     }
   }
