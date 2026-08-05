@@ -19,6 +19,14 @@
   margin: 0 auto;
 }
 
+.back-button {
+  align-self: flex-start;
+
+  mat-icon {
+    margin-right: 4px;
+  }
+}
+
 .page-header {
   text-align: center;
 }
@@ -27,6 +35,12 @@ h3 {
   margin: 0 0 $space-2;
   color: $text-secondary;
   font-weight: 500;
+}
+
+h4 {
+  margin: 0;
+  color: $text-primary;
+  font-weight: 600;
 }
 
 .hint,
@@ -148,7 +162,8 @@ h3 {
   }
 }
 
-.sensor-meta {
+.sensor-meta,
+.sensor-parameters {
   display: flex;
   flex-wrap: wrap;
   gap: $space-2;
@@ -172,12 +187,16 @@ h3 {
   width: 100%;
 }
 
+.template-card button {
+  margin-top: auto;
+}
+
 .actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: $space-3;
-  padding-top: $space-2;
+  padding: $space-2 0;
 }
 
 @media (max-width: $mobile-breakpoint) {

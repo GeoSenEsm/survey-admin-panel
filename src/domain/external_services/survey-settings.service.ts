@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 import {
+  CreateSensorParameterDefinitionRequest,
+  EditSensorParameterDefinitionRequest,
   RespondentSensorAssignment,
+  SensorParameterDefinition,
   SurveySensorDataSettings,
   SurveySensorDataSettingsWrite,
   SurveySettings,
@@ -15,6 +18,18 @@ export interface SurveySettingsService {
   updateSensorDataSettings(
     settings: SurveySensorDataSettingsWrite
   ): Observable<SurveySensorDataSettings>;
+  createSensorParameterDefinition(
+    request: CreateSensorParameterDefinitionRequest
+  ): Observable<SensorParameterDefinition>;
+  updateSensorParameterDefinition(
+    id: string,
+    request: EditSensorParameterDefinitionRequest
+  ): Observable<SensorParameterDefinition>;
+  /** Sets the fallback priority order of a used parameter's raw sources in one call. */
+  reorderParameterSources(
+    parameterId: string,
+    sourceIds: string[]
+  ): Observable<{ id: string }[]>;
   /**
    * Always available, even once `updateSensorDataSettings` starts rejecting changes: respondent
    * sensor assignments keep changing throughout a live study.

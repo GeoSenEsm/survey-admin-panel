@@ -10,6 +10,7 @@ export interface SurveySettings {
 export interface SensorParameterSource {
   id?: string;
   sensorTypeCode: string;
+  rawParameterCode: string;
   priorityOrder: number;
 }
 
@@ -23,6 +24,29 @@ export interface SensorParameterDefinition {
   active: boolean;
   displayOrder: number;
   sources: SensorParameterSource[];
+}
+
+/** Write payload for `POST /api/surveysettings/sensordata/parameters`. */
+export interface CreateSensorParameterDefinitionRequest {
+  code: string;
+  name: string;
+  dataType: string;
+  unit?: string | null;
+  required: boolean;
+}
+
+/**
+ * Write payload for `PUT /api/surveysettings/sensordata/parameters/{id}`. `code` is immutable
+ * once created — it's the wire-format identity referenced by stored readings, GATT profile
+ * specs, and the mobile app.
+ */
+export interface EditSensorParameterDefinitionRequest {
+  name: string;
+  dataType: string;
+  unit?: string | null;
+  required: boolean;
+  active: boolean;
+  displayOrder: number;
 }
 
 export interface SensorTypeSetting {
@@ -57,14 +81,15 @@ export interface SurveySensorDataSettings {
 }
 
 /**
- * Write payload for `PUT /api/surveysettings/sensordata`. Deliberately excludes
- * `assignments`: which physical sensor a respondent has stays editable throughout a live study,
- * unlike the mode/parameter definitions, which are locked once the initial
- * survey is published. Active sensor enablement is edited on the Integrations
- * page and saved through the same endpoint. Assignments are saved separately
- * through `updateAssignments`.
+ * Write payload for `PUT /api/surveysettings/sensordata`. Only `mode` and `sensorTypes` are
+ * bulk-replaced here. `assignments` are saved separately through `updateAssignments`, since which
+ * physical sensor a respondent has stays editable throughout a live study. `parameters` are also
+ * excluded: "used sensor data" parameters are now created/edited one at a time
+ * (`POST`/`PUT /api/surveysettings/sensordata/parameters[/{id}]`) and wired via a sensor type's
+ * raw parameter catalog (`/api/sensorprofiles/types/{sensorTypeId}/parameters`), not as part of
+ * this bulk replace.
  */
-export type SurveySensorDataSettingsWrite = Omit<SurveySensorDataSettings, 'assignments'>;
+export type SurveySensorDataSettingsWrite = Pick<SurveySensorDataSettings, 'mode' | 'sensorTypes'>;
 
 export const DEFAULT_SURVEY_SETTINGS: SurveySettings = {
   showSendingPolicyCalendar: true,

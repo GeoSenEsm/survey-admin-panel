@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, switchMap } from 'rxjs';
+import { catchError, finalize, map, of, switchMap, throwError } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import {
   CSV_COLUMN_SEPARATOR_OPTIONS,
@@ -10,15 +10,36 @@ import {
   DEFAULT_SURVEY_SETTINGS,
   SENSOR_PARAMETER_DATA_TYPE_OPTIONS,
   SensorParameterDefinition,
+  SensorParameterSource,
   SensorTypeSetting,
   RespondentSensorAssignment,
   SurveySensorDataSettings,
   SurveySettings,
 } from '../../../../../domain/models/survey-settings';
+import { SensorTypeParameter } from '../../../../../domain/models/sensor-profile';
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
+import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
+import { SensorsService } from '../../../../../domain/external_services/sensors.service';
 import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
-import { START_SURVEY_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  SENSOR_PROFILE_SERVICE_TOKEN,
+  SENSORS_SERVICE_TOKEN,
+  START_SURVEY_SERVICE_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
+
+interface AddSourceDraft {
+  sensorTypeId: string;
+  code: string;
+}
+
+interface NewParameterDraft {
+  code: string;
+  name: string;
+  dataType: string;
+  unit: string;
+  required: boolean;
+}
 
 @Component({
   selector: 'app-survey-settings',
@@ -57,9 +78,20 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
    */
   sensorDataSetupLocked = false;
 
+  /** Hidden by default: only active parameters clutter the editing view. */
+  showInactiveParameters = false;
+  isParameterActionBusy = false;
+  newParameterDraft: NewParameterDraft = SurveySettingsComponent.emptyParameterDraft();
+  private readonly addSourceDrafts = new Map<string, AddSourceDraft>();
+  private sensorTypeIdByCode = new Map<string, string>();
+
   constructor(
     @Inject('surveySettingsService')
     private readonly service: SurveySettingsService,
+    @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
+    private readonly sensorProfileService: SensorProfileService,
+    @Inject(SENSORS_SERVICE_TOKEN)
+    private readonly sensorsService: SensorsService,
     private readonly configService: ConfigService,
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService,
@@ -72,6 +104,16 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
       (sensorType) =>
         isSelectableSensorTypeCode(sensorType.sensorTypeCode) && sensorType.enabled
     );
+  }
+
+  get visibleParameters(): SensorParameterDefinition[] {
+    return this.sensorSettings.parameters.filter(
+      (parameter) => this.showInactiveParameters || parameter.active
+    );
+  }
+
+  private static emptyParameterDraft(): NewParameterDraft {
+    return { code: '', name: '', dataType: 'decimal', unit: '', required: true };
   }
 
   get activeAssignments(): RespondentSensorAssignment[] {
@@ -92,6 +134,12 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.load();
     this.loadSensorDataSettings();
+    this.sensorsService.getSensorTypes().subscribe({
+      next: (types) => {
+        this.sensorTypeIdByCode = new Map(types.map((type) => [type.code, type.id]));
+      },
+      error: () => this.showError('surveySettings.sensorData.loadError'),
+    });
     this.startSurveyService.getState().subscribe({
       next: (state) => (this.sensorDataSetupLocked = state === 'published'),
       error: () => (this.sensorDataSetupLocked = false),
@@ -147,34 +195,20 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     if (this.isSensorSettingsBusy || !this.sensorSettingsLoaded || this.sensorDataSetupLocked) {
       return;
     }
-    if (this.hasDuplicateParameterNameUnitPairs()) {
-      this.showError('surveySettings.sensorData.duplicateNameUnit');
-      return;
-    }
     this.isSensorSettingsBusy = true;
-    // Re-read sensor types before save so Integrations enable/timeout edits are not overwritten,
-    // and drop any local parameter source that now points at a sensor type disabled there in the
-    // meantime — otherwise this stale local copy would silently resurrect it.
+    // Re-read sensor types before save so Integrations enable/timeout edits are not overwritten.
+    // NOTE: this no longer saves parameter/source edits made below on this tab — "used sensor
+    // data" parameters are now created/edited one at a time via a separate mechanism pending a
+    // UI rebuild (see the sensor-data-columns redesign). Only mode changes persist here today.
     this.service
       .getSensorDataSettings()
       .pipe(
-        switchMap((latest) => {
-          const disabledCodes = new Set(
-            latest.sensorTypes
-              .filter((sensorType) => !sensorType.enabled)
-              .map((sensorType) => sensorType.sensorTypeCode)
-          );
-          return this.service.updateSensorDataSettings({
+        switchMap((latest) =>
+          this.service.updateSensorDataSettings({
             mode: this.sensorSettings.mode,
             sensorTypes: latest.sensorTypes,
-            parameters: this.sensorSettings.parameters.map((parameter) => ({
-              ...parameter,
-              sources: parameter.sources.filter(
-                (source) => !disabledCodes.has(source.sensorTypeCode)
-              ),
-            })),
-          });
-        }),
+          })
+        ),
         finalize(() => (this.isSensorSettingsBusy = false))
       )
       .subscribe({
@@ -214,33 +248,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  addParameter(): void {
-    const nextOrder = this.sensorSettings.parameters.length;
-    this.sensorSettings = {
-      ...this.sensorSettings,
-      parameters: [
-        ...this.sensorSettings.parameters,
-        {
-          code: '',
-          name: '',
-          dataType: 'decimal',
-          unit: '',
-          required: true,
-          active: true,
-          displayOrder: nextOrder,
-          sources: [],
-        },
-      ],
-    };
-  }
-
-  removeParameter(index: number): void {
-    this.sensorSettings = {
-      ...this.sensorSettings,
-      parameters: this.sensorSettings.parameters.filter((_, i) => i !== index),
-    };
-  }
-
   isAssignmentTypeActive(sensorTypeCode: string): boolean {
     if (sensorTypeCode === 'manual') {
       return true;
@@ -250,27 +257,186 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     );
   }
 
-  hasSource(parameter: SensorParameterDefinition, sensorTypeCode: string): boolean {
-    return parameter.sources.some((source) => source.sensorTypeCode === sensorTypeCode);
-  }
-
-  toggleSource(parameter: SensorParameterDefinition, sensorTypeCode: string, enabled: boolean): void {
-    if (enabled && !this.hasSource(parameter, sensorTypeCode)) {
-      parameter.sources = [
-        ...parameter.sources,
-        {
-          sensorTypeCode,
-          priorityOrder: parameter.sources.length,
-        },
-      ];
+  createParameter(): void {
+    if (
+      this.isParameterActionBusy ||
+      this.sensorDataSetupLocked ||
+      !this.newParameterDraft.code.trim() ||
+      !this.newParameterDraft.name.trim()
+    ) {
       return;
     }
+    this.isParameterActionBusy = true;
+    this.service
+      .createSensorParameterDefinition({
+        code: this.newParameterDraft.code.trim(),
+        name: this.newParameterDraft.name.trim(),
+        dataType: this.newParameterDraft.dataType,
+        unit: this.newParameterDraft.unit.trim() || null,
+        required: this.newParameterDraft.required,
+      })
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        next: (created) => {
+          this.sensorSettings.parameters = [...this.sensorSettings.parameters, created];
+          this.newParameterDraft = SurveySettingsComponent.emptyParameterDraft();
+          this.showSuccess('surveySettings.sensorData.parameterCreated');
+        },
+        error: () => this.showError('surveySettings.sensorData.parameterSaveError'),
+      });
+  }
 
-    if (!enabled) {
-      parameter.sources = parameter.sources.filter(
-        (source) => source.sensorTypeCode !== sensorTypeCode
-      );
+  saveParameter(parameter: SensorParameterDefinition): void {
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id) {
+      return;
     }
+    this.isParameterActionBusy = true;
+    this.service
+      .updateSensorParameterDefinition(parameter.id, {
+        name: parameter.name,
+        dataType: parameter.dataType,
+        unit: parameter.unit?.trim() || null,
+        required: parameter.required,
+        active: parameter.active,
+        displayOrder: parameter.displayOrder,
+      })
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        next: (updated) => {
+          this.replaceParameter(updated);
+          this.showSuccess('surveySettings.sensorData.parameterSaved');
+        },
+        error: () => this.showError('surveySettings.sensorData.parameterSaveError'),
+      });
+  }
+
+  sensorTypeIdFor(sensorTypeCode: string): string | undefined {
+    return this.sensorTypeIdByCode.get(sensorTypeCode);
+  }
+
+  sensorTypeNameFor(sensorTypeCode: string): string {
+    const type = this.sensorSettings.sensorTypes.find((t) => t.sensorTypeCode === sensorTypeCode);
+    return type?.sensorTypeName || sensorTypeCode;
+  }
+
+  /** Active, enabled sensor types not already a source of this parameter. */
+  availableSensorTypesFor(parameter: SensorParameterDefinition): SensorTypeSetting[] {
+    const used = new Set(parameter.sources.map((source) => source.sensorTypeCode));
+    return this.selectableSensorTypes.filter((type) => !used.has(type.sensorTypeCode));
+  }
+
+  getAddSourceDraft(parameter: SensorParameterDefinition): AddSourceDraft {
+    const key = parameter.id ?? '';
+    let draft = this.addSourceDrafts.get(key);
+    if (!draft) {
+      draft = { sensorTypeId: '', code: parameter.code };
+      this.addSourceDrafts.set(key, draft);
+    }
+    return draft;
+  }
+
+  addSource(parameter: SensorParameterDefinition): void {
+    const draft = this.getAddSourceDraft(parameter);
+    const rawCode = draft.code.trim();
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id || !draft.sensorTypeId || !rawCode) {
+      return;
+    }
+    const sensorTypeId = draft.sensorTypeId;
+    this.isParameterActionBusy = true;
+    this.sensorProfileService
+      .createSensorTypeParameter(sensorTypeId, {
+        code: rawCode,
+        name: parameter.name,
+        dataType: parameter.dataType,
+        unit: parameter.unit ?? null,
+      })
+      .pipe(
+        catchError(() =>
+          this.sensorProfileService.listSensorTypeParameters(sensorTypeId).pipe(
+            map((existing) => existing.find((raw) => raw.code === rawCode)),
+            switchMap((existing) => {
+              if (!existing) {
+                return throwError(() => new Error('sensor-type-parameter-not-found'));
+              }
+              if (existing.usedParameterId && existing.usedParameterId !== parameter.id) {
+                return throwError(() => new Error('sensor-type-parameter-already-used'));
+              }
+              return of(existing);
+            })
+          )
+        ),
+        switchMap((raw: SensorTypeParameter) =>
+          raw.usedParameterId === parameter.id
+            ? of(raw)
+            : this.sensorProfileService.useSensorTypeParameter(sensorTypeId, raw.id, {
+                usedParameterId: parameter.id,
+              })
+        ),
+        finalize(() => (this.isParameterActionBusy = false))
+      )
+      .subscribe({
+        next: () => {
+          this.addSourceDrafts.delete(parameter.id ?? '');
+          this.loadSensorDataSettings();
+          this.showSuccess('surveySettings.sensorData.sourceAdded');
+        },
+        error: () => this.showError('surveySettings.sensorData.addSourceError'),
+      });
+  }
+
+  removeSource(parameter: SensorParameterDefinition, source: SensorParameterSource): void {
+    const sensorTypeId = this.sensorTypeIdByCode.get(source.sensorTypeCode);
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !source.id || !sensorTypeId) {
+      return;
+    }
+    this.isParameterActionBusy = true;
+    this.sensorProfileService
+      .unuseSensorTypeParameter(sensorTypeId, source.id)
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        next: () => {
+          parameter.sources = parameter.sources.filter((existing) => existing.id !== source.id);
+          this.showSuccess('surveySettings.sensorData.sourceRemoved');
+        },
+        error: () => this.showError('surveySettings.sensorData.removeSourceError'),
+      });
+  }
+
+  moveSource(parameter: SensorParameterDefinition, index: number, direction: -1 | 1): void {
+    const targetIndex = index + direction;
+    if (
+      this.isParameterActionBusy ||
+      this.sensorDataSetupLocked ||
+      !parameter.id ||
+      targetIndex < 0 ||
+      targetIndex >= parameter.sources.length
+    ) {
+      return;
+    }
+    const previous = parameter.sources;
+    const reordered = [...parameter.sources];
+    [reordered[index], reordered[targetIndex]] = [reordered[targetIndex], reordered[index]];
+    parameter.sources = reordered;
+
+    this.isParameterActionBusy = true;
+    this.service
+      .reorderParameterSources(
+        parameter.id,
+        reordered.map((source) => source.id!)
+      )
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        error: () => {
+          parameter.sources = previous;
+          this.showError('surveySettings.sensorData.reorderSourcesError');
+        },
+      });
+  }
+
+  private replaceParameter(updated: SensorParameterDefinition): void {
+    this.sensorSettings.parameters = this.sensorSettings.parameters.map((parameter) =>
+      parameter.id === updated.id ? { ...parameter, ...updated, sources: parameter.sources } : parameter
+    );
   }
 
   onLogoSelected(fileList: FileList | null): void {
@@ -387,24 +553,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           this.showError('surveySettings.saveError');
         },
       });
-  }
-
-  /**
-   * A parameter's identity is the (name, unit) pair, not the name alone: two parameters that
-   * measure different things in different units (e.g. lux "Light" vs. a boolean "Light" flag)
-   * must be distinct definitions. Mirrors the backend's UQ_sensor_parameter_definition_name_unit
-   * constraint so admins see a clear error instead of a raw save failure.
-   */
-  private hasDuplicateParameterNameUnitPairs(): boolean {
-    const seen = new Set<string>();
-    for (const parameter of this.sensorSettings.parameters) {
-      const key = `${parameter.name.trim().toLowerCase()}\u0000${(parameter.unit ?? '').trim().toLowerCase()}`;
-      if (seen.has(key)) {
-        return true;
-      }
-      seen.add(key);
-    }
-    return false;
   }
 
   private showError(key: string): void {

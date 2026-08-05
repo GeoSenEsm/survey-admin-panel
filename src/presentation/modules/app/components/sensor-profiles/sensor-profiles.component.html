@@ -1,4 +1,9 @@
 <div class="container">
+  <button mat-stroked-button class="back-button" routerLink="/surveySettings">
+    <mat-icon>arrow_back</mat-icon>
+    {{ "sensorProfiles.back" | translate }}
+  </button>
+
   <h3>{{ "sensorProfiles.title" | translate }}</h3>
   <p class="hint">{{ "sensorProfiles.hint" | translate }}</p>
 
@@ -36,21 +41,39 @@
           {{ "sensorProfiles.noAdapterKeysAvailable" | translate }}
         </mat-hint>
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="isBusy || sensorDataSetupLocked" (click)="createSensorType()">
-        {{ "sensorProfiles.createSensorType" | translate }}
-      </button>
+      <div class="create-action-row">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="isBusy || sensorDataSetupLocked"
+          (click)="createSensorType()"
+        >
+          {{ "sensorProfiles.createSensorType" | translate }}
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="settings-panel">
-    <mat-form-field appearance="outline" class="wide-field">
-      <mat-label>{{ "sensorProfiles.sensorType" | translate }}</mat-label>
-      <mat-select [ngModel]="selectedTypeId" (ngModelChange)="selectType($event)" [disabled]="isBusy">
-        <mat-option *ngFor="let st of sensorTypes" [value]="st.id">
-          {{ st.name }} ({{ st.code }}) — {{ integrationModeLabel(st.integrationMode) | translate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="type-selector-row">
+      <mat-form-field appearance="outline" class="wide-field">
+        <mat-label>{{ "sensorProfiles.sensorType" | translate }}</mat-label>
+        <mat-select [ngModel]="selectedTypeId" (ngModelChange)="selectType($event)" [disabled]="isBusy">
+          <mat-option *ngFor="let st of sensorTypes" [value]="st.id">
+            {{ st.name }} ({{ st.code }}) — {{ integrationModeLabel(st.integrationMode) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        color="warn"
+        *ngIf="selectedType"
+        [disabled]="isBusy || sensorDataSetupLocked"
+        (click)="deleteSensorType()"
+      >
+        {{ "sensorProfiles.deleteSensorType" | translate }}
+      </button>
+    </div>
 
     <div class="adapter-boundary" *ngIf="selectedType?.integrationMode === 'native'">
       <strong>{{ "sensorProfiles.codedAdapterTitle" | translate }}</strong>

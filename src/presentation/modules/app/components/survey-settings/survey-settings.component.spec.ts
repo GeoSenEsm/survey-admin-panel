@@ -1,14 +1,18 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, of } from 'rxjs';
+import { Subject, of, throwError } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
+import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
+import { SensorsService } from '../../../../../domain/external_services/sensors.service';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 import { SurveySettings } from '../../../../../domain/models/survey-settings';
 import { SurveySettingsComponent } from './survey-settings.component';
 
 describe('SurveySettingsComponent', () => {
   let settingsService: jasmine.SpyObj<SurveySettingsService>;
+  let sensorProfileService: jasmine.SpyObj<SensorProfileService>;
+  let sensorsService: jasmine.SpyObj<SensorsService>;
   let startSurveyService: jasmine.SpyObj<StartSurveyService>;
   let component: SurveySettingsComponent;
 
@@ -24,6 +28,9 @@ describe('SurveySettingsComponent', () => {
         'uploadLogo',
         'deleteLogo',
         'watchSettings',
+        'createSensorParameterDefinition',
+        'updateSensorParameterDefinition',
+        'reorderParameterSources',
       ],
       {
         cachedSettings: {
@@ -34,12 +41,45 @@ describe('SurveySettingsComponent', () => {
         },
       }
     );
+    sensorProfileService = jasmine.createSpyObj<SensorProfileService>('SensorProfileService', [
+      'getCapabilities',
+      'listSensorTypes',
+      'createSensorType',
+      'deleteSensorType',
+      'listSensorTypeParameters',
+      'createSensorTypeParameter',
+      'updateSensorTypeParameter',
+      'deleteSensorTypeParameter',
+      'useSensorTypeParameter',
+      'unuseSensorTypeParameter',
+      'listTemplates',
+      'installTemplate',
+      'listRevisions',
+      'getRevision',
+      'createDraft',
+      'updateDraft',
+      'validateDraft',
+      'publish',
+      'rollback',
+      'putDeviceSecret',
+    ]);
+    sensorsService = jasmine.createSpyObj<SensorsService>('SensorsService', [
+      'getSensors',
+      'getSensorTypes',
+      'addSensors',
+      'updateSensor',
+      'assignRespondent',
+      'deleteSensor',
+    ]);
+    sensorsService.getSensorTypes.and.returnValue(of([]));
     startSurveyService = jasmine.createSpyObj<StartSurveyService>('StartSurveyService', [
       'getState',
     ]);
     startSurveyService.getState.and.returnValue(of('not_created'));
     component = new SurveySettingsComponent(
       settingsService,
+      sensorProfileService,
+      sensorsService,
       { apiUrl: 'https://api.test' } as unknown as ConfigService,
       { open: jasmine.createSpy('open') } as unknown as MatSnackBar,
       {
@@ -147,7 +187,7 @@ describe('SurveySettingsComponent', () => {
     expect(component.sensorDataSetupLocked).toBeTrue();
   });
 
-  it('saves the mode and parameters through the settings endpoint, preserving latest sensor types and excluding assignments', () => {
+  it('saves the mode through the settings endpoint, preserving latest sensor types and excluding assignments/parameters', () => {
     component.sensorSettingsLoaded = true;
     component.sensorSettings.mode = 'configured_sensors';
     component.sensorSettings.sensorTypes = [
@@ -201,44 +241,8 @@ describe('SurveySettingsComponent', () => {
     component.saveSensorDataSettings();
 
     const [payload] = settingsService.updateSensorDataSettings.calls.mostRecent().args;
-    expect(Object.keys(payload)).not.toContain('assignments');
-    expect(payload.sensorTypes).toEqual(latestTypes);
+    expect(payload).toEqual({ mode: 'configured_sensors', sensorTypes: latestTypes });
     expect(component.sensorSettings.assignments).toBe(localAssignments);
-  });
-
-  it('drops a local parameter source that points at a sensor type disabled elsewhere in the meantime', () => {
-    component.sensorSettingsLoaded = true;
-    component.sensorSettings.mode = 'configured_sensors';
-    component.sensorSettings.parameters = [
-      {
-        code: 'temperature',
-        name: 'Temperature',
-        dataType: 'decimal',
-        unit: 'C',
-        required: false,
-        active: true,
-        displayOrder: 0,
-        sources: [
-          { sensorTypeCode: 'kestrel', priorityOrder: 0 },
-          { sensorTypeCode: 'xiaomi', priorityOrder: 1 },
-        ],
-      },
-    ];
-    const latestTypes = [
-      { sensorTypeCode: 'kestrel', enabled: false, connectionTimeoutSeconds: 10, displayOrder: 0 },
-      { sensorTypeCode: 'xiaomi', enabled: true, connectionTimeoutSeconds: 10, displayOrder: 1 },
-    ];
-    settingsService.getSensorDataSettings.and.returnValue(
-      of({ mode: 'no_sensor_data', sensorTypes: latestTypes, parameters: [], assignments: [] })
-    );
-    settingsService.updateSensorDataSettings.and.returnValue(
-      of({ ...component.sensorSettings, sensorTypes: latestTypes, assignments: [] })
-    );
-
-    component.saveSensorDataSettings();
-
-    const [payload] = settingsService.updateSensorDataSettings.calls.mostRecent().args;
-    expect(payload.parameters[0].sources).toEqual([{ sensorTypeCode: 'xiaomi', priorityOrder: 1 }]);
   });
 
   it('saves assignment edits through the dedicated assignments endpoint, even once locked', () => {
@@ -277,6 +281,174 @@ describe('SurveySettingsComponent', () => {
     expect(settingsService.updateSensorDataSettings).not.toHaveBeenCalled();
     expect(component.sensorSettings.mode).toBe('configured_sensors');
     expect(component.sensorSettings.assignments[0].enabled).toBeTrue();
+  });
+
+  describe('used sensor data parameters', () => {
+    it('createParameter() posts the draft and appends the result', () => {
+      component.newParameterDraft = {
+        code: 'battery',
+        name: 'Battery',
+        dataType: 'decimal',
+        unit: '%',
+        required: false,
+      };
+      const created = {
+        id: 'p1',
+        code: 'battery',
+        name: 'Battery',
+        dataType: 'decimal',
+        unit: '%',
+        required: false,
+        active: true,
+        displayOrder: 0,
+        sources: [],
+      };
+      settingsService.createSensorParameterDefinition.and.returnValue(of(created));
+
+      component.createParameter();
+
+      expect(settingsService.createSensorParameterDefinition).toHaveBeenCalledWith({
+        code: 'battery',
+        name: 'Battery',
+        dataType: 'decimal',
+        unit: '%',
+        required: false,
+      });
+      expect(component.sensorSettings.parameters).toContain(created);
+      expect(component.newParameterDraft.code).toBe('');
+    });
+
+    it('does not create a parameter without a code or name', () => {
+      component.newParameterDraft = { code: '', name: '', dataType: 'decimal', unit: '', required: true };
+      component.createParameter();
+      expect(settingsService.createSensorParameterDefinition).not.toHaveBeenCalled();
+    });
+
+    it('saveParameter() persists edits while keeping local sources', () => {
+      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
+      const parameter = {
+        id: 'p1',
+        code: 'temperature',
+        name: 'Temp',
+        dataType: 'decimal',
+        unit: 'C',
+        required: true,
+        active: true,
+        displayOrder: 0,
+        sources: [source],
+      };
+      component.sensorSettings.parameters = [parameter];
+      settingsService.updateSensorParameterDefinition.and.returnValue(
+        of({ ...parameter, name: 'Temperature', sources: [] })
+      );
+
+      component.saveParameter(parameter);
+
+      expect(settingsService.updateSensorParameterDefinition).toHaveBeenCalledWith('p1', {
+        name: 'Temp',
+        dataType: 'decimal',
+        unit: 'C',
+        required: true,
+        active: true,
+        displayOrder: 0,
+      });
+      expect(component.sensorSettings.parameters[0].sources).toEqual([source]);
+    });
+
+    it('addSource() creates a raw parameter under the chosen sensor type and links it', () => {
+      const parameter = {
+        id: 'p1',
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        required: true,
+        active: true,
+        displayOrder: 0,
+        sources: [],
+      };
+      component.sensorSettings.parameters = [parameter];
+      component.getAddSourceDraft(parameter).sensorTypeId = 'sensor-type-1';
+      component.getAddSourceDraft(parameter).code = 'temperature';
+      const rawParameter = {
+        id: 'raw1',
+        sensorTypeId: 'sensor-type-1',
+        sensorTypeCode: 'kestrel',
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        usedParameterId: null,
+        usedParameterCode: null,
+        priorityOrder: 0,
+      };
+      sensorProfileService.createSensorTypeParameter.and.returnValue(of(rawParameter));
+      sensorProfileService.useSensorTypeParameter.and.returnValue(
+        of({ ...rawParameter, usedParameterId: 'p1', priorityOrder: 0 })
+      );
+      settingsService.getSensorDataSettings.and.returnValue(
+        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [], assignments: [] })
+      );
+
+      component.addSource(parameter);
+
+      expect(sensorProfileService.createSensorTypeParameter).toHaveBeenCalledWith('sensor-type-1', {
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+      });
+      expect(sensorProfileService.useSensorTypeParameter).toHaveBeenCalledWith('sensor-type-1', 'raw1', {
+        usedParameterId: 'p1',
+      });
+    });
+
+    it('removeSource() unuses the raw parameter and drops it locally', () => {
+      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
+      const parameter = {
+        id: 'p1',
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        required: true,
+        active: true,
+        displayOrder: 0,
+        sources: [source],
+      };
+      (component as unknown as { sensorTypeIdByCode: Map<string, string> }).sensorTypeIdByCode = new Map([
+        ['xiaomi', 'sensor-type-xiaomi'],
+      ]);
+      sensorProfileService.unuseSensorTypeParameter.and.returnValue(of({ ...source, usedParameterId: null } as any));
+
+      component.removeSource(parameter, source);
+
+      expect(sensorProfileService.unuseSensorTypeParameter).toHaveBeenCalledWith('sensor-type-xiaomi', 's1');
+      expect(parameter.sources).toEqual([]);
+    });
+
+    it('moveSource() swaps priority optimistically and reverts on error', () => {
+      const first = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
+      const second = { id: 's2', sensorTypeCode: 'kestrel', rawParameterCode: 'temperature', priorityOrder: 1 };
+      const parameter = {
+        id: 'p1',
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        required: true,
+        active: true,
+        displayOrder: 0,
+        sources: [first, second],
+      };
+      settingsService.reorderParameterSources.and.returnValue(throwError(() => new Error('fail')));
+
+      component.moveSource(parameter, 0, 1);
+
+      expect(settingsService.reorderParameterSources).toHaveBeenCalledWith('p1', ['s2', 's1']);
+      // Reverted after the server call failed.
+      expect(parameter.sources).toEqual([first, second]);
+    });
   });
 
   it('has no logo preview when no logo has been uploaded', () => {

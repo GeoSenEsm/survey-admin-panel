@@ -39,6 +39,15 @@ h3 {
   font-weight: 500;
 }
 
+.disclaimer-notice {
+  background: $info-bg;
+  color: $info-color;
+  border: 1px solid $info-color;
+  border-radius: $radius-lg;
+  padding: $space-3 $space-4;
+  font-weight: 500;
+}
+
 .tab-content {
   display: flex;
   flex-direction: column;
@@ -51,6 +60,13 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: $space-4;
+}
+
+.manage-sensors-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex-wrap: wrap;
 }
 
 .setting-text {
@@ -110,6 +126,40 @@ h3 {
   align-items: center;
   gap: $space-3;
   flex-wrap: wrap;
+}
+
+.new-parameter-card {
+  border-style: dashed;
+}
+
+.source-chip {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 2px $space-2;
+
+  button {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+    }
+  }
+}
+
+.add-source-row {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .assignment-row {

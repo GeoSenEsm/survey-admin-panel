@@ -4,8 +4,11 @@ import { ApiService } from './api.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import {
+  CreateSensorParameterDefinitionRequest,
   DEFAULT_SURVEY_SETTINGS,
+  EditSensorParameterDefinitionRequest,
   RespondentSensorAssignment,
+  SensorParameterDefinition,
   SurveySensorDataSettings,
   SurveySensorDataSettingsWrite,
   SurveySettings,
@@ -75,5 +78,31 @@ export class SurveySettingsServiceImpl
     assignments: RespondentSensorAssignment[]
   ): Observable<SurveySensorDataSettings> {
     return this.put('/api/surveysettings/sensordata/assignments', { assignments });
+  }
+
+  createSensorParameterDefinition(
+    request: CreateSensorParameterDefinitionRequest
+  ): Observable<SensorParameterDefinition> {
+    return this.post('/api/surveysettings/sensordata/parameters', request);
+  }
+
+  updateSensorParameterDefinition(
+    id: string,
+    request: EditSensorParameterDefinitionRequest
+  ): Observable<SensorParameterDefinition> {
+    return this.put(
+      `/api/surveysettings/sensordata/parameters/${encodeURIComponent(id)}`,
+      request
+    );
+  }
+
+  reorderParameterSources(
+    parameterId: string,
+    sourceIds: string[]
+  ): Observable<{ id: string }[]> {
+    return this.put(
+      `/api/surveysettings/sensordata/parameters/${encodeURIComponent(parameterId)}/sources`,
+      { sourceIds }
+    );
   }
 }

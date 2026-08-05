@@ -5,13 +5,18 @@ import { map } from 'rxjs/operators';
 import { SensorProfileService } from '../../domain/external_services/sensor-profile.service';
 import {
   CreateSensorProfileTypeRequest,
+  CreateSensorTypeParameterRequest,
+  EditSensorTypeParameterRequest,
   SensorProfileCapabilities,
   SensorProfileDraftRequest,
   SensorProfileGoldenVectorResult,
   SensorProfileRevision,
   SensorProfileValidationIssue,
   SensorProfileSensorType,
+  SensorProfileTemplate,
   SensorProfileValidationResult,
+  SensorTypeParameter,
+  UseSensorTypeParameterRequest,
 } from '../../domain/models/sensor-profile';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
@@ -41,6 +46,70 @@ export class SensorProfileServiceImpl
     request: CreateSensorProfileTypeRequest
   ): Observable<SensorProfileSensorType> {
     return this.post(`${this.basePath}/types`, request);
+  }
+
+  deleteSensorType(sensorTypeId: string): Observable<void> {
+    return this.delete(`${this.basePath}/types/${encodeURIComponent(sensorTypeId)}`);
+  }
+
+  listSensorTypeParameters(sensorTypeId: string): Observable<SensorTypeParameter[]> {
+    return this.get(`${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters`);
+  }
+
+  createSensorTypeParameter(
+    sensorTypeId: string,
+    request: CreateSensorTypeParameterRequest
+  ): Observable<SensorTypeParameter> {
+    return this.post(
+      `${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters`,
+      request
+    );
+  }
+
+  updateSensorTypeParameter(
+    sensorTypeId: string,
+    id: string,
+    request: EditSensorTypeParameterRequest
+  ): Observable<SensorTypeParameter> {
+    return this.put(
+      `${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters/${encodeURIComponent(id)}`,
+      request
+    );
+  }
+
+  deleteSensorTypeParameter(sensorTypeId: string, id: string): Observable<void> {
+    return this.delete(
+      `${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters/${encodeURIComponent(id)}`
+    );
+  }
+
+  useSensorTypeParameter(
+    sensorTypeId: string,
+    id: string,
+    request: UseSensorTypeParameterRequest
+  ): Observable<SensorTypeParameter> {
+    return this.post(
+      `${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters/${encodeURIComponent(id)}/use`,
+      request
+    );
+  }
+
+  unuseSensorTypeParameter(sensorTypeId: string, id: string): Observable<SensorTypeParameter> {
+    return this.post(
+      `${this.basePath}/types/${encodeURIComponent(sensorTypeId)}/parameters/${encodeURIComponent(id)}/unuse`,
+      {}
+    );
+  }
+
+  listTemplates(): Observable<SensorProfileTemplate[]> {
+    return this.get(`${this.basePath}/templates`);
+  }
+
+  installTemplate(templateCode: string): Observable<SensorProfileSensorType> {
+    return this.post(
+      `${this.basePath}/templates/${encodeURIComponent(templateCode)}/install`,
+      {}
+    );
   }
 
   listRevisions(sensorTypeId: string): Observable<SensorProfileRevision[]> {

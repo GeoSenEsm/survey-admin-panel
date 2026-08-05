@@ -42,16 +42,6 @@ export function getNavListItems(): NavEntry[] {
           matIcon: 'list',
           link: 'startSurvey',
         },
-        {
-          display: 'app.dashboard.sensorProfiles',
-          matIcon: 'schema',
-          link: 'sensorProfiles',
-        },
-        {
-          display: 'app.dashboard.integrations',
-          matIcon: 'extension',
-          link: 'integrations',
-        },
       ],
     },
     {

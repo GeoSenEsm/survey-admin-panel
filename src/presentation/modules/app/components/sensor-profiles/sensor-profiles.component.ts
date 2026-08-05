@@ -157,6 +157,34 @@ export class SensorProfilesComponent implements OnInit {
       });
   }
 
+  deleteSensorType(): void {
+    const type = this.selectedType;
+    if (
+      !type ||
+      this.sensorDataSetupLocked ||
+      !window.confirm(this.translate.instant('sensorProfiles.deleteConfirm', { name: type.name }))
+    ) {
+      return;
+    }
+    this.isBusy = true;
+    this.service
+      .deleteSensorType(type.id)
+      .pipe(finalize(() => (this.isBusy = false)))
+      .subscribe({
+        next: () => {
+          this.sensorTypes = this.sensorTypes.filter((t) => t.id !== type.id);
+          this.selectedTypeId = '';
+          this.revisions = [];
+          this.selectedRevision = undefined;
+          if (this.sensorTypes.length) {
+            this.selectType(this.sensorTypes[0].id);
+          }
+          this.showSuccess('sensorProfiles.sensorTypeDeleted');
+        },
+        error: () => this.showError('sensorProfiles.sensorTypeDeleteError'),
+      });
+  }
+
   onProfileJsonChange(source: string): void {
     this.profileJson = source;
     const parsed = parseAndFormatProfileJson(source);

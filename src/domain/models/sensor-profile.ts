@@ -72,11 +72,69 @@ export interface SensorProfileSensorType {
   adapterKey?: string | null;
 }
 
+export interface SensorProfileTemplate {
+  code: string;
+  name: string;
+  parameterCodes: string[];
+  installed: boolean;
+}
+
 export interface CreateSensorProfileTypeRequest {
   code: string;
   name: string;
   integrationMode: SensorIntegrationMode;
   adapterKey?: string | null;
+}
+
+/**
+ * A sensor type's own raw parameter catalog: what that sensor type can possibly produce,
+ * independent of whether it has been promoted ("used") into "used sensor data" yet
+ * (`SensorParameterDefinition` in `survey-settings.ts`). Unlike a used parameter, `(name, unit)`
+ * is not unique here — the same reading can appear under different sensor types with no conflict.
+ */
+export interface SensorTypeParameter {
+  id: string;
+  sensorTypeId: string;
+  sensorTypeCode: string;
+  code: string;
+  name: string;
+  dataType: string;
+  unit?: string | null;
+  usedParameterId?: string | null;
+  usedParameterCode?: string | null;
+  priorityOrder: number;
+}
+
+/** Write payload for `POST /api/sensorprofiles/types/{sensorTypeId}/parameters`. */
+export interface CreateSensorTypeParameterRequest {
+  code: string;
+  name: string;
+  dataType: string;
+  unit?: string | null;
+}
+
+/**
+ * Write payload for `PUT /api/sensorprofiles/types/{sensorTypeId}/parameters/{id}`. `code` is
+ * immutable once created — delete and recreate the row if it was wrong.
+ */
+export interface EditSensorTypeParameterRequest {
+  name: string;
+  dataType: string;
+  unit?: string | null;
+}
+
+/**
+ * Write payload for `POST /api/sensorprofiles/types/{sensorTypeId}/parameters/{id}/use` —
+ * promotes a raw catalog row into "used sensor data". Set `usedParameterId` to link to an
+ * already-used parameter (adding a fallback source); leave it unset and provide
+ * `name`/`dataType`/`required` to create a new used parameter instead.
+ */
+export interface UseSensorTypeParameterRequest {
+  usedParameterId?: string | null;
+  name?: string;
+  dataType?: string;
+  unit?: string | null;
+  required?: boolean;
 }
 
 export interface SensorProfileDraftRequest {
