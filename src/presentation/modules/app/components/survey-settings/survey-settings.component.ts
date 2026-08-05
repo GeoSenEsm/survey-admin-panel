@@ -20,7 +20,10 @@ import { SensorTypeParameter } from '../../../../../domain/models/sensor-profile
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { SensorsService } from '../../../../../domain/external_services/sensors.service';
-import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
+import {
+  isSelectableAsParameterSource,
+  isSelectableSensorTypeCode,
+} from '../../../../../core/utils/sensor-type-filters';
 import {
   SENSOR_PROFILE_SERVICE_TOKEN,
   SENSORS_SERVICE_TOKEN,
@@ -319,10 +322,20 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     return type?.sensorTypeName || sensorTypeCode;
   }
 
-  /** Active, enabled sensor types not already a source of this parameter. */
+  /**
+   * Active, enabled sensor types not already a source of this parameter. Deliberately includes
+   * `manual` (unlike `selectableSensorTypes`, used for picking a *physical* sensor elsewhere on
+   * this page) — manual is a formal, priority-ordered fallback source like any other, not a
+   * separate always-on mechanism.
+   */
   availableSensorTypesFor(parameter: SensorParameterDefinition): SensorTypeSetting[] {
     const used = new Set(parameter.sources.map((source) => source.sensorTypeCode));
-    return this.selectableSensorTypes.filter((type) => !used.has(type.sensorTypeCode));
+    return this.sensorSettings.sensorTypes.filter(
+      (type) =>
+        isSelectableAsParameterSource(type.sensorTypeCode) &&
+        type.enabled &&
+        !used.has(type.sensorTypeCode)
+    );
   }
 
   getAddSourceDraft(parameter: SensorParameterDefinition): AddSourceDraft {
