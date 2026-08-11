@@ -16,16 +16,23 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { macPattern, normalizeMacInput } from '../../../../../core/utils/validators';
-import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
+import { resolveRespondentId } from '../../../../../core/utils/respondent-resolver';
 
 export interface EditSensorComponentDialogParameter {
   sensor: SensorDto;
   allSensors: SensorDto[];
 }
+
+/**
+ * Thrown when the multi-step save saga fails and a compensating rollback call also fails,
+ * so the entity may now be left half-updated on the backend. Carried separately from a plain
+ * save failure so the UI can warn the user instead of implying a clean, no-op failure.
+ */
+class SensorSaveInconsistentStateError extends Error {}
 
 @Component({
   selector: 'app-edit-sensor',
@@ -35,13 +42,21 @@ export interface EditSensorComponentDialogParameter {
 export class EditSensorComponent implements OnInit {
   readonly formGroup: FormGroup;
   respondents: RespondentData[] = [];
-  filteredRespondents: RespondentData[] = [];
   sensorTypes: SensorTypeDto[] = [];
   isBusy = false;
-  loadingRespondents = false;
+
+  onRespondentsLoaded(respondents: RespondentData[]): void {
+    this.respondents = respondents;
+  }
 
   get bindKeyConfigured(): boolean {
     return this.data.sensor.configuredSecrets?.includes('bind_key') === true;
+  }
+
+  get respondentControl(): FormControl<RespondentData | string | null> {
+    return this.formGroup.get('respondent') as FormControl<
+      RespondentData | string | null
+    >;
   }
 
   constructor(
@@ -52,8 +67,6 @@ export class EditSensorComponent implements OnInit {
     private readonly sensorsService: SensorsService,
     @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
     private readonly sensorProfileService: SensorProfileService,
-    @Inject('respondentDataService')
-    private readonly respondentDataService: RespondentDataService,
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService
   ) {
@@ -68,7 +81,6 @@ export class EditSensorComponent implements OnInit {
     this.formGroup = new FormGroup({
       sensorId: new FormControl(this.data.sensor.sensorId),
       sensorMac: new FormControl(this.data.sensor.sensorMac, [
-        Validators.required,
         macPattern(),
         this.validateUniqueness.bind(this),
       ]),
@@ -97,18 +109,6 @@ export class EditSensorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadingRespondents = true;
-    this.respondentDataService
-      .getRespondents(undefined)
-      .pipe(
-        catchError(() => of([] as RespondentData[])),
-        finalize(() => (this.loadingRespondents = false))
-      )
-      .subscribe((respondents) => {
-        this.respondents = respondents;
-        this.filteredRespondents = respondents;
-      });
-
     this.sensorsService
       .getSensorTypes()
       .pipe(catchError(() => of([] as SensorTypeDto[])))
@@ -150,6 +150,9 @@ export class EditSensorComponent implements OnInit {
   }
 
   validateUniqueness(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null;
+    }
     if (
       this.data.allSensors.some(
         (s) =>
@@ -163,9 +166,6 @@ export class EditSensorComponent implements OnInit {
   }
 
   getMacError(): string {
-    if (this.formGroup.get('sensorMac')?.hasError('required')) {
-      return 'sensorDevices.fieldIsRequired';
-    }
     if (this.formGroup.get('sensorMac')?.hasError('pattern')) {
       return 'sensorDevices.notValidMacAddress';
     }
@@ -184,35 +184,6 @@ export class EditSensorComponent implements OnInit {
       : '';
   }
 
-  displayRespondent = (value: RespondentData | string | null): string => {
-    if (!value) {
-      return '';
-    }
-    if (typeof value === 'string') {
-      return value;
-    }
-    return value.username ?? '';
-  };
-
-  filterRespondents(value: string): void {
-    const needle = (value ?? '').toLowerCase().trim();
-    this.filteredRespondents = needle
-      ? this.respondents.filter((r) =>
-          String(r.username).toLowerCase().includes(needle)
-        )
-      : this.respondents.slice();
-  }
-
-  onRespondentInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.filterRespondents(value);
-  }
-
-  clearRespondent(): void {
-    this.formGroup.get('respondent')?.setValue(null);
-    this.filteredRespondents = this.respondents.slice();
-  }
-
   close(): void {
     if (this.isBusy) {
       return;
@@ -229,33 +200,54 @@ export class EditSensorComponent implements OnInit {
       return;
     }
 
-    const respondentId = this.resolveRespondentId();
+    const respondentId = resolveRespondentId(
+      this.formGroup.get('respondent')?.value,
+      this.respondents
+    );
     if (respondentId === undefined) {
+      this.snackbar.open(
+        this.translate.instant('sensorDevices.respondentNotFound'),
+        this.translate.instant('sensorDevices.ok')
+      );
       return;
     }
 
     this.isBusy = true;
-    const sensorMac = this.formGroup.get('sensorMac')?.value as string;
+    const sensorMac =
+      (this.formGroup.get('sensorMac')?.value as string) || null;
     const sensorTypeId = this.formGroup.get('sensorTypeId')?.value as string;
     const bindKey = this.formGroup.get('bindKey')?.value as string;
     const originalSensorMac = this.data.sensor.sensorMac;
     const originalSensorTypeId = this.data.sensor.sensorTypeId;
     const originalRespondentId = this.data.sensor.respondentId ?? null;
 
+    // Reports whether the rollback itself succeeded so callers can tell a clean failure
+    // (the original mutation never stuck) apart from one that leaves the record inconsistent.
     const revertSensorFields = () =>
       this.sensorsService
         .updateSensor(this.data.sensor.sensorId, {
           sensorMac: originalSensorMac,
           sensorTypeId: originalSensorTypeId,
         })
-        .pipe(catchError(() => of(undefined)));
+        .pipe(
+          switchMap(() => of(true)),
+          catchError(() => of(false))
+        );
 
     const revertRespondent = () =>
       this.sensorsService
         .assignRespondent(this.data.sensor.sensorId, {
           respondentId: originalRespondentId,
         })
-        .pipe(catchError(() => of(undefined)));
+        .pipe(
+          switchMap(() => of(true)),
+          catchError(() => of(false))
+        );
+
+    const failWith = (error: unknown, rolledBackCleanly: boolean) =>
+      throwError(() =>
+        rolledBackCleanly ? error : new SensorSaveInconsistentStateError()
+      );
 
     // Order steps so the hardest step to undo (the bind key, which has no delete API) runs
     // last: if it fails, the two earlier, freely revertible mutations are rolled back first.
@@ -271,7 +263,7 @@ export class EditSensorComponent implements OnInit {
             .pipe(
               catchError((error) =>
                 revertSensorFields().pipe(
-                  switchMap(() => throwError(() => error))
+                  switchMap((reverted) => failWith(error, reverted))
                 )
               )
             )
@@ -284,8 +276,13 @@ export class EditSensorComponent implements OnInit {
                   switchMap(() => of(assignment)),
                   catchError((error) =>
                     revertRespondent().pipe(
-                      switchMap(() => revertSensorFields()),
-                      switchMap(() => throwError(() => error))
+                      switchMap((respondentReverted) =>
+                        revertSensorFields().pipe(
+                          switchMap((fieldsReverted) =>
+                            failWith(error, respondentReverted && fieldsReverted)
+                          )
+                        )
+                      )
                     )
                   )
                 )
@@ -307,36 +304,19 @@ export class EditSensorComponent implements OnInit {
               this.data.sensor.configuredSecrets ??
               (bindKey ? ['bind_key'] : []),
           });
+          this.isBusy = false;
           this.close();
         },
-        error: () => {
+        error: (error: unknown) => {
+          const messageKey =
+            error instanceof SensorSaveInconsistentStateError
+              ? 'sensorDevices.inconsistentStateAfterFailedSave'
+              : 'sensorDevices.couldNotUpdate';
           this.snackbar.open(
-            this.translate.instant('sensorDevices.couldNotUpdate'),
+            this.translate.instant(messageKey),
             this.translate.instant('sensorDevices.ok')
           );
         },
       });
-  }
-
-  /** `undefined` means the typed username did not match any respondent. */
-  private resolveRespondentId(): string | null | undefined {
-    const respondentValue = this.formGroup.get('respondent')?.value;
-    if (respondentValue && typeof respondentValue === 'object' && respondentValue.id) {
-      return respondentValue.id;
-    }
-    if (typeof respondentValue === 'string' && respondentValue.trim()) {
-      const match = this.respondents.find(
-        (r) => r.username === respondentValue.trim()
-      );
-      if (!match) {
-        this.snackbar.open(
-          this.translate.instant('sensorDevices.respondentNotFound'),
-          this.translate.instant('sensorDevices.ok')
-        );
-        return undefined;
-      }
-      return match.id;
-    }
-    return null;
   }
 }

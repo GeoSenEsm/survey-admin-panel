@@ -7,6 +7,10 @@
   <h3>{{ "sensorProfiles.title" | translate }}</h3>
   <p class="hint">{{ "sensorProfiles.hint" | translate }}</p>
 
+  <div class="experimental-notice">
+    {{ "sensorProfiles.experimentalNotice" | translate }}
+  </div>
+
   <div class="locked-notice" *ngIf="sensorDataSetupLocked">
     {{ "sensorProfiles.locked" | translate }}
   </div>
@@ -142,6 +146,45 @@
         <span *ngIf="summary.decoderId">{{ "sensorProfiles.summaryDecoder" | translate : { decoder: summary.decoderId } }}</span>
         <span *ngIf="summary.objectMappings">{{ "sensorProfiles.summaryMappings" | translate : { count: summary.objectMappings } }}</span>
         <span>{{ "sensorProfiles.summaryVectors" | translate : { count: summary.goldenVectors } }}</span>
+      </div>
+
+      <div class="live-test-panel">
+        <strong>{{ "sensorProfiles.liveTest.title" | translate }}</strong>
+
+        <div class="hint" *ngIf="!webBluetoothSupported">
+          {{ "sensorProfiles.liveTest.unsupported" | translate }}
+        </div>
+
+        <div class="hint" *ngIf="webBluetoothSupported && isAdvertisementProfile">
+          {{ "sensorProfiles.liveTest.advertisementDisclaimer" | translate }}
+        </div>
+
+        <ng-container *ngIf="webBluetoothSupported && !isAdvertisementProfile">
+          <p class="hint">{{ "sensorProfiles.liveTest.hint" | translate }}</p>
+          <div class="editor-actions">
+            <button mat-stroked-button [disabled]="!canLiveTest || liveTestBusy" (click)="startLiveTest()">
+              {{ "sensorProfiles.liveTest.connect" | translate }}
+            </button>
+            <button mat-stroked-button *ngIf="liveTestDeviceName" [disabled]="liveTestBusy" (click)="disconnectLiveTest()">
+              {{ "sensorProfiles.liveTest.disconnect" | translate }}
+            </button>
+          </div>
+
+          <div class="live-test-device" *ngIf="liveTestDeviceName">
+            {{ "sensorProfiles.liveTest.deviceLabel" | translate : { name: liveTestDeviceName } }}
+          </div>
+
+          <div class="live-test-error" *ngIf="liveTestError">{{ liveTestError }}</div>
+
+          <div class="live-test-step" *ngFor="let step of liveTestSteps" [class.failed]="!step.ok">
+            <code>{{ step.kind }}</code>
+            <span *ngIf="step.characteristicUuid">{{ step.characteristicUuid }}</span>
+            — {{ step.message }}
+            <div class="live-test-decoded" *ngFor="let field of step.decoded" [class.failed]="!!field.error">
+              {{ field.parameter }}: {{ field.error || field.value }}
+            </div>
+          </div>
+        </ng-container>
       </div>
 
       <div class="validation-results" *ngIf="profileValidation">

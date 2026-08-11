@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { SensorsService } from '../../../../../domain/external_services/sensors.service';
-import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  SENSORS_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import {
   CreateSensorDto,
   SensorDto,
@@ -48,7 +51,7 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private readonly data: SensorsImportDialogArgs,
     private readonly matDialogRef: MatDialogRef<SensorsImportProgressIndicatorComponent>,
     private readonly papa: Papa<CreateSensorDto>,
-    @Inject('surveySettingsService')
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
     private readonly surveySettingsService: SurveySettingsService
   ) {}
 
@@ -117,7 +120,7 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     onRepetition: OnRepetition,
     newEntries: CreateSensorDto[]
   ): boolean {
-    if (newEntries.some((e) => !this.macRegex.test(e.sensorMac))) {
+    if (newEntries.some((e) => !e.sensorMac || !this.macRegex.test(e.sensorMac))) {
       this.componentState = 'VALIDATION_FAILED';
       this.validationError = 'sensorDevices.someOfTheRowsHasInvalidMacFormat';
       return false;

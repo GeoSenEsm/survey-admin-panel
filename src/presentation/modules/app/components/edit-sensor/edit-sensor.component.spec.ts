@@ -1,9 +1,8 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
-import { RespondentDataService } from '../../../../../domain/external_services/respondent-data.servce';
 import { SensorsService } from '../../../../../domain/external_services/sensors.service';
 import { SensorDto } from '../../../../../domain/models/sensors-dtos';
 import { EditSensorComponent } from './edit-sensor.component';
@@ -54,9 +53,6 @@ describe('EditSensorComponent device secrets', () => {
       { close: jasmine.createSpy('close') } as unknown as MatDialogRef<EditSensorComponent>,
       sensorsService,
       profileService,
-      jasmine.createSpyObj<RespondentDataService>('RespondentDataService', [
-        'getRespondents',
-      ]),
       { open: jasmine.createSpy('open') } as unknown as MatSnackBar,
       { instant: (key: string) => key } as unknown as TranslateService
     );
@@ -87,6 +83,57 @@ describe('EditSensorComponent device secrets', () => {
     expect(sensorsService.updateSensor).toHaveBeenCalledWith('door-1', {
       sensorMac: 'AA:BB:CC:DD:EE:FF',
       sensorTypeId: 'door-type',
+    });
+  });
+
+  describe('rollback failure reporting', () => {
+    it('shows the generic failure message when a failed rollback still succeeds', () => {
+      const snackbar = { open: jasmine.createSpy('open') } as unknown as MatSnackBar;
+      sensorsService.assignRespondent.and.returnValue(
+        throwError(() => new Error('assign failed'))
+      );
+      sensorsService.updateSensor.and.returnValue(of(undefined));
+      component = new EditSensorComponent(
+        { sensor: { ...sensor }, allSensors: [sensor] },
+        { close: jasmine.createSpy('close') } as unknown as MatDialogRef<EditSensorComponent>,
+        sensorsService,
+        profileService,
+        snackbar,
+        { instant: (key: string) => key } as unknown as TranslateService
+      );
+
+      component.save();
+
+      expect(snackbar.open).toHaveBeenCalledWith(
+        'sensorDevices.couldNotUpdate',
+        'sensorDevices.ok'
+      );
+    });
+
+    it('shows an inconsistent-state warning when the compensating rollback itself fails', () => {
+      const snackbar = { open: jasmine.createSpy('open') } as unknown as MatSnackBar;
+      sensorsService.assignRespondent.and.returnValue(
+        throwError(() => new Error('assign failed'))
+      );
+      sensorsService.updateSensor.and.returnValues(
+        of(undefined),
+        throwError(() => new Error('rollback failed'))
+      );
+      component = new EditSensorComponent(
+        { sensor: { ...sensor }, allSensors: [sensor] },
+        { close: jasmine.createSpy('close') } as unknown as MatDialogRef<EditSensorComponent>,
+        sensorsService,
+        profileService,
+        snackbar,
+        { instant: (key: string) => key } as unknown as TranslateService
+      );
+
+      component.save();
+
+      expect(snackbar.open).toHaveBeenCalledWith(
+        'sensorDevices.inconsistentStateAfterFailedSave',
+        'sensorDevices.ok'
+      );
     });
   });
 });

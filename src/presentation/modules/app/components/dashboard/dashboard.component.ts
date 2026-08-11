@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     '/issues',
     '/surveyWindow',
     '/map',
-    '/temperature',
+    '/sensorData',
     '/summaries',
     '/sensorDevices',
     '/responseDocuments',

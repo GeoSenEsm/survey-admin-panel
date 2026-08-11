@@ -1,6 +1,6 @@
 import { InjectionToken } from "@angular/core";
 import { LocalStorageService } from "./local-storage";
-import { LOCATION_SERVICE, RESEARCH_AREA_SERVICE, SENSOR_PROFILE_SERVICE, SENSORS_SERVICE, START_SURVEY_SERVICE, STORAGE_SERVICE, TEMPERATURE_DATA_SERVICE, TOKEN_HANDLER } from "./registration-names";
+import { LOCATION_SERVICE, RESEARCH_AREA_SERVICE, SENSOR_PROFILE_SERVICE, SENSORS_SERVICE, START_SURVEY_SERVICE, STORAGE_SERVICE, SURVEY_SETTINGS_SERVICE, TEMPERATURE_DATA_SERVICE, TOKEN_HANDLER } from "./registration-names";
 import { TokenHandler } from "./token-handler";
 import { StartSurveyService } from "../../domain/external_services/start-survey.service";
 import { TemperatureDataService } from "../../domain/external_services/temperature-data.service";
@@ -8,6 +8,7 @@ import { LocationService } from "../../domain/external_services/location.service
 import { ResearchAreaService } from "../../domain/external_services/research_area.service";
 import { SensorsService } from "../../domain/external_services/sensors.service";
 import { SensorProfileService } from "../../domain/external_services/sensor-profile.service";
+import { SurveySettingsService } from "../../domain/external_services/survey-settings.service";
 
 export const STORAGE_SERVICE_TOKEN: InjectionToken<LocalStorageService>
 = new InjectionToken<LocalStorageService>(STORAGE_SERVICE);
@@ -28,3 +29,6 @@ export const START_SURVEY_SERVICE_TOKEN: InjectionToken<StartSurveyService>
 
  export const SENSOR_PROFILE_SERVICE_TOKEN =
   new InjectionToken<SensorProfileService>(SENSOR_PROFILE_SERVICE);
+
+ export const SURVEY_SETTINGS_SERVICE_TOKEN =
+  new InjectionToken<SurveySettingsService>(SURVEY_SETTINGS_SERVICE);

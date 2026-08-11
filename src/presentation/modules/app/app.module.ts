@@ -86,6 +86,7 @@ import { SensorDevicesComponent } from './components/sensor-devices/sensor-devic
 import { SensorsImportProgressIndicatorComponent } from './components/sensors-import-progress-indicator/sensors-import-progress-indicator.component';
 import { EditSensorComponent } from './components/edit-sensor/edit-sensor.component';
 import { CreateSensorComponent } from './components/create-sensor/create-sensor.component';
+import { RespondentAutocompleteComponent } from './components/respondent-autocomplete/respondent-autocomplete.component';
 import { ContactPhoneNumbersComponent } from './components/contact-phone-numbers/contact-phone-numbers.component';
 import { CreateNewContactPhoneNumberComponent } from './components/create-new-contact-phone-number/create-new-contact-phone-number.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
@@ -111,7 +112,7 @@ export const routes: Routes = [
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'sensorData', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'researchArea', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', redirectTo: 'researchArea', pathMatch: 'full'},
@@ -230,6 +231,7 @@ export function HttpLoaderFactory(http: HttpClient){
     SensorsImportProgressIndicatorComponent,
     EditSensorComponent,
     CreateSensorComponent,
+    RespondentAutocompleteComponent,
     ContactPhoneNumbersComponent,
     CreateNewContactPhoneNumberComponent,
     EditContactComponent,

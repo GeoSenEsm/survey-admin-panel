@@ -6,9 +6,8 @@ const SENSOR_IMAGES: Record<string, string> = {
   xiaomi: 'assets/imgs/sensors/xiaomi.jpg',
   kestrel: 'assets/imgs/sensors/kestrel.jpg',
   flower_care: 'assets/imgs/sensors/flower_care.jpg',
-  inkbird_ibs_th1: 'assets/imgs/sensors/inkbird_ibs_th1.jpg',
+  inkbird_ibs_th1: 'assets/imgs/sensors/inkbird_ibs_th1.png',
   pc_60fw: 'assets/imgs/sensors/pc_60fw.jpg',
-  bluetooth_sig_plx: 'assets/imgs/sensors/bluetooth_sig_plx.jpg',
   xiaomi_door_sensor_2: 'assets/imgs/sensors/xiaomi_door_sensor_2.jpg',
 };
 

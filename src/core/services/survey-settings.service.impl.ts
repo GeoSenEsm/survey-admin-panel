@@ -96,6 +96,10 @@ export class SurveySettingsServiceImpl
     );
   }
 
+  deleteSensorParameterDefinition(id: string): Observable<void> {
+    return this.delete(`/api/surveysettings/sensordata/parameters/${encodeURIComponent(id)}`);
+  }
+
   reorderParameterSources(
     parameterId: string,
     sourceIds: string[]

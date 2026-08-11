@@ -8,4 +8,5 @@ export interface TemperatureDataEntry {
     dateTime: string;
     source: string;
     values: SensorDataValue[];
+    surveyId: string | null;
 }

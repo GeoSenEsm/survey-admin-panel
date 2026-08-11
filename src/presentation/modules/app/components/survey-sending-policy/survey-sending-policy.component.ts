@@ -277,7 +277,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
           title: this.translate.instant(
             'surveyDetails.surveySendingPolicy.completingSurvey',
             {
-              from: this.datePipe.transform(from, 'shortTime'),
+              from: this.datePipe.transform(from, 'shortTime', 'UTC'),
               to: this.getToCalendarDisplay(from, to),
             }
           ),
@@ -292,14 +292,14 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
 
   private getToCalendarDisplay(from: Date, to: Date): string | null {
     if (
-      from.getFullYear() == to.getFullYear() &&
-      from.getMonth() == to.getMonth() &&
-      from.getDate() == to.getDate()
+      from.getUTCFullYear() == to.getUTCFullYear() &&
+      from.getUTCMonth() == to.getUTCMonth() &&
+      from.getUTCDate() == to.getUTCDate()
     ) {
-      return this.datePipe.transform(to, 'shortTime');
+      return this.datePipe.transform(to, 'shortTime', 'UTC');
     }
 
-    return this.datePipe.transform(to, 'short');
+    return this.datePipe.transform(to, 'short', 'UTC');
   }
 
   deleteSelected(): void {

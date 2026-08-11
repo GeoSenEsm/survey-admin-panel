@@ -83,7 +83,7 @@ export function getNavListItems(): NavEntry[] {
         {
           display: 'app.dashboard.temepratureSensors',
           matIcon: 'device_thermostat',
-          link: 'temperature',
+          link: 'sensorData',
         },
         {
           display: 'app.dashboard.sensorDevices',
@@ -118,6 +118,11 @@ export function getNavListItems(): NavEntry[] {
       matIcon: 'insights',
       children: [
         {
+          display: 'app.dashboard.statistics',
+          matIcon: 'insights',
+          link: 'statistics',
+        },
+        {
           display: 'app.dashboard.dailyCompletion',
           matIcon: 'view_module',
           link: 'dailyCompletion',
@@ -126,11 +131,6 @@ export function getNavListItems(): NavEntry[] {
           display: 'app.dashboard.issues',
           matIcon: 'report_problem',
           link: 'issues',
-        },
-        {
-          display: 'app.dashboard.statistics',
-          matIcon: 'insights',
-          link: 'statistics',
         },
       ],
     },

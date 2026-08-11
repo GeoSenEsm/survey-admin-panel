@@ -141,11 +141,11 @@ export class SensorProfileServiceImpl
     return this.post<{
       valid: boolean;
       canonicalHash?: string;
-      errors: string[];
+      errors: RawValidationIssue[];
       goldenVectors?: {
         name: string;
         passed: boolean;
-        errors: string[];
+        errors: RawValidationIssue[];
         decodedValues: Record<string, number>;
       }[];
     }>(
@@ -196,12 +196,23 @@ export class SensorProfileServiceImpl
     );
   }
 
-  private toIssues(messages: string[]): SensorProfileValidationIssue[] {
-    return messages.map((message) => ({
-      path: this.extractJsonPath(message),
-      code: '',
-      message,
-    }));
+  private toIssues(issues: RawValidationIssue[]): SensorProfileValidationIssue[] {
+    return issues.map((issue) => this.toIssue(issue));
+  }
+
+  private toIssue(issue: RawValidationIssue): SensorProfileValidationIssue {
+    if (typeof issue === 'string') {
+      return {
+        path: this.extractJsonPath(issue),
+        code: '',
+        message: issue,
+      };
+    }
+    return {
+      path: issue.path ?? '',
+      code: issue.code ?? '',
+      message: issue.message ?? '',
+    };
   }
 
   private extractJsonPath(message: string): string {
@@ -210,3 +221,13 @@ export class SensorProfileServiceImpl
       : '';
   }
 }
+
+/**
+ * The backend currently reports validation issues as plain strings formatted
+ * `"$.some.path free text"` (see `GattProfileValidator`). Accepting a structured shape too
+ * keeps this client from breaking outright if that ever changes to a `{path, code, message}`
+ * object without a corresponding admin-panel release.
+ */
+type RawValidationIssue =
+  | string
+  | { path?: string; code?: string; message?: string };

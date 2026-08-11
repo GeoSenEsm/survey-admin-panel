@@ -10,7 +10,10 @@ import {
 import L, { LatLng } from 'leaflet';
 import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
-import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  RESEARCH_AREA_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
 import { catchError, firstValueFrom, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,7 +48,7 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     private papa: Papa<LatLng>,
     @Inject(RESEARCH_AREA_SERVICE_TOKEN)
     private readonly researchAreaService: ResearchAreaService,
-    @Inject('surveySettingsService')
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
     private readonly surveySettingsService: SurveySettingsService,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
@@ -268,10 +271,14 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!trimmed) {
       return Number.NaN;
     }
+    const withoutSpaces = trimmed.replace(/\s/g, '');
+    const numberPattern =
+      decimalSep === ',' ? /^-?\d+(,\d+)?$/ : /^-?\d+(\.\d+)?$/;
+    if (!numberPattern.test(withoutSpaces)) {
+      return Number.NaN;
+    }
     const normalized =
-      decimalSep === ','
-        ? trimmed.replace(/\s/g, '').replace(',', '.')
-        : trimmed.replace(/\s/g, '');
+      decimalSep === ',' ? withoutSpaces.replace(',', '.') : withoutSpaces;
     return parseFloat(normalized);
   }
 

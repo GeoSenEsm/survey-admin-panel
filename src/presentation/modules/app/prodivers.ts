@@ -25,6 +25,7 @@ import {
   SENSORS_SERVICE_TOKEN,
   START_SURVEY_SERVICE_TOKEN,
   STORAGE_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
   TEMPERATURE_DATA_SERVICE_TOKEN,
   TOKEN_HANDLER_TOKEN,
 } from '../../../core/services/injection-tokens';
@@ -102,7 +103,7 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
   { provide: RESPONSE_DOCUMENTS_SERVICE, useClass: ResponseDocumentsServiceImpl },
   { provide: STATISTICS_SERVICE, useClass: StatisticsServiceImpl },
   {
-    provide: 'surveySettingsService',
+    provide: SURVEY_SETTINGS_SERVICE_TOKEN,
     useClass: SurveySettingsServiceImpl,
   },
   { provide: 'respondentDataService', useClass: RespondentDataServiceImpl },

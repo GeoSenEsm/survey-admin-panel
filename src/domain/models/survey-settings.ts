@@ -21,7 +21,6 @@ export interface SensorParameterDefinition {
   dataType: string;
   unit?: string;
   required: boolean;
-  active: boolean;
   displayOrder: number;
   sources: SensorParameterSource[];
 }
@@ -45,7 +44,6 @@ export interface EditSensorParameterDefinitionRequest {
   dataType: string;
   unit?: string | null;
   required: boolean;
-  active: boolean;
   displayOrder: number;
 }
 

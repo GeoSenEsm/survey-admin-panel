@@ -3,7 +3,7 @@ import { SensorIntegrationMode } from './sensor-profile';
 export interface SensorDto {
     id: string,
     sensorId: string,
-    sensorMac: string,
+    sensorMac: string | null,
     respondentId?: string | null,
     respondentUsername?: string | null,
     sensorTypeId: string,
@@ -24,7 +24,7 @@ export interface SensorTypeDto {
 }
 
 export interface UpdateSensorDto {
-    sensorMac: string
+    sensorMac: string | null
     sensorTypeId: string
 }
 
@@ -34,6 +34,6 @@ export interface AssignSensorRespondentDto {
 
 export interface CreateSensorDto {
     sensorId: string
-    sensorMac: string
+    sensorMac: string | null
     sensorTypeId?: string
 }

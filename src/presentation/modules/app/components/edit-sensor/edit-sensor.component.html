@@ -42,9 +42,6 @@
         {{ type.name }}
       </mat-option>
     </mat-select>
-    <mat-hint>
-      {{ "sensorDevices.sensorTypeHint" | translate }}
-    </mat-hint>
     <mat-error>
       {{ "sensorDevices.fieldIsRequired" | translate }}
     </mat-error>
@@ -60,45 +57,10 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>
-      {{ "sensorDevices.respondentUsername" | translate }}
-    </mat-label>
-    <input
-      matInput
-      formControlName="respondent"
-      [matAutocomplete]="respondentAuto"
-      (input)="onRespondentInput($event)"
-      [placeholder]="'sensorDevices.selectRespondentHint' | translate"
-    />
-    <button
-      *ngIf="formGroup.get('respondent')?.value"
-      matSuffix
-      mat-icon-button
-      type="button"
-      [attr.aria-label]="'sensorDevices.clearRespondent' | translate"
-      (click)="clearRespondent()"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-    <mat-autocomplete
-      #respondentAuto="matAutocomplete"
-      [displayWith]="displayRespondent"
-    >
-      <mat-option
-        *ngFor="let respondent of filteredRespondents"
-        [value]="respondent"
-      >
-        {{ respondent.username }}
-      </mat-option>
-      <mat-option
-        *ngIf="filteredRespondents.length === 0 && !loadingRespondents"
-        disabled
-      >
-        {{ "sensorDevices.noRespondentsMatch" | translate }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <app-respondent-autocomplete
+    [control]="respondentControl"
+    (respondentsLoaded)="onRespondentsLoaded($event)"
+  ></app-respondent-autocomplete>
 
   <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid || isBusy">
     {{ "sensorDevices.save" | translate }}

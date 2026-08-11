@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, Observable, switchMap } from 'rxjs';
@@ -11,9 +11,19 @@ import {
   summarizeProfile,
 } from '../../../../../core/utils/sensor-profile-json';
 import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
+import {
+  collectServiceUuids,
+  disconnectTestDevice,
+  isWebBluetoothSupported,
+  LiveTestStep,
+  requestTestDevice,
+  runLiveTest,
+  WebBluetoothDevice,
+} from '../../../../../core/utils/web-bluetooth-tester';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 import {
+  GattSequenceProfileSpecification,
   SensorIntegrationMode,
   SensorProfileDraftRequest,
   SensorProfileGoldenVectorResult,
@@ -30,7 +40,7 @@ const SENSOR_TYPE_CODE_PATTERN = /^[a-z][a-z0-9_]*$/;
   templateUrl: './sensor-profiles.component.html',
   styleUrl: './sensor-profiles.component.scss',
 })
-export class SensorProfilesComponent implements OnInit {
+export class SensorProfilesComponent implements OnInit, OnDestroy {
   readonly integrationModes: SensorIntegrationMode[] = [
     'profile',
     'native',
@@ -52,6 +62,13 @@ export class SensorProfilesComponent implements OnInit {
   supportedAdapterKeys: string[] = [];
   sensorDataSetupLocked = false;
 
+  readonly webBluetoothSupported = isWebBluetoothSupported();
+  liveTestBusy = false;
+  liveTestDeviceName = '';
+  liveTestSteps: LiveTestStep[] = [];
+  liveTestError = '';
+  private liveTestDevice?: WebBluetoothDevice;
+
   constructor(
     @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
     private readonly service: SensorProfileService,
@@ -68,6 +85,43 @@ export class SensorProfilesComponent implements OnInit {
       next: (state) => (this.sensorDataSetupLocked = state === 'published'),
       error: () => (this.sensorDataSetupLocked = false),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.resetLiveTest();
+  }
+
+  /** Opens Chrome/Edge's native device picker, then runs the draft's write/delay/acquire steps
+   * against whatever the user picks and shows exactly what came back — real bytes, real decoded
+   * values — without touching a phone or publishing anything. */
+  startLiveTest(): void {
+    const parsed = parseAndFormatProfileJson(this.profileJson);
+    if (!parsed.value || this.isAdvertisementProfile) {
+      return;
+    }
+    const spec = parsed.value as GattSequenceProfileSpecification;
+    this.liveTestBusy = true;
+    this.liveTestError = '';
+    this.liveTestSteps = [];
+    requestTestDevice(collectServiceUuids(spec))
+      .then((device) => {
+        this.liveTestDevice = device;
+        this.liveTestDeviceName = device.name || 'Unnamed device';
+        return runLiveTest(device, spec);
+      })
+      .then((steps) => (this.liveTestSteps = steps))
+      .catch((error) => {
+        // NotFoundError is what the picker throws when the user closes it without choosing a
+        // device — routine, not a failure worth showing as an error banner.
+        if (error instanceof Error && error.name !== 'NotFoundError') {
+          this.liveTestError = error.message;
+        }
+      })
+      .finally(() => (this.liveTestBusy = false));
+  }
+
+  disconnectLiveTest(): void {
+    this.resetLiveTest();
   }
 
   loadCapabilities(): void {
@@ -99,6 +153,7 @@ export class SensorProfilesComponent implements OnInit {
     this.selectedRevision = undefined;
     this.profileValidation = undefined;
     this.profileJson = '{}';
+    this.resetLiveTest();
     if (typeId) {
       this.loadRevisions();
     } else {
@@ -121,6 +176,22 @@ export class SensorProfilesComponent implements OnInit {
 
   get goldenVectorResults(): SensorProfileGoldenVectorResult[] {
     return this.profileValidation?.goldenVectors ?? [];
+  }
+
+  /** Live device testing only works for GATT profiles: Web Bluetooth can connect and read a
+   * named characteristic, but — unlike a native/mobile BLE stack — it cannot passively scan raw
+   * advertisement payloads, so `ble_advertisement`/MiBeacon profiles can't be exercised this way. */
+  get isAdvertisementProfile(): boolean {
+    return this.profileSummary?.transport === 'ble_advertisement';
+  }
+
+  get canLiveTest(): boolean {
+    return (
+      this.webBluetoothSupported &&
+      !this.isAdvertisementProfile &&
+      !this.profileSyntaxError &&
+      !!this.profileSummary
+    );
   }
 
   createSensorType(): void {
@@ -190,6 +261,7 @@ export class SensorProfilesComponent implements OnInit {
     const parsed = parseAndFormatProfileJson(source);
     this.profileSyntaxError = parsed.error ?? '';
     this.profileValidation = undefined;
+    this.resetLiveTest();
   }
 
   formatProfileJson(): void {
@@ -287,6 +359,7 @@ export class SensorProfilesComponent implements OnInit {
           this.profileJson = JSON.stringify(rev.spec, null, 2);
           this.profileSyntaxError = '';
           this.profileValidation = undefined;
+          this.resetLiveTest();
         },
         error: () => this.showError('sensorProfiles.revisionLoadError'),
       });
@@ -327,6 +400,17 @@ export class SensorProfilesComponent implements OnInit {
 
   integrationModeLabel(mode?: SensorIntegrationMode): string {
     return `sensorProfiles.integrationModes.${mode ?? 'none'}`;
+  }
+
+  private resetLiveTest(): void {
+    if (this.liveTestDevice) {
+      disconnectTestDevice(this.liveTestDevice);
+    }
+    this.liveTestDevice = undefined;
+    this.liveTestDeviceName = '';
+    this.liveTestSteps = [];
+    this.liveTestError = '';
+    this.liveTestBusy = false;
   }
 
   private loadRevisions(openPreferred = true): void {

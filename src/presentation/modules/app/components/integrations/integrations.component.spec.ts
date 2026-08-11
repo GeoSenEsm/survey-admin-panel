@@ -31,6 +31,7 @@ describe('IntegrationsComponent', () => {
       'getCapabilities',
       'listSensorTypes',
       'createSensorType',
+      'unuseSensorTypeParameter',
       'listTemplates',
       'installTemplate',
       'listRevisions',
@@ -80,7 +81,6 @@ describe('IntegrationsComponent', () => {
         dataType: 'decimal',
         unit: 'C',
         required: false,
-        active: true,
         displayOrder: 0,
         sources: [{ sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 }],
       },
@@ -90,7 +90,6 @@ describe('IntegrationsComponent', () => {
         dataType: 'decimal',
         unit: '%',
         required: false,
-        active: true,
         displayOrder: 1,
         sources: [
           { sensorTypeCode: 'xiaomi', rawParameterCode: 'humidity', priorityOrder: 0 },
@@ -148,8 +147,7 @@ describe('IntegrationsComponent', () => {
           dataType: 'decimal',
           unit: 'C',
           required: false,
-          active: true,
-          displayOrder: 0,
+            displayOrder: 0,
           sources: [
             { sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 },
             { sensorTypeCode: 'kestrel', rawParameterCode: 'temperature', priorityOrder: 1 },

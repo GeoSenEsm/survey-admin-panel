@@ -5,6 +5,7 @@ import { finalize, switchMap } from 'rxjs';
 import {
   SENSOR_PROFILE_SERVICE_TOKEN,
   START_SURVEY_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { isSelectableSensorTypeCode } from '../../../../../core/utils/sensor-type-filters';
 import { sensorTypeImageUrl } from '../../../../../core/utils/sensor-type-images';
@@ -33,7 +34,7 @@ export class IntegrationsComponent implements OnInit {
   isInstalling = false;
 
   constructor(
-    @Inject('surveySettingsService')
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
     private readonly surveySettingsService: SurveySettingsService,
     @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
     private readonly sensorProfileService: SensorProfileService,
@@ -136,9 +137,11 @@ export class IntegrationsComponent implements OnInit {
   onSensorTypeEnabledChange(sensorType: SensorTypeSetting, enabled: boolean): void {
     sensorType.enabled = enabled;
     if (!enabled) {
-      // Respondent assignments for this type are managed separately, on the Survey Settings ->
-      // Sensor Data tab (dedicated updateAssignments endpoint) — this page never sends
-      // assignments, so it must not mutate them locally either.
+      // Respondent assignments (which physical device a respondent has) are a separate concern
+      // from parameter source priority and are saved through their own dedicated
+      // updateAssignments endpoint — this page never sends assignments, so it must not mutate
+      // them locally either. The backend detaches (and, if left sourceless, deletes) this sensor
+      // type's parameter sources itself on save.
       this.sensorSettings.parameters.forEach((parameter) => {
         parameter.sources = parameter.sources.filter(
           (source) => source.sensorTypeCode !== sensorType.sensorTypeCode

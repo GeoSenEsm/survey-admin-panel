@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   DEFAULT_SURVEY_SETTINGS,
   SurveySettings,
 } from '../../domain/models/survey-settings';
-import { SurveySettingsServiceImpl } from './survey-settings.service.impl';
+import { SurveySettingsService } from '../../domain/external_services/survey-settings.service';
+import { SURVEY_SETTINGS_SERVICE_TOKEN } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CsvExportService {
   constructor(
-    private readonly surveySettingsService: SurveySettingsServiceImpl
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
+    private readonly surveySettingsService: SurveySettingsService
   ) {}
 
   exportTableToCSV(

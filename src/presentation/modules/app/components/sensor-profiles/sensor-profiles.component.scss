@@ -2,7 +2,6 @@
 
 .container {
   padding: 24px;
-  max-width: 960px;
   width: 100%;
   box-sizing: border-box;
   overflow-x: auto;
@@ -30,6 +29,12 @@
 
   .wide-field {
     flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  button {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 }
 
@@ -41,6 +46,16 @@
   padding: 12px 16px;
   margin-bottom: 16px;
   font-weight: 500;
+}
+
+.experimental-notice {
+  background: $warning-bg;
+  color: $warning-color;
+  border: 1px solid $warning-color;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
 }
 
 .settings-panel {
@@ -170,6 +185,52 @@
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     overflow-wrap: anywhere;
+  }
+}
+
+.live-test-panel {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
+}
+
+.live-test-device {
+  font-size: 0.875rem;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.live-test-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.live-test-step {
+  padding: 6px;
+  border-left: 3px solid #4caf50;
+  margin: 4px 0;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+
+  &.failed {
+    border-color: #f44336;
+  }
+
+  code {
+    margin-right: 6px;
+  }
+}
+
+.live-test-decoded {
+  padding-left: 12px;
+  font-size: 0.8rem;
+
+  &.failed {
+    color: #f44336;
   }
 }
 

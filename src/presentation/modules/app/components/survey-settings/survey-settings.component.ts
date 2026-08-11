@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, finalize, map, of, switchMap, throwError } from 'rxjs';
+import { catchError, finalize, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import {
   CSV_COLUMN_SEPARATOR_OPTIONS,
@@ -12,7 +12,6 @@ import {
   SensorParameterDefinition,
   SensorParameterSource,
   SensorTypeSetting,
-  RespondentSensorAssignment,
   SurveySensorDataSettings,
   SurveySettings,
 } from '../../../../../domain/models/survey-settings';
@@ -28,12 +27,12 @@ import {
   SENSOR_PROFILE_SERVICE_TOKEN,
   SENSORS_SERVICE_TOKEN,
   START_SURVEY_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { StartSurveyService } from '../../../../../domain/external_services/start-survey.service';
 
 interface AddSourceDraft {
-  sensorTypeId: string;
-  code: string;
+  rawParameterId: string;
 }
 
 interface NewParameterDraft {
@@ -41,6 +40,11 @@ interface NewParameterDraft {
   name: string;
   dataType: string;
   unit: string;
+  required: boolean;
+}
+
+interface NewParameterFromRawDraft {
+  rawParameterId: string;
   required: boolean;
 }
 
@@ -59,7 +63,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   isBusy = false;
   isLogoBusy = false;
   isSensorSettingsBusy = false;
-  isAssignmentsSaving = false;
   sensorSettingsLoaded = false;
   settings: SurveySettings = { ...DEFAULT_SURVEY_SETTINGS };
   sensorSettings: SurveySensorDataSettings = { ...DEFAULT_SENSOR_DATA_SETTINGS };
@@ -76,20 +79,22 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
    * Once the initial survey is published, the study is live and sensor data setup (mode and
    * parameter definitions) can no longer be changed — the backend rejects the save either way,
    * this just surfaces it proactively. Active sensor sources are managed on Integrations.
-   * Respondent sensor *assignments* are saved through a separate, always-unlocked call: which
-   * physical sensor a respondent has keeps changing throughout a live study.
+   * Respondent sensor *assignments* are managed on the Sensor devices screen and saved through
+   * a separate, always-unlocked call: which physical sensor a respondent has keeps changing
+   * throughout a live study.
    */
   sensorDataSetupLocked = false;
 
-  /** Hidden by default: only active parameters clutter the editing view. */
-  showInactiveParameters = false;
   isParameterActionBusy = false;
   newParameterDraft: NewParameterDraft = SurveySettingsComponent.emptyParameterDraft();
+  newParameterFromRawDraft: NewParameterFromRawDraft = SurveySettingsComponent.emptyParameterFromRawDraft();
+  /** Raw sensor-type parameters from active integrations that have not been promoted into a used parameter yet. */
+  unpromotedRawParameters: SensorTypeParameter[] = [];
   private readonly addSourceDrafts = new Map<string, AddSourceDraft>();
   private sensorTypeIdByCode = new Map<string, string>();
 
   constructor(
-    @Inject('surveySettingsService')
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
     private readonly service: SurveySettingsService,
     @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
     private readonly sensorProfileService: SensorProfileService,
@@ -109,20 +114,12 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     );
   }
 
-  get visibleParameters(): SensorParameterDefinition[] {
-    return this.sensorSettings.parameters.filter(
-      (parameter) => this.showInactiveParameters || parameter.active
-    );
-  }
-
   private static emptyParameterDraft(): NewParameterDraft {
     return { code: '', name: '', dataType: 'decimal', unit: '', required: true };
   }
 
-  get activeAssignments(): RespondentSensorAssignment[] {
-    return this.sensorSettings.assignments.filter((assignment) =>
-      this.isAssignmentTypeActive(assignment.sensorTypeCode)
-    );
+  private static emptyParameterFromRawDraft(): NewParameterFromRawDraft {
+    return { rawParameterId: '', required: true };
   }
 
   get logoPreviewUrl(): string | null {
@@ -140,6 +137,7 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     this.sensorsService.getSensorTypes().subscribe({
       next: (types) => {
         this.sensorTypeIdByCode = new Map(types.map((type) => [type.code, type.id]));
+        this.loadUnpromotedRawParameters();
       },
       error: () => this.showError('surveySettings.sensorData.loadError'),
     });
@@ -182,16 +180,144 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           this.sensorSettings = {
             ...settings,
             sensorTypes: [...settings.sensorTypes],
-            parameters: settings.parameters.map((parameter) => ({
-              ...parameter,
-              sources: [...parameter.sources],
-            })),
+            parameters: this.mergeParametersPreservingUnsavedEdits(settings.parameters),
             assignments: [...settings.assignments],
           };
           this.sensorSettingsLoaded = true;
+          this.loadUnpromotedRawParameters();
         },
         error: () => this.showError('surveySettings.sensorData.loadError'),
       });
+  }
+
+  /**
+   * `createParameter`/`addParameterFromRaw`/`addSource` all reload the full parameter list to
+   * pick up server-computed state (wired sources, display order) after their own action — but a
+   * wholesale replacement would silently drop an admin's unsaved inline edit (name/dataType/unit/
+   * required) to a *different*, not-yet-saved parameter row, since those fields only persist via
+   * `saveParameter`. There is no per-row dirty flag, so this keeps the previously-loaded editable
+   * fields for any parameter that still exists, and takes everything else (sources, displayOrder)
+   * fresh from the server; brand-new parameters are taken as-is.
+   */
+  private mergeParametersPreservingUnsavedEdits(
+    fresh: SensorParameterDefinition[]
+  ): SensorParameterDefinition[] {
+    const localById = new Map(
+      this.sensorSettings.parameters.filter((parameter) => parameter.id).map((parameter) => [parameter.id, parameter])
+    );
+    return fresh.map((parameter) => {
+      const local = parameter.id ? localById.get(parameter.id) : undefined;
+      return {
+        ...parameter,
+        name: local?.name ?? parameter.name,
+        dataType: local?.dataType ?? parameter.dataType,
+        unit: local?.unit ?? parameter.unit,
+        required: local?.required ?? parameter.required,
+        sources: [...parameter.sources],
+      };
+    });
+  }
+
+  /**
+   * Raw catalog rows from enabled integrations not yet promoted into any used parameter —
+   * `availableRawSourcesFor` filters this by (code, unit) to offer fallback sources for an
+   * *existing* parameter, where matching another parameter's (name, unit) is exactly what
+   * qualifies a row, so no such exclusion is applied here. Deliberately includes `manual`
+   * (unlike `selectableSensorTypes`, used for picking a *physical* sensor): manual is a formal,
+   * admin-configurable fallback source, not a physical device. Requires both `sensorTypeIdByCode`
+   * (from `getSensorTypes`) and `sensorSettings.sensorTypes` (from `getSensorDataSettings`) to be
+   * loaded; harmless no-op otherwise since whichever call resolves second re-triggers this.
+   */
+  loadUnpromotedRawParameters(): void {
+    const enabledSensorTypeIds = this.sensorSettings.sensorTypes
+      .filter((type) => isSelectableAsParameterSource(type.sensorTypeCode) && type.enabled)
+      .map((type) => this.sensorTypeIdFor(type.sensorTypeCode))
+      .filter((id): id is string => !!id);
+    if (!enabledSensorTypeIds.length) {
+      this.unpromotedRawParameters = [];
+      return;
+    }
+    forkJoin(
+      enabledSensorTypeIds.map((id) => this.sensorProfileService.listSensorTypeParameters(id))
+    ).subscribe({
+      next: (results) => {
+        this.unpromotedRawParameters = results.flat().filter((raw) => !raw.usedParameterId);
+      },
+      error: () => this.showError('surveySettings.sensorData.loadError'),
+    });
+  }
+
+  /**
+   * Raw rows eligible to be promoted into a brand-new used parameter — unlike
+   * `unpromotedRawParameters`, this excludes rows matching an existing used parameter's
+   * (name, unit), mirroring the backend's uniqueness check (`SensorParameterDefinitionValidator`)
+   * so a raw parameter that would be rejected on promotion doesn't show up here (it should
+   * instead be added as a fallback *source* to that existing parameter via `availableRawSourcesFor`).
+   */
+  get newParameterRawCandidates(): SensorTypeParameter[] {
+    return this.unpromotedRawParameters.filter((raw) => !this.matchesExistingParameter(raw));
+  }
+
+  private matchesExistingParameter(raw: SensorTypeParameter): boolean {
+    const rawName = SurveySettingsComponent.normalize(raw.name);
+    const rawUnit = SurveySettingsComponent.normalize(raw.unit);
+    return this.sensorSettings.parameters.some(
+      (parameter) =>
+        SurveySettingsComponent.normalize(parameter.name) === rawName &&
+        SurveySettingsComponent.normalize(parameter.unit) === rawUnit
+    );
+  }
+
+  private static normalize(value: string | null | undefined): string {
+    return (value ?? '').trim().toLowerCase();
+  }
+
+  rawParameterLabel(raw: SensorTypeParameter): string {
+    const unitSuffix = raw.unit ? ` (${raw.unit})` : '';
+    return `${this.sensorTypeNameFor(raw.sensorTypeCode)} — ${raw.name}${unitSuffix}`;
+  }
+
+  /**
+   * Every used parameter gets a `manual` fallback wired automatically, so an admin can always
+   * collect it by hand even with no physical sensor assigned yet — `manual` is the one sensor
+   * type whose raw catalog can legitimately be created on demand for any code, since manual entry
+   * has no real hardware to match against (unlike `addSource`, which only ever promotes a raw row
+   * that already exists). Best-effort: a failure here doesn't roll back the parameter itself, it
+   * just leaves the admin to wire a source by hand.
+   */
+  private wireManualSource(
+    parameter: Pick<SensorParameterDefinition, 'id' | 'code' | 'name' | 'dataType' | 'unit'>
+  ): Observable<unknown> {
+    const manualSensorTypeId = this.sensorTypeIdByCode.get('manual');
+    const parameterId = parameter.id;
+    if (!manualSensorTypeId || !parameterId) {
+      return of(null);
+    }
+    return this.sensorProfileService
+      .createSensorTypeParameter(manualSensorTypeId, {
+        code: parameter.code,
+        name: parameter.name,
+        dataType: parameter.dataType,
+        unit: parameter.unit ?? null,
+      })
+      .pipe(
+        catchError(() =>
+          this.sensorProfileService.listSensorTypeParameters(manualSensorTypeId).pipe(
+            map((existing) => existing.find((raw) => raw.code === parameter.code)),
+            switchMap((existing) =>
+              existing ? of(existing) : throwError(() => new Error('manual-source-wire-failed'))
+            )
+          )
+        ),
+        switchMap((raw: SensorTypeParameter) =>
+          raw.usedParameterId === parameterId
+            ? of(raw)
+            : this.sensorProfileService.useSensorTypeParameter(manualSensorTypeId, raw.id, {
+                usedParameterId: parameterId,
+              })
+        ),
+        catchError(() => of(null))
+      );
   }
 
   saveSensorDataSettings(): void {
@@ -218,6 +344,7 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         next: (settings) => {
           this.sensorSettings = {
             ...settings,
+            parameters: this.mergeParametersPreservingUnsavedEdits(settings.parameters),
             assignments: this.sensorSettings.assignments,
           };
           this.showSuccess('surveySettings.saved');
@@ -226,38 +353,8 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Deliberately not guarded by `sensorDataSetupLocked`: see that field's doc comment for why
-   * assignments stay editable after the initial survey is published.
-   */
-  saveAssignments(): void {
-    if (this.isAssignmentsSaving) {
-      return;
-    }
-    this.isAssignmentsSaving = true;
-    this.service
-      .updateAssignments(this.sensorSettings.assignments)
-      .pipe(finalize(() => (this.isAssignmentsSaving = false)))
-      .subscribe({
-        next: (settings) => {
-          // Keep any unsaved local setup edits; those go through saveSensorDataSettings().
-          this.sensorSettings = {
-            ...this.sensorSettings,
-            assignments: settings.assignments,
-          };
-          this.showSuccess('surveySettings.saved');
-        },
-        error: () => this.showError('surveySettings.sensorData.saveError'),
-      });
-  }
-
-  isAssignmentTypeActive(sensorTypeCode: string): boolean {
-    if (sensorTypeCode === 'manual') {
-      return true;
-    }
-    return this.sensorSettings.sensorTypes.some(
-      (sensorType) => sensorType.sensorTypeCode === sensorTypeCode && sensorType.enabled
-    );
+  onSensorModeChange(checked: boolean): void {
+    this.sensorSettings.mode = checked ? 'configured_sensors' : 'no_sensor_data';
   }
 
   createParameter(): void {
@@ -283,9 +380,50 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         next: (created) => {
           this.sensorSettings.parameters = [...this.sensorSettings.parameters, created];
           this.newParameterDraft = SurveySettingsComponent.emptyParameterDraft();
+          this.wireManualSource(created).subscribe(() => this.loadSensorDataSettings());
           this.showSuccess('surveySettings.sensorData.parameterCreated');
         },
-        error: () => this.showError('surveySettings.sensorData.parameterSaveError'),
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterSaveError'),
+      });
+  }
+
+  /**
+   * Promotes a raw, not-yet-used sensor-type parameter straight into a new used parameter in one
+   * call (backend creates the `sensor_parameter_definition` and wires this raw row to it), rather
+   * than requiring the code/name/dataType/unit to be retyped by hand via the user-defined form.
+   */
+  addParameterFromRaw(): void {
+    const raw = this.newParameterRawCandidates.find(
+      (candidate) => candidate.id === this.newParameterFromRawDraft.rawParameterId
+    );
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !raw) {
+      return;
+    }
+    this.isParameterActionBusy = true;
+    this.sensorProfileService
+      .useSensorTypeParameter(raw.sensorTypeId, raw.id, {
+        name: raw.name,
+        dataType: raw.dataType,
+        unit: raw.unit ?? null,
+        required: this.newParameterFromRawDraft.required,
+      })
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        next: (promoted) => {
+          this.newParameterFromRawDraft = SurveySettingsComponent.emptyParameterFromRawDraft();
+          const wireManual$ = promoted.usedParameterId
+            ? this.wireManualSource({
+                id: promoted.usedParameterId,
+                code: raw.code,
+                name: raw.name,
+                dataType: raw.dataType,
+                unit: raw.unit ?? undefined,
+              })
+            : of(null);
+          wireManual$.subscribe(() => this.loadSensorDataSettings());
+          this.showSuccess('surveySettings.sensorData.parameterCreated');
+        },
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterSaveError'),
       });
   }
 
@@ -300,7 +438,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         dataType: parameter.dataType,
         unit: parameter.unit?.trim() || null,
         required: parameter.required,
-        active: parameter.active,
         displayOrder: parameter.displayOrder,
       })
       .pipe(finalize(() => (this.isParameterActionBusy = false)))
@@ -309,7 +446,33 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           this.replaceParameter(updated);
           this.showSuccess('surveySettings.sensorData.parameterSaved');
         },
-        error: () => this.showError('surveySettings.sensorData.parameterSaveError'),
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterSaveError'),
+      });
+  }
+
+  /**
+   * Hard delete — there is no active/inactive toggle, a parameter is either on the list or gone.
+   * The backend rejects this with 409 if sensor readings already exist for it.
+   */
+  deleteParameter(parameter: SensorParameterDefinition): void {
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id) {
+      return;
+    }
+    if (!window.confirm(this.translate.instant('surveySettings.sensorData.removeParameterConfirm', { name: parameter.name }))) {
+      return;
+    }
+    this.isParameterActionBusy = true;
+    this.service
+      .deleteSensorParameterDefinition(parameter.id)
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
+      .subscribe({
+        next: () => {
+          this.sensorSettings.parameters = this.sensorSettings.parameters.filter(
+            (existing) => existing.id !== parameter.id
+          );
+          this.showSuccess('surveySettings.sensorData.parameterRemoved');
+        },
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterRemoveError'),
       });
   }
 
@@ -323,18 +486,16 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Active, enabled sensor types not already a source of this parameter. Deliberately includes
-   * `manual` (unlike `selectableSensorTypes`, used for picking a *physical* sensor elsewhere on
-   * this page) — manual is a formal, priority-ordered fallback source like any other, not a
-   * separate always-on mechanism.
+   * Raw catalog rows that genuinely report this exact (code, unit) pair and aren't wired to any
+   * used parameter yet — the only legitimate candidates for a new source. There is deliberately
+   * no free-text "raw code" entry: an admin can only pick a sensor that actually has this reading
+   * on its own parameters list, not fabricate one.
    */
-  availableSensorTypesFor(parameter: SensorParameterDefinition): SensorTypeSetting[] {
-    const used = new Set(parameter.sources.map((source) => source.sensorTypeCode));
-    return this.sensorSettings.sensorTypes.filter(
-      (type) =>
-        isSelectableAsParameterSource(type.sensorTypeCode) &&
-        type.enabled &&
-        !used.has(type.sensorTypeCode)
+  availableRawSourcesFor(parameter: SensorParameterDefinition): SensorTypeParameter[] {
+    return this.unpromotedRawParameters.filter(
+      (raw) =>
+        raw.code === parameter.code &&
+        SurveySettingsComponent.normalize(raw.unit) === SurveySettingsComponent.normalize(parameter.unit)
     );
   }
 
@@ -342,7 +503,7 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     const key = parameter.id ?? '';
     let draft = this.addSourceDrafts.get(key);
     if (!draft) {
-      draft = { sensorTypeId: '', code: parameter.code };
+      draft = { rawParameterId: '' };
       this.addSourceDrafts.set(key, draft);
     }
     return draft;
@@ -350,56 +511,41 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
 
   addSource(parameter: SensorParameterDefinition): void {
     const draft = this.getAddSourceDraft(parameter);
-    const rawCode = draft.code.trim();
-    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id || !draft.sensorTypeId || !rawCode) {
+    const raw = this.unpromotedRawParameters.find((candidate) => candidate.id === draft.rawParameterId);
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id || !raw) {
       return;
     }
-    const sensorTypeId = draft.sensorTypeId;
     this.isParameterActionBusy = true;
     this.sensorProfileService
-      .createSensorTypeParameter(sensorTypeId, {
-        code: rawCode,
-        name: parameter.name,
-        dataType: parameter.dataType,
-        unit: parameter.unit ?? null,
-      })
-      .pipe(
-        catchError(() =>
-          this.sensorProfileService.listSensorTypeParameters(sensorTypeId).pipe(
-            map((existing) => existing.find((raw) => raw.code === rawCode)),
-            switchMap((existing) => {
-              if (!existing) {
-                return throwError(() => new Error('sensor-type-parameter-not-found'));
-              }
-              if (existing.usedParameterId && existing.usedParameterId !== parameter.id) {
-                return throwError(() => new Error('sensor-type-parameter-already-used'));
-              }
-              return of(existing);
-            })
-          )
-        ),
-        switchMap((raw: SensorTypeParameter) =>
-          raw.usedParameterId === parameter.id
-            ? of(raw)
-            : this.sensorProfileService.useSensorTypeParameter(sensorTypeId, raw.id, {
-                usedParameterId: parameter.id,
-              })
-        ),
-        finalize(() => (this.isParameterActionBusy = false))
-      )
+      .useSensorTypeParameter(raw.sensorTypeId, raw.id, { usedParameterId: parameter.id })
+      .pipe(finalize(() => (this.isParameterActionBusy = false)))
       .subscribe({
         next: () => {
           this.addSourceDrafts.delete(parameter.id ?? '');
           this.loadSensorDataSettings();
           this.showSuccess('surveySettings.sensorData.sourceAdded');
         },
-        error: () => this.showError('surveySettings.sensorData.addSourceError'),
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.addSourceError'),
       });
+  }
+
+  /**
+   * This manual removal path never deletes the parameter itself, unlike disabling a sensor type
+   * (which unlinks every source it owns and lets the backend delete a parameter left sourceless)
+   * — so removing the very last source here would strand the parameter with nothing able to
+   * collect it. `parameter.sources` is the real, already-live count.
+   */
+  canRemoveSource(parameter: SensorParameterDefinition): boolean {
+    return parameter.sources.length > 1;
   }
 
   removeSource(parameter: SensorParameterDefinition, source: SensorParameterSource): void {
     const sensorTypeId = this.sensorTypeIdByCode.get(source.sensorTypeCode);
     if (this.isParameterActionBusy || this.sensorDataSetupLocked || !source.id || !sensorTypeId) {
+      return;
+    }
+    if (!this.canRemoveSource(parameter)) {
+      this.showError('surveySettings.sensorData.cannotRemoveLastSource');
       return;
     }
     this.isParameterActionBusy = true;
@@ -411,31 +557,35 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           parameter.sources = parameter.sources.filter((existing) => existing.id !== source.id);
           this.showSuccess('surveySettings.sensorData.sourceRemoved');
         },
-        error: () => this.showError('surveySettings.sensorData.removeSourceError'),
+        error: (err) => this.showApiError(err, 'surveySettings.sensorData.removeSourceError'),
       });
   }
 
-  moveSource(parameter: SensorParameterDefinition, index: number, direction: -1 | 1): void {
-    const targetIndex = index + direction;
-    if (
-      this.isParameterActionBusy ||
-      this.sensorDataSetupLocked ||
-      !parameter.id ||
-      targetIndex < 0 ||
-      targetIndex >= parameter.sources.length
-    ) {
+  positionOptionsFor(parameter: SensorParameterDefinition): number[] {
+    return Array.from({ length: parameter.sources.length }, (_, i) => i + 1);
+  }
+
+  reorderSource(parameter: SensorParameterDefinition, source: SensorParameterSource, newPosition: number): void {
+    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id) {
       return;
     }
     const previous = parameter.sources;
-    const reordered = [...parameter.sources];
-    [reordered[index], reordered[targetIndex]] = [reordered[targetIndex], reordered[index]];
+    const oldIndex = previous.indexOf(source);
+    const targetIndex = newPosition - 1;
+    if (oldIndex === -1 || targetIndex < 0 || targetIndex >= previous.length || targetIndex === oldIndex) {
+      return;
+    }
+
+    const reordered = [...previous];
+    reordered.splice(oldIndex, 1);
+    reordered.splice(targetIndex, 0, source);
     parameter.sources = reordered;
 
     this.isParameterActionBusy = true;
     this.service
       .reorderParameterSources(
         parameter.id,
-        reordered.map((source) => source.id!)
+        reordered.map((existing) => existing.id!)
       )
       .pipe(finalize(() => (this.isParameterActionBusy = false)))
       .subscribe({
@@ -573,6 +723,20 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
       this.translate.instant(key),
       this.translate.instant('surveySettings.ok')
     );
+  }
+
+  /**
+   * The backend rejects some parameter writes (e.g. a duplicate name+unit pair) with a plain-text
+   * 400 body explaining exactly why — surface that instead of a generic message when present, since
+   * a bare "could not save" gives no clue that the name/unit is already used by another parameter.
+   */
+  private showApiError(err: unknown, fallbackKey: string): void {
+    const backendMessage = (err as { error?: unknown })?.error;
+    const message =
+      typeof backendMessage === 'string' && backendMessage.trim()
+        ? backendMessage
+        : this.translate.instant(fallbackKey);
+    this.snackbar.open(message, this.translate.instant('surveySettings.ok'));
   }
 
   private showSuccess(key: string): void {

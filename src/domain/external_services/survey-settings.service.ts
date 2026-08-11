@@ -25,6 +25,11 @@ export interface SurveySettingsService {
     id: string,
     request: EditSensorParameterDefinitionRequest
   ): Observable<SensorParameterDefinition>;
+  /**
+   * Hard-deletes a used parameter. There is no soft-hide flag: a parameter is either on the list
+   * or removed. Rejected with 409 if sensor readings already exist for it.
+   */
+  deleteSensorParameterDefinition(id: string): Observable<void>;
   /** Sets the fallback priority order of a used parameter's raw sources in one call. */
   reorderParameterSources(
     parameterId: string,

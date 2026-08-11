@@ -22,9 +22,6 @@
         {{ type.name }}
       </mat-option>
     </mat-select>
-    <mat-hint *ngIf="sensorTypes.length">
-      {{ "sensorDevices.sensorTypeHint" | translate }}
-    </mat-hint>
     <mat-error>
       {{ (getErrorMessage("sensorTypeId") ?? "") | translate }}
     </mat-error>
@@ -46,6 +43,11 @@
       {{ (getErrorMessage("sensorMac") ?? "") | translate }}
     </mat-error>
   </mat-form-field>
+
+  <app-respondent-autocomplete
+    [control]="respondentControl"
+    (respondentsLoaded)="onRespondentsLoaded($event)"
+  ></app-respondent-autocomplete>
 
   <mat-form-field *ngIf="bindKeyRequired">
     <mat-label>

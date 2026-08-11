@@ -30,6 +30,25 @@ h3 {
   padding: $space-4;
 }
 
+// mat-tab-group's body defaults to an internally scrollable box (Material's
+// own overflow:auto on .mat-mdc-tab-body-content). This page relies on the
+// outer .content (mat-drawer-content) for scrolling instead, so the tab body
+// must always grow to its natural content height rather than trapping its
+// own scrollbar.
+.container mat-tab-group {
+  flex: 0 0 auto;
+}
+
+:host ::ng-deep {
+  .mat-mdc-tab-body.mat-mdc-tab-body-active {
+    overflow: visible;
+  }
+
+  .mat-mdc-tab-body-content {
+    overflow: visible;
+  }
+}
+
 .locked-notice {
   background: $warning-bg;
   color: $warning-color;
@@ -119,8 +138,6 @@ h3 {
   gap: $space-2;
 }
 
-.source-row,
-.assignment-row,
 .actions {
   display: flex;
   align-items: center;
@@ -132,25 +149,108 @@ h3 {
   border-style: dashed;
 }
 
-.source-chip {
+.add-parameter-columns {
+  display: flex;
+  align-items: stretch;
+  gap: $space-3;
+  flex-wrap: wrap;
+  margin-top: $space-3;
+
+  > .parameter-card {
+    flex: 1 1 320px;
+    margin-top: 0;
+  }
+}
+
+.section-divider {
   display: flex;
   align-items: center;
+  gap: $space-2;
+  margin-top: $space-2;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: $border-color;
+  }
+}
+
+.section-divider-label {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.source-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  width: 100%;
+}
+
+.source-section-title {
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.source-list {
+  display: flex;
+  flex-direction: column;
   gap: $space-1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-item {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
   border: 1px solid $border-color;
   border-radius: $radius-md;
-  padding: 2px $space-2;
+  padding: $space-1 $space-2;
+  background: $surface;
+}
 
-  button {
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
+.source-order-select {
+  flex-shrink: 0;
+  width: 44px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 2px $space-1;
+  font-weight: 600;
+  color: $text-primary;
 
-    mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      line-height: 18px;
-    }
+  &.mat-mdc-select-disabled {
+    opacity: 0.6;
+  }
+}
+
+.source-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
   }
 }
 
@@ -160,16 +260,6 @@ h3 {
   gap: $space-2;
   flex-wrap: wrap;
   width: 100%;
-}
-
-.assignment-row {
-  justify-content: space-between;
-  border-top: 1px solid $border-color;
-  padding: $space-2 0;
-}
-
-.priority-field {
-  width: 120px;
 }
 
 .file-button {
@@ -208,6 +298,67 @@ h3 {
   display: flex;
   justify-content: center;
   padding: $space-2;
+}
+
+// Sensor data tab – switches use disableRipple; a soft glow + lift stands in for the ripple.
+.sensor-data-tab {
+  ::ng-deep mat-slide-toggle {
+    --mdc-switch-selected-track-color: #{$primary-color};
+    --mdc-switch-selected-handle-color: #{$primary-color};
+    --mdc-switch-selected-hover-track-color: #{$primary-color-dark};
+    --mdc-switch-selected-hover-handle-color: #{$primary-color-dark};
+    --mdc-switch-selected-focus-track-color: #{$primary-color};
+    --mdc-switch-selected-focus-handle-color: #{$primary-color};
+    --mdc-switch-selected-pressed-track-color: #{$primary-color-dark};
+    --mdc-switch-selected-pressed-handle-color: #{$primary-color-dark};
+    --mdc-switch-unselected-handle-color: #{$neutral-400};
+    --mdc-switch-unselected-hover-handle-color: #{$neutral-500};
+    --mdc-switch-handle-elevation: none;
+
+    transition: transform $transition-fast;
+
+    .mdc-switch__track {
+      transition: background-color $transition-fast, box-shadow $transition-fast;
+    }
+
+    .mdc-switch__handle .mdc-switch__shadow {
+      box-shadow: $shadow-sm;
+    }
+
+    .mdc-switch__handle {
+      transition: transform $transition-fast;
+    }
+
+    &.mat-mdc-slide-toggle-checked .mdc-switch__track {
+      box-shadow: 0 0 0 4px rgba($primary-color, 0.15);
+    }
+
+    &:hover:not(.mat-mdc-slide-toggle-disabled) {
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.mat-mdc-slide-toggle-disabled) .mdc-switch__handle {
+      transform: scale(1.1);
+    }
+
+    label {
+      font-weight: 500;
+    }
+  }
+
+  ::ng-deep mat-checkbox {
+    .mdc-checkbox {
+      transition: transform $transition-fast;
+    }
+
+    &:hover .mdc-checkbox {
+      transform: scale(1.05);
+    }
+
+    label {
+      font-weight: 500;
+    }
+  }
 }
 
 @media (max-width: $mobile-breakpoint) {

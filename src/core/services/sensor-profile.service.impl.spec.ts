@@ -93,6 +93,37 @@ describe('SensorProfileServiceImpl', () => {
     expect(message).toBe('Missing matcher');
   });
 
+  it('extracts the JSON path prefix from a plain-string validation error', () => {
+    let issue: { path: string; code: string; message: string } | undefined;
+    service.validateDraft('profile-1').subscribe((result) => (issue = result.errors[0]));
+
+    http
+      .expectOne('https://api.example/api/sensorprofiles/profile-1/validate')
+      .flush({ valid: false, errors: ['$.discovery.serviceUuid must be a UUID'] });
+
+    expect(issue).toEqual({
+      path: '$.discovery.serviceUuid',
+      code: '',
+      message: '$.discovery.serviceUuid must be a UUID',
+    });
+  });
+
+  it('also accepts a structured {path, code, message} validation error shape', () => {
+    let issue: { path: string; code: string; message: string } | undefined;
+    service.validateDraft('profile-1').subscribe((result) => (issue = result.errors[0]));
+
+    http.expectOne('https://api.example/api/sensorprofiles/profile-1/validate').flush({
+      valid: false,
+      errors: [{ path: '$.schemaVersion', code: 'invalid_schema_version', message: 'must equal 1' }],
+    });
+
+    expect(issue).toEqual({
+      path: '$.schemaVersion',
+      code: 'invalid_schema_version',
+      message: 'must equal 1',
+    });
+  });
+
   it('sends bind keys only to the write-only device secret endpoint', () => {
     const value = '00112233445566778899aabbccddeeff';
     service.putDeviceSecret('sensor/id', 'bind_key', value).subscribe();

@@ -16,6 +16,8 @@ import { macPattern, normalizeMacInput, notIn } from '../../../../../core/utils/
 import { SENSOR_PROFILE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
+import { resolveRespondentId } from '../../../../../core/utils/respondent-resolver';
+import { RespondentData } from '../../../../../domain/models/respondent-data';
 
 interface CreateSensorComponentDialogParameter {
   allSensors: SensorDto[];
@@ -31,6 +33,17 @@ export class CreateSensorComponent implements OnInit {
   isBusy = false;
   readonly formGroup: FormGroup;
   sensorTypes: SensorTypeDto[] = [];
+  respondents: RespondentData[] = [];
+
+  get respondentControl(): FormControl<RespondentData | string | null> {
+    return this.formGroup.get('respondent') as FormControl<
+      RespondentData | string | null
+    >;
+  }
+
+  onRespondentsLoaded(respondents: RespondentData[]): void {
+    this.respondents = respondents;
+  }
 
   constructor(
     private readonly matDialogRef: MatDialogRef<CreateSensorComponent>,
@@ -50,7 +63,6 @@ export class CreateSensorComponent implements OnInit {
         notIn(data.allSensors.map((s) => s.sensorId)),
       ]),
       sensorMac: new FormControl('', [
-        Validators.required,
         notIn(data.allSensors.map((s) => s.sensorMac)),
         macPattern(),
       ]),
@@ -58,6 +70,7 @@ export class CreateSensorComponent implements OnInit {
       bindKey: new FormControl('', [
         Validators.pattern(/^[0-9a-fA-F]{32}$/),
       ]),
+      respondent: new FormControl<RespondentData | string | null>(null),
     });
 
     this.formGroup
@@ -127,13 +140,25 @@ export class CreateSensorComponent implements OnInit {
       return;
     }
 
+    const respondentId = resolveRespondentId(
+      this.formGroup.get('respondent')?.value,
+      this.respondents
+    );
+    if (respondentId === undefined) {
+      this.snackbar.open(
+        this.translate.instant('sensorDevices.respondentNotFound'),
+        this.translate.instant('sensorDevices.ok')
+      );
+      return;
+    }
+
     this.isBusy = true;
     const formValue = this.formGroup.value as CreateSensorDto & {
       bindKey?: string;
     };
     const model: CreateSensorDto = {
       sensorId: formValue.sensorId,
-      sensorMac: formValue.sensorMac,
+      sensorMac: formValue.sensorMac || null,
       sensorTypeId: formValue.sensorTypeId,
     };
     this.sensorsService
@@ -141,18 +166,36 @@ export class CreateSensorComponent implements OnInit {
       .pipe(
         switchMap((createdSensors) => {
           const createdSensor = createdSensors[0];
-          return formValue.bindKey && createdSensor
-            ? this.sensorProfileService
-                .putDeviceSecret(createdSensor.id, 'bind_key', formValue.bindKey)
-                .pipe(
-                  catchError((error) =>
-                    this.sensorsService.deleteSensor(createdSensor.sensorId).pipe(
-                      catchError(() => of(undefined)),
-                      switchMap(() => throwError(() => error))
-                    )
-                  )
-                )
-            : of(undefined);
+          if (!createdSensor) {
+            return throwError(
+              () => new Error('Sensor creation did not return the created sensor')
+            );
+          }
+
+          // Both post-create steps have no update API to undo them individually, so any
+          // failure rolls back by deleting the sensor just created (which also clears any
+          // respondent assignment already written for it).
+          const rollback = (error: unknown) =>
+            this.sensorsService.deleteSensor(createdSensor.sensorId).pipe(
+              catchError(() => of(undefined)),
+              switchMap(() => throwError(() => error))
+            );
+
+          const withRespondent = respondentId
+            ? this.sensorsService
+                .assignRespondent(createdSensor.sensorId, { respondentId })
+                .pipe(catchError(rollback))
+            : of(createdSensor);
+
+          return withRespondent.pipe(
+            switchMap(() =>
+              formValue.bindKey
+                ? this.sensorProfileService
+                    .putDeviceSecret(createdSensor.id, 'bind_key', formValue.bindKey)
+                    .pipe(catchError(rollback))
+                : of(undefined)
+            )
+          );
         }),
         finalize(() => (this.isBusy = false))
       )

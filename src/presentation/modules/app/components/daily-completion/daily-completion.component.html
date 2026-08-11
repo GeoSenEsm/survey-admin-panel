@@ -128,7 +128,7 @@
     <section class="summary">
       <span class="summary-item">
         <mat-icon>event</mat-icon>
-        {{ data.date | date: 'longDate' }}
+        {{ data.date | date: 'longDate' : 'UTC' }}
       </span>
       <span class="summary-item">
         <mat-icon>assignment</mat-icon>

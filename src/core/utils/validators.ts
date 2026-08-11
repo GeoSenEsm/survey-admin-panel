@@ -4,6 +4,9 @@ export function notIn(
   items: any[]
 ): (control: AbstractControl) => ValidationErrors | null {
   return (control) => {
+    if (!control.value) {
+      return null;
+    }
     return items.includes(control.value) ? { notIn: true } : null;
   };
 }

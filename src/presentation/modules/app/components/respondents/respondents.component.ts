@@ -320,7 +320,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
 
   goToSensorData(respondent: RespondentData): void {
     this.router.navigate(
-      [`/temperature`],
+      [`/sensorData`],
       this.respondentNavigationExtras(respondent)
     );
   }

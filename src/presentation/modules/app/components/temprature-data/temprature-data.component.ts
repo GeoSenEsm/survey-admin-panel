@@ -22,7 +22,7 @@ import { HttpEventType } from '@angular/common/http';
 export class TempratureDataComponent implements OnInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
-  readonly headers = ['dateTime', 'source', 'values', 'respondentId'];
+  readonly headers = ['dateTime', 'source', 'values', 'respondentId', 'surveyId'];
   isBusy: boolean = false;
   loadDataError: boolean = false;
   dataSource: MatTableDataSource<TemperatureDataEntry> = undefined!;
@@ -38,6 +38,7 @@ export class TempratureDataComponent implements OnInit {
       if (!Array.isArray(property)) return '';
       return property.map((v) => `${v.parameterCode}: ${v.value}`).join(', ');
     },
+    surveyId: (property: string | null) => property ?? '-',
   };
 
   get canExport(): boolean {

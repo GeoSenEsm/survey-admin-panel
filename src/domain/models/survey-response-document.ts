@@ -13,10 +13,15 @@ export interface SurveyResponseDocumentAnswer {
   textAnswer: string | null;
 }
 
+export interface SurveyResponseDocumentSensorValue {
+  parameterCode: string;
+  value: string;
+}
+
 export interface SurveyResponseDocumentSensorReading {
   dateTime: string;
-  temperature: number;
-  humidity: number;
+  source: string;
+  values: SurveyResponseDocumentSensorValue[];
 }
 
 export interface SurveyResponseDocument {
@@ -29,7 +34,7 @@ export interface SurveyResponseDocument {
   surveyStartDate: string;
   surveyFinishDate: string;
   answers: SurveyResponseDocumentAnswer[];
-  sensorData: SurveyResponseDocumentSensorReading | null;
+  sensorData: SurveyResponseDocumentSensorReading[] | null;
   persistedAt: string;
 }
 
