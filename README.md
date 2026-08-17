@@ -49,12 +49,17 @@ Grouped sidenav categories:
 
 | Category | Items |
 |---|---|
-| Settings | Survey settings (general + sensor data settings), Research area (`/researchArea`), Contact numbers, Initial survey, Add new sensor type (`/sensorProfiles`), Integrations (`/integrations` — enable/disable sensor sources) |
+| Settings | Survey settings (general + sensor data settings), Research area (`/researchArea`), Contact numbers, Initial survey |
 | Surveys | Surveys, Create survey |
 | Respondents | Respondent list, Survey dates |
-| Sensors | Temperature sensors, Sensor devices |
+| Sensors | Sensor data, Sensor devices |
 | Results | Map, Results, Response documents |
 | Statistics | Daily completion, Issues, Statistics |
+
+`/sensorProfiles` ("Add new sensor type") and `/integrations` (enable/disable
+sensor sources) are routed, fully implemented pages, but are not yet linked
+from `nav-list-items.ts` — reach them by URL until they're wired into the
+sidenav.
 
 ---
 
