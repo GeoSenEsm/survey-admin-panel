@@ -13,8 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
 import { macPattern, normalizeMacInput, notIn } from '../../../../../core/utils/validators';
-import { SENSOR_PROFILE_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
-import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
 import { resolveRespondentId } from '../../../../../core/utils/respondent-resolver';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
@@ -49,8 +47,6 @@ export class CreateSensorComponent implements OnInit {
     private readonly matDialogRef: MatDialogRef<CreateSensorComponent>,
     @Inject(SENSORS_SERVICE_TOKEN)
     private readonly sensorsService: SensorsService,
-    @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
-    private readonly sensorProfileService: SensorProfileService,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     private readonly router: Router,
@@ -67,15 +63,8 @@ export class CreateSensorComponent implements OnInit {
         macPattern(),
       ]),
       sensorTypeId: new FormControl('', [Validators.required]),
-      bindKey: new FormControl('', [
-        Validators.pattern(/^[0-9a-fA-F]{32}$/),
-      ]),
       respondent: new FormControl<RespondentData | string | null>(null),
     });
-
-    this.formGroup
-      .get('sensorTypeId')
-      ?.valueChanges.subscribe(() => this.syncBindKeyAvailability());
 
     const sensorMac = this.formGroup.get('sensorMac');
     sensorMac?.valueChanges.subscribe((value: string) => {
@@ -92,34 +81,7 @@ export class CreateSensorComponent implements OnInit {
       .pipe(catchError(() => of([] as SensorTypeDto[])))
       .subscribe((types) => {
         this.sensorTypes = excludeNonSelectableSensorTypes(types);
-        this.syncBindKeyAvailability();
       });
-  }
-
-  get selectedSensorType(): SensorTypeDto | undefined {
-    const sensorTypeId = this.formGroup.get('sensorTypeId')?.value;
-    return this.sensorTypes.find((t) => t.id === sensorTypeId);
-  }
-
-  get bindKeyRequired(): boolean {
-    return this.selectedSensorType?.requiredSecrets?.includes('bind_key') === true;
-  }
-
-  private syncBindKeyAvailability(): void {
-    const bindKey = this.formGroup.get('bindKey');
-    if (!bindKey) {
-      return;
-    }
-    if (this.bindKeyRequired) {
-      bindKey.setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9a-fA-F]{32}$/),
-      ]);
-    } else {
-      bindKey.setValue('');
-      bindKey.setValidators([Validators.pattern(/^[0-9a-fA-F]{32}$/)]);
-    }
-    bindKey.updateValueAndValidity();
   }
 
   public close(): void {
@@ -153,9 +115,7 @@ export class CreateSensorComponent implements OnInit {
     }
 
     this.isBusy = true;
-    const formValue = this.formGroup.value as CreateSensorDto & {
-      bindKey?: string;
-    };
+    const formValue = this.formGroup.value as CreateSensorDto;
     const model: CreateSensorDto = {
       sensorId: formValue.sensorId,
       sensorMac: formValue.sensorMac || null,
@@ -172,30 +132,20 @@ export class CreateSensorComponent implements OnInit {
             );
           }
 
-          // Both post-create steps have no update API to undo them individually, so any
-          // failure rolls back by deleting the sensor just created (which also clears any
-          // respondent assignment already written for it).
+          // Respondent assignment has no update API to undo individually, so a failure rolls
+          // back by deleting the sensor just created (which also clears any respondent
+          // assignment already written for it).
           const rollback = (error: unknown) =>
             this.sensorsService.deleteSensor(createdSensor.sensorId).pipe(
               catchError(() => of(undefined)),
               switchMap(() => throwError(() => error))
             );
 
-          const withRespondent = respondentId
+          return respondentId
             ? this.sensorsService
                 .assignRespondent(createdSensor.sensorId, { respondentId })
                 .pipe(catchError(rollback))
             : of(createdSensor);
-
-          return withRespondent.pipe(
-            switchMap(() =>
-              formValue.bindKey
-                ? this.sensorProfileService
-                    .putDeviceSecret(createdSensor.id, 'bind_key', formValue.bindKey)
-                    .pipe(catchError(rollback))
-                : of(undefined)
-            )
-          );
         }),
         finalize(() => (this.isBusy = false))
       )
@@ -228,9 +178,6 @@ export class CreateSensorComponent implements OnInit {
     }
 
     if (control.hasError('pattern')) {
-      if (controlName === 'bindKey') {
-        return 'sensorDevices.bindKeyFormat';
-      }
       return 'sensorDevices.notValidMacAddress';
     }
 

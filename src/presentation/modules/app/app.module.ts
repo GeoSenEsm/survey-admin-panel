@@ -65,8 +65,8 @@ import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialo
 import { StartSurveyQuestionOptionComponent } from './components/start-survey-question-option/start-survey-question-option.component';
 import { TimeRangesComponent } from './components/time-ranges/time-ranges.component';
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
-import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
-import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
+import { SensorDataComponent } from './components/sensor-data/sensor-data.component';
+import { SensorDataFiltersComponent } from './components/sensor-data-filters/sensor-data-filters.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MapComponent } from './components/map/map.component';
 import { MapFiltersComponent } from './components/map-filters/map-filters.component';
@@ -112,7 +112,7 @@ export const routes: Routes = [
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'sensorData', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'sensorData', component: SensorDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
     {path: 'researchArea', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
     {path: 'configuration', redirectTo: 'researchArea', pathMatch: 'full'},
@@ -213,8 +213,8 @@ export function HttpLoaderFactory(http: HttpClient){
     StartSurveyQuestionOptionComponent,
     TimeRangesComponent,
     SingleTimeRangeComponent,
-    TempratureDataComponent,
-    TemperatureDataFiltersComponent,
+    SensorDataComponent,
+    SensorDataFiltersComponent,
     MapComponent,
     MapFiltersComponent,
     MapPinTooltipComponent,

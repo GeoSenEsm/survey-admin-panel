@@ -93,7 +93,10 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
       })
       .afterClosed()
       .subscribe(() => {
-        this.dataSource.data = [...this.dataSource.data];
+        // Reassigning a respondent to this sensor clears their previous assignment on
+        // whichever other sensor had them server-side; a local splice only updates this
+        // row, so the list must be reloaded to reflect that.
+        this.loadData();
       });
   }
 

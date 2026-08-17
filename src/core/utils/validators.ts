@@ -12,12 +12,12 @@ export function notIn(
 }
 
 /** Matches the backend's `SensorMacDtoIn.sensorMac` pattern: colon-separated only. */
+export const MAC_REGEX = /^[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5}$/;
+
 export function macPattern(): (
   control: AbstractControl
 ) => ValidationErrors | null {
-  return Validators.pattern(
-    /^[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5}$/
-  );
+  return Validators.pattern(MAC_REGEX);
 }
 
 /**

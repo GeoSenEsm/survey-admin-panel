@@ -20,7 +20,6 @@ describe('IntegrationsComponent', () => {
         'updateSettings',
         'getSensorDataSettings',
         'updateSensorDataSettings',
-        'updateAssignments',
         'uploadLogo',
         'deleteLogo',
         'watchSettings',
@@ -41,7 +40,6 @@ describe('IntegrationsComponent', () => {
       'validateDraft',
       'publish',
       'rollback',
-      'putDeviceSecret',
     ]);
     sensorProfileService.listTemplates.and.returnValue(of([]));
     startSurveyService = jasmine.createSpyObj<StartSurveyService>('StartSurveyService', [
@@ -80,20 +78,18 @@ describe('IntegrationsComponent', () => {
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: false,
         displayOrder: 0,
-        sources: [{ sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 }],
+        sources: [{ sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' }],
       },
       {
         code: 'humidity',
         name: 'Humidity',
         dataType: 'decimal',
         unit: '%',
-        required: false,
         displayOrder: 1,
         sources: [
-          { sensorTypeCode: 'xiaomi', rawParameterCode: 'humidity', priorityOrder: 0 },
-          { sensorTypeCode: 'kestrel', rawParameterCode: 'humidity', priorityOrder: 1 },
+          { sensorTypeCode: 'xiaomi', rawParameterCode: 'humidity' },
+          { sensorTypeCode: 'kestrel', rawParameterCode: 'humidity' },
         ],
       },
     ];
@@ -146,11 +142,10 @@ describe('IntegrationsComponent', () => {
           name: 'Temperature',
           dataType: 'decimal',
           unit: 'C',
-          required: false,
-            displayOrder: 0,
+          displayOrder: 0,
           sources: [
-            { sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 },
-            { sensorTypeCode: 'kestrel', rawParameterCode: 'temperature', priorityOrder: 1 },
+            { sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' },
+            { sensorTypeCode: 'kestrel', rawParameterCode: 'temperature' },
           ],
         },
       ];
@@ -159,43 +154,22 @@ describe('IntegrationsComponent', () => {
 
       expect(xiaomi.enabled).toBeFalse();
       expect(component.sensorSettings.parameters[0].sources).toEqual([
-        { sensorTypeCode: 'kestrel', rawParameterCode: 'temperature', priorityOrder: 1 },
+        { sensorTypeCode: 'kestrel', rawParameterCode: 'temperature' },
       ]);
-    });
-
-    it('does not mutate respondent assignments: those are only edited on Survey Settings', () => {
-      const kestrel = {
-        sensorTypeCode: 'kestrel',
-        enabled: true,
-        connectionTimeoutSeconds: 10,
-        displayOrder: 0,
-      };
-      component.sensorSettings.assignments = [
-        { respondentId: 'r1', sensorTypeCode: 'kestrel', enabled: true, priorityOrder: 0 },
-      ];
-
-      component.onSensorTypeEnabledChange(kestrel, false);
-
-      expect(component.sensorSettings.assignments[0].enabled).toBeTrue();
     });
   });
 
-  it('save() sends only mode and the local sensor types, and does not touch assignments', () => {
+  it('save() sends only mode and the local sensor types', () => {
     component.loaded = true;
     component.sensorSettings.sensorTypes = [
       { sensorTypeCode: 'kestrel', enabled: false, connectionTimeoutSeconds: 10, displayOrder: 0 },
     ];
-    const localAssignments = [
-      { respondentId: 'r1', sensorTypeCode: 'kestrel', enabled: true, priorityOrder: 0 },
-    ];
-    component.sensorSettings.assignments = localAssignments;
 
     settingsService.getSensorDataSettings.and.returnValue(
       of({
         mode: 'configured_sensors',
         sensorTypes: [],
         parameters: [],
-        assignments: [],
       })
     );
     settingsService.updateSensorDataSettings.and.returnValue(
@@ -203,7 +177,6 @@ describe('IntegrationsComponent', () => {
         mode: 'configured_sensors',
         sensorTypes: component.sensorSettings.sensorTypes,
         parameters: [],
-        assignments: [],
       })
     );
 
@@ -211,7 +184,6 @@ describe('IntegrationsComponent', () => {
 
     const [payload] = settingsService.updateSensorDataSettings.calls.mostRecent().args;
     expect(payload).toEqual({ mode: 'configured_sensors', sensorTypes: component.sensorSettings.sensorTypes });
-    expect(component.sensorSettings.assignments).toBe(localAssignments);
   });
 
   describe('sensor templates', () => {
@@ -242,7 +214,6 @@ describe('IntegrationsComponent', () => {
             },
           ],
           parameters: [],
-          assignments: [],
         })
       );
 

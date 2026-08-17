@@ -46,7 +46,6 @@ export interface BleAdvertisementProfileSpecification {
     decoderId: AdvertisementDecoderId;
     objects: AdvertisementObjectMapping[];
   };
-  requiredSecrets?: 'bind_key'[];
   goldenPackets: unknown[];
 }
 
@@ -102,7 +101,6 @@ export interface SensorTypeParameter {
   unit?: string | null;
   usedParameterId?: string | null;
   usedParameterCode?: string | null;
-  priorityOrder: number;
 }
 
 /** Write payload for `POST /api/sensorprofiles/types/{sensorTypeId}/parameters`. */
@@ -127,14 +125,13 @@ export interface EditSensorTypeParameterRequest {
  * Write payload for `POST /api/sensorprofiles/types/{sensorTypeId}/parameters/{id}/use` —
  * promotes a raw catalog row into "used sensor data". Set `usedParameterId` to link to an
  * already-used parameter (adding a fallback source); leave it unset and provide
- * `name`/`dataType`/`required` to create a new used parameter instead.
+ * `name`/`dataType`/`unit` to create a new used parameter instead.
  */
 export interface UseSensorTypeParameterRequest {
   usedParameterId?: string | null;
   name?: string;
   dataType?: string;
   unit?: string | null;
-  required?: boolean;
 }
 
 export interface SensorProfileDraftRequest {

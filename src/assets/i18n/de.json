@@ -27,7 +27,7 @@
       "results": "Ergebnisse",
       "logout": "Abmelden",
       "startSurvey": "Erstumfrage",
-      "temepratureSensors": "Sensordaten",
+      "sensorData": "Sensordaten",
       "map": "Karte",
       "researchArea": "Forschungsgebiet",
       "surveySettings": "Umfrageeinstellungen",
@@ -285,6 +285,8 @@
       "notificationsSaved": "Benachrichtigungen gespeichert",
       "notificationsInvalid": "Jede Benachrichtigung braucht einen gültigen Bezugspunkt und eine nicht negative Minutenanzahl.",
       "couldNotLoadNotifications": "Telefonbenachrichtigungen konnten nicht geladen werden",
+      "notificationsLoadFailed": "Die Benachrichtigungen dieser Umfrage konnten nicht geladen werden. Das Speichern ist deaktiviert, damit sie nicht versehentlich durch Standardwerte überschrieben werden.",
+      "retry": "Erneut versuchen",
       "couldNotSaveNotifications": "Telefonbenachrichtigungen konnten nicht gespeichert werden"
     },
     "surveyTile": {
@@ -389,15 +391,15 @@
       "cancel": "Abbrechen"
     }
   },
-  "temperature": {
-    "description": "In dieser Ansicht sind Temperatursensordaten verfügbar. Wenn Befragte die entsprechenden Sensoren haben und sie mit der App synchronisiert haben, werden die Daten in der Tabelle angezeigt.",
+  "sensorData": {
+    "description": "In dieser Ansicht sind Daten von verbundenen Sensoren verfügbar. Wenn Befragte die entsprechenden Sensoren haben und sie mit der App synchronisiert haben, werden die Daten in der Tabelle angezeigt.",
     "dateFrom": "Datum von",
     "timeFrom": "Zeit von",
     "dateTo": "Datum bis",
     "timeTo": "Zeit bis",
     "load": "Laden",
     "export": "Exportieren",
-    "gridExportFilename": "temperaturen.csv",
+    "gridExportFilename": "sensordaten.csv",
     "respondentId": "Befragten-ID",
     "dateTime": "Datum und Uhrzeit",
     "source": "Quelle",
@@ -537,7 +539,6 @@
         "text": "Text"
       },
       "unit": "Einheit",
-      "required": "Erforderlich",
       "sources": "Quellen",
       "addSourceSensorType": "Sensortyp",
       "addSource": "Quelle hinzufügen",
@@ -547,8 +548,6 @@
       "addSourceError": "Diese Quelle konnte nicht hinzugefügt werden. Sie wird möglicherweise bereits von einem anderen Parameter verwendet.",
       "removeSourceError": "Diese Quelle konnte nicht entfernt werden.",
       "cannotRemoveLastSource": "Ein Parameter muss immer mindestens eine Quelle haben.",
-      "reorderSourcesError": "Die Quellen konnten nicht neu geordnet werden.",
-      "sourceOrder": "Quellenreihenfolge ändern",
       "removeSource": "Quelle entfernen",
       "save": "Sensoreinstellungen speichern",
       "integrationModes": {
@@ -581,12 +580,6 @@
     "import": "Importieren",
     "sensorId": "ID",
     "sensorMac": "MAC-Adresse",
-    "bindKey": "Geräte-Bindungsschlüssel",
-    "bindKeyCreateHint": "Erforderlicher 32-stelliger Hexadezimalschlüssel für diesen Sensortyp. Er wird einmal gesendet und danach nie wieder angezeigt.",
-    "bindKeyEditHint": "Leer lassen, um den vorhandenen Schlüssel zu behalten. Geben Sie einen neuen 32-stelligen Hexadezimalschlüssel ein, um ihn zu ersetzen.",
-    "bindKeyConfigured": "Bindungsschlüssel konfiguriert",
-    "bindKeyNotConfigured": "Bindungsschlüssel nicht konfiguriert",
-    "bindKeyFormat": "Der Bindungsschlüssel muss genau 32 Hexadezimalzeichen enthalten.",
     "update": "Aktualisieren",
     "delete": "Löschen",
     "success": "Erfolg",
@@ -609,9 +602,10 @@
     "couldNotImport": "Import fehlgeschlagen. Bitte versuchen Sie es später erneut.",
     "close": "Schließen",
     "someOfTheRowsHasInvalidMacFormat": "Mindestens eine Zeile enthält eine ungültige MAC-Adresse",
+    "someOfTheRowsHasUnknownSensorType": "Mindestens eine Zeile enthält einen Sensortyp, der keinem vorhandenen Sensortyp entspricht",
     "export": "Exportieren",
     "csvExportFilename": "sensoren.csv",
-    "importTooltip": "Die Importdatei muss im CSV-Format vorliegen und zwei Spalten enthalten: sensorId und sensorMac.",
+    "importTooltip": "Die Importdatei muss im CSV-Format vorliegen und drei Spalten enthalten: sensorId, sensorTypeName und sensorMac.",
     "createNew": "Hinzufügen",
     "createNewSensor": "Neuen Sensor hinzufügen",
     "couldNotCreate": "Fehler beim Hinzufügen des Sensors",

@@ -27,7 +27,7 @@
       "results": "Results",
       "logout": "Logout",
       "startSurvey": "Initial survey",
-      "temepratureSensors": "Sensors data",
+      "sensorData": "Sensor data",
       "map": "Map",
       "researchArea": "Research area",
       "surveySettings": "Survey settings",
@@ -285,6 +285,8 @@
       "notificationsSaved": "Notifications saved",
       "notificationsInvalid": "Each notification needs a valid anchor and a non-negative number of minutes.",
       "couldNotLoadNotifications": "Could not load phone notifications",
+      "notificationsLoadFailed": "Could not load this survey's notifications, so saving is disabled to avoid overwriting them with defaults.",
+      "retry": "Retry",
       "couldNotSaveNotifications": "Failed to save phone notifications"
     },
     "surveyTile": {
@@ -389,15 +391,15 @@
       "cancel": "Cancel"
     }
   },
-  "temperature": {
-    "description": "In this view, data from temperature sensors is available. If the respondents have the appropriate sensors and have synchronized them with the application, the data will be displayed in the table.",
+  "sensorData": {
+    "description": "In this view, data from connected sensors is available. If the respondents have the appropriate sensors and have synchronized them with the application, the data will be displayed in the table.",
     "dateFrom": "Date ",
     "timeFrom": "Time from",
     "dateTo": "Date to",
     "timeTo": "Time to",
     "load": "Load",
     "export": "Export",
-    "gridExportFilename": "temperatures.csv",
+    "gridExportFilename": "sensor-data.csv",
     "respondentId": "Respondent ID",
     "dateTime": "Date and time",
     "source": "Source",
@@ -537,7 +539,6 @@
         "text": "Text"
       },
       "unit": "Unit",
-      "required": "Required",
       "sources": "Sources",
       "addSourceSensorType": "Sensor type",
       "addSource": "Add source",
@@ -547,8 +548,6 @@
       "addSourceError": "Could not add this source. It may already be used by another parameter.",
       "removeSourceError": "Could not remove this source.",
       "cannotRemoveLastSource": "A parameter must always have at least one source.",
-      "reorderSourcesError": "Could not reorder sources.",
-      "sourceOrder": "Change source order",
       "removeSource": "Remove source",
       "save": "Save sensor settings",
       "integrationModes": {
@@ -581,12 +580,6 @@
     "import": "Import",
     "sensorId": "ID",
     "sensorMac": "MAC Address",
-    "bindKey": "Device bind key",
-    "bindKeyCreateHint": "Required 32-character hexadecimal key for this sensor type. It is sent once and is never displayed again.",
-    "bindKeyEditHint": "Leave blank to keep the existing key. Enter a new 32-character hexadecimal key to replace it.",
-    "bindKeyConfigured": "Bind key configured",
-    "bindKeyNotConfigured": "Bind key not configured",
-    "bindKeyFormat": "The bind key must contain exactly 32 hexadecimal characters.",
     "update": "Update",
     "delete": "Delete",
     "success": "Success",
@@ -609,9 +602,10 @@
     "couldNotImport": "Import failed. Please try again later.",
     "close": "Close",
     "someOfTheRowsHasInvalidMacFormat": "At least one row contains an invalid MAC address",
+    "someOfTheRowsHasUnknownSensorType": "At least one row's sensor type does not match any existing sensor type name",
     "export": "Export",
     "csvExportFilename": "sensors.csv",
-    "importTooltip": "The import file must be CSV with columns sensorId and sensorMac, using the column separator from Survey settings.",
+    "importTooltip": "The import file must be CSV with columns sensorId, sensorTypeName, and sensorMac, using the column separator from Survey settings.",
     "createNew": "Add",
     "createNewSensor": "Add a new sensor",
     "couldNotCreate": "Failed to add the sensor",

@@ -24,7 +24,6 @@ import { CalendarEventCheckboxComponent } from '../calendar-event-checkbox/calen
 import { TypeToConfirmDialogComponent } from '../type-to-confirm-dialog/type-to-confirm-dialog.component';
 import { SurveyService } from '../../../../../domain/external_services/survey.service';
 import {
-  DEFAULT_SURVEY_NOTIFICATIONS,
   NotificationRelativeTo,
   SurveyNotificationDto,
 } from '../../../../../domain/models/survey-notification.dto';
@@ -58,6 +57,7 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   policies: SurveySendingPolicyDto[] = [];
   notifications: EditableNotification[] = [];
   notificationsLoading = false;
+  notificationsLoadFailed = false;
   notificationsSaving = false;
   readonly maxNotifications = 10;
   readonly relativeToOptions: NotificationRelativeTo[] = ['beginning', 'end'];
@@ -130,8 +130,9 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadNotifications(): void {
+  loadNotifications(): void {
     this.notificationsLoading = true;
+    this.notificationsLoadFailed = false;
     this.surveyService.getNotifications(this.surveyId!).subscribe({
       next: (notifications) => {
         this.notifications = notifications.map((n) => ({
@@ -141,11 +142,13 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
         this.notificationsLoading = false;
       },
       error: () => {
-        this.notifications = DEFAULT_SURVEY_NOTIFICATIONS.map((n) => ({
-          relativeTo: n.relativeTo,
-          minutesBefore: n.minutesBefore,
-        }));
+        // Deliberately do NOT fall back to DEFAULT_SURVEY_NOTIFICATIONS here: this survey may
+        // already have its own saved rules, and silently replacing them with generic defaults
+        // risks the admin unknowingly overwriting real configuration by clicking Save. Leave the
+        // list empty and block saving until a reload succeeds.
+        this.notifications = [];
         this.notificationsLoading = false;
+        this.notificationsLoadFailed = true;
         this.snackbar.open(
           this.translate.instant(
             'surveyDetails.surveySendingPolicy.couldNotLoadNotifications'
@@ -169,6 +172,9 @@ export class SurveySendingPolicyComponent implements OnInit, OnDestroy {
   }
 
   saveNotifications(): void {
+    if (this.notificationsLoadFailed) {
+      return;
+    }
     if (!this.areNotificationsValid()) {
       this.snackbar.open(
         this.translate.instant(

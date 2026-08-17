@@ -8,7 +8,7 @@ const SENSOR_IMAGES: Record<string, string> = {
   flower_care: 'assets/imgs/sensors/flower_care.jpg',
   inkbird_ibs_th1: 'assets/imgs/sensors/inkbird_ibs_th1.png',
   pc_60fw: 'assets/imgs/sensors/pc_60fw.jpg',
-  xiaomi_door_sensor_2: 'assets/imgs/sensors/xiaomi_door_sensor_2.jpg',
+  ruuvi: 'assets/imgs/sensors/ruuvi.webp',
 };
 
 const PLACEHOLDER_IMAGE = 'assets/imgs/sensors/sensor_placeholder.jpg';

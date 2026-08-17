@@ -9,7 +9,14 @@
       {{ "surveyDetails.surveySendingPolicy.notificationsLoading" | translate }}
     </div>
 
-    <div *ngIf="!notificationsLoading" class="notifications-list">
+    <div *ngIf="notificationsLoadFailed" class="notifications-status notifications-error">
+      <span>{{ "surveyDetails.surveySendingPolicy.notificationsLoadFailed" | translate }}</span>
+      <button mat-stroked-button type="button" (click)="loadNotifications()">
+        {{ "surveyDetails.surveySendingPolicy.retry" | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="!notificationsLoading && !notificationsLoadFailed" class="notifications-list">
       <div
         class="notification-row"
         *ngFor="let notification of notifications; let i = index"
@@ -59,7 +66,7 @@
         color="primary"
         type="button"
         (click)="addNotification()"
-        [disabled]="notificationsLoading || notifications.length >= maxNotifications"
+        [disabled]="notificationsLoading || notificationsLoadFailed || notifications.length >= maxNotifications"
       >
         {{ "surveyDetails.surveySendingPolicy.addNotification" | translate }}
       </button>
@@ -68,7 +75,7 @@
         color="primary"
         type="button"
         (click)="saveNotifications()"
-        [disabled]="notificationsLoading || notificationsSaving"
+        [disabled]="notificationsLoading || notificationsLoadFailed || notificationsSaving"
       >
         {{ "surveyDetails.surveySendingPolicy.saveNotifications" | translate }}
       </button>

@@ -2,7 +2,6 @@ import { Observable } from 'rxjs';
 import {
   CreateSensorParameterDefinitionRequest,
   EditSensorParameterDefinitionRequest,
-  RespondentSensorAssignment,
   SensorParameterDefinition,
   SurveySensorDataSettings,
   SurveySensorDataSettingsWrite,
@@ -30,18 +29,6 @@ export interface SurveySettingsService {
    * or removed. Rejected with 409 if sensor readings already exist for it.
    */
   deleteSensorParameterDefinition(id: string): Observable<void>;
-  /** Sets the fallback priority order of a used parameter's raw sources in one call. */
-  reorderParameterSources(
-    parameterId: string,
-    sourceIds: string[]
-  ): Observable<{ id: string }[]>;
-  /**
-   * Always available, even once `updateSensorDataSettings` starts rejecting changes: respondent
-   * sensor assignments keep changing throughout a live study.
-   */
-  updateAssignments(
-    assignments: RespondentSensorAssignment[]
-  ): Observable<SurveySensorDataSettings>;
   readonly cachedSettings: SurveySettings;
   watchSettings(): Observable<SurveySettings>;
 }

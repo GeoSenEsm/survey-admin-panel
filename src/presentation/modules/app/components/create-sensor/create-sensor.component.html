@@ -49,23 +49,6 @@
     (respondentsLoaded)="onRespondentsLoaded($event)"
   ></app-respondent-autocomplete>
 
-  <mat-form-field *ngIf="bindKeyRequired">
-    <mat-label>
-      {{ "sensorDevices.bindKey" | translate }} *
-    </mat-label>
-    <input
-      matInput
-      type="password"
-      formControlName="bindKey"
-      autocomplete="new-password"
-      maxlength="32"
-    />
-    <mat-hint>{{ "sensorDevices.bindKeyCreateHint" | translate }}</mat-hint>
-    <mat-error>
-      {{ (getErrorMessage("bindKey") ?? "") | translate }}
-    </mat-error>
-  </mat-form-field>
-
   <button type="submit" mat-flat-button color="primary">
     {{ "sensorDevices.save" | translate }}
   </button>

@@ -1,23 +1,23 @@
-import { Observable, of, throwError } from "rxjs";
-import { TemperatureDataService } from "../../domain/external_services/temperature-data.service";
-import { TemperatureDataEntry } from "../../domain/models/temperature-data-entry";
-import { TemperatureDataFilter } from "../../domain/models/temperature-data-filter";
+import { Observable } from "rxjs";
+import { SensorDataService } from "../../domain/external_services/sensor-data.service";
+import { SensorDataEntry } from "../../domain/models/sensor-data-entry";
+import { SensorDataFilter } from "../../domain/models/sensor-data-filter";
 import { ApiService } from "./api.service";
 import { HttpClient, HttpEvent } from "@angular/common/http";
 import { ConfigService } from "./config.service";
 import { Injectable } from "@angular/core";
 
 @Injectable()
-export class TemperatureDataServiceImpl
+export class SensorDataServiceImpl
 extends ApiService
-implements TemperatureDataService{
+implements SensorDataService{
 
     constructor(httpClient: HttpClient,
         configService: ConfigService){
             super(httpClient, configService);
         }
 
-        getTemperatureDataWithProgress(filter: TemperatureDataFilter): Observable<HttpEvent<any>> {
+        getSensorDataWithProgress(filter: SensorDataFilter): Observable<HttpEvent<any>> {
         const filterMap: any = {
             'from': filter.from.toISOString(),
             'to': filter.to.toISOString()

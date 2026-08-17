@@ -27,7 +27,7 @@
       "results": "Résultats",
       "logout": "Déconnexion",
       "startSurvey": "Enquête initiale",
-      "temepratureSensors": "Données des capteurs",
+      "sensorData": "Données des capteurs",
       "map": "Carte",
       "researchArea": "Zone de recherche",
       "surveySettings": "Paramètres des enquêtes",
@@ -285,6 +285,8 @@
       "notificationsSaved": "Notifications enregistrées",
       "notificationsInvalid": "Chaque notification doit avoir un point d'ancrage valide et un nombre de minutes non négatif.",
       "couldNotLoadNotifications": "Impossible de charger les notifications téléphone",
+      "notificationsLoadFailed": "Impossible de charger les notifications de cette enquête ; l'enregistrement est désactivé pour éviter de les remplacer par des valeurs par défaut.",
+      "retry": "Réessayer",
       "couldNotSaveNotifications": "Échec de l'enregistrement des notifications téléphone"
     },
     "surveyTile": {
@@ -389,15 +391,15 @@
       "cancel": "Annuler"
     }
   },
-  "temperature": {
-    "description": "Dans cette vue, les données des capteurs de température sont disponibles. Si les répondants disposent des capteurs appropriés et les ont synchronisés avec l'application, les données seront affichées dans le tableau.",
+  "sensorData": {
+    "description": "Dans cette vue, les données des capteurs connectés sont disponibles. Si les répondants disposent des capteurs appropriés et les ont synchronisés avec l'application, les données seront affichées dans le tableau.",
     "dateFrom": "Date de début",
     "timeFrom": "Heure de début",
     "dateTo": "Date de fin",
     "timeTo": "Heure de fin",
     "load": "Charger",
     "export": "Exporter",
-    "gridExportFilename": "temperatures.csv",
+    "gridExportFilename": "donnees-capteurs.csv",
     "respondentId": "ID du répondant",
     "dateTime": "Date et heure",
     "source": "Source",
@@ -537,7 +539,6 @@
         "text": "Texte"
       },
       "unit": "Unité",
-      "required": "Requis",
       "sources": "Sources",
       "addSourceSensorType": "Type de capteur",
       "addSource": "Ajouter une source",
@@ -547,8 +548,6 @@
       "addSourceError": "Impossible d'ajouter cette source. Elle est peut-être déjà utilisée par un autre paramètre.",
       "removeSourceError": "Impossible de supprimer cette source.",
       "cannotRemoveLastSource": "Un paramètre doit toujours avoir au moins une source.",
-      "reorderSourcesError": "Impossible de réorganiser les sources.",
-      "sourceOrder": "Changer l'ordre de la source",
       "removeSource": "Supprimer la source",
       "save": "Enregistrer les paramètres des capteurs",
       "integrationModes": {
@@ -581,12 +580,6 @@
     "import": "Importer",
     "sensorId": "ID",
     "sensorMac": "Adresse MAC",
-    "bindKey": "Clé de liaison de l'appareil",
-    "bindKeyCreateHint": "Clé hexadécimale de 32 caractères requise pour ce type de capteur. Elle est envoyée une seule fois et n'est plus jamais affichée.",
-    "bindKeyEditHint": "Laissez vide pour conserver la clé existante. Saisissez une nouvelle clé hexadécimale de 32 caractères pour la remplacer.",
-    "bindKeyConfigured": "Clé de liaison configurée",
-    "bindKeyNotConfigured": "Clé de liaison non configurée",
-    "bindKeyFormat": "La clé de liaison doit contenir exactement 32 caractères hexadécimaux.",
     "update": "Mettre à jour",
     "delete": "Supprimer",
     "success": "Succès",
@@ -609,9 +602,10 @@
     "couldNotImport": "L'importation a échoué. Veuillez réessayer plus tard.",
     "close": "Fermer",
     "someOfTheRowsHasInvalidMacFormat": "Au moins une ligne contient une adresse MAC invalide",
+    "someOfTheRowsHasUnknownSensorType": "Au moins une ligne a un type de capteur qui ne correspond à aucun type de capteur existant",
     "export": "Exporter",
     "csvExportFilename": "capteurs.csv",
-    "importTooltip": "Le fichier d'importation doit être au format CSV et contenir deux colonnes : sensorId et sensorMac.",
+    "importTooltip": "Le fichier d'importation doit être au format CSV et contenir trois colonnes : sensorId, sensorTypeName et sensorMac.",
     "createNew": "Ajouter",
     "createNewSensor": "Ajouter un nouveau capteur",
     "couldNotCreate": "Échec de l'ajout du capteur",

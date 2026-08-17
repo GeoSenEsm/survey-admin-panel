@@ -20,21 +20,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAndTimeRangeService } from '../../../../../core/services/data-and-time-range.service';
 import { parseToTime } from '../../../../../core/utils/parsers';
-import { TemperatureDataFilter } from '../../../../../domain/models/temperature-data-filter';
+import { SensorDataFilter } from '../../../../../domain/models/sensor-data-filter';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { ActivatedRoute } from '@angular/router';
 import { TimeFormatService } from '../../../../../core/services/time-format.service';
 
 @Component({
-  selector: 'app-temperature-data-filters',
-  templateUrl: './temperature-data-filters.component.html',
-  styleUrl: './temperature-data-filters.component.scss',
+  selector: 'app-sensor-data-filters',
+  templateUrl: './sensor-data-filters.component.html',
+  styleUrl: './sensor-data-filters.component.scss',
 })
-export class TemperatureDataFiltersComponent
+export class SensorDataFiltersComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @Output()
-  loadDataCallback = new EventEmitter<TemperatureDataFilter>();
+  loadDataCallback = new EventEmitter<SensorDataFilter>();
   @Output()
   exportDataCallback = new EventEmitter();
   @Input()

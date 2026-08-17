@@ -13,6 +13,15 @@ import { Papa } from 'ngx-papaparse';
 import { firstValueFrom } from 'rxjs';
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
 import { DEFAULT_SURVEY_SETTINGS } from '../../../../../domain/models/survey-settings';
+import { MAC_REGEX, normalizeMacInput } from '../../../../../core/utils/validators';
+
+/** Shape of one parsed CSV row before sensorTypeName is resolved into a sensorTypeId. */
+interface RawSensorImportRow {
+  sensorId?: string;
+  sensorTypeName?: string;
+  sensorMac?: string;
+  respondentUsername?: string;
+}
 
 type SensorsImportState =
   | 'UNKNOWN'
@@ -42,8 +51,6 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
   OnRepetition = OnRepetition;
   componentState: SensorsImportState = 'UNKNOWN';
   validationError?: string;
-  readonly macRegex =
-    /^[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}([-:])[0-9A-Fa-f]{2}$/;
 
   constructor(
     @Inject(SENSORS_SERVICE_TOKEN)
@@ -87,40 +94,54 @@ export class SensorsImportProgressIndicatorComponent implements OnInit {
     }
   }
 
-  readDataToSubmit(fileSelectionEvent: Event): Promise<CreateSensorDto[]> {
+  async readDataToSubmit(fileSelectionEvent: Event): Promise<CreateSensorDto[]> {
     const input = fileSelectionEvent.target as HTMLInputElement;
-
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-
-      return firstValueFrom(this.surveySettingsService.getSettings())
-        .catch(() => DEFAULT_SURVEY_SETTINGS)
-        .then(
-          (settings) =>
-            new Promise<CreateSensorDto[]>((resolve, reject) => {
-              this.papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                delimiter: settings.csvColumnSeparator,
-                complete: (result) => {
-                  resolve(result.data as CreateSensorDto[]);
-                },
-                error: (error) => {
-                  reject(error);
-                },
-              });
-            })
-        );
+    if (!input.files || !input.files[0]) {
+      return [];
     }
+    const file = input.files[0];
 
-    return Promise.resolve([]);
+    const settings = await firstValueFrom(this.surveySettingsService.getSettings()).catch(
+      () => DEFAULT_SURVEY_SETTINGS
+    );
+    const rows = await new Promise<RawSensorImportRow[]>((resolve, reject) => {
+      this.papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        delimiter: settings.csvColumnSeparator,
+        complete: (result) => resolve(result.data as RawSensorImportRow[]),
+        error: (error) => reject(error),
+      });
+    });
+
+    const sensorTypes = await firstValueFrom(this.sensorsService.getSensorTypes()).catch(() => []);
+    const sensorTypeIdByName = new Map(
+      sensorTypes.map((type) => [type.name.trim().toLowerCase(), type.id])
+    );
+
+    // sensorTypeId is left undefined (rather than dropping the row) when the name in the CSV
+    // doesn't match any known sensor type, so validate() can surface it as a clear error instead
+    // of the backend's generic 400 for a missing required field.
+    return rows.map((row) => ({
+      sensorId: row.sensorId ?? '',
+      sensorMac: row.sensorMac ? normalizeMacInput(row.sensorMac) : null,
+      sensorTypeId: row.sensorTypeName
+        ? sensorTypeIdByName.get(row.sensorTypeName.trim().toLowerCase())
+        : undefined,
+    }));
   }
 
   private validate(
     onRepetition: OnRepetition,
     newEntries: CreateSensorDto[]
   ): boolean {
-    if (newEntries.some((e) => !e.sensorMac || !this.macRegex.test(e.sensorMac))) {
+    if (newEntries.some((e) => !e.sensorTypeId)) {
+      this.componentState = 'VALIDATION_FAILED';
+      this.validationError = 'sensorDevices.someOfTheRowsHasUnknownSensorType';
+      return false;
+    }
+
+    if (newEntries.some((e) => !e.sensorMac || !MAC_REGEX.test(e.sensorMac))) {
       this.componentState = 'VALIDATION_FAILED';
       this.validationError = 'sensorDevices.someOfTheRowsHasInvalidMacFormat';
       return false;

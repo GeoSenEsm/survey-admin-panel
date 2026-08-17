@@ -26,7 +26,7 @@ import {
   START_SURVEY_SERVICE_TOKEN,
   STORAGE_SERVICE_TOKEN,
   SURVEY_SETTINGS_SERVICE_TOKEN,
-  TEMPERATURE_DATA_SERVICE_TOKEN,
+  SENSOR_DATA_SERVICE_TOKEN,
   TOKEN_HANDLER_TOKEN,
 } from '../../../core/services/injection-tokens';
 import { ConfigService } from '../../../core/services/config.service';
@@ -45,7 +45,7 @@ import { JwtTokenHandler } from '../../../core/services/token-handler';
 import { AuthInterceptor } from '../../../core/services/auth-interceptor';
 import { DatePipe } from '@angular/common';
 import { StartSurveyServiceImpl } from '../../../core/services/start-survey-service-impl';
-import { TemperatureDataServiceImpl } from '../../../core/services/temperature-data-service-impl';
+import { SensorDataServiceImpl } from '../../../core/services/sensor-data-service-impl';
 import { LocationServiceImpl } from '../../../core/services/location-service-impl';
 import { ResearchAreaServiceImpl } from '../../../core/services/research_area_service_impl';
 import { SensorsServiceImpl } from '../../../core/services/sensors-service-impl';
@@ -148,8 +148,8 @@ export const APP_MODULE_PROVIDERS: (Provider | EnvironmentProviders)[] = [
     useClass: StartSurveyServiceImpl,
   },
   {
-    provide: TEMPERATURE_DATA_SERVICE_TOKEN,
-    useClass: TemperatureDataServiceImpl,
+    provide: SENSOR_DATA_SERVICE_TOKEN,
+    useClass: SensorDataServiceImpl,
   },
   {
     provide: LOCATION_SERVICE_TOKEN,

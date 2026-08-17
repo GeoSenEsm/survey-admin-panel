@@ -109,7 +109,6 @@ export class IntegrationsComponent implements OnInit {
               ...parameter,
               sources: [...parameter.sources],
             })),
-            assignments: [...settings.assignments],
           };
           this.loaded = true;
           onLoaded?.();
@@ -137,11 +136,9 @@ export class IntegrationsComponent implements OnInit {
   onSensorTypeEnabledChange(sensorType: SensorTypeSetting, enabled: boolean): void {
     sensorType.enabled = enabled;
     if (!enabled) {
-      // Respondent assignments (which physical device a respondent has) are a separate concern
-      // from parameter source priority and are saved through their own dedicated
-      // updateAssignments endpoint — this page never sends assignments, so it must not mutate
-      // them locally either. The backend detaches (and, if left sourceless, deletes) this sensor
-      // type's parameter sources itself on save.
+      // The backend detaches (and, if left sourceless, deletes) this sensor type's parameter
+      // sources itself on save; mirror that locally so the UI doesn't show stale wired sources
+      // for a type that's about to be disabled.
       this.sensorSettings.parameters.forEach((parameter) => {
         parameter.sources = parameter.sources.filter(
           (source) => source.sensorTypeCode !== sensorType.sensorTypeCode
@@ -168,10 +165,7 @@ export class IntegrationsComponent implements OnInit {
       )
       .subscribe({
         next: (settings) => {
-          this.sensorSettings = {
-            ...settings,
-            assignments: this.sensorSettings.assignments,
-          };
+          this.sensorSettings = settings;
           this.showMessage('integrations.saved');
         },
         error: () => this.showMessage('integrations.saveError'),

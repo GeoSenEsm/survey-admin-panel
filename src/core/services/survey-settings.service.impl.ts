@@ -7,7 +7,6 @@ import {
   CreateSensorParameterDefinitionRequest,
   DEFAULT_SURVEY_SETTINGS,
   EditSensorParameterDefinitionRequest,
-  RespondentSensorAssignment,
   SensorParameterDefinition,
   SurveySensorDataSettings,
   SurveySensorDataSettingsWrite,
@@ -74,12 +73,6 @@ export class SurveySettingsServiceImpl
     return this.put('/api/surveysettings/sensordata', settings);
   }
 
-  updateAssignments(
-    assignments: RespondentSensorAssignment[]
-  ): Observable<SurveySensorDataSettings> {
-    return this.put('/api/surveysettings/sensordata/assignments', { assignments });
-  }
-
   createSensorParameterDefinition(
     request: CreateSensorParameterDefinitionRequest
   ): Observable<SensorParameterDefinition> {
@@ -98,15 +91,5 @@ export class SurveySettingsServiceImpl
 
   deleteSensorParameterDefinition(id: string): Observable<void> {
     return this.delete(`/api/surveysettings/sensordata/parameters/${encodeURIComponent(id)}`);
-  }
-
-  reorderParameterSources(
-    parameterId: string,
-    sourceIds: string[]
-  ): Observable<{ id: string }[]> {
-    return this.put(
-      `/api/surveysettings/sensordata/parameters/${encodeURIComponent(parameterId)}/sources`,
-      { sourceIds }
-    );
   }
 }

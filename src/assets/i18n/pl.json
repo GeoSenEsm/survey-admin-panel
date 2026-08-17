@@ -27,7 +27,7 @@
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
-      "temepratureSensors": "Dane z czujników",
+      "sensorData": "Dane z czujników",
       "map": "Mapa",
       "researchArea": "Obszar badania",
       "surveySettings": "Ustawienia ankiet",
@@ -285,6 +285,8 @@
       "notificationsSaved": "Powiadomienia zapisane",
       "notificationsInvalid": "Każde powiadomienie wymaga poprawnego punktu odniesienia i nieujemnej liczby minut.",
       "couldNotLoadNotifications": "Nie udało się załadować powiadomień na telefon",
+      "notificationsLoadFailed": "Nie udało się załadować powiadomień tej ankiety, więc zapisywanie jest wyłączone, aby nie nadpisać ich wartościami domyślnymi.",
+      "retry": "Spróbuj ponownie",
       "couldNotSaveNotifications": "Nie udało się zapisać powiadomień na telefon"
     },
     "surveyTile": {
@@ -389,15 +391,15 @@
       "cancel": "Anuluj"
     }
   },
-  "temperature": {
-    "description": "W tym widoku dostępne są dane z czujników temperatur. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
+  "sensorData": {
+    "description": "W tym widoku dostępne są dane z podłączonych czujników. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
     "dateFrom": "Data od",
     "timeFrom": "Godzina od",
     "dateTo": "Data do",
     "timeTo": "Godzina do",
     "load": "Załaduj",
     "export": "Eksportuj",
-    "gridExportFilename": "temperatury.csv",
+    "gridExportFilename": "dane-czujnikow.csv",
     "respondentId": "ID respondenta",
     "dateTime": "Data i czas",
     "source": "Źródło",
@@ -537,7 +539,6 @@
         "text": "Tekst"
       },
       "unit": "Jednostka",
-      "required": "Wymagane",
       "sources": "Źródła",
       "addSourceSensorType": "Typ czujnika",
       "addSource": "Dodaj źródło",
@@ -547,8 +548,6 @@
       "addSourceError": "Nie udało się dodać tego źródła. Może być już używane przez inny parametr.",
       "removeSourceError": "Nie udało się usunąć tego źródła.",
       "cannotRemoveLastSource": "Parametr musi mieć zawsze przynajmniej jedno źródło.",
-      "reorderSourcesError": "Nie udało się zmienić kolejności źródeł.",
-      "sourceOrder": "Zmień kolejność źródła",
       "removeSource": "Usuń źródło",
       "save": "Zapisz ustawienia czujników",
       "integrationModes": {
@@ -581,12 +580,6 @@
     "import": "Importuj",
     "sensorId": "ID",
     "sensorMac": "Adres MAC",
-    "bindKey": "Klucz powiązania urządzenia",
-    "bindKeyCreateHint": "Wymagany 32-znakowy klucz szesnastkowy dla tego typu czujnika. Jest wysyłany jednorazowo i nigdy więcej nie jest wyświetlany.",
-    "bindKeyEditHint": "Pozostaw puste, aby zachować istniejący klucz. Wprowadź nowy 32-znakowy klucz szesnastkowy, aby go zastąpić.",
-    "bindKeyConfigured": "Klucz powiązania skonfigurowany",
-    "bindKeyNotConfigured": "Klucz powiązania nieskonfigurowany",
-    "bindKeyFormat": "Klucz powiązania musi zawierać dokładnie 32 znaki szesnastkowe.",
     "update": "Aktualizuj",
     "delete": "Usuń",
     "success": "Sukces",
@@ -609,9 +602,10 @@
     "couldNotImport": "Import nie powiódł się, spróuj ponownie później",
     "close": "Zamknij",
     "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
+    "someOfTheRowsHasUnknownSensorType": "Przynajmniej jeden z wierszy zawiera typ sensora, który nie odpowiada żadnemu istniejącemu typowi sensora",
     "export": "Eksportuj",
     "csvExportFilename": "sensory.csv",
-    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac.",
+    "importTooltip": "Plik do importu musi być w formacie csv i zawierać trzy kolumny: sensorId, sensorTypeName oraz sensorMac.",
     "createNew": "Dodaj",
     "createNewSensor": "Dodaj nowy czujnik",
     "couldNotCreate": "Nie udało się dodać czujnika",

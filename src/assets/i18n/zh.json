@@ -27,7 +27,7 @@
       "results": "结果",
       "logout": "退出登录",
       "startSurvey": "初始问卷",
-      "temepratureSensors": "传感器数据",
+      "sensorData": "传感器数据",
       "map": "地图",
       "researchArea": "研究区域",
       "surveySettings": "问卷设置",
@@ -285,6 +285,8 @@
       "notificationsSaved": "通知已保存",
       "notificationsInvalid": "每条通知都需要有效的锚点和非负的分钟数。",
       "couldNotLoadNotifications": "无法加载手机通知",
+      "notificationsLoadFailed": "无法加载此问卷的通知设置，为避免被默认值覆盖，保存功能已禁用。",
+      "retry": "重试",
       "couldNotSaveNotifications": "保存手机通知失败"
     },
     "surveyTile": {
@@ -389,15 +391,15 @@
       "cancel": "取消"
     }
   },
-  "temperature": {
-    "description": "在此视图中，可以查看温度传感器数据。如果受访者拥有相应传感器并已与应用同步，数据将显示在表格中。",
+  "sensorData": {
+    "description": "在此视图中，可以查看已连接传感器的数据。如果受访者拥有相应传感器并已与应用同步，数据将显示在表格中。",
     "dateFrom": "开始日期",
     "timeFrom": "开始时间",
     "dateTo": "结束日期",
     "timeTo": "结束时间",
     "load": "加载",
     "export": "导出",
-    "gridExportFilename": "temperatures.csv",
+    "gridExportFilename": "sensor-data.csv",
     "respondentId": "受访者 ID",
     "dateTime": "日期和时间",
     "source": "来源",
@@ -537,7 +539,6 @@
         "text": "文本"
       },
       "unit": "单位",
-      "required": "必填",
       "sources": "数据源",
       "addSourceSensorType": "传感器类型",
       "addSource": "添加数据源",
@@ -547,8 +548,6 @@
       "addSourceError": "无法添加此数据源，可能已被其他参数使用。",
       "removeSourceError": "无法移除此数据源。",
       "cannotRemoveLastSource": "参数必须始终保留至少一个数据源。",
-      "reorderSourcesError": "无法重新排序数据源。",
-      "sourceOrder": "更改数据源顺序",
       "removeSource": "移除数据源",
       "save": "保存传感器设置",
       "integrationModes": {
@@ -581,12 +580,6 @@
     "import": "导入",
     "sensorId": "ID",
     "sensorMac": "MAC 地址",
-    "bindKey": "设备绑定密钥",
-    "bindKeyCreateHint": "此传感器类型需要一个 32 位十六进制密钥。该密钥仅发送一次，之后不会再显示。",
-    "bindKeyEditHint": "留空以保留现有密钥。输入新的 32 位十六进制密钥以替换它。",
-    "bindKeyConfigured": "已配置绑定密钥",
-    "bindKeyNotConfigured": "未配置绑定密钥",
-    "bindKeyFormat": "绑定密钥必须恰好包含 32 个十六进制字符。",
     "update": "更新",
     "delete": "删除",
     "success": "成功",
@@ -609,9 +602,10 @@
     "couldNotImport": "导入失败。请稍后再试。",
     "close": "关闭",
     "someOfTheRowsHasInvalidMacFormat": "至少有一行包含无效的 MAC 地址",
+    "someOfTheRowsHasUnknownSensorType": "至少有一行的传感器类型与现有传感器类型不匹配",
     "export": "导出",
     "csvExportFilename": "sensors.csv",
-    "importTooltip": "导入文件必须为 CSV 格式，并包含两列：sensorId 和 sensorMac。",
+    "importTooltip": "导入文件必须为 CSV 格式，并包含三列：sensorId、sensorTypeName 和 sensorMac。",
     "createNew": "添加",
     "createNewSensor": "添加新传感器",
     "couldNotCreate": "添加传感器失败",

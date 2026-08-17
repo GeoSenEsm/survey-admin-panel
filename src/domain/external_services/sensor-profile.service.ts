@@ -55,9 +55,4 @@ export interface SensorProfileService {
     sensorTypeId: string,
     revision: number
   ): Observable<SensorProfileRevision>;
-  putDeviceSecret(
-    sensorMacId: string,
-    secretName: 'bind_key',
-    value: string
-  ): Observable<void>;
 }

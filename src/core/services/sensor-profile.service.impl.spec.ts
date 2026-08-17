@@ -123,16 +123,4 @@ describe('SensorProfileServiceImpl', () => {
       message: 'must equal 1',
     });
   });
-
-  it('sends bind keys only to the write-only device secret endpoint', () => {
-    const value = '00112233445566778899aabbccddeeff';
-    service.putDeviceSecret('sensor/id', 'bind_key', value).subscribe();
-
-    const request = http.expectOne(
-      'https://api.example/api/sensorprofiles/devices/sensor%2Fid/secrets/bind_key'
-    );
-    expect(request.request.method).toBe('PUT');
-    expect(request.request.body).toEqual({ value });
-    request.flush(null);
-  });
 });

@@ -10,29 +10,6 @@
     <input matInput formControlName="sensorId" [readonly]="true" />
   </mat-form-field>
 
-  <ng-container *ngIf="bindKeyRequired">
-    <div class="secret-status">
-      {{
-        (bindKeyConfigured
-          ? "sensorDevices.bindKeyConfigured"
-          : "sensorDevices.bindKeyNotConfigured"
-        ) | translate
-      }}
-    </div>
-    <mat-form-field>
-      <mat-label>{{ "sensorDevices.bindKey" | translate }} *</mat-label>
-      <input
-        matInput
-        type="password"
-        formControlName="bindKey"
-        autocomplete="new-password"
-        maxlength="32"
-      />
-      <mat-hint>{{ "sensorDevices.bindKeyEditHint" | translate }}</mat-hint>
-      <mat-error>{{ getBindKeyError() | translate }}</mat-error>
-    </mat-form-field>
-  </ng-container>
-
   <mat-form-field>
     <mat-label>
       {{ "sensorDevices.sensorTypeName" | translate }}

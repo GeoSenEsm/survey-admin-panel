@@ -1,6 +1,6 @@
 # Initial Survey
 
-To access the `Initial survey` module, expand the `Configuration` group in the left-side panel and select `Initial survey`.
+To access the `Initial survey` module, expand the `Settings` group in the left-side panel and select `Initial survey`.
 
 ![alt text](imgs/turn_on.png)
 

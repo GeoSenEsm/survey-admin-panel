@@ -185,17 +185,6 @@ export class SensorProfileServiceImpl
     );
   }
 
-  putDeviceSecret(
-    sensorMacId: string,
-    secretName: 'bind_key',
-    value: string
-  ): Observable<void> {
-    return this.put(
-      `${this.basePath}/devices/${encodeURIComponent(sensorMacId)}/secrets/${secretName}`,
-      { value }
-    );
-  }
-
   private toIssues(issues: RawValidationIssue[]): SensorProfileValidationIssue[] {
     return issues.map((issue) => this.toIssue(issue));
   }

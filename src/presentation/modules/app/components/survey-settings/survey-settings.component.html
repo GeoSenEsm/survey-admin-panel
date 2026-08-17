@@ -236,9 +236,6 @@
             </div>
 
             <div class="setting-row">
-              <mat-checkbox color="primary" disableRipple [disabled]="sensorDataSetupLocked" [(ngModel)]="parameter.required">
-                {{ "surveySettings.sensorData.required" | translate }}
-              </mat-checkbox>
               <button
                 mat-raised-button
                 color="primary"
@@ -259,34 +256,11 @@
 
             <div class="source-section">
               <span class="source-section-title">{{ "surveySettings.sensorData.sources" | translate }}</span>
-              <ol class="source-list" *ngIf="parameter.sources.length">
-                <li class="source-item" *ngFor="let source of parameter.sources; let si = index">
-                  <mat-select
-                    class="source-order-select"
-                    [ngModel]="si + 1"
-                    [disabled]="sensorDataSetupLocked || isParameterActionBusy || parameter.sources.length < 2"
-                    [attr.aria-label]="'surveySettings.sensorData.sourceOrder' | translate"
-                    panelClass="sensor-mode-panel"
-                    (ngModelChange)="reorderSource(parameter, source, $event)"
-                  >
-                    <mat-option *ngFor="let position of positionOptionsFor(parameter)" [value]="position">
-                      {{ position }}
-                    </mat-option>
-                  </mat-select>
+              <div class="source-list" *ngIf="parameter.sources.length">
+                <div class="source-item" *ngFor="let source of parameter.sources">
                   <span class="source-name">{{ sensorTypeNameFor(source.sensorTypeCode) }} ({{ source.rawParameterCode }})</span>
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    class="source-remove"
-                    [disabled]="sensorDataSetupLocked || isParameterActionBusy || !canRemoveSource(parameter)"
-                    [attr.aria-label]="'surveySettings.sensorData.removeSource' | translate"
-                    [matTooltip]="!canRemoveSource(parameter) ? ('surveySettings.sensorData.cannotRemoveLastSource' | translate) : ''"
-                    (click)="removeSource(parameter, source)"
-                  >
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </li>
-              </ol>
+                </div>
+              </div>
 
               <div class="section-divider" *ngIf="availableRawSourcesFor(parameter).length">
                 <span class="section-divider-label">{{ "surveySettings.sensorData.addSourceSectionTitle" | translate }}</span>
@@ -366,9 +340,6 @@
               </ng-template>
 
               <div class="setting-row">
-                <mat-checkbox color="primary" disableRipple [disabled]="sensorDataSetupLocked" [(ngModel)]="newParameterFromRawDraft.required">
-                  {{ "surveySettings.sensorData.required" | translate }}
-                </mat-checkbox>
                 <button
                   mat-raised-button
                   color="primary"
@@ -417,9 +388,6 @@
                 </mat-form-field>
               </div>
               <div class="setting-row">
-                <mat-checkbox color="primary" disableRipple [disabled]="sensorDataSetupLocked" [(ngModel)]="newParameterDraft.required">
-                  {{ "surveySettings.sensorData.required" | translate }}
-                </mat-checkbox>
                 <button
                   mat-raised-button
                   color="primary"

@@ -1,4 +1,4 @@
-export interface TemperatureDataFilter {
+export interface SensorDataFilter {
     from: Date,
     to: Date,
     respondentId?: string

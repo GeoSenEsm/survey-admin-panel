@@ -1,6 +1,6 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, of, throwError } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
 import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
@@ -30,7 +30,6 @@ describe('SurveySettingsComponent', () => {
         'createSensorParameterDefinition',
         'updateSensorParameterDefinition',
         'deleteSensorParameterDefinition',
-        'reorderParameterSources',
       ],
       {
         cachedSettings: {
@@ -61,7 +60,6 @@ describe('SurveySettingsComponent', () => {
       'validateDraft',
       'publish',
       'rollback',
-      'putDeviceSecret',
     ]);
     sensorsService = jasmine.createSpyObj<SensorsService>('SensorsService', [
       'getSensors',
@@ -145,7 +143,7 @@ describe('SurveySettingsComponent', () => {
     expect(component.sensorDataSetupLocked).toBeTrue();
   });
 
-  it('saves the mode through the settings endpoint, preserving latest sensor types and excluding assignments/parameters', () => {
+  it('saves the mode through the settings endpoint, preserving latest sensor types', () => {
     component.sensorSettingsLoaded = true;
     component.sensorSettings.mode = 'configured_sensors';
     component.sensorSettings.sensorTypes = [
@@ -156,15 +154,6 @@ describe('SurveySettingsComponent', () => {
         displayOrder: 0,
       },
     ];
-    component.sensorSettings.assignments = [
-      {
-        respondentId: 'respondent-1',
-        sensorTypeCode: 'custom',
-        enabled: false,
-        priorityOrder: 0,
-      },
-    ];
-    const localAssignments = component.sensorSettings.assignments;
     const latestTypes = [
       {
         sensorTypeCode: 'xiaomi',
@@ -178,21 +167,12 @@ describe('SurveySettingsComponent', () => {
         mode: 'no_sensor_data',
         sensorTypes: latestTypes,
         parameters: [],
-        assignments: [],
       })
     );
     settingsService.updateSensorDataSettings.and.returnValue(
       of({
         ...component.sensorSettings,
         sensorTypes: latestTypes,
-        assignments: [
-          {
-            respondentId: 'respondent-from-server',
-            sensorTypeCode: 'custom',
-            enabled: true,
-            priorityOrder: 1,
-          },
-        ],
       })
     );
 
@@ -200,17 +180,15 @@ describe('SurveySettingsComponent', () => {
 
     const [payload] = settingsService.updateSensorDataSettings.calls.mostRecent().args;
     expect(payload).toEqual({ mode: 'configured_sensors', sensorTypes: latestTypes });
-    expect(component.sensorSettings.assignments).toBe(localAssignments);
   });
 
   describe('used sensor data parameters', () => {
-    it('createParameter() posts the draft and appends the result', () => {
+    it('createParameter() posts the draft and reloads to pick up the backend-wired manual source', () => {
       component.newParameterDraft = {
         code: 'battery',
         name: 'Battery',
         dataType: 'decimal',
         unit: '%',
-        required: false,
       };
       const created = {
         id: 'p1',
@@ -218,13 +196,12 @@ describe('SurveySettingsComponent', () => {
         name: 'Battery',
         dataType: 'decimal',
         unit: '%',
-        required: false,
         displayOrder: 0,
-        sources: [],
+        sources: [{ sensorTypeCode: 'manual', rawParameterCode: 'battery' }],
       };
       settingsService.createSensorParameterDefinition.and.returnValue(of(created));
       settingsService.getSensorDataSettings.and.returnValue(
-        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [created], assignments: [] })
+        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [created] })
       );
 
       component.createParameter();
@@ -234,86 +211,27 @@ describe('SurveySettingsComponent', () => {
         name: 'Battery',
         dataType: 'decimal',
         unit: '%',
-        required: false,
       });
-      // No `manual` sensor type id known yet, so wiring the default manual source is a no-op
-      // here — the follow-up reload (stubbed above) is what actually lands `created` in state.
-      expect(sensorProfileService.createSensorTypeParameter).not.toHaveBeenCalled();
+      // The backend wires the `manual` source automatically now; the component just reloads
+      // the list rather than orchestrating that itself.
       expect(component.sensorSettings.parameters).toContain(created);
       expect(component.newParameterDraft.code).toBe('');
     });
 
-    it('createParameter() also wires a manual fallback source for the new parameter', () => {
-      component.newParameterDraft = {
-        code: 'battery',
-        name: 'Battery',
-        dataType: 'decimal',
-        unit: '%',
-        required: false,
-      };
-      const created = {
-        id: 'p1',
-        code: 'battery',
-        name: 'Battery',
-        dataType: 'decimal',
-        unit: '%',
-        required: false,
-        displayOrder: 0,
-        sources: [],
-      };
-      const manualRaw = {
-        id: 'manual-raw-1',
-        sensorTypeId: 'manual-id',
-        sensorTypeCode: 'manual',
-        code: 'battery',
-        name: 'Battery',
-        dataType: 'decimal',
-        unit: '%',
-        usedParameterId: null,
-        usedParameterCode: null,
-        priorityOrder: 0,
-      };
-      (component as unknown as { sensorTypeIdByCode: Map<string, string> }).sensorTypeIdByCode =
-        new Map([['manual', 'manual-id']]);
-      settingsService.createSensorParameterDefinition.and.returnValue(of(created));
-      sensorProfileService.createSensorTypeParameter.and.returnValue(of(manualRaw));
-      sensorProfileService.useSensorTypeParameter.and.returnValue(
-        of({ ...manualRaw, usedParameterId: 'p1' })
-      );
-      settingsService.getSensorDataSettings.and.returnValue(
-        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [created], assignments: [] })
-      );
-
-      component.createParameter();
-
-      expect(sensorProfileService.createSensorTypeParameter).toHaveBeenCalledWith('manual-id', {
-        code: 'battery',
-        name: 'Battery',
-        dataType: 'decimal',
-        unit: '%',
-      });
-      expect(sensorProfileService.useSensorTypeParameter).toHaveBeenCalledWith(
-        'manual-id',
-        'manual-raw-1',
-        { usedParameterId: 'p1' }
-      );
-    });
-
     it('does not create a parameter without a code or name', () => {
-      component.newParameterDraft = { code: '', name: '', dataType: 'decimal', unit: '', required: true };
+      component.newParameterDraft = { code: '', name: '', dataType: 'decimal', unit: '' };
       component.createParameter();
       expect(settingsService.createSensorParameterDefinition).not.toHaveBeenCalled();
     });
 
     it('saveParameter() persists edits while keeping local sources', () => {
-      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
+      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' };
       const parameter = {
         id: 'p1',
         code: 'temperature',
         name: 'Temp',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [source],
       };
@@ -328,7 +246,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Temp',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
       });
       expect(component.sensorSettings.parameters[0].sources).toEqual([source]);
@@ -341,7 +258,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -355,7 +271,6 @@ describe('SurveySettingsComponent', () => {
         unit: 'C',
         usedParameterId: null,
         usedParameterCode: null,
-        priorityOrder: 0,
       };
       const differentUnit = { ...matching, id: 'raw2', unit: 'F' };
       const differentCode = { ...matching, id: 'raw3', code: 'humidity' };
@@ -371,7 +286,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Humidity',
         dataType: 'decimal',
         unit: '%',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -385,7 +299,6 @@ describe('SurveySettingsComponent', () => {
         unit: '%',
         usedParameterId: null,
         usedParameterCode: null,
-        priorityOrder: 0,
       };
       component.sensorSettings.parameters = [parameter];
       component.unpromotedRawParameters = [detachedRaw];
@@ -400,7 +313,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Humidity',
         dataType: 'decimal',
         unit: '%',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -414,7 +326,6 @@ describe('SurveySettingsComponent', () => {
         unit: '%',
         usedParameterId: null,
         usedParameterCode: null,
-        priorityOrder: 0,
       };
       component.sensorSettings.parameters = [parameter];
       component.unpromotedRawParameters = [collidingRaw];
@@ -429,7 +340,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -444,15 +354,14 @@ describe('SurveySettingsComponent', () => {
         unit: 'C',
         usedParameterId: null,
         usedParameterCode: null,
-        priorityOrder: 0,
       };
       component.unpromotedRawParameters = [rawParameter];
       component.getAddSourceDraft(parameter).rawParameterId = 'raw1';
       sensorProfileService.useSensorTypeParameter.and.returnValue(
-        of({ ...rawParameter, usedParameterId: 'p1', priorityOrder: 0 })
+        of({ ...rawParameter, usedParameterId: 'p1' })
       );
       settingsService.getSensorDataSettings.and.returnValue(
-        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [], assignments: [] })
+        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [] })
       );
 
       component.addSource(parameter);
@@ -474,15 +383,14 @@ describe('SurveySettingsComponent', () => {
         unit: '%',
         usedParameterId: null,
         usedParameterCode: null,
-        priorityOrder: 0,
       };
       component.unpromotedRawParameters = [raw];
-      component.newParameterFromRawDraft = { rawParameterId: 'raw1', required: true };
+      component.newParameterFromRawDraft = { rawParameterId: 'raw1' };
       sensorProfileService.useSensorTypeParameter.and.returnValue(
         of({ ...raw, usedParameterId: 'new-param-1' })
       );
       settingsService.getSensorDataSettings.and.returnValue(
-        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [], assignments: [] })
+        of({ mode: 'configured_sensors', sensorTypes: [], parameters: [] })
       );
 
       component.addParameterFromRaw();
@@ -491,21 +399,19 @@ describe('SurveySettingsComponent', () => {
         name: 'Battery',
         dataType: 'decimal',
         unit: '%',
-        required: true,
       });
       expect(component.newParameterFromRawDraft.rawParameterId).toBe('');
     });
 
     it('removeSource() unuses the raw parameter and drops it locally', () => {
-      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
-      const other = { id: 's2', sensorTypeCode: 'manual', rawParameterCode: 'temperature', priorityOrder: 1 };
+      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' };
+      const other = { id: 's2', sensorTypeCode: 'manual', rawParameterCode: 'temperature' };
       const parameter = {
         id: 'p1',
         code: 'temperature',
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [source, other],
       };
@@ -521,14 +427,13 @@ describe('SurveySettingsComponent', () => {
     });
 
     it('removeSource() refuses to remove the only remaining source', () => {
-      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
+      const source = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' };
       const parameter = {
         id: 'p1',
         code: 'temperature',
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [source],
       };
@@ -542,6 +447,28 @@ describe('SurveySettingsComponent', () => {
       expect(parameter.sources).toEqual([source]);
     });
 
+    it('removeSource() refuses to remove the manual fallback even when another source exists', () => {
+      const manualSource = { id: 's1', sensorTypeCode: 'manual', rawParameterCode: 'temperature' };
+      const other = { id: 's2', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature' };
+      const parameter = {
+        id: 'p1',
+        code: 'temperature',
+        name: 'Temperature',
+        dataType: 'decimal',
+        unit: 'C',
+        displayOrder: 0,
+        sources: [manualSource, other],
+      };
+      (component as unknown as { sensorTypeIdByCode: Map<string, string> }).sensorTypeIdByCode = new Map([
+        ['manual', 'sensor-type-manual'],
+      ]);
+
+      component.removeSource(parameter, manualSource);
+
+      expect(sensorProfileService.unuseSensorTypeParameter).not.toHaveBeenCalled();
+      expect(parameter.sources).toEqual([manualSource, other]);
+    });
+
     it('deleteParameter() removes it locally after confirmation', () => {
       const parameter = {
         id: 'p1',
@@ -549,7 +476,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -570,7 +496,6 @@ describe('SurveySettingsComponent', () => {
         name: 'Temperature',
         dataType: 'decimal',
         unit: 'C',
-        required: true,
         displayOrder: 0,
         sources: [],
       };
@@ -581,28 +506,6 @@ describe('SurveySettingsComponent', () => {
 
       expect(settingsService.deleteSensorParameterDefinition).not.toHaveBeenCalled();
       expect(component.sensorSettings.parameters).toEqual([parameter]);
-    });
-
-    it('reorderSource() swaps priority optimistically and reverts on error', () => {
-      const first = { id: 's1', sensorTypeCode: 'xiaomi', rawParameterCode: 'temperature', priorityOrder: 0 };
-      const second = { id: 's2', sensorTypeCode: 'kestrel', rawParameterCode: 'temperature', priorityOrder: 1 };
-      const parameter = {
-        id: 'p1',
-        code: 'temperature',
-        name: 'Temperature',
-        dataType: 'decimal',
-        unit: 'C',
-        required: true,
-        displayOrder: 0,
-        sources: [first, second],
-      };
-      settingsService.reorderParameterSources.and.returnValue(throwError(() => new Error('fail')));
-
-      component.reorderSource(parameter, first, 2);
-
-      expect(settingsService.reorderParameterSources).toHaveBeenCalledWith('p1', ['s2', 's1']);
-      // Reverted after the server call failed.
-      expect(parameter.sources).toEqual([first, second]);
     });
   });
 

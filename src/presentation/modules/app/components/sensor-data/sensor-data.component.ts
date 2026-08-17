@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { SensorDataValue, TemperatureDataEntry } from '../../../../../domain/models/temperature-data-entry';
+import { SensorDataValue, SensorDataEntry } from '../../../../../domain/models/sensor-data-entry';
 import { DatePipe } from '@angular/common';
 import { CsvExportService } from '../../../../../core/services/csv-export.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TEMPERATURE_DATA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
-import { TemperatureDataService } from '../../../../../domain/external_services/temperature-data.service';
-import { TemperatureDataFilter } from '../../../../../domain/models/temperature-data-filter';
+import { SENSOR_DATA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import { SensorDataService } from '../../../../../domain/external_services/sensor-data.service';
+import { SensorDataFilter } from '../../../../../domain/models/sensor-data-filter';
 import { catchError, finalize, throwError } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,18 +15,18 @@ import { RespondentDataService } from '../../../../../domain/external_services/r
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
-  selector: 'app-temprature-data',
-  templateUrl: './temprature-data.component.html',
-  styleUrl: './temprature-data.component.scss',
+  selector: 'app-sensor-data',
+  templateUrl: './sensor-data.component.html',
+  styleUrl: './sensor-data.component.scss',
 })
-export class TempratureDataComponent implements OnInit {
+export class SensorDataComponent implements OnInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
   readonly headers = ['dateTime', 'source', 'values', 'respondentId', 'surveyId'];
   isBusy: boolean = false;
   loadDataError: boolean = false;
-  dataSource: MatTableDataSource<TemperatureDataEntry> = undefined!;
-  resultEntries: TemperatureDataEntry[] = [];
+  dataSource: MatTableDataSource<SensorDataEntry> = undefined!;
+  resultEntries: SensorDataEntry[] = [];
   respondents: RespondentData[] = [];
   loadedAtLeastOnce: boolean = false;
   downloadedBytes: number = 0;
@@ -49,8 +49,8 @@ export class TempratureDataComponent implements OnInit {
     private readonly datePipe: DatePipe,
     private readonly exportService: CsvExportService,
     private readonly translate: TranslateService,
-    @Inject(TEMPERATURE_DATA_SERVICE_TOKEN)
-    private readonly service: TemperatureDataService,
+    @Inject(SENSOR_DATA_SERVICE_TOKEN)
+    private readonly service: SensorDataService,
     @Inject('respondentDataService')
     private readonly respondentsService: RespondentDataService
   ) {}
@@ -59,12 +59,19 @@ export class TempratureDataComponent implements OnInit {
   }
 
   exportToCsv(): void {
-    const filename = this.translate.instant('temperature.gridExportFilename');
-    this.exportService.exportTableToCSV(
-      this.dataSource.data,
-      this.headers,
-      filename
-    );
+    const filename = this.translate.instant('sensorData.gridExportFilename');
+    // exportTableToCSV stringifies array/object cells with Array.prototype.join, which would
+    // otherwise turn `values` (an array of {parameterCode, value}) into "[object Object]"; run
+    // every cell through the same display transform used on-screen so the export matches what's
+    // actually shown.
+    const rows = this.dataSource.data.map((row) => {
+      const displayRow: Record<string, unknown> = {};
+      this.headers.forEach((column) => {
+        displayRow[column] = this.getActualColumnDisplay((row as any)[column], column);
+      });
+      return displayRow;
+    });
+    this.exportService.exportTableToCSV(rows, this.headers, filename);
   }
 
   getActualColumnDisplay(propertyValue: any, columnName: string): any {
@@ -74,7 +81,7 @@ export class TempratureDataComponent implements OnInit {
     return propertyValue;
   }
 
-  loadData(filters: TemperatureDataFilter): void {
+  loadData(filters: SensorDataFilter): void {
     if (this.isBusy) {
       return;
     }
@@ -86,16 +93,10 @@ export class TempratureDataComponent implements OnInit {
 
     // Clear previous results immediately
     this.resultEntries = [];
-    this.dataSource = new MatTableDataSource<TemperatureDataEntry>(this.resultEntries);
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+    this.dataSource = this.createDataSource(this.resultEntries);
 
     this.service
-      .getTemperatureDataWithProgress(filters)
+      .getSensorDataWithProgress(filters)
       .pipe(
         finalize(() => {
           this.isBusy = false;
@@ -117,18 +118,29 @@ export class TempratureDataComponent implements OnInit {
             result.forEach((e) => {
               this.resultEntries.push(e);
             });
-            this.dataSource = new MatTableDataSource<TemperatureDataEntry>(
-              this.resultEntries
-            );
-            if (this.paginator) {
-              this.dataSource.paginator = this.paginator;
-            }
-            if (this.sort) {
-              this.dataSource.sort = this.sort;
-            }
+            this.dataSource = this.createDataSource(this.resultEntries);
           }
         }
       });
+  }
+
+  /**
+   * The default MatTableDataSource sort comparator compares raw cell values, which coerces the
+   * `values` column (an array of {parameterCode, value} objects) to the same "[object Object],..."
+   * string for every row with an equal reading count — sorting that column would be a visible
+   * no-op. Sort by the same display transform shown on-screen instead, for every column.
+   */
+  private createDataSource(data: SensorDataEntry[]): MatTableDataSource<SensorDataEntry> {
+    const dataSource = new MatTableDataSource<SensorDataEntry>(data);
+    dataSource.sortingDataAccessor = (row, column) =>
+      this.getActualColumnDisplay((row as any)[column], column);
+    if (this.paginator) {
+      dataSource.paginator = this.paginator;
+    }
+    if (this.sort) {
+      dataSource.sort = this.sort;
+    }
+    return dataSource;
   }
 
   loadRespondents(): void {

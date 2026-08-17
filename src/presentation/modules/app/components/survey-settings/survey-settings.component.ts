@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, finalize, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { finalize, forkJoin, switchMap } from 'rxjs';
 import { ConfigService } from '../../../../../core/services/config.service';
 import {
   CSV_COLUMN_SEPARATOR_OPTIONS,
@@ -40,12 +40,10 @@ interface NewParameterDraft {
   name: string;
   dataType: string;
   unit: string;
-  required: boolean;
 }
 
 interface NewParameterFromRawDraft {
   rawParameterId: string;
-  required: boolean;
 }
 
 @Component({
@@ -79,9 +77,10 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
    * Once the initial survey is published, the study is live and sensor data setup (mode and
    * parameter definitions) can no longer be changed — the backend rejects the save either way,
    * this just surfaces it proactively. Active sensor sources are managed on Integrations.
-   * Respondent sensor *assignments* are managed on the Sensor devices screen and saved through
-   * a separate, always-unlocked call: which physical sensor a respondent has keeps changing
-   * throughout a live study.
+   * Which physical sensor a respondent has is managed on the Sensor devices screen and stays
+   * editable even after publish: that keeps changing throughout a live study as respondents join
+   * or devices get swapped, and every assignment there is simply "on" — there is no separate
+   * enabled/priority state to configure here.
    */
   sensorDataSetupLocked = false;
 
@@ -115,11 +114,11 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   }
 
   private static emptyParameterDraft(): NewParameterDraft {
-    return { code: '', name: '', dataType: 'decimal', unit: '', required: true };
+    return { code: '', name: '', dataType: 'decimal', unit: '' };
   }
 
   private static emptyParameterFromRawDraft(): NewParameterFromRawDraft {
-    return { rawParameterId: '', required: true };
+    return { rawParameterId: '' };
   }
 
   get logoPreviewUrl(): string | null {
@@ -181,7 +180,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
             ...settings,
             sensorTypes: [...settings.sensorTypes],
             parameters: this.mergeParametersPreservingUnsavedEdits(settings.parameters),
-            assignments: [...settings.assignments],
           };
           this.sensorSettingsLoaded = true;
           this.loadUnpromotedRawParameters();
@@ -193,8 +191,8 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
   /**
    * `createParameter`/`addParameterFromRaw`/`addSource` all reload the full parameter list to
    * pick up server-computed state (wired sources, display order) after their own action — but a
-   * wholesale replacement would silently drop an admin's unsaved inline edit (name/dataType/unit/
-   * required) to a *different*, not-yet-saved parameter row, since those fields only persist via
+   * wholesale replacement would silently drop an admin's unsaved inline edit (name/dataType/unit)
+   * to a *different*, not-yet-saved parameter row, since those fields only persist via
    * `saveParameter`. There is no per-row dirty flag, so this keeps the previously-loaded editable
    * fields for any parameter that still exists, and takes everything else (sources, displayOrder)
    * fresh from the server; brand-new parameters are taken as-is.
@@ -212,7 +210,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         name: local?.name ?? parameter.name,
         dataType: local?.dataType ?? parameter.dataType,
         unit: local?.unit ?? parameter.unit,
-        required: local?.required ?? parameter.required,
         sources: [...parameter.sources],
       };
     });
@@ -277,49 +274,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     return `${this.sensorTypeNameFor(raw.sensorTypeCode)} — ${raw.name}${unitSuffix}`;
   }
 
-  /**
-   * Every used parameter gets a `manual` fallback wired automatically, so an admin can always
-   * collect it by hand even with no physical sensor assigned yet — `manual` is the one sensor
-   * type whose raw catalog can legitimately be created on demand for any code, since manual entry
-   * has no real hardware to match against (unlike `addSource`, which only ever promotes a raw row
-   * that already exists). Best-effort: a failure here doesn't roll back the parameter itself, it
-   * just leaves the admin to wire a source by hand.
-   */
-  private wireManualSource(
-    parameter: Pick<SensorParameterDefinition, 'id' | 'code' | 'name' | 'dataType' | 'unit'>
-  ): Observable<unknown> {
-    const manualSensorTypeId = this.sensorTypeIdByCode.get('manual');
-    const parameterId = parameter.id;
-    if (!manualSensorTypeId || !parameterId) {
-      return of(null);
-    }
-    return this.sensorProfileService
-      .createSensorTypeParameter(manualSensorTypeId, {
-        code: parameter.code,
-        name: parameter.name,
-        dataType: parameter.dataType,
-        unit: parameter.unit ?? null,
-      })
-      .pipe(
-        catchError(() =>
-          this.sensorProfileService.listSensorTypeParameters(manualSensorTypeId).pipe(
-            map((existing) => existing.find((raw) => raw.code === parameter.code)),
-            switchMap((existing) =>
-              existing ? of(existing) : throwError(() => new Error('manual-source-wire-failed'))
-            )
-          )
-        ),
-        switchMap((raw: SensorTypeParameter) =>
-          raw.usedParameterId === parameterId
-            ? of(raw)
-            : this.sensorProfileService.useSensorTypeParameter(manualSensorTypeId, raw.id, {
-                usedParameterId: parameterId,
-              })
-        ),
-        catchError(() => of(null))
-      );
-  }
-
   saveSensorDataSettings(): void {
     if (this.isSensorSettingsBusy || !this.sensorSettingsLoaded || this.sensorDataSetupLocked) {
       return;
@@ -345,7 +299,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           this.sensorSettings = {
             ...settings,
             parameters: this.mergeParametersPreservingUnsavedEdits(settings.parameters),
-            assignments: this.sensorSettings.assignments,
           };
           this.showSuccess('surveySettings.saved');
         },
@@ -373,14 +326,14 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         name: this.newParameterDraft.name.trim(),
         dataType: this.newParameterDraft.dataType,
         unit: this.newParameterDraft.unit.trim() || null,
-        required: this.newParameterDraft.required,
       })
       .pipe(finalize(() => (this.isParameterActionBusy = false)))
       .subscribe({
-        next: (created) => {
-          this.sensorSettings.parameters = [...this.sensorSettings.parameters, created];
+        next: () => {
           this.newParameterDraft = SurveySettingsComponent.emptyParameterDraft();
-          this.wireManualSource(created).subscribe(() => this.loadSensorDataSettings());
+          // Reload rather than append the created parameter directly: the backend also wires a
+          // `manual` source automatically, which only the reloaded list reflects.
+          this.loadSensorDataSettings();
           this.showSuccess('surveySettings.sensorData.parameterCreated');
         },
         error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterSaveError'),
@@ -405,22 +358,14 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         name: raw.name,
         dataType: raw.dataType,
         unit: raw.unit ?? null,
-        required: this.newParameterFromRawDraft.required,
       })
       .pipe(finalize(() => (this.isParameterActionBusy = false)))
       .subscribe({
-        next: (promoted) => {
+        next: () => {
           this.newParameterFromRawDraft = SurveySettingsComponent.emptyParameterFromRawDraft();
-          const wireManual$ = promoted.usedParameterId
-            ? this.wireManualSource({
-                id: promoted.usedParameterId,
-                code: raw.code,
-                name: raw.name,
-                dataType: raw.dataType,
-                unit: raw.unit ?? undefined,
-              })
-            : of(null);
-          wireManual$.subscribe(() => this.loadSensorDataSettings());
+          // Reload rather than use the promotion response directly: the backend also wires a
+          // `manual` source automatically, which only the reloaded list reflects.
+          this.loadSensorDataSettings();
           this.showSuccess('surveySettings.sensorData.parameterCreated');
         },
         error: (err) => this.showApiError(err, 'surveySettings.sensorData.parameterSaveError'),
@@ -437,7 +382,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
         name: parameter.name,
         dataType: parameter.dataType,
         unit: parameter.unit?.trim() || null,
-        required: parameter.required,
         displayOrder: parameter.displayOrder,
       })
       .pipe(finalize(() => (this.isParameterActionBusy = false)))
@@ -533,10 +477,12 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
    * This manual removal path never deletes the parameter itself, unlike disabling a sensor type
    * (which unlinks every source it owns and lets the backend delete a parameter left sourceless)
    * — so removing the very last source here would strand the parameter with nothing able to
-   * collect it. `parameter.sources` is the real, already-live count.
+   * collect it. `parameter.sources` is the real, already-live count. `manual` is additionally
+   * never removable at all: every parameter is guaranteed that fallback, so this UI doesn't offer
+   * a way to break that guarantee.
    */
-  canRemoveSource(parameter: SensorParameterDefinition): boolean {
-    return parameter.sources.length > 1;
+  canRemoveSource(parameter: SensorParameterDefinition, source: SensorParameterSource): boolean {
+    return parameter.sources.length > 1 && source.sensorTypeCode !== 'manual';
   }
 
   removeSource(parameter: SensorParameterDefinition, source: SensorParameterSource): void {
@@ -544,7 +490,7 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
     if (this.isParameterActionBusy || this.sensorDataSetupLocked || !source.id || !sensorTypeId) {
       return;
     }
-    if (!this.canRemoveSource(parameter)) {
+    if (!this.canRemoveSource(parameter, source)) {
       this.showError('surveySettings.sensorData.cannotRemoveLastSource');
       return;
     }
@@ -558,41 +504,6 @@ export class SurveySettingsComponent implements OnInit, OnDestroy {
           this.showSuccess('surveySettings.sensorData.sourceRemoved');
         },
         error: (err) => this.showApiError(err, 'surveySettings.sensorData.removeSourceError'),
-      });
-  }
-
-  positionOptionsFor(parameter: SensorParameterDefinition): number[] {
-    return Array.from({ length: parameter.sources.length }, (_, i) => i + 1);
-  }
-
-  reorderSource(parameter: SensorParameterDefinition, source: SensorParameterSource, newPosition: number): void {
-    if (this.isParameterActionBusy || this.sensorDataSetupLocked || !parameter.id) {
-      return;
-    }
-    const previous = parameter.sources;
-    const oldIndex = previous.indexOf(source);
-    const targetIndex = newPosition - 1;
-    if (oldIndex === -1 || targetIndex < 0 || targetIndex >= previous.length || targetIndex === oldIndex) {
-      return;
-    }
-
-    const reordered = [...previous];
-    reordered.splice(oldIndex, 1);
-    reordered.splice(targetIndex, 0, source);
-    parameter.sources = reordered;
-
-    this.isParameterActionBusy = true;
-    this.service
-      .reorderParameterSources(
-        parameter.id,
-        reordered.map((existing) => existing.id!)
-      )
-      .pipe(finalize(() => (this.isParameterActionBusy = false)))
-      .subscribe({
-        error: () => {
-          parameter.sources = previous;
-          this.showError('surveySettings.sensorData.reorderSourcesError');
-        },
       });
   }
 

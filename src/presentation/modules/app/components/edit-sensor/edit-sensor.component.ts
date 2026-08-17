@@ -9,16 +9,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { SensorsService } from '../../../../../domain/external_services/sensors.service';
-import {
-  SENSOR_PROFILE_SERVICE_TOKEN,
-  SENSORS_SERVICE_TOKEN,
-} from '../../../../../core/services/injection-tokens';
+import { SENSORS_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { macPattern, normalizeMacInput } from '../../../../../core/utils/validators';
 import { RespondentData } from '../../../../../domain/models/respondent-data';
 import { catchError, finalize, of, switchMap, throwError } from 'rxjs';
-import { SensorProfileService } from '../../../../../domain/external_services/sensor-profile.service';
 import { excludeNonSelectableSensorTypes } from '../../../../../core/utils/sensor-type-filters';
 import { resolveRespondentId } from '../../../../../core/utils/respondent-resolver';
 
@@ -49,10 +45,6 @@ export class EditSensorComponent implements OnInit {
     this.respondents = respondents;
   }
 
-  get bindKeyConfigured(): boolean {
-    return this.data.sensor.configuredSecrets?.includes('bind_key') === true;
-  }
-
   get respondentControl(): FormControl<RespondentData | string | null> {
     return this.formGroup.get('respondent') as FormControl<
       RespondentData | string | null
@@ -65,8 +57,6 @@ export class EditSensorComponent implements OnInit {
     private readonly matDialogRef: MatDialogRef<EditSensorComponent>,
     @Inject(SENSORS_SERVICE_TOKEN)
     private readonly sensorsService: SensorsService,
-    @Inject(SENSOR_PROFILE_SERVICE_TOKEN)
-    private readonly sensorProfileService: SensorProfileService,
     private readonly snackbar: MatSnackBar,
     private readonly translate: TranslateService
   ) {
@@ -87,17 +77,10 @@ export class EditSensorComponent implements OnInit {
       sensorTypeId: new FormControl(this.data.sensor.sensorTypeId, [
         Validators.required,
       ]),
-      bindKey: new FormControl('', [
-        Validators.pattern(/^[0-9a-fA-F]{32}$/),
-      ]),
       respondent: new FormControl<RespondentData | string | null>(
         initialRespondent
       ),
     });
-
-    this.formGroup
-      .get('sensorTypeId')
-      ?.valueChanges.subscribe(() => this.syncBindKeyAvailability());
 
     const sensorMac = this.formGroup.get('sensorMac');
     sensorMac?.valueChanges.subscribe((value: string) => {
@@ -114,39 +97,7 @@ export class EditSensorComponent implements OnInit {
       .pipe(catchError(() => of([] as SensorTypeDto[])))
       .subscribe((types) => {
         this.sensorTypes = excludeNonSelectableSensorTypes(types);
-        this.syncBindKeyAvailability();
       });
-  }
-
-  get selectedSensorType(): SensorTypeDto | undefined {
-    const sensorTypeId = this.formGroup.get('sensorTypeId')?.value;
-    return this.sensorTypes.find((t) => t.id === sensorTypeId);
-  }
-
-  get bindKeyRequired(): boolean {
-    return this.selectedSensorType?.requiredSecrets?.includes('bind_key') === true;
-  }
-
-  private syncBindKeyAvailability(): void {
-    const bindKey = this.formGroup.get('bindKey');
-    if (!bindKey) {
-      return;
-    }
-    // A device that already has a bind key configured may leave the field blank to keep
-    // it (see bindKeyEditHint); only force entry when the type requires one and none is
-    // configured yet.
-    if (this.bindKeyRequired && !this.bindKeyConfigured) {
-      bindKey.setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9a-fA-F]{32}$/),
-      ]);
-    } else {
-      if (!this.bindKeyRequired) {
-        bindKey.setValue('');
-      }
-      bindKey.setValidators([Validators.pattern(/^[0-9a-fA-F]{32}$/)]);
-    }
-    bindKey.updateValueAndValidity();
   }
 
   validateUniqueness(control: AbstractControl): ValidationErrors | null {
@@ -173,15 +124,6 @@ export class EditSensorComponent implements OnInit {
       return 'sensorDevices.macAlreadyExists';
     }
     return '';
-  }
-
-  getBindKeyError(): string {
-    if (this.formGroup.get('bindKey')?.hasError('required')) {
-      return 'sensorDevices.fieldIsRequired';
-    }
-    return this.formGroup.get('bindKey')?.hasError('pattern')
-      ? 'sensorDevices.bindKeyFormat'
-      : '';
   }
 
   close(): void {
@@ -216,10 +158,8 @@ export class EditSensorComponent implements OnInit {
     const sensorMac =
       (this.formGroup.get('sensorMac')?.value as string) || null;
     const sensorTypeId = this.formGroup.get('sensorTypeId')?.value as string;
-    const bindKey = this.formGroup.get('bindKey')?.value as string;
     const originalSensorMac = this.data.sensor.sensorMac;
     const originalSensorTypeId = this.data.sensor.sensorTypeId;
-    const originalRespondentId = this.data.sensor.respondentId ?? null;
 
     // Reports whether the rollback itself succeeded so callers can tell a clean failure
     // (the original mutation never stuck) apart from one that leaves the record inconsistent.
@@ -234,23 +174,11 @@ export class EditSensorComponent implements OnInit {
           catchError(() => of(false))
         );
 
-    const revertRespondent = () =>
-      this.sensorsService
-        .assignRespondent(this.data.sensor.sensorId, {
-          respondentId: originalRespondentId,
-        })
-        .pipe(
-          switchMap(() => of(true)),
-          catchError(() => of(false))
-        );
-
     const failWith = (error: unknown, rolledBackCleanly: boolean) =>
       throwError(() =>
         rolledBackCleanly ? error : new SensorSaveInconsistentStateError()
       );
 
-    // Order steps so the hardest step to undo (the bind key, which has no delete API) runs
-    // last: if it fails, the two earlier, freely revertible mutations are rolled back first.
     this.sensorsService
       .updateSensor(this.data.sensor.sensorId, {
         sensorMac,
@@ -268,26 +196,6 @@ export class EditSensorComponent implements OnInit {
               )
             )
         ),
-        switchMap((assignment) =>
-          bindKey
-            ? this.sensorProfileService
-                .putDeviceSecret(this.data.sensor.id, 'bind_key', bindKey)
-                .pipe(
-                  switchMap(() => of(assignment)),
-                  catchError((error) =>
-                    revertRespondent().pipe(
-                      switchMap((respondentReverted) =>
-                        revertSensorFields().pipe(
-                          switchMap((fieldsReverted) =>
-                            failWith(error, respondentReverted && fieldsReverted)
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-            : of(assignment)
-        ),
         finalize(() => (this.isBusy = false))
       )
       .subscribe({
@@ -299,10 +207,6 @@ export class EditSensorComponent implements OnInit {
             sensorTypeName: assignment.sensorTypeName,
             respondentId: assignment.respondentId ?? null,
             respondentUsername: assignment.respondentUsername ?? null,
-            configuredSecrets:
-              assignment.configuredSecrets ??
-              this.data.sensor.configuredSecrets ??
-              (bindKey ? ['bind_key'] : []),
           });
           this.isBusy = false;
           this.close();

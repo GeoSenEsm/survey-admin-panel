@@ -11,7 +11,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>
-        {{ "temperature.dateFrom" | translate }}
+        {{ "sensorData.dateFrom" | translate }}
       </mat-label>
       <input
         matInput
@@ -24,7 +24,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>
-        {{ "temperature.timeFrom" | translate }}
+        {{ "sensorData.timeFrom" | translate }}
       </mat-label>
       <input
         matInput
@@ -38,7 +38,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>
-        {{ "temperature.dateTo" | translate }}
+        {{ "sensorData.dateTo" | translate }}
       </mat-label>
       <input
         matInput
@@ -51,7 +51,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>
-        {{ "temperature.timeTo" | translate }}
+        {{ "sensorData.timeTo" | translate }}
       </mat-label>
       <input
         matInput
@@ -71,7 +71,7 @@
       [disabled]="!canLoad()"
     >
       <mat-icon> refresh </mat-icon>
-      {{ "temperature.load" | translate }}
+      {{ "sensorData.load" | translate }}
     </button>
     <button
       type="button"
@@ -81,7 +81,7 @@
       [disabled]="!canExport"
     >
       <mat-icon> file_download </mat-icon>
-      {{ "temperature.export" | translate }}
+      {{ "sensorData.export" | translate }}
     </button>
   </form>
 </div>

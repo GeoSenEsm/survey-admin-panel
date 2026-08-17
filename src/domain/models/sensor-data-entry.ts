@@ -3,7 +3,7 @@ export interface SensorDataValue {
     value: string;
 }
 
-export interface TemperatureDataEntry {
+export interface SensorDataEntry {
     respondentId: string;
     dateTime: string;
     source: string;

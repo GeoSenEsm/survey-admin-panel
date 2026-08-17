@@ -78,11 +78,11 @@ export function getNavListItems(): NavEntry[] {
     },
     {
       display: 'app.dashboard.navCategory.sensors',
-      matIcon: 'device_thermostat',
+      matIcon: 'sensors',
       children: [
         {
-          display: 'app.dashboard.temepratureSensors',
-          matIcon: 'device_thermostat',
+          display: 'app.dashboard.sensorData',
+          matIcon: 'sensors',
           link: 'sensorData',
         },
         {

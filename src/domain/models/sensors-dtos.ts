@@ -9,7 +9,6 @@ export interface SensorDto {
     sensorTypeId: string,
     sensorTypeCode?: string,
     sensorTypeName?: string,
-    configuredSecrets?: string[],
     rowVersion: number
 }
 
@@ -19,8 +18,6 @@ export interface SensorTypeDto {
     name: string
     integrationMode?: SensorIntegrationMode
     adapterKey?: string | null
-    /** Secret names (e.g. 'bind_key') the type's published profile requires. */
-    requiredSecrets?: string[]
 }
 
 export interface UpdateSensorDto {

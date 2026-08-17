@@ -15,7 +15,7 @@ import {
   SURVEY_SETTINGS_SERVICE_TOKEN,
 } from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
-import { catchError, firstValueFrom, of, Subscription, throwError } from 'rxjs';
+import { catchError, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import isClockwise from '../../../../../core/utils/coords';
@@ -186,12 +186,9 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     const file = input.files[0];
-    firstValueFrom(this.surveySettingsService.getSettings())
-      .catch(() => this.csvSettings)
-      .then((settings) => {
-        this.csvSettings = { ...settings };
-        this.parseResearchAreaCsv(file, settings);
-      });
+    // csvSettings is already loaded (loadCsvSettings runs on init) — reuse it instead of
+    // refetching column/decimal separators the component already has.
+    this.parseResearchAreaCsv(file, this.csvSettings);
   }
 
   private parseResearchAreaCsv(file: File, settings: SurveySettings): void {
