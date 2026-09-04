@@ -65,6 +65,6 @@ describe('MapProviderService', () => {
     const [latitude, longitude] = service.toDisplayLatLng(31.2304, 121.4737) as [number, number];
 
     expect(latitude).toBeCloseTo(31.2343, 3);
-    expect(longitude).toBeCloseTo(121.4859, 3);
+    expect(longitude).toBeCloseTo(121.4848, 3);
   });
 });

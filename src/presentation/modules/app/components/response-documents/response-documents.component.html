@@ -40,35 +40,37 @@
       <mat-datepicker #dateToPicker />
     </mat-form-field>
 
-    <button
-      type="submit"
-      mat-flat-button
-      color="primary"
-      [disabled]="isBusy"
-    >
-      <mat-icon>filter_alt</mat-icon>
-      {{ 'responseDocuments.filters.apply' | translate }}
-    </button>
-    <button
-      type="button"
-      mat-stroked-button
-      (click)="clearFilters()"
-      [disabled]="isBusy"
-    >
-      <mat-icon>clear</mat-icon>
-      {{ 'responseDocuments.filters.clear' | translate }}
-    </button>
-    <button
-      type="button"
-      mat-flat-button
-      color="accent"
-      (click)="exportZip()"
-      [disabled]="isBusy || isExporting"
-    >
-      <mat-icon>archive</mat-icon>
-      {{ 'responseDocuments.exportZip' | translate }}
-      <mat-spinner *ngIf="isExporting" diameter="16" class="export-spinner" />
-    </button>
+    <div class="filter-actions">
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="isBusy"
+      >
+        <mat-icon>filter_alt</mat-icon>
+        {{ 'responseDocuments.filters.apply' | translate }}
+      </button>
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="clearFilters()"
+        [disabled]="isBusy"
+      >
+        <mat-icon>clear</mat-icon>
+        {{ 'responseDocuments.filters.clear' | translate }}
+      </button>
+      <button
+        type="button"
+        mat-flat-button
+        color="accent"
+        (click)="exportZip()"
+        [disabled]="isBusy || isExporting"
+      >
+        <mat-icon>archive</mat-icon>
+        {{ 'responseDocuments.exportZip' | translate }}
+        <mat-spinner *ngIf="isExporting" diameter="16" class="export-spinner" />
+      </button>
+    </div>
   </form>
 
   <mat-error *ngIf="exportError" class="export-error">

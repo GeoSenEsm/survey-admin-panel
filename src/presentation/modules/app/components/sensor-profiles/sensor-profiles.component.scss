@@ -1,0 +1,287 @@
+@import "../../../../../styles/variables.scss";
+
+.container {
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.hint {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.back-button {
+  margin-bottom: 12px;
+
+  mat-icon {
+    margin-right: 4px;
+  }
+}
+
+.type-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+
+  .wide-field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+.locked-notice {
+  background: $warning-bg;
+  color: $warning-color;
+  border: 1px solid $warning-color;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.experimental-notice {
+  background: $warning-bg;
+  color: $warning-color;
+  border: 1px solid $warning-color;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+}
+
+.settings-panel {
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.setting-title {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.create-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 16px;
+  align-items: end;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.create-action-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wide-field {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.adapter-boundary {
+  padding: 12px;
+  border-left: 4px solid #3f51b5;
+  background: rgba(63, 81, 181, 0.06);
+  margin: 12px 0;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.editor-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+  min-width: 0;
+}
+
+.file-button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 16px;
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 4px;
+  font-size: 14px;
+
+  input[type='file'] {
+    display: none;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.profile-metadata {
+  margin-bottom: 12px;
+}
+
+.json-editor {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  font-family: monospace;
+
+  textarea {
+    overflow-x: auto;
+    white-space: pre;
+  }
+}
+
+.syntax-error {
+  color: #f44336;
+  font-size: 0.75rem;
+  margin: -12px 0 12px;
+  overflow-wrap: anywhere;
+}
+
+.profile-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 0.875rem;
+  min-width: 0;
+  max-width: 100%;
+
+  span {
+    background: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    overflow-wrap: anywhere;
+  }
+}
+
+.live-test-panel {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
+}
+
+.live-test-device {
+  font-size: 0.875rem;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.live-test-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.live-test-step {
+  padding: 6px;
+  border-left: 3px solid #4caf50;
+  margin: 4px 0;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+
+  &.failed {
+    border-color: #f44336;
+  }
+
+  code {
+    margin-right: 6px;
+  }
+}
+
+.live-test-decoded {
+  padding-left: 12px;
+  font-size: 0.8rem;
+
+  &.failed {
+    color: #f44336;
+  }
+}
+
+.validation-results {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
+}
+
+.validation-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
+.vector-result {
+  padding: 6px;
+  border-left: 3px solid #f44336;
+  margin: 4px 0;
+  font-size: 0.875rem;
+
+  &.passed {
+    border-color: #4caf50;
+  }
+
+  pre {
+    font-size: 0.75rem;
+    margin: 4px 0;
+    overflow-x: auto;
+  }
+}
+
+.revision-history {
+  margin-top: 16px;
+}
+
+.revision-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 0.875rem;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+}

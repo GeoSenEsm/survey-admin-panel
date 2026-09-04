@@ -44,7 +44,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<RespondentData> = null!;
   readonly respondents: RespondentData[] = [];
   headers: string[] = [];
-  directDisplayColumns = new Set<string>(['username', 'id', 'surveyStartDate', 'surveyEndDate']);
+  directDisplayColumns = new Set<string>(['username', 'id', 'surveyStartDate', 'surveyEndDate', 'timeZone']);
   columnFilter: { [key: string]: string[] } = {};
   respondentInfos: RespondentInfoCollections = null!;
   valueDisplayMappings: RespondentInfoValueDisplayMappings = null!;
@@ -149,7 +149,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
           this.respondentInfos = respondentInfos as RespondentInfoCollections;
           this.headers = ['username']
             .concat(Object.keys(this.respondentInfos))
-            .concat(['surveyStartDate', 'surveyEndDate', 'id']);
+            .concat(['surveyStartDate', 'surveyEndDate', 'timeZone', 'id']);
           this.valueDisplayMappings = convertToValueDisplayMappings(
             this.respondentInfos
           );
@@ -258,6 +258,10 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
       return this.translate.instant('respondents.respondents.surveyEndDate');
     }
 
+    if (columnName == 'timeZone') {
+      return this.translate.instant('respondents.respondents.timeZone');
+    }
+
     return columnName;
   }
 
@@ -316,7 +320,7 @@ export class RespondentsComponent implements OnInit, AfterViewInit {
 
   goToSensorData(respondent: RespondentData): void {
     this.router.navigate(
-      [`/temperature`],
+      [`/sensorData`],
       this.respondentNavigationExtras(respondent)
     );
   }

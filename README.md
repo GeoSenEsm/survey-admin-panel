@@ -2,7 +2,9 @@
 
 Angular admin portal for GeoSenEsm researchers. Configure surveys, manage
 respondents, review results, statistics, daily completion, issues, and
-download response documents from the backend.
+download response documents from the backend. On each survey's sending-policy
+tab you can also configure phone notification rules (count and timing relative
+to the beginning or end of each time slot).
 
 | | |
 |---|---|
@@ -43,14 +45,21 @@ Register new services in `prodivers.ts` / injection tokens.
 
 ### Main dashboard areas
 
-| Route / nav | Role |
+Grouped sidenav categories:
+
+| Category | Items |
 |---|---|
-| Configuration, surveys, start survey | Study setup |
-| Respondents, survey window | Respondent management and study-date assignment |
-| Issues | Survey / GPS / sensor fulfillment |
-| Summaries, response documents | Results and Mongo-backed JSON / ZIP export |
-| Statistics, daily completion | Aggregates and per-slot completion grid |
-| Map, sensors, phone numbers | Research area, devices, contacts |
+| Settings | Survey settings (general + sensor data settings), Research area (`/researchArea`), Contact numbers, Initial survey |
+| Surveys | Surveys, Create survey |
+| Respondents | Respondent list, Survey dates |
+| Sensors | Sensor data, Sensor devices |
+| Results | Map, Results, Response documents |
+| Statistics | Daily completion, Issues, Statistics |
+
+`/sensorProfiles` ("Add new sensor type") and `/integrations` (enable/disable
+sensor sources) are routed, fully implemented pages, but are not yet linked
+from `nav-list-items.ts` — reach them by URL until they're wired into the
+sidenav.
 
 ---
 

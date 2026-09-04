@@ -10,13 +10,21 @@ import {
 import L, { LatLng } from 'leaflet';
 import { Papa } from 'ngx-papaparse';
 import { LatLong } from '../../../../../domain/models/lat_long';
-import { RESEARCH_AREA_SERVICE_TOKEN } from '../../../../../core/services/injection-tokens';
+import {
+  RESEARCH_AREA_SERVICE_TOKEN,
+  SURVEY_SETTINGS_SERVICE_TOKEN,
+} from '../../../../../core/services/injection-tokens';
 import { ResearchAreaService } from '../../../../../domain/external_services/research_area.service';
 import { catchError, of, Subscription, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import isClockwise from '../../../../../core/utils/coords';
 import { MapProvider, MapProviderService } from '../../../../../core/services/map-provider.service';
+import { SurveySettingsService } from '../../../../../domain/external_services/survey-settings.service';
+import {
+  DEFAULT_SURVEY_SETTINGS,
+  SurveySettings,
+} from '../../../../../domain/models/survey-settings';
 
 @Component({
   selector: 'app-research-area',
@@ -34,11 +42,14 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   private nodes: LatLong[] | undefined;
   errorOnLoadingCurrentResearchArea: boolean = false;
   private rememberedNodes: LatLong[] | undefined;
+  csvSettings: SurveySettings = { ...DEFAULT_SURVEY_SETTINGS };
 
   constructor(
     private papa: Papa<LatLng>,
     @Inject(RESEARCH_AREA_SERVICE_TOKEN)
     private readonly researchAreaService: ResearchAreaService,
+    @Inject(SURVEY_SETTINGS_SERVICE_TOKEN)
+    private readonly surveySettingsService: SurveySettingsService,
     private readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     private readonly mapProviderService: MapProviderService
@@ -56,7 +67,52 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loadCsvSettings();
     this.loadCurrentResearchArea();
+  }
+
+  get csvColumnSeparatorLabel(): string {
+    return this.formatSeparatorLabel(this.csvSettings.csvColumnSeparator);
+  }
+
+  get csvDecimalSeparatorLabel(): string {
+    return this.formatSeparatorLabel(this.csvSettings.csvDecimalSeparator);
+  }
+
+  get csvFormatExample(): string {
+    const sep = this.csvSettings.csvColumnSeparator;
+    const dec = this.csvSettings.csvDecimalSeparator;
+    const lat = this.formatExampleNumber(52.2297, dec);
+    const lon = this.formatExampleNumber(21.0122, dec);
+    const lat2 = this.formatExampleNumber(52.23, dec);
+    const lon2 = this.formatExampleNumber(21.02, dec);
+    return `latitude${sep}longitude\n${lat}${sep}${lon}\n${lat2}${sep}${lon2}`;
+  }
+
+  private loadCsvSettings(): void {
+    this.surveySettingsService.getSettings().subscribe({
+      next: (settings) => {
+        this.csvSettings = { ...settings };
+      },
+      error: () => {
+        this.csvSettings = { ...DEFAULT_SURVEY_SETTINGS };
+      },
+    });
+  }
+
+  private formatSeparatorLabel(value: string): string {
+    if (value === '\t') {
+      return 'TAB';
+    }
+    if (value === ' ') {
+      return 'SPACE';
+    }
+    return `"${value}"`;
+  }
+
+  private formatExampleNumber(value: number, decimalSep: string): string {
+    const asDot = String(value);
+    return decimalSep === '.' ? asDot : asDot.replace('.', decimalSep);
   }
 
   private initMap(): void {
@@ -125,47 +181,69 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      this.papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (result) => {
-          if (
-            result.data.some(
-              (e: any) => e.longitude == undefined || e.latitude == undefined
-            )
-          ) {
-            this.showInvalidFormat();
-            return;
-          }
-
-          let data: LatLong[] = (result.data as LatLong[]).map((row) => ({
-            latitude: this.withPrecision(row.latitude, 6),
-            longitude: this.withPrecision(row.longitude, 6),
-          }));
-
-          if (data.length < 3 || data.length > 250) {
-            this.showInvalidLength();
-            return;
-          }
-
-          if (isClockwise(data)){
-            data = data.reverse();
-          }
-
-          this.drawPolygon(data);
-          this.changesMade = true;
-        },
-        error: (error) => {
-          const message = this.translate.instant(
-            'configuration.researchArea.somethingWentWrong'
-          );
-          this.showOkMessage(message);
-          console.error('Error parsing CSV file:', error);
-        },
-      });
+    if (!input.files?.[0]) {
+      return;
     }
+
+    const file = input.files[0];
+    // csvSettings is already loaded (loadCsvSettings runs on init) — reuse it instead of
+    // refetching column/decimal separators the component already has.
+    this.parseResearchAreaCsv(file, this.csvSettings);
+  }
+
+  private parseResearchAreaCsv(file: File, settings: SurveySettings): void {
+    const columnSep = settings.csvColumnSeparator;
+    const decimalSep = settings.csvDecimalSeparator;
+    this.papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      delimiter: columnSep,
+      complete: (result) => {
+        if (
+          result.data.some(
+            (e: any) => e.longitude == undefined || e.latitude == undefined
+          )
+        ) {
+          this.showInvalidFormat();
+          return;
+        }
+
+        let data: LatLong[] = (result.data as any[]).map((row) => ({
+          latitude: this.withPrecision(
+            this.parseLocalizedNumber(row.latitude, decimalSep),
+            6
+          ),
+          longitude: this.withPrecision(
+            this.parseLocalizedNumber(row.longitude, decimalSep),
+            6
+          ),
+        }));
+
+        if (data.some((point) => Number.isNaN(point.latitude) || Number.isNaN(point.longitude))) {
+          this.showInvalidFormat();
+          return;
+        }
+
+        if (data.length < 3 || data.length > 250) {
+          this.showInvalidLength();
+          return;
+        }
+
+        if (isClockwise(data)) {
+          data = data.reverse();
+        }
+
+        this.drawPolygon(data);
+        this.changesMade = true;
+      },
+      error: (error) => {
+        const message = this.translate.instant(
+          'configuration.researchArea.somethingWentWrong'
+        );
+        this.showOkMessage(message);
+        console.error('Error parsing CSV file:', error);
+      },
+    });
   }
 
   showInvalidLength(): void {
@@ -180,6 +258,25 @@ export class ResearchAreaComponent implements OnInit, OnDestroy, AfterViewInit {
       'configuration.researchArea.invalidFormat'
     );
     this.showOkMessage(message);
+  }
+
+  parseLocalizedNumber(value: number | string, decimalSep: string): number {
+    if (typeof value === 'number') {
+      return value;
+    }
+    const trimmed = String(value).trim();
+    if (!trimmed) {
+      return Number.NaN;
+    }
+    const withoutSpaces = trimmed.replace(/\s/g, '');
+    const numberPattern =
+      decimalSep === ',' ? /^-?\d+(,\d+)?$/ : /^-?\d+(\.\d+)?$/;
+    if (!numberPattern.test(withoutSpaces)) {
+      return Number.NaN;
+    }
+    const normalized =
+      decimalSep === ',' ? withoutSpaces.replace(',', '.') : withoutSpaces;
+    return parseFloat(normalized);
   }
 
   withPrecision(value: number | string, precision: number): number {

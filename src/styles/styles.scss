@@ -247,6 +247,25 @@ button.mat-mdc-icon-button {
   box-shadow: $shadow-md !important;
 }
 
+// Sensor data settings – refined dropdown list panel & selected-option tick
+.sensor-mode-panel {
+  --mat-option-hover-state-layer-color: #{$primary-color-light};
+  --mat-option-selected-state-layer-color: #{$primary-color-light};
+  --mat-option-selected-state-label-text-color: #{$primary-color-dark};
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: #{$primary-color};
+
+  border-radius: $radius-md !important;
+  box-shadow: $shadow-md !important;
+  padding: $space-1 0 !important;
+  margin-top: $space-1;
+
+  .mat-mdc-option {
+    border-radius: $radius-sm;
+    margin: 2px $space-2;
+    transition: background-color $transition-fast;
+  }
+}
+
 // Snackbar
 .mat-mdc-snack-bar-container .mdc-snackbar__surface {
   border-radius: $radius-md !important;

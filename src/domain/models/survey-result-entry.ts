@@ -7,7 +7,5 @@ export interface SurveyResultEntry {
     longitude?: number;
     latitude?: number;
     outsideResearchArea?: boolean;
-    temperature?: number;
-    humidity?: number;
     accuracyMeters?: number;
 }

@@ -9,9 +9,30 @@
     </mat-label>
     <input matInput formControlName="sensorId" />
     <mat-error>
-      {{ getErrorMessage("sensorId") ?? "" | translate }}
+      {{ (getErrorMessage("sensorId") ?? "") | translate }}
     </mat-error>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      {{ "sensorDevices.sensorTypeName" | translate }}
+    </mat-label>
+    <mat-select formControlName="sensorTypeId">
+      <mat-option *ngFor="let type of sensorTypes" [value]="type.id">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{ (getErrorMessage("sensorTypeId") ?? "") | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <div class="no-types-hint" *ngIf="!sensorTypes.length">
+    <p>{{ "sensorDevices.noSensorTypesAvailable" | translate }}</p>
+    <button type="button" mat-stroked-button (click)="goToAddSensorType()">
+      {{ "sensorDevices.goToAddSensorType" | translate }}
+    </button>
+  </div>
 
   <mat-form-field>
     <mat-label>
@@ -19,9 +40,14 @@
     </mat-label>
     <input matInput formControlName="sensorMac" />
     <mat-error>
-      {{ getErrorMessage("sensorMac") ?? "" | translate }}
+      {{ (getErrorMessage("sensorMac") ?? "") | translate }}
     </mat-error>
   </mat-form-field>
+
+  <app-respondent-autocomplete
+    [control]="respondentControl"
+    (respondentsLoaded)="onRespondentsLoaded($event)"
+  ></app-respondent-autocomplete>
 
   <button type="submit" mat-flat-button color="primary">
     {{ "sensorDevices.save" | translate }}

@@ -1,0 +1,238 @@
+<div class="container">
+  <button mat-stroked-button class="back-button" routerLink="/surveySettings">
+    <mat-icon>arrow_back</mat-icon>
+    {{ "sensorProfiles.back" | translate }}
+  </button>
+
+  <h3>{{ "sensorProfiles.title" | translate }}</h3>
+  <p class="hint">{{ "sensorProfiles.hint" | translate }}</p>
+
+  <div class="experimental-notice">
+    {{ "sensorProfiles.experimentalNotice" | translate }}
+  </div>
+
+  <div class="locked-notice" *ngIf="sensorDataSetupLocked">
+    {{ "sensorProfiles.locked" | translate }}
+  </div>
+
+  <div class="settings-panel">
+    <div class="setting-title">{{ "sensorProfiles.createTitle" | translate }}</div>
+    <div class="create-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "sensorProfiles.newCode" | translate }}</mat-label>
+        <input matInput [(ngModel)]="newCode" [disabled]="sensorDataSetupLocked" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "sensorProfiles.newName" | translate }}</mat-label>
+        <input matInput [(ngModel)]="newName" [disabled]="sensorDataSetupLocked" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "sensorProfiles.integrationMode" | translate }}</mat-label>
+        <mat-select [(ngModel)]="newIntegrationMode" [disabled]="sensorDataSetupLocked">
+          <mat-option *ngFor="let mode of integrationModes" [value]="mode">
+            {{ integrationModeLabel(mode) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="newIntegrationMode === 'native'">
+        <mat-label>{{ "sensorProfiles.adapterKey" | translate }}</mat-label>
+        <mat-select [(ngModel)]="newAdapterKey" [disabled]="sensorDataSetupLocked">
+          <mat-option *ngFor="let key of supportedAdapterKeys" [value]="key">
+            {{ key }}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="!supportedAdapterKeys.length">
+          {{ "sensorProfiles.noAdapterKeysAvailable" | translate }}
+        </mat-hint>
+      </mat-form-field>
+      <div class="create-action-row">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="isBusy || sensorDataSetupLocked"
+          (click)="createSensorType()"
+        >
+          {{ "sensorProfiles.createSensorType" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-panel">
+    <div class="type-selector-row">
+      <mat-form-field appearance="outline" class="wide-field">
+        <mat-label>{{ "sensorProfiles.sensorType" | translate }}</mat-label>
+        <mat-select [ngModel]="selectedTypeId" (ngModelChange)="selectType($event)" [disabled]="isBusy">
+          <mat-option *ngFor="let st of sensorTypes" [value]="st.id">
+            {{ st.name }} ({{ st.code }}) — {{ integrationModeLabel(st.integrationMode) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        color="warn"
+        *ngIf="selectedType"
+        [disabled]="isBusy || sensorDataSetupLocked"
+        (click)="deleteSensorType()"
+      >
+        {{ "sensorProfiles.deleteSensorType" | translate }}
+      </button>
+    </div>
+
+    <div class="adapter-boundary" *ngIf="selectedType?.integrationMode === 'native'">
+      <strong>{{ "sensorProfiles.codedAdapterTitle" | translate }}</strong>
+      {{ "sensorProfiles.codedAdapterExplanation" | translate : { key: selectedType?.adapterKey || '—' } }}
+    </div>
+
+    <div class="adapter-boundary"
+      *ngIf="selectedType && selectedType.integrationMode !== 'profile' && selectedType.integrationMode !== 'native'">
+      {{ "sensorProfiles.noProfileForMode" | translate : { mode: (integrationModeLabel(selectedType.integrationMode) | translate) } }}
+    </div>
+
+    <ng-container *ngIf="selectedType?.integrationMode === 'profile'">
+      <div class="editor-header">
+        <div>
+          <strong>{{ "sensorProfiles.gattProfileTitle" | translate }}</strong>
+          <div class="hint">{{ "sensorProfiles.gattProfileBoundary" | translate }}</div>
+        </div>
+        <div class="editor-actions">
+          <label class="file-button" mat-stroked-button [class.disabled]="sensorDataSetupLocked">
+            {{ "sensorProfiles.import" | translate }}
+            <input type="file" accept="application/json,.json" [disabled]="sensorDataSetupLocked" (change)="importProfile($any($event.target).files)" />
+          </label>
+          <button mat-stroked-button [disabled]="sensorDataSetupLocked" (click)="formatProfileJson()">
+            {{ "sensorProfiles.format" | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-metadata">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ "sensorProfiles.minimumEngineVersion" | translate }}</mat-label>
+          <input matInput [(ngModel)]="minimumEngineVersion" [disabled]="sensorDataSetupLocked" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="json-editor">
+        <mat-label>{{ "sensorProfiles.profileJson" | translate }}</mat-label>
+        <textarea
+          matInput
+          rows="20"
+          [ngModel]="profileJson"
+          (ngModelChange)="onProfileJsonChange($event)"
+          [readonly]="sensorDataSetupLocked || (!!selectedRevision && selectedRevision.status !== 'draft')"
+          spellcheck="false"
+        ></textarea>
+      </mat-form-field>
+      <!-- Rendered outside the form field: mat-error only appears once Angular Material
+           considers the bound control invalid, but this textarea has no Validators, so
+           errorState never flips and a nested mat-error would never actually be shown. -->
+      <div class="syntax-error" *ngIf="profileSyntaxError">
+        {{ "sensorProfiles.syntaxError" | translate : { error: profileSyntaxError } }}
+      </div>
+
+      <div class="profile-summary" *ngIf="profileSummary as summary">
+        <strong>{{ "sensorProfiles.summary" | translate }}</strong>
+        <span>{{ "sensorProfiles.summaryTransport" | translate : { transport: summary.transport } }}</span>
+        <span>{{ "sensorProfiles.summaryDiscovery" | translate : { count: summary.discoveryMatchers } }}</span>
+        <span>{{ "sensorProfiles.summaryOperations" | translate : {
+          reads: summary.operations['read'] || 0,
+          writes: summary.operations['write'] || 0,
+          delays: summary.operations['delay'] || 0,
+          notifications: summary.operations['notification'] || 0,
+          indications: summary.operations['indication'] || 0
+        } }}</span>
+        <span>{{ "sensorProfiles.summaryParsers" | translate : { count: summary.decoders } }}</span>
+        <span *ngIf="summary.decoderId">{{ "sensorProfiles.summaryDecoder" | translate : { decoder: summary.decoderId } }}</span>
+        <span *ngIf="summary.objectMappings">{{ "sensorProfiles.summaryMappings" | translate : { count: summary.objectMappings } }}</span>
+        <span>{{ "sensorProfiles.summaryVectors" | translate : { count: summary.goldenVectors } }}</span>
+      </div>
+
+      <div class="live-test-panel">
+        <strong>{{ "sensorProfiles.liveTest.title" | translate }}</strong>
+
+        <div class="hint" *ngIf="!webBluetoothSupported">
+          {{ "sensorProfiles.liveTest.unsupported" | translate }}
+        </div>
+
+        <div class="hint" *ngIf="webBluetoothSupported && isAdvertisementProfile">
+          {{ "sensorProfiles.liveTest.advertisementDisclaimer" | translate }}
+        </div>
+
+        <ng-container *ngIf="webBluetoothSupported && !isAdvertisementProfile">
+          <p class="hint">{{ "sensorProfiles.liveTest.hint" | translate }}</p>
+          <div class="editor-actions">
+            <button mat-stroked-button [disabled]="!canLiveTest || liveTestBusy" (click)="startLiveTest()">
+              {{ "sensorProfiles.liveTest.connect" | translate }}
+            </button>
+            <button mat-stroked-button *ngIf="liveTestDeviceName" [disabled]="liveTestBusy" (click)="disconnectLiveTest()">
+              {{ "sensorProfiles.liveTest.disconnect" | translate }}
+            </button>
+          </div>
+
+          <div class="live-test-device" *ngIf="liveTestDeviceName">
+            {{ "sensorProfiles.liveTest.deviceLabel" | translate : { name: liveTestDeviceName } }}
+          </div>
+
+          <div class="live-test-error" *ngIf="liveTestError">{{ liveTestError }}</div>
+
+          <div class="live-test-step" *ngFor="let step of liveTestSteps" [class.failed]="!step.ok">
+            <code>{{ step.kind }}</code>
+            <span *ngIf="step.characteristicUuid">{{ step.characteristicUuid }}</span>
+            — {{ step.message }}
+            <div class="live-test-decoded" *ngFor="let field of step.decoded" [class.failed]="!!field.error">
+              {{ field.parameter }}: {{ field.error || field.value }}
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="validation-results" *ngIf="profileValidation">
+        <strong>
+          {{ (profileValidation.valid ? 'sensorProfiles.validationPassed' : 'sensorProfiles.validationFailed') | translate }}
+        </strong>
+        <div class="validation-error" *ngFor="let error of validationErrors">
+          <code>{{ error.path || '$' }}</code> — {{ error.message }}
+          <span *ngIf="error.code">({{ error.code }})</span>
+        </div>
+        <div class="vector-result" *ngFor="let result of goldenVectorResults" [class.passed]="result.passed">
+          {{ result.name }} — {{ (result.passed ? 'sensorProfiles.vectorPassed' : 'sensorProfiles.vectorFailed') | translate }}
+          <pre *ngIf="result.decodedValues | json as values">{{ values }}</pre>
+          <div *ngFor="let error of result.errors">{{ error.path }} — {{ error.message }}</div>
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <button mat-stroked-button [disabled]="isBusy || sensorDataSetupLocked || !!profileSyntaxError" (click)="validateProfile()">
+          {{ "sensorProfiles.validate" | translate }}
+        </button>
+        <button mat-raised-button color="primary"
+          [disabled]="isBusy || sensorDataSetupLocked || !!profileSyntaxError || (!!selectedRevision && selectedRevision.status !== 'draft')"
+          (click)="saveDraft()">
+          {{ "sensorProfiles.saveDraft" | translate }}
+        </button>
+        <button mat-raised-button color="accent"
+          [disabled]="isBusy || sensorDataSetupLocked || selectedRevision?.status !== 'draft'"
+          (click)="publishDraft()">
+          {{ "sensorProfiles.publish" | translate }}
+        </button>
+      </div>
+
+      <div class="revision-history">
+        <strong>{{ "sensorProfiles.revisionHistory" | translate }}</strong>
+        <div class="revision-row" *ngFor="let revision of revisions">
+          <button mat-button (click)="openRevision(revision.revision)">
+            {{ "sensorProfiles.revision" | translate : { revision: revision.revision } }}
+          </button>
+          <span>{{ ('sensorProfiles.status.' + revision.status) | translate }}</span>
+          <span>{{ revision.updatedAt | date:'medium' }}</span>
+          <button mat-stroked-button *ngIf="revision.status === 'archived'" [disabled]="sensorDataSetupLocked" (click)="rollbackTo(revision)">
+            {{ "sensorProfiles.rollback" | translate }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <mat-progress-spinner *ngIf="isBusy" diameter="36" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>

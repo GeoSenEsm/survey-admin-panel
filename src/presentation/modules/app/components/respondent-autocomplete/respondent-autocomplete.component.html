@@ -1,0 +1,39 @@
+<mat-form-field>
+  <mat-label>
+    {{ "sensorDevices.respondentUsername" | translate }}
+  </mat-label>
+  <input
+    matInput
+    [formControl]="control"
+    [matAutocomplete]="respondentAuto"
+    (input)="onInput($event)"
+    [placeholder]="'sensorDevices.selectRespondentHint' | translate"
+  />
+  <button
+    *ngIf="control.value"
+    matSuffix
+    mat-icon-button
+    type="button"
+    [attr.aria-label]="'sensorDevices.clearRespondent' | translate"
+    (click)="clear()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-autocomplete
+    #respondentAuto="matAutocomplete"
+    [displayWith]="displayRespondent"
+  >
+    <mat-option
+      *ngFor="let respondent of filteredRespondents"
+      [value]="respondent"
+    >
+      {{ respondent.username }}
+    </mat-option>
+    <mat-option
+      *ngIf="filteredRespondents.length === 0 && !loading"
+      disabled
+    >
+      {{ "sensorDevices.noRespondentsMatch" | translate }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

@@ -1,3 +1,5 @@
+@import "../../../../../styles/variables.scss";
+
 .container {
   padding: 16px;
   display: flex;
@@ -7,4 +9,23 @@
   min-width: min(360px, 90vw);
   max-width: 480px;
   box-sizing: border-box;
+}
+
+.no-types-hint {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: $info-bg;
+  color: $text-primary;
+  font-size: 0.875rem;
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    align-self: flex-start;
+  }
 }

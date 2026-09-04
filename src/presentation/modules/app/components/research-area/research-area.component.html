@@ -5,6 +5,27 @@
     <h4>
         {{ 'configuration.researchArea.description' | translate }}
     </h4>
+    <div class="csv-format-panel">
+        <div class="csv-format-title">
+            {{ 'configuration.researchArea.csvFormatTitle' | translate }}
+        </div>
+        <ul class="csv-format-list">
+            <li>{{ 'configuration.researchArea.csvColumns' | translate }}</li>
+            <li>
+                {{ 'configuration.researchArea.csvColumnSeparator' | translate }}:
+                <strong>{{ csvColumnSeparatorLabel }}</strong>
+            </li>
+            <li>
+                {{ 'configuration.researchArea.csvDecimalSeparator' | translate }}:
+                <strong>{{ csvDecimalSeparatorLabel }}</strong>
+            </li>
+            <li>{{ 'configuration.researchArea.csvHeaderRequired' | translate }}</li>
+        </ul>
+        <pre class="csv-format-example">{{ csvFormatExample }}</pre>
+        <div class="csv-format-note">
+            {{ 'configuration.researchArea.csvFormatConfiguredIn' | translate }}
+        </div>
+    </div>
     <div id="research-area-map"></div>
     <h4 *ngIf="!areaDefined()">
         {{ 'configuration.researchArea.noResearchAreaDefined' | translate }}

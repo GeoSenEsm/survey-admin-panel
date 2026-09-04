@@ -65,8 +65,8 @@ import { TypeToConfirmDialogComponent } from './components/type-to-confirm-dialo
 import { StartSurveyQuestionOptionComponent } from './components/start-survey-question-option/start-survey-question-option.component';
 import { TimeRangesComponent } from './components/time-ranges/time-ranges.component';
 import { SingleTimeRangeComponent } from './components/single-time-range/single-time-range.component';
-import { TempratureDataComponent } from './components/temprature-data/temprature-data.component';
-import { TemperatureDataFiltersComponent } from './components/temperature-data-filters/temperature-data-filters.component';
+import { SensorDataComponent } from './components/sensor-data/sensor-data.component';
+import { SensorDataFiltersComponent } from './components/sensor-data-filters/sensor-data-filters.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MapComponent } from './components/map/map.component';
 import { MapFiltersComponent } from './components/map-filters/map-filters.component';
@@ -86,6 +86,7 @@ import { SensorDevicesComponent } from './components/sensor-devices/sensor-devic
 import { SensorsImportProgressIndicatorComponent } from './components/sensors-import-progress-indicator/sensors-import-progress-indicator.component';
 import { EditSensorComponent } from './components/edit-sensor/edit-sensor.component';
 import { CreateSensorComponent } from './components/create-sensor/create-sensor.component';
+import { RespondentAutocompleteComponent } from './components/respondent-autocomplete/respondent-autocomplete.component';
 import { ContactPhoneNumbersComponent } from './components/contact-phone-numbers/contact-phone-numbers.component';
 import { CreateNewContactPhoneNumberComponent } from './components/create-new-contact-phone-number/create-new-contact-phone-number.component';
 import { EditContactComponent } from './components/edit-contact/edit-contact.component';
@@ -95,6 +96,9 @@ import { DailyCompletionComponent } from './components/daily-completion/daily-co
 import { SurveyWindowAssignmentComponent } from './components/survey-window-assignment/survey-window-assignment.component';
 import { RespondentIssuesComponent } from './components/respondent-issues/respondent-issues.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SurveySettingsComponent } from './components/survey-settings/survey-settings.component';
+import { SensorProfilesComponent } from './components/sensor-profiles/sensor-profiles.component';
+import { IntegrationsComponent } from './components/integrations/integrations.component';
 
 
 export const routes: Routes = [
@@ -108,10 +112,14 @@ export const routes: Routes = [
     {path: 'surveys/:surveyId', component: SurveyDetailsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'summaries', component: SurveysListResultsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'startSurvey', component: StartSurveyComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'temperature', component: TempratureDataComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'sensorData', component: SensorDataComponent, canActivate: [tokenAvailableGuard]},
     {path: 'map', component: MapComponent, canActivate: [tokenAvailableGuard]},
-    {path: 'configuration', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'researchArea', component: ConfigurationComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'configuration', redirectTo: 'researchArea', pathMatch: 'full'},
+    {path: 'surveySettings', component: SurveySettingsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'sensorDevices', component: SensorDevicesComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'sensorProfiles', component: SensorProfilesComponent, canActivate: [tokenAvailableGuard]},
+    {path: 'integrations', component: IntegrationsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'contactPhoneNumbers', component: ContactPhoneNumbersComponent, canActivate: [tokenAvailableGuard]},
     {path: 'responseDocuments', component: ResponseDocumentsComponent, canActivate: [tokenAvailableGuard]},
     {path: 'statistics', component: StatisticsComponent, canActivate: [tokenAvailableGuard]},
@@ -205,8 +213,8 @@ export function HttpLoaderFactory(http: HttpClient){
     StartSurveyQuestionOptionComponent,
     TimeRangesComponent,
     SingleTimeRangeComponent,
-    TempratureDataComponent,
-    TemperatureDataFiltersComponent,
+    SensorDataComponent,
+    SensorDataFiltersComponent,
     MapComponent,
     MapFiltersComponent,
     MapPinTooltipComponent,
@@ -223,6 +231,7 @@ export function HttpLoaderFactory(http: HttpClient){
     SensorsImportProgressIndicatorComponent,
     EditSensorComponent,
     CreateSensorComponent,
+    RespondentAutocompleteComponent,
     ContactPhoneNumbersComponent,
     CreateNewContactPhoneNumberComponent,
     EditContactComponent,
@@ -230,7 +239,10 @@ export function HttpLoaderFactory(http: HttpClient){
     StatisticsComponent,
     DailyCompletionComponent,
     SurveyWindowAssignmentComponent,
-    RespondentIssuesComponent
+    RespondentIssuesComponent,
+    SurveySettingsComponent,
+    SensorProfilesComponent,
+    IntegrationsComponent
   ],
   bootstrap: [AppComponent],
   providers: APP_MODULE_PROVIDERS,

@@ -23,6 +23,42 @@
   font-weight: 500;
 }
 
+.csv-format-panel {
+  padding: $space-3 $space-4;
+  background: $surface-muted;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+}
+
+.csv-format-title {
+  font-weight: 600;
+  margin-bottom: $space-2;
+}
+
+.csv-format-list {
+  margin: 0 0 $space-2;
+  padding-left: 1.25rem;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+.csv-format-example {
+  margin: 0 0 $space-2;
+  padding: $space-2 $space-3;
+  background: $surface;
+  border: 1px dashed $border-color;
+  border-radius: $radius-sm;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.csv-format-note {
+  color: $text-secondary;
+  font-size: 0.85rem;
+}
+
 #research-area-map {
   width: 100%;
   height: 420px;

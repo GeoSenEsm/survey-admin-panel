@@ -31,7 +31,7 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   readonly dataSource = new MatTableDataSource<SensorDto>([]);
-  readonly headers = ['sensorId', 'sensorMac'];
+  readonly headers = ['sensorId', 'sensorTypeName', 'sensorMac', 'respondentUsername'];
   isBusy = false;
 
   constructor(
@@ -84,12 +84,20 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.matDialog.open(EditSensorComponent, {
-      data: {
-        sensor: sensor,
-        allSensors: this.dataSource.data,
-      },
-    });
+    this.matDialog
+      .open(EditSensorComponent, {
+        data: {
+          sensor: sensor,
+          allSensors: this.dataSource.data,
+        },
+      })
+      .afterClosed()
+      .subscribe(() => {
+        // Reassigning a respondent to this sensor clears their previous assignment on
+        // whichever other sensor had them server-side; a local splice only updates this
+        // row, so the list must be reloaded to reflect that.
+        this.loadData();
+      });
   }
 
   public delete(sensor: SensorDto): void {
@@ -111,8 +119,7 @@ export class SensorDevicesComponent implements OnInit, AfterViewInit {
             this.dataSource.data = [...this.dataSource.data];
           }
         },
-        error: (e) => {
-          console.log(e);
+        error: () => {
           this.snackbar.open(
             this.translate.instant('sensorDevices.couldNotDelete'),
             'OK'

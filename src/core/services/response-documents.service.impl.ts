@@ -9,6 +9,7 @@ import {
 } from '../../domain/models/survey-response-document';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
+import { toStudyWallClockParam } from '../utils/study-wall-clock';
 
 @Injectable()
 export class ResponseDocumentsServiceImpl
@@ -45,13 +46,7 @@ export class ResponseDocumentsServiceImpl
   ): void {
     if (filter.surveyId) params['surveyId'] = filter.surveyId;
     if (filter.respondentId) params['respondentId'] = filter.respondentId;
-    if (filter.dateFrom) params['dateFrom'] = toUtcInstant(filter.dateFrom);
-    if (filter.dateTo) params['dateTo'] = toUtcInstant(filter.dateTo);
+    if (filter.dateFrom) params['dateFrom'] = toStudyWallClockParam(filter.dateFrom);
+    if (filter.dateTo) params['dateTo'] = toStudyWallClockParam(filter.dateTo);
   }
-}
-
-// The API enforces yyyy-MM-dd'T'HH:mm:ss'Z' (no millis, UTC only). The stock
-// Date#toISOString includes millis, which trips the @DateTimeFormat parser.
-function toUtcInstant(value: Date): string {
-  return value.toISOString().replace(/\.\d{3}Z$/, 'Z');
 }

@@ -12,6 +12,20 @@
 
   <mat-form-field>
     <mat-label>
+      {{ "sensorDevices.sensorTypeName" | translate }}
+    </mat-label>
+    <mat-select formControlName="sensorTypeId">
+      <mat-option *ngFor="let type of sensorTypes" [value]="type.id">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{ "sensorDevices.fieldIsRequired" | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
       {{ "sensorDevices.sensorMac" | translate }}
     </mat-label>
     <input matInput formControlName="sensorMac" maxlength="17" />
@@ -20,7 +34,12 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid">
+  <app-respondent-autocomplete
+    [control]="respondentControl"
+    (respondentsLoaded)="onRespondentsLoaded($event)"
+  ></app-respondent-autocomplete>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="formGroup.invalid || isBusy">
     {{ "sensorDevices.save" | translate }}
   </button>
 

@@ -41,8 +41,6 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
     'latitude',
     'accuracyMeters',
     'outsideResearchArea',
-    'temperature',
-    'humidity',
     'respondentId'
   ];
   isBusy: boolean = false;
@@ -137,8 +135,6 @@ export class SurveysListResultsComponent implements AfterViewInit, OnInit {
                 longitude: single.localizationData?.longitude,
                 latitude: single.localizationData?.latitude,
                 outsideResearchArea: single.localizationData?.outsideResearchArea,
-                temperature: single.sensorData?.temperature,
-                humidity: single.sensorData?.humidity,
                 accuracyMeters: single.localizationData?.accuracyMeters
               });
             });

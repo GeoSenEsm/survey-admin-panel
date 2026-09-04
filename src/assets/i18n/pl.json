@@ -1,4 +1,4 @@
-{
+﻿{
   "componentless": {
     "male": "mężczyzna",
     "female": "kobieta"
@@ -16,23 +16,26 @@
       "invalidUsername": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
       "invalidPassword": "Nazwa użytkownika lub hasło jest nieprawidłowe.",
       "passwordRequiredError": "Hasło jest wymagane.",
-      "passwordMaxLenError": "Hasło musi nie może być dłuższe niż {{maxLen}} znaków.",
+      "passwordMaxLenError": "Hasło nie może być dłuższe niż {{maxLen}} znaków.",
       "welcome": "Witamy w panelu administracyjnym GeoSenEsm!",
-      "loginToContinue": "Geolocation and sensor data supported ESM"
+      "loginToContinue": "ESM z obsługą geolokalizacji i danych z czujników"
     },
     "dashboard": {
-      "respondents": "Respondenci",
+      "respondentList": "Lista respondentów",
       "surveys": "Ankiety",
       "createSurvey": "Utwórz ankietę",
       "results": "Wyniki",
       "logout": "Wyloguj się",
       "startSurvey": "Ankieta początkowa",
-      "temepratureSensors": "Dane z czujników",
+      "sensorData": "Dane z czujników",
       "map": "Mapa",
-      "configuration": "Konfiguracja",
+      "researchArea": "Obszar badania",
+      "surveySettings": "Ustawienia ankiet",
       "changeAdminPassword": "Zmiana hasła",
       "userGuide": "Podręcznik użytkownika",
       "sensorDevices": "Czujniki",
+      "sensorProfiles": "Dodaj nowy typ czujnika",
+      "integrations": "Integracje",
       "someElementsNeedRefreshing": "Niektóre elementy wymagają odświeżenia strony, aby zaaplikować zmianę języka",
       "ok": "OK",
       "contactPhoneNumbers": "Numery kontaktowe",
@@ -40,7 +43,15 @@
       "statistics": "Statystyki",
       "dailyCompletion": "Wypełnienia dzienne",
       "surveyWindow": "Daty ankiety",
-      "issues": "Problemy"
+      "issues": "Problemy",
+      "navCategory": {
+        "settings": "Ustawienia",
+        "respondents": "Respondenci",
+        "statistics": "Statystyki",
+        "sensors": "Czujniki",
+        "results": "Wyniki",
+        "surveys": "Ankiety"
+      }
     }
   },
   "responseDocuments": {
@@ -90,7 +101,8 @@
       "surveyResponses": "Odpowiedzi na ankiety",
       "cannotEditRespondentData": "Nie można edytować danych respondenta, dopóki ankieta początkowa nie jest opublikowana.",
       "surveyStartDate": "Początek ankiety",
-      "surveyEndDate": "Koniec ankiety"
+      "surveyEndDate": "Koniec ankiety",
+      "timeZone": "Strefa czasowa"
     },
     "edit": {
       "title": "Edycja danych respondenta",
@@ -256,7 +268,26 @@
       "selectTimeSlotsToDeleteFirst": "Najpierw wybierz przynajmniej jeden przedział czasu z kalendarza, który chcesz usunąć",
       "deletingConfirmationText": "Czy na pewno chcesz usunąć wybrane przedziały czasu?",
       "deletingConfirmationInput": "usuń",
-      "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety"
+      "couldNotDeleteSendingPolicies": "Nie udało się usunąć polityki wysyłania ankiety",
+      "notificationsTitle": "Powiadomienia na telefon",
+      "notificationsHint": "Ustaw liczbę powiadomień wysyłanych na telefon dla każdego przedziału czasu oraz moment względem początku lub końca przedziału. Domyślnie: na początku oraz 15 minut przed końcem.",
+      "notificationsLoading": "Ładowanie powiadomień…",
+      "noNotifications": "Brak skonfigurowanych powiadomień. Respondenci nie otrzymają przypomnień o tej ankiecie.",
+      "relativeTo": "Względem",
+      "minutesBefore": "Minut przed",
+      "relativeToOptions": {
+        "beginning": "Początek ankiety",
+        "end": "Koniec ankiety"
+      },
+      "addNotification": "Dodaj powiadomienie",
+      "removeNotification": "Usuń powiadomienie",
+      "saveNotifications": "Zapisz powiadomienia",
+      "notificationsSaved": "Powiadomienia zapisane",
+      "notificationsInvalid": "Każde powiadomienie wymaga poprawnego punktu odniesienia i nieujemnej liczby minut.",
+      "couldNotLoadNotifications": "Nie udało się załadować powiadomień na telefon",
+      "notificationsLoadFailed": "Nie udało się załadować powiadomień tej ankiety, więc zapisywanie jest wyłączone, aby nie nadpisać ich wartościami domyślnymi.",
+      "retry": "Spróbuj ponownie",
+      "couldNotSaveNotifications": "Nie udało się zapisać powiadomień na telefon"
     },
     "surveyTile": {
       "surveyDetails": "Szczegóły ankiety"
@@ -319,9 +350,7 @@
       "longitude": "Długość geograficzna",
       "latitude": "Szerokość geograficzna",
       "accuracyMeters": "Precyzja (m)",
-      "outsideResearchArea": "Poza obszarem badania",
-      "temperature": "Temperatura (°C)",
-      "humidity": "Wilgotność (%)"
+      "outsideResearchArea": "Poza obszarem badania"
     }
   },
   "startSurvey": {
@@ -362,21 +391,22 @@
       "cancel": "Anuluj"
     }
   },
-  "temperature": {
-    "description": "W tym widoku dostępne są dane z czujników temperatur. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
+  "sensorData": {
+    "description": "W tym widoku dostępne są dane z podłączonych czujników. Jeśli respondenci posiadają odpowidnie czujniki i zsychronizowali je z aplikację, danę zostaną wyświetlone w tabeli.",
     "dateFrom": "Data od",
     "timeFrom": "Godzina od",
     "dateTo": "Data do",
     "timeTo": "Godzina do",
     "load": "Załaduj",
     "export": "Eksportuj",
-    "gridExportFilename": "temperatury.csv",
+    "gridExportFilename": "dane-czujnikow.csv",
     "respondentId": "ID respondenta",
     "dateTime": "Data i czas",
-    "temperature": "Temperatura (°C)",
+    "source": "Źródło",
+    "values": "Odczyty",
+    "surveyId": "ID ankiety",
     "nothingToDisplay": "Brak danych do wyswietlenia. Spróbuj zmienić filtry.",
-    "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie.",
-    "humidity": "Wilgotność (%)"
+    "loadingError": "Wystąpił bład. Sproboj ponownie po jakims czasie."
   },
   "map": {
     "survey": "Ankieta",
@@ -418,7 +448,13 @@
       "noResearchAreaDefined": "Nie zdefiniowano obszaru badania.",
       "refresh": "Odśwież",
       "invalidFormat": "Format pliku jest niepoprawny.",
-      "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: latidute i longitude.",
+      "importTooltip": "Plik musi być zgodny z formatem CSV pokazanym powyżej (separatory z Ustawień ankiet).",
+      "csvFormatTitle": "Oczekiwany format CSV",
+      "csvColumns": "Wymagane kolumny: latitude, longitude",
+      "csvColumnSeparator": "Separator kolumn",
+      "csvDecimalSeparator": "Separator dziesiętny",
+      "csvHeaderRequired": "Pierwszy wiersz musi być nagłówkiem z nazwami kolumn.",
+      "csvFormatConfiguredIn": "Separatory kolumn i dziesiętny konfiguruje się w Ustawieniach ankiet.",
       "lengthError": "Obszar badania musi zawierać od {{min}} do {{max}} punktów."
     },
     "mapProvider": {
@@ -430,6 +466,98 @@
     },
     "ok": "OK",
     "somethingWentWrong": "Coś poszło nie tak"
+  },
+  "surveySettings": {
+    "description": "Opcje obejmujące całe badanie, stosowane do wszystkich ankiet i respondentów.",
+    "showSendingPolicyCalendar": "Pokaż kalendarz polityki wysyłania",
+    "showSendingPolicyCalendarHint": "Gdy włączone, uczestnicy mogą otworzyć w aplikacji mobilnej kalendarz zaplanowanych slotów ankiet. Wyłącz, jeśli respondenci nie powinni widzieć harmonogramu wysyłania.",
+    "csvFormatTitle": "Format CSV",
+    "csvFormatHint": "Te separatory są używane przy eksporcie CSV w panelu administracyjnym oraz przy imporcie CSV (obszar badania i czujniki).",
+    "csvColumnSeparator": "Separator kolumn",
+    "csvDecimalSeparator": "Separator dziesiętny",
+    "csvSeparatorComma": "Przecinek (,)",
+    "csvSeparatorSemicolon": "Średnik (;)",
+    "csvSeparatorPipe": "Kreska pionowa (|)",
+    "csvSeparatorTab": "Tabulator",
+    "csvDecimalDot": "Kropka (.)",
+    "csvDecimalComma": "Przecinek (,)",
+    "separatorsMustDiffer": "Separator kolumn i separator dziesiętny muszą być różne.",
+    "saved": "Ustawienia zapisane.",
+    "loadError": "Nie udało się wczytać ustawień ankiet.",
+    "saveError": "Nie udało się zapisać ustawień ankiet.",
+    "logoTitle": "Logo badania",
+    "logoHint": "Wyświetlane na górze ekranu głównego aplikacji mobilnej respondenta. Akceptuje pliki JPG lub PNG, maks. 1 MB.",
+    "uploadLogo": "Wgraj logo",
+    "removeLogo": "Usuń logo",
+    "removeLogoConfirm": "Usunąć logo badania?",
+    "logoUploaded": "Logo wgrane.",
+    "logoRemoved": "Logo usunięte.",
+    "logoUploadError": "Nie udało się wgrać logo.",
+    "logoTooLarge": "Plik logo jest za duży (maks. 1 MB).",
+    "logoRemoveError": "Nie udało się usunąć logo.",
+    "tabs": {
+      "general": "Ogólne",
+      "sensorData": "Ustawienia danych czujników"
+    },
+    "sensorData": {
+      "disclaimer": "Typy czujników i integracje można tworzyć lub zmieniać tutaj tylko przed opublikowaniem ankiety początkowej. Po uruchomieniu badania ta konfiguracja jest blokowana, więc zaplanuj i przetestuj czujniki z wyprzedzeniem.",
+      "locked": "Ustawienia danych czujników są zablokowane, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego trybu, typów czujników i parametrów nie można już zmieniać. Przypisania respondentów są zarządzane na ekranie „Urządzenia czujników”.",
+      "manageSensorsTitle": "Typy czujników i integracje",
+      "manageSensorsHint": "Twórz nowe typy czujników i zarządzaj aktywnymi integracjami stąd.",
+      "loadError": "Nie udało się wczytać ustawień danych czujników.",
+      "saveError": "Nie udało się zapisać ustawień danych czujników.",
+      "modeTitle": "Zbieranie danych z czujników",
+      "modeHint": "Wybierz, czy ankiety zbierają dane z czujników i które źródła mogą dostarczać skonfigurowane parametry.",
+      "configuredSensors": "Użyj skonfigurowanych czujników",
+      "parameters": "Kolumny danych czujników",
+      "parametersHint": "Zdefiniuj kolumny parametrów zbierane z czujników lub wprowadzane ręcznie.",
+      "newParameterSectionTitle": "Dodaj nowy parametr",
+      "newParameterSectionHint": "Awansuj surowy odczyt z czujnika na używany parametr albo zdefiniuj go ręcznie.",
+      "fromSensorParametersTitle": "Z parametrów czujnika",
+      "fromSensorParametersHint": "Wybierz surowy parametr zgłaszany przez aktywną integrację, który nie został jeszcze dodany jako używany parametr.",
+      "rawParameter": "Parametr czujnika",
+      "noRawParametersAvailable": "Brak niewykorzystanych parametrów czujnika. Wszystkie surowe parametry z aktywnych integracji są już używane.",
+      "userDefinedParameterTitle": "Parametr zdefiniowany przez użytkownika",
+      "userDefinedParameterHint": "Zdefiniuj parametr ręcznie, bez łączenia go z konkretnym odczytem czujnika.",
+      "existingParametersSectionTitle": "Bieżące parametry",
+      "addParameter": "Dodaj parametr",
+      "saveParameter": "Zapisz parametr",
+      "parameterCreated": "Parametr utworzony.",
+      "parameterSaved": "Parametr zapisany.",
+      "parameterSaveError": "Nie udało się zapisać parametru.",
+      "removeParameter": "Usuń parametr",
+      "removeParameterConfirm": "Usunąć parametr '{{name}}'? Tej operacji nie można odwrócić.",
+      "parameterRemoved": "Parametr usunięty.",
+      "parameterRemoveError": "Nie udało się usunąć parametru.",
+      "parameterCode": "Kod",
+      "parameterName": "Nazwa",
+      "dataType": "Typ danych",
+      "dataTypes": {
+        "decimal": "Dziesiętny",
+        "integer": "Całkowity",
+        "boolean": "Logiczny",
+        "text": "Tekst"
+      },
+      "unit": "Jednostka",
+      "sources": "Źródła",
+      "addSourceSensorType": "Typ czujnika",
+      "addSource": "Dodaj źródło",
+      "addSourceSectionTitle": "Dodaj nowe źródło",
+      "sourceAdded": "Źródło dodane.",
+      "sourceRemoved": "Źródło usunięte.",
+      "addSourceError": "Nie udało się dodać tego źródła. Może być już używane przez inny parametr.",
+      "removeSourceError": "Nie udało się usunąć tego źródła.",
+      "cannotRemoveLastSource": "Parametr musi mieć zawsze przynajmniej jedno źródło.",
+      "removeSource": "Usuń źródło",
+      "save": "Zapisz ustawienia czujników",
+      "integrationModes": {
+        "profile": "Uniwersalny profil BLE",
+        "native": "Skompilowany adapter mobilny",
+        "manual": "Wpis ręczny",
+        "none": "Brak integracji z czujnikiem"
+      }
+    },
+    "ok": "OK"
   },
   "changeAdminPassword": {
     "title": "Zmień hasło do konta administratora",
@@ -463,6 +591,7 @@
     "cancel": "Anuluj",
     "save": "Zapisz",
     "couldNotUpdate": "Nie udało się zapisać zmian",
+    "inconsistentStateAfterFailedSave": "Zapis nie powiódł się, a automatyczne cofnięcie zmian nie zakończyło się w pełni. Dane tego czujnika mogą być teraz niespójne — odśwież stronę i sprawdź je ręcznie.",
     "macAlreadyExists": "Ten adres MAC jest już zajęty",
     "refresh": "Odśwież",
     "search": "Szukaj",
@@ -473,13 +602,23 @@
     "couldNotImport": "Import nie powiódł się, spróuj ponownie później",
     "close": "Zamknij",
     "someOfTheRowsHasInvalidMacFormat": "Przynajmniej jeden z wierszy zawiera niepoprawny adres MAC",
+    "someOfTheRowsHasUnknownSensorType": "Przynajmniej jeden z wierszy zawiera typ sensora, który nie odpowiada żadnemu istniejącemu typowi sensora",
     "export": "Eksportuj",
     "csvExportFilename": "sensory.csv",
-    "importTooltip": "Plik do importu musi być w formacie csv i zawierać dwie kolumny: sensorId oraz sensorMac.",
+    "importTooltip": "Plik do importu musi być w formacie csv i zawierać trzy kolumny: sensorId, sensorTypeName oraz sensorMac.",
     "createNew": "Dodaj",
     "createNewSensor": "Dodaj nowy czujnik",
     "couldNotCreate": "Nie udało się dodać czujnika",
-    "uniqueError": "Pole musi być unikalne"
+    "uniqueError": "Pole musi być unikalne",
+    "respondentUsername": "Respondent",
+    "sensorTypeName": "Typ",
+    "noSensorTypesAvailable": "Brak dostępnych typów czujników. Zdefiniuj jeden na stronie Dodaj nowy typ czujnika, zanim dodasz urządzenie.",
+    "goToAddSensorType": "Dodaj nowy typ czujnika",
+    "unassigned": "Nieprzypisany",
+    "selectRespondentHint": "Wpisz nazwę użytkownika…",
+    "clearRespondent": "Wyczyść respondenta",
+    "noRespondentsMatch": "Brak respondentów pasujących do wyszukiwania",
+    "respondentNotFound": "Nie znaleziono respondenta o tej nazwie"
   },
   "surveys": {
     "loadingError": "Wystąpił bład podczas ładowania.",
@@ -544,7 +683,7 @@
       "title": "Rozmiar kafelka",
       "width": "Szerokość",
       "height": "Wysokość",
-      "reset": "Reset"
+      "reset": "Resetuj"
     },
     "summary": {
       "slots": "Zaplanowano ankiet: {{count}}",
@@ -664,5 +803,113 @@
       "saveFailed": "Nie udało się zapisać dat.",
       "endBeforeStart": "Data końcowa musi być nie wcześniejsza niż początkowa."
     }
+  },
+  "sensorProfiles": {
+    "title": "Dodaj nowy typ czujnika",
+    "back": "Wstecz",
+    "hint": "Utwórz typ czujnika, zarządzaj profilami GATT i BLE oraz identyfikuj typy wymagające skompilowanego adaptera.",
+    "experimentalNotice": "To funkcjonalność eksperymentalna. W razie problemów skontaktuj się z programistami projektu.",
+    "locked": "Dodawanie nowych typów czujników jest zablokowane, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego typów czujników i profili nie można już zmieniać.",
+    "ok": "OK",
+    "loadError": "Nie udało się załadować ustawień profili.",
+    "capabilitiesLoadError": "Nie udało się załadować możliwości silnika profili czujników.",
+    "newCode": "Kod typu czujnika",
+    "newName": "Nazwa typu czujnika",
+    "integrationMode": "Tryb integracji",
+    "adapterKey": "Klucz skompilowanego adaptera",
+    "noAdapterKeysAvailable": "W tej wersji nie zarejestrowano żadnych skompilowanych adapterów.",
+    "createSensorType": "Utwórz typ czujnika",
+    "createTitle": "Nowy typ czujnika",
+    "sensorType": "Typ czujnika",
+    "invalidSensorType": "Podaj kod małymi literami (litery, cyfry, podkreślenia) i nazwę. Integracje natywne wymagają klucza adaptera.",
+    "sensorTypeCreated": "Typ czujnika utworzony.",
+    "sensorTypeCreateError": "Nie udało się utworzyć typu czujnika.",
+    "deleteSensorType": "Usuń typ czujnika",
+    "deleteConfirm": "Usunąć typ czujnika '{{name}}'? Spowoduje to usunięcie jego profilu, sparowanych urządzeń i przypisań respondentów. Tej operacji nie można cofnąć.",
+    "sensorTypeDeleted": "Typ czujnika usunięty.",
+    "sensorTypeDeleteError": "Nie udało się usunąć typu czujnika.",
+    "codedAdapterTitle": "Skompilowany adapter",
+    "codedAdapterExplanation": "Ten typ czujnika używa adaptera {{key}} skompilowanego w aplikacji mobilnej.",
+    "noProfileForMode": "Tryb {{mode}} nie używa profilu GATT.",
+    "gattProfileTitle": "Specyfikacja profilu GATT",
+    "gattProfileBoundary": "JSON musi być zgodny ze schematem profilu GATT. Użyj Walidacji przed publikacją.",
+    "import": "Importuj JSON",
+    "format": "Formatuj",
+    "minimumEngineVersion": "Minimalna wersja silnika",
+    "profileJson": "JSON profilu",
+    "syntaxError": "Błąd składni: {{error}}",
+    "summary": "Podsumowanie:",
+    "summaryTransport": "transport: {{transport}}",
+    "summaryDiscovery": "wykrywanie: {{count}}",
+    "summaryOperations": "odczyty: {{reads}}, zapisy: {{writes}}, opóźnienia: {{delays}}, powiadomienia: {{notifications}}, wskazania: {{indications}}",
+    "summaryParsers": "parsery: {{count}}",
+    "summaryDecoder": "dekoder: {{decoder}}",
+    "summaryMappings": "mapowania obiektów: {{count}}",
+    "summaryVectors": "złote wektory: {{count}}",
+    "validationPassed": "Walidacja zakończona sukcesem.",
+    "validationFailed": "Walidacja nie powiodła się.",
+    "vectorPassed": "OK",
+    "vectorFailed": "BŁĄD",
+    "validate": "Waliduj",
+    "saveDraft": "Zapisz szkic",
+    "publish": "Opublikuj",
+    "publishConfirm": "Opublikować tę wersję profilu?",
+    "published": "Profil opublikowany.",
+    "rollback": "Przywróć",
+    "rollbackConfirm": "Przywrócić wersję {{revision}}?",
+    "rolledBack": "Profil przywrócony.",
+    "draftSaved": "Szkic zapisany.",
+    "saveError": "Nie udało się zapisać szkicu.",
+    "validationError": "Nie udało się zwalidować profilu.",
+    "revisionLoadError": "Nie udało się załadować wersji profilu.",
+    "revisionsLoadError": "Nie udało się załadować listy wersji.",
+    "lifecycleError": "Nie udało się wykonać operacji cyklu życia profilu.",
+    "importError": "Nie udało się odczytać pliku.",
+    "revisionHistory": "Historia wersji",
+    "revision": "Wersja {{revision}}",
+    "integrationModes": {
+      "profile": "Silnik profilu GATT",
+      "native": "Skompilowany adapter",
+      "manual": "Ręczny wpis",
+      "none": "Brak czujnika"
+    },
+    "status": {
+      "draft": "Szkic",
+      "published": "Opublikowany",
+      "archived": "Zarchiwizowany"
+    },
+    "liveTest": {
+      "title": "Testuj na prawdziwym urządzeniu",
+      "hint": "Wybierz prawdziwy czujnik po nazwie, a kroki zapisu/oczekiwania/odczytu z wersji roboczej zostaną wykonane na żywo, pokazując rzeczywiste bajty i zdekodowane wartości — zanim dotkniesz telefonu lub coś opublikujesz.",
+      "unsupported": "Testowanie na prawdziwym urządzeniu wymaga Google Chrome lub Microsoft Edge na komputerze stacjonarnym z Bluetooth. Niedostępne w tej przeglądarce.",
+      "advertisementDisclaimer": "Testowanie na żywo działa tylko dla profili GATT (transport: gatt_sequence). Ten profil korzysta z dekodowania reklam BLE/MiBeacon, którego przeglądarka nie może skanować pasywnie tak jak aplikacja mobilna — zweryfikuj go za pomocą skanera BLE na telefonie (np. nRF Connect).",
+      "connect": "Połącz urządzenie…",
+      "disconnect": "Odłącz",
+      "deviceLabel": "Połączono z {{name}}"
+    }
+  },
+  "integrations": {
+    "title": "Integracje czujników",
+    "back": "Wstecz",
+    "hint": "Włączaj i wyłączaj dostępne integracje czujników dla tego badania.",
+    "locked": "Zmiana integracji czujników jest zablokowana, ponieważ ankieta początkowa została opublikowana. Badanie jest już w toku, dlatego aktywnych źródeł nie można już zmieniać.",
+    "ok": "OK",
+    "activeSensorsHint": "Włącz integracje czujników, z których ma korzystać to badanie. Wyłączone integracje są ukryte przed respondentami i nie mogą dostarczać źródeł parametrów.",
+    "empty": "Brak dostępnych integracji czujników. Utwórz jedną na stronie Dodaj nowy typ czujnika.",
+    "availableTemplates": "Dostępne szablony czujników",
+    "templatesHint": "Aktywuj gotowy szablon czujnika, aby dodać go do aktywnych integracji.",
+    "activeIntegrations": "Aktywne integracje",
+    "parametersLabel": "Parametry:",
+    "activate": "Aktywuj",
+    "templateActivated": "Aktywowano: {{name}}.",
+    "templateActivateError": "Nie udało się aktywować: {{name}}.",
+    "templatesLoadError": "Nie udało się wczytać dostępnych szablonów czujników.",
+    "loadError": "Nie udało się wczytać integracji czujników.",
+    "saveError": "Nie udało się zapisać integracji czujników.",
+    "saved": "Integracje czujników zapisane.",
+    "save": "Zapisz",
+    "timeoutSeconds": "Limit czasu (sekundy)",
+    "statusOn": "Wł.",
+    "statusOff": "Wył."
   }
 }

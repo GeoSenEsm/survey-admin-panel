@@ -4,6 +4,12 @@
     <p class="subtitle">{{ 'surveyWindow.subtitle' | translate }}</p>
   </header>
 
+  <section class="chart-card" *ngIf="activityChart">
+    <h2>{{ 'surveyWindow.chart.title' | translate }}</h2>
+    <p class="subtitle">{{ 'surveyWindow.chart.subtitle' | translate }}</p>
+    <div echarts [options]="activityChart" class="echart"></div>
+  </section>
+
   <section class="batch-card" [formGroup]="batchForm">
     <h2>{{ 'surveyWindow.batch.title' | translate }}</h2>
     <div class="batch-row">
@@ -40,12 +46,6 @@
     <p class="hint" *ngIf="saveMessage" [class.error]="saveError">
       {{ saveMessage | translate }}
     </p>
-  </section>
-
-  <section class="chart-card" *ngIf="activityChart">
-    <h2>{{ 'surveyWindow.chart.title' | translate }}</h2>
-    <p class="subtitle">{{ 'surveyWindow.chart.subtitle' | translate }}</p>
-    <div echarts [options]="activityChart" class="echart"></div>
   </section>
 
   <section class="list-card">

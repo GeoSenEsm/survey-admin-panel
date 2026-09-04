@@ -34,9 +34,16 @@
   min-width: 0;
 }
 
-.filters > button {
+.filter-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   flex: 0 0 auto;
-  align-self: center;
+}
+
+.filter-actions > button {
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .export-spinner {

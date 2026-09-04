@@ -8,6 +8,7 @@ import { SurveyDto } from "../../domain/models/survey.dto";
 import { SurveySummaryShortDto } from "../../domain/models/survey.summary.short.dto";
 import { ConfigService } from "./config.service";
 import { SurveyDetailsDto } from "../../domain/models/survey.details.dtos";
+import { SurveyNotificationDto } from "../../domain/models/survey-notification.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,6 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
     createSurvey(dto: CreateSurveyDto, images: File[]): Observable<any> {
         const formData = new FormData();
         formData.append('json', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
-        console.log(dto);
         images.forEach(image => {
           formData.append('files', image, image.name);
         });
@@ -81,5 +81,16 @@ export class SurveyServiceImpl extends ApiService implements SurveyService{
 
     deleteSurvey(id: string): Observable<any> {
         return this.delete(`/api/surveys/${id}`);
+    }
+
+    getNotifications(surveyId: string): Observable<SurveyNotificationDto[]> {
+        return this.get(`/api/surveys/${surveyId}/notifications`);
+    }
+
+    replaceNotifications(
+        surveyId: string,
+        notifications: SurveyNotificationDto[]
+    ): Observable<SurveyNotificationDto[]> {
+        return this.put(`/api/surveys/${surveyId}/notifications`, { notifications });
     }
 }

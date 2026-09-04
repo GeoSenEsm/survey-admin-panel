@@ -1,0 +1,143 @@
+<div class="container">
+  <button mat-stroked-button class="back-button" routerLink="/surveySettings">
+    <mat-icon>arrow_back</mat-icon>
+    {{ "integrations.back" | translate }}
+  </button>
+
+  <header class="page-header">
+    <h3>{{ "integrations.title" | translate }}</h3>
+    <p class="hint">{{ "integrations.hint" | translate }}</p>
+  </header>
+
+  <div class="locked-notice" *ngIf="sensorDataSetupLocked">
+    {{ "integrations.locked" | translate }}
+  </div>
+
+  <h4>{{ "integrations.activeIntegrations" | translate }}</h4>
+  <p class="section-hint">{{ "integrations.activeSensorsHint" | translate }}</p>
+
+  <div class="actions" *ngIf="loaded">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="isBusy || !selectableSensorTypes.length || sensorDataSetupLocked"
+      (click)="save()"
+    >
+      {{ "integrations.save" | translate }}
+    </button>
+    <mat-progress-spinner
+      *ngIf="isBusy && loaded"
+      diameter="28"
+      mode="indeterminate"
+    ></mat-progress-spinner>
+  </div>
+
+  <div class="busy" *ngIf="isBusy && !loaded">
+    <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <p class="empty" *ngIf="loaded && !selectableSensorTypes.length">
+    {{ "integrations.empty" | translate }}
+  </p>
+
+  <div class="sensor-grid" *ngIf="selectableSensorTypes.length">
+    <article
+      class="sensor-card"
+      *ngFor="let sensorType of selectableSensorTypes"
+      [class.enabled]="sensorType.enabled"
+      [class.disabled-card]="!sensorType.enabled"
+    >
+      <div class="sensor-image-wrap">
+        <img
+          class="sensor-image"
+          [src]="sensorImage(sensorType.sensorTypeCode)"
+          [alt]="sensorType.sensorTypeName || sensorType.sensorTypeCode"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="sensor-card-header">
+        <mat-slide-toggle
+          color="primary"
+          [checked]="sensorType.enabled"
+          [disabled]="isBusy || sensorDataSetupLocked"
+          (change)="onSensorTypeEnabledChange(sensorType, $event.checked)"
+        >
+          <span class="sensor-name">
+            {{ sensorType.sensorTypeName || sensorType.sensorTypeCode }}
+          </span>
+        </mat-slide-toggle>
+        <span class="status-chip" [class.on]="sensorType.enabled">
+          {{
+            (sensorType.enabled ? "integrations.statusOn" : "integrations.statusOff")
+              | translate
+          }}
+        </span>
+      </div>
+
+      <div class="sensor-meta">
+        <span class="meta-label">
+          {{ integrationModeLabel(sensorType.integrationMode) | translate }}
+        </span>
+        <span class="meta-code" *ngIf="sensorType.integrationMode === 'native'">
+          {{ sensorType.adapterKey }}
+        </span>
+        <span class="meta-code">{{ sensorType.sensorTypeCode }}</span>
+      </div>
+
+      <div class="sensor-parameters" *ngIf="parametersFor(sensorType.sensorTypeCode).length">
+        <span class="meta-label">{{ "integrations.parametersLabel" | translate }}</span>
+        <span class="meta-code" *ngFor="let name of parametersFor(sensorType.sensorTypeCode)">
+          {{ name }}
+        </span>
+      </div>
+
+      <mat-form-field appearance="outline" class="timeout-field">
+        <mat-label>{{ "integrations.timeoutSeconds" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          [(ngModel)]="sensorType.connectionTimeoutSeconds"
+          [disabled]="isBusy || sensorDataSetupLocked || !sensorType.enabled"
+        />
+      </mat-form-field>
+    </article>
+  </div>
+
+  <ng-container *ngIf="templatesLoaded && availableTemplates.length">
+    <h4>{{ "integrations.availableTemplates" | translate }}</h4>
+    <p class="section-hint">{{ "integrations.templatesHint" | translate }}</p>
+
+    <div class="sensor-grid">
+      <article class="sensor-card template-card" *ngFor="let template of availableTemplates">
+        <div class="sensor-image-wrap">
+          <img
+            class="sensor-image"
+            [src]="sensorImage(template.code)"
+            [alt]="template.name"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="sensor-card-header">
+          <span class="sensor-name">{{ template.name }}</span>
+        </div>
+
+        <div class="sensor-parameters" *ngIf="template.parameterCodes.length">
+          <span class="meta-label">{{ "integrations.parametersLabel" | translate }}</span>
+          <span class="meta-code" *ngFor="let code of template.parameterCodes">{{ code }}</span>
+        </div>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          [disabled]="isInstalling || sensorDataSetupLocked"
+          (click)="activateTemplate(template)"
+        >
+          {{ "integrations.activate" | translate }}
+        </button>
+      </article>
+    </div>
+  </ng-container>
+</div>
